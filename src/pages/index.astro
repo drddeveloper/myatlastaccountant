@@ -1,0 +1,19 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { SITE_DATA } from '../data/constants';
+---
+
+<BaseLayout title="Home">
+  <section class="container mx-auto px-4 py-24 text-center">
+    <h1 class="text-5xl font-bold mb-6" style={`font-family: ${SITE_DATA.branding.fonts.heading};`}>
+      {SITE_DATA.company.name}
+    </h1>
+    <p class="text-lg max-w-2xl mx-auto mb-8 text-base-content/80">
+      {SITE_DATA.seo.description}
+    </p>
+    <div class="flex gap-4 justify-center">
+      <a href={`tel:${SITE_DATA.company.phone}`} class="btn btn-primary">Call {SITE_DATA.company.phone}</a>
+      <a href="/brand-guide/" class="btn btn-outline">View Brand Guide</a>
+    </div>
+  </section>
+</BaseLayout>

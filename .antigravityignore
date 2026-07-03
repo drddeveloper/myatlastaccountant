@@ -1,0 +1,40 @@
+# Astro-specific build and cache
+dist/
+.astro/
+
+# Standard dependencies
+node_modules/
+
+# Environment files (Security & Token Savings)
+.env
+.env.*
+!.env.example
+
+# Version control and logs
+.git/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Large assets and media
+public/assets/
+public/images/
+public/videos/
+*.ico
+*.svg
+*.png
+*.jpg
+*.jpeg
+
+# If using TypeScript
+*.tsbuildinfo
+
+# Exclude the hidden Vite cache (Astro uses this heavily)
+node_modules/.vite/
+
+# Exclude auto-generated TypeScript declarations if they are massive
+src/env.d.ts
+
+# Exclude playwrites/cypress test screenshots if you run local CI
+test-results/

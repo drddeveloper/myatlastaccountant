@@ -1,0 +1,13 @@
+# Cloudflare Pages Redirects
+# Format: /source /target status_code
+
+# Example 301 Redirects (Permanent)
+# /old-page /new-page 301
+# /blog/old-post /blog/new-post 301
+# /services/old-service /services/new-service 301
+
+# Example 302 Redirects (Temporary)
+# /promo /products/sale 302
+
+# SPA Fallback (Not needed for Astro Static, but good to know)
+# /* /index.html 200

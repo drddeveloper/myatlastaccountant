@@ -1,0 +1,40 @@
+---
+import { SITE_DATA } from '../data/constants';
+
+const currentYear = new Date().getFullYear();
+---
+
+<footer class="footer p-10 bg-neutral text-neutral-content">
+  <nav>
+    <header class="footer-title">Company</header> 
+    <p class="font-bold">{SITE_DATA.company.name}</p>
+    <p>{SITE_DATA.company.address.full}</p>
+    <p>Phone: <a href={`tel:${SITE_DATA.company.phone}`} class="link link-hover">{SITE_DATA.company.phone}</a></p>
+    <p>Email: <a href={`mailto:${SITE_DATA.company.email}`} class="link link-hover">{SITE_DATA.company.email}</a></p>
+    <p>Hours: {SITE_DATA.company.hours}</p>
+  </nav> 
+  <nav>
+    <header class="footer-title">Social</header> 
+    <div class="grid grid-flow-col gap-4">
+      {Object.entries(SITE_DATA.links.socials).map(([platform, url]) => (
+        url !== "#" && (
+            <a href={url} target="_blank" rel="noopener noreferrer" class="link link-hover capitalize">
+              {platform}
+            </a>
+        )
+      ))}
+    </div>
+  </nav>
+</footer>
+<footer class="footer px-10 py-4 border-t bg-neutral text-neutral-content border-base-300">
+  <aside class="items-center grid-flow-col">
+    <p>Copyright © {currentYear} - All right reserved by {SITE_DATA.company.name}</p>
+  </aside> 
+  <nav class="md:place-self-center justify-self-end">
+    <div class="grid grid-flow-col gap-4">
+      <a href={SITE_DATA.links.siteCredits} target="_blank" rel="noopener noreferrer" class="link link-hover text-xs opacity-70">
+        Site Credits: Deep River Digital
+      </a>
+    </div>
+  </nav>
+</footer>

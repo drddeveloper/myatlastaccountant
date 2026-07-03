@@ -1,0 +1,99 @@
+---
+import Nav from '../components/Nav.astro';
+import Footer from '../components/Footer.astro';
+import { SITE_DATA } from '../data/constants';
+import '../styles/global.css';
+import '@fontsource/inter';
+
+interface Props {
+	title: string;
+    description?: string;
+    bareLayout?: boolean;
+}
+
+const { title, description = SITE_DATA.seo.description, bareLayout = false } = Astro.props;
+
+const jsonLD = {
+  "@context": "https://schema.org",
+  "@type": "LocalBusiness",
+  "name": SITE_DATA.company.name,
+  "image": SITE_DATA.links.url + "/og-image.jpg", // Placeholder or dynamic
+  "telephone": SITE_DATA.company.phone,
+  "email": SITE_DATA.company.email,
+  "address": {
+    "@type": "PostalAddress",
+    "streetAddress": SITE_DATA.company.address.street,
+    "addressLocality": SITE_DATA.company.address.city,
+    "addressRegion": SITE_DATA.company.address.state,
+    "postalCode": SITE_DATA.company.address.zip,
+    "addressCountry": "US"
+  },
+  "url": SITE_DATA.links.url,
+  "openingHoursSpecification": {
+      "@type": "OpeningHoursSpecification",
+      "dayOfWeek": [
+        "Monday",
+        "Tuesday",
+        "Wednesday",
+        "Thursday",
+        "Friday"
+      ],
+      "opens": "09:00",
+      "closes": "17:00"
+    }
+};
+
+---
+
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="description" content={description} />
+		<meta name="viewport" content="width=device-width" />
+		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+		<meta name="generator" content={Astro.generator} />
+        <meta name="theme-color" content={SITE_DATA.branding.colors.themeColor} />
+		<title>{title} | {SITE_DATA.company.name}</title>
+
+        {/* Canonical URL */}
+        <link rel="canonical" href={new URL(Astro.url.pathname, Astro.site)} />
+
+        {/* Open Graph / Facebook */}
+        <meta property="og:type" content="website" />
+        <meta property="og:url" content={Astro.url} />
+        <meta property="og:title" content={title} />
+        <meta property="og:description" content={description} />
+        <meta property="og:image" content={new URL('/og-image.jpg', Astro.url)} />
+
+        {/* Twitter */}
+        <meta property="twitter:card" content="summary_large_image" />
+        <meta property="twitter:url" content={Astro.url} />
+        <meta property="twitter:title" content={title} />
+        <meta property="twitter:description" content={description} />
+        <meta property="twitter:image" content={new URL('/og-image.jpg', Astro.url)} />
+
+        {/* JSON-LD Schema */}
+        <script type="application/ld+json" set:html={JSON.stringify(jsonLD)} />
+
+        {/* Google Analytics - Conditional */}
+        {SITE_DATA.seo.googleAnalyticsId && (
+            <>
+                <script async src={`https://www.googletagmanager.com/gtag/js?id=${SITE_DATA.seo.googleAnalyticsId}`}></script>
+                <script define:vars={{ gaId: SITE_DATA.seo.googleAnalyticsId }}>
+                    window.dataLayer = window.dataLayer || [];
+                    function gtag(){dataLayer.push(arguments);}
+                    gtag('js', new Date());
+                    gtag('config', gaId);
+                </script>
+            </>
+        )}
+	</head>
+	<body class={`min-h-screen flex flex-col${bareLayout ? '' : ' font-body'}`}>
+		{!bareLayout && <Nav />}
+        <main class="flex-grow">
+		    <slot />
+        </main>
+        {!bareLayout && <Footer />}
+	</body>
+</html>
