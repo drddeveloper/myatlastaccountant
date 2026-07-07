@@ -1,0 +1,226 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PageHero from '../components/sections/PageHero.astro';
+import SectionHeading from '../components/sections/SectionHeading.astro';
+import CtaBand from '../components/sections/CtaBand.astro';
+import { SITE_DATA } from '../data/constants';
+
+// Input definitions drive both the form markup and keep IDs consistent with
+// the live site's calculator script.
+const inputGroups = [
+  {
+    legend: 'Employee Pay Inputs',
+    helper: 'Set working hours and pay rates. OT is optional.',
+    fields: [
+      { id: 'working_hours', label: 'Working hours per year', value: 1880 },
+      { id: 'base_rate', label: 'Base hourly rate ($)', value: 30 },
+      { id: 'ot_hours', label: 'OT hours', value: 0 },
+      { id: 'ot_rate', label: 'OT rate ($)', value: 0 },
+    ],
+  },
+  {
+    legend: 'Non-working wages',
+    helper: 'These hours are paid, but not billable. They use the base hourly rate.',
+    fields: [
+      { id: 'holiday_hours', label: 'Holiday hours', value: 80 },
+      { id: 'pto_hours', label: 'PTO hours', value: 80 },
+      { id: 'sick_hours', label: 'Sick hours', value: 40 },
+    ],
+  },
+  {
+    legend: 'Payroll taxes & benefits (annual)',
+    helper: 'Social Security (6.2%) and Medicare (1.45%) calculate automatically. Enter annual amounts for the rest.',
+    fields: [
+      { id: 'workers_comp', label: 'Workers comp ($)', value: 2200 },
+      { id: 'state_unemployment', label: 'State unemployment ($)', value: 1150 },
+      { id: 'retirement', label: 'Retirement ($)', value: 1872 },
+      { id: 'health_insurance', label: 'Health insurance ($)', value: 5000 },
+    ],
+  },
+];
+
+const headlineMetrics = [
+  { id: 'billable_hours', label: 'Billable hours', caption: 'Working hours × efficiency' },
+  { id: 'break_even', label: 'Break-even labor rate', caption: 'Annual total cost ÷ billable hours' },
+  { id: 'hourly_cost', label: 'Hourly labor cost', caption: 'Annual total cost ÷ 2,080' },
+  { id: 'overhead_pct', label: 'Overhead on wages', caption: 'Total burden ÷ working wages' },
+];
+
+const breakdownRows = [
+  { id: 'working_wages', label: 'Working Wages' },
+  { id: 'non_working_wages', label: 'Non-Working Wages' },
+  { id: 'payroll_taxes', label: 'Payroll Taxes' },
+  { id: 'benefits_total', label: 'Benefits' },
+  { id: 'burden_cost', label: 'Additional Cost Beyond Wages' },
+  { id: 'annual_total', label: 'Annual Total Cost' },
+];
+---
+
+<BaseLayout
+  title="Free Labor Cost Calculator"
+  description="See the real hourly cost of an employee — base pay plus paid time off, payroll taxes, benefits, and non-billable time — so you can set labor rates that actually cover your costs."
+>
+
+  <PageHero
+    theme="navy"
+    eyebrow="Free tool"
+    title="Labor cost calculator"
+    subtitle="Base pay is only part of what an employee costs you. This calculator folds in paid time off, payroll taxes, benefits, and non-billable time to show the real hourly number — so your labor rates and pricing are built on facts."
+    ctaLabel="Try Calculator"
+    ctaHref="#calculator"
+  />
+
+  <section class="bg-base-100" id="calculator">
+    <div class="container mx-auto px-4 py-16 md:py-24">
+      <SectionHeading
+        eyebrow="Calculator"
+        title="What does one employee really cost per hour?"
+        intro="Adjust any number below — results update instantly."
+        align="center"
+      />
+
+      <div class="mt-12 grid gap-10 lg:grid-cols-2 lg:items-start">
+
+        <form id="labor-form" novalidate>
+          {inputGroups.map((group) => (
+            <fieldset class="mb-8">
+              <legend class="heading-display text-lg text-primary">{group.legend}</legend>
+              <p class="mt-1 mb-4 text-sm">{group.helper}</p>
+              <div class="grid gap-4 sm:grid-cols-2">
+                {group.fields.map((f) => (
+                  <div>
+                    <label for={f.id} class="block font-semibold text-sm text-secondary mb-1">{f.label}</label>
+                    <input class="input" type="number" id={f.id} name={f.id} value={f.value} min="0" inputmode="decimal" />
+                  </div>
+                ))}
+              </div>
+            </fieldset>
+          ))}
+
+          <fieldset>
+            <legend class="heading-display text-lg text-primary">Billing assumptions</legend>
+            <p class="mt-1 mb-4 text-sm">What percentage of working hours are truly billable time on a job?</p>
+            <div class="grid gap-4 sm:grid-cols-2">
+              <div>
+                <label for="efficiency" class="block font-semibold text-sm text-secondary mb-1">Billable Efficiency (0-1)</label>
+                <input class="input" type="number" id="efficiency" name="efficiency" value="0.5" step="0.01" min="0" max="1" inputmode="decimal" />
+              </div>
+            </div>
+          </fieldset>
+        </form>
+
+        {/*
+          The live site hides this panel behind a name/email Gravity Forms gate.
+          Per the theme JS, that gate is purely cosmetic — calculations run
+          client-side on every input regardless, and the form submit just
+          removes a CSS overlay. We intentionally drop the gate and show
+          results immediately.
+        */}
+        <div class="card bg-cream shadow-none lg:sticky lg:top-8">
+          <h3 class="heading-display text-lg text-primary">Results</h3>
+          <p class="mt-1 text-sm">Live calculations based on your inputs.</p>
+
+          <div aria-live="polite">
+            <div class="mt-6 grid gap-4 sm:grid-cols-2">
+              {headlineMetrics.map((m) => (
+                <div class="card bg-base-100 shadow-none border border-base-300">
+                  <p class="text-sm font-semibold text-secondary">{m.label}</p>
+                  <p class="heading-display text-2xl text-accent-ink mt-1" id={m.id}>—</p>
+                  <p class="text-xs mt-1">{m.caption}</p>
+                </div>
+              ))}
+            </div>
+
+            <dl class="mt-6 divide-y divide-base-300">
+              {breakdownRows.map((row) => (
+                <div class="flex items-baseline justify-between gap-4 py-2">
+                  <dt class="text-sm">{row.label}</dt>
+                  <dd class="font-semibold text-primary" id={row.id}>—</dd>
+                </div>
+              ))}
+            </dl>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <section class="bg-cream">
+    <div class="container mx-auto px-4 py-16 md:py-24">
+      <SectionHeading
+        eyebrow="Go further"
+        title="Want the full Excel tool for all employees?"
+        intro="This online version is built for one employee at a time. To build rates for your whole crew — and keep the file on record with every equation included — grab the full Excel calculator."
+        align="center"
+      />
+      <div class="mt-10 flex flex-wrap gap-4 justify-center">
+        <a href="https://myatlasaccountant.mykajabi.com/labor-burden-calculator" target="_blank" rel="noopener" class="btn btn-accent">Buy the Excel Calculator</a>
+        <a href={SITE_DATA.links.bookACall} class="btn btn-outline">Talk to Us About Implementation</a>
+      </div>
+    </div>
+  </section>
+
+  <CtaBand
+    heading="Find out how we can help your trade business"
+    ctaLabel="Schedule Your Discovery Call"
+  />
+
+  <script>
+    // Formulas transcribed from the live site's theme script
+    // (/wp-content/themes/atlasaccounting/script.js). The fixed 2,080-hour
+    // divisor for "Hourly labor cost" is intentional — it mirrors the live site.
+    const num = (id: string): number => {
+      const el = document.getElementById(id) as HTMLInputElement | null;
+      return el ? parseFloat(el.value) || 0 : 0;
+    };
+    const money = (n: number): string => '$' + Math.round(n).toLocaleString('en-US');
+    const pct = (n: number): string => Math.round(n) + '%';
+    const set = (id: string, value: string) => {
+      const el = document.getElementById(id);
+      if (el) el.textContent = value;
+    };
+
+    function calculate() {
+      const workingWages = num('working_hours') * num('base_rate') + num('ot_hours') * num('ot_rate');
+      const nonWorkingWages = (num('holiday_hours') + num('pto_hours') + num('sick_hours')) * num('base_rate');
+      const taxableWages = workingWages + nonWorkingWages;
+
+      const socialSecurity = taxableWages * 0.062;
+      const medicare = taxableWages * 0.0145;
+      const futa = Math.min(taxableWages, 7000) * 0.006; // FUTA: 0.6% on first $7,000
+
+      const payrollTaxes = socialSecurity + medicare + futa + num('workers_comp') + num('state_unemployment');
+      const benefits = num('retirement') + num('health_insurance');
+
+      const annualTotal = workingWages + nonWorkingWages + payrollTaxes + benefits;
+      const burdenCost = annualTotal - workingWages; // "Additional Cost Beyond Wages"
+
+      const billableHours = num('working_hours') * num('efficiency');
+      const breakEven = billableHours > 0 ? annualTotal / billableHours : 0;
+      const hourlyCost = annualTotal / 2080; // fixed divisor, per live site
+      const overheadPct = workingWages > 0 ? (burdenCost / workingWages) * 100 : 0;
+
+      set('billable_hours', String(billableHours));
+      set('break_even', money(breakEven));
+      set('hourly_cost', money(hourlyCost));
+      set('overhead_pct', pct(overheadPct));
+
+      set('working_wages', money(workingWages));
+      set('non_working_wages', money(nonWorkingWages));
+      set('payroll_taxes', money(payrollTaxes));
+      set('benefits_total', money(benefits));
+      set('burden_cost', money(burdenCost));
+      set('annual_total', money(annualTotal));
+    }
+
+    // Event delegation on the form covers every field; recalculate on load too.
+    const form = document.getElementById('labor-form');
+    if (form) {
+      form.addEventListener('input', calculate);
+      form.addEventListener('submit', (e) => e.preventDefault());
+    }
+    calculate();
+  </script>
+
+</BaseLayout>

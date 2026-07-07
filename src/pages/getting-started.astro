@@ -1,0 +1,103 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PageHero from '../components/sections/PageHero.astro';
+import SectionHeading from '../components/sections/SectionHeading.astro';
+import CalendlyEmbed from '../components/CalendlyEmbed.astro';
+import { SITE_DATA } from '../data/constants';
+
+// This is the site's primary conversion page — the sitewide "Book a Call"
+// CTA points here, so it intentionally has no CtaBand of its own.
+const steps = [
+  {
+    title: 'Tell us about yourself',
+    body: 'Answer a few short questions about your company so we can come to the call prepared and make the most of your time.',
+  },
+  {
+    title: 'Book 45-min free consultation',
+    body: 'Jump on a call with one of our team members to talk through the problems you’re running into and how we can help solve them.',
+  },
+  {
+    title: 'Kick off!',
+    body: 'If it’s a great fit for both of us, we’ll send over a proposal and a few onboarding documents to get started. It’s that easy.',
+  },
+];
+
+const emailHref = `mailto:${SITE_DATA.company.email}?subject=${encodeURIComponent('Discovery Call Request')}`;
+---
+
+<BaseLayout
+  title="Book a Call with Construction Accountants"
+  description="Ready to move forward? Book a free 45-minute discovery call with Atlas Accounting Group and find out what better financial direction looks like for your trade business."
+>
+
+  <PageHero
+    theme="navy"
+    eyebrow="Getting started"
+    title="Ready to move forward?"
+    subtitle="We're excited to meet you! Let's discuss a few things first to make sure it's the best fit for both of us. The discovery call is free, takes about 45 minutes, and covers where your books stand today and what better financial direction would look like."
+    ctaLabel="Get Started Now"
+    ctaHref="#calendly"
+    secondaryLabel="Email Us Instead"
+    secondaryHref={emailHref}
+  />
+
+  <section class="bg-base-100">
+    <div class="container mx-auto px-4 py-16 md:py-24">
+      <SectionHeading
+        eyebrow="The process"
+        title="What happens next?"
+        intro="Three simple steps from first hello to signed proposal — no pressure, no obligation."
+        align="center"
+      />
+      <ol class="mt-12 grid gap-8 md:grid-cols-3 max-w-4xl mx-auto" role="list">
+        {steps.map((step, i) => (
+          <li class="card bg-cream shadow-none text-center">
+            <span class="heading-display text-3xl text-accent-ink" aria-hidden="true">{String(i + 1).padStart(2, '0')}</span>
+            <h3 class="heading-display text-lg text-primary mt-3">{step.title}</h3>
+            <p class="mt-3 leading-relaxed text-sm">{step.body}</p>
+          </li>
+        ))}
+      </ol>
+    </div>
+  </section>
+
+  <section id="calendly" class="bg-cream">
+    <div class="container mx-auto px-4 py-16 md:py-24">
+      <SectionHeading
+        eyebrow="Book your call"
+        title="Choose a time to chat to get started:"
+        align="center"
+      />
+      <div class="mt-10 max-w-3xl mx-auto">
+        <CalendlyEmbed class="rounded-2xl border border-base-300 bg-base-100" />
+
+        <p class="mt-8 text-center leading-relaxed">
+          Prefer email, or don't see a time that works?
+        </p>
+        <div class="mt-4 text-center">
+          <a href={emailHref} class="btn btn-accent">Email Us to Book Your Call</a>
+        </div>
+        <p class="mt-4 text-center text-sm text-base-content">
+          Write to <a href={`mailto:${SITE_DATA.company.email}`} class="link text-primary">{SITE_DATA.company.email}</a> and we'll find a time together.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <section class="bg-primary">
+    <div class="container mx-auto px-4 py-16 md:py-20">
+      <SectionHeading
+        onDark
+        eyebrow="Before you book"
+        title="Want to know more first?"
+        intro="See how our plans are priced or get answers to the questions contractors ask us most."
+        align="center"
+      />
+      <div class="mt-8 flex flex-wrap justify-center gap-4">
+        <a href="/pricing/" class="btn btn-accent">See Pricing</a>
+        <a href="/frequently-asked-questions/" class="btn btn-outline text-white">Read the FAQs</a>
+      </div>
+    </div>
+  </section>
+
+</BaseLayout>

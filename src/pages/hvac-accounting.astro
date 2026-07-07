@@ -1,0 +1,182 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PageHero from '../components/sections/PageHero.astro';
+import SectionHeading from '../components/sections/SectionHeading.astro';
+import CtaBand from '../components/sections/CtaBand.astro';
+import Testimonial from '../components/sections/Testimonial.astro';
+import { SITE_DATA } from '../data/constants';
+
+const services = [
+  { title: 'Financial Advisory', href: '/why-we-are-different/', blurb: 'Strategic guidance on deductions, contractor-vs-employee decisions, and cash flow planning — not just data entry.' },
+  { title: 'Monthly Bookkeeping', href: '/pricing/', blurb: 'Accurate, on-time books every month so you can see exactly how each side of the business is performing.' },
+  { title: 'Bi-Weekly Payroll', href: '/construction-payroll/', blurb: 'Techs and office staff paid correctly and on schedule, with taxes and filings handled for you.' },
+  { title: 'Bookkeeping for Tax Filing', href: '/tax-services/', blurb: 'Books kept tax-ready year-round, so filing season is a formality instead of a fire drill.' },
+];
+
+const journeySteps = [
+  { label: 'Foundation', body: 'We organize your finances and get the books on solid, current footing.' },
+  { label: 'Analysis', body: 'We assess where the business stands today and how it got here.' },
+  { label: 'Thinking', body: 'We expand the vision — what could this company look like in three years?' },
+  { label: 'Objectives', body: 'We define and prioritize the financial goals that matter most.' },
+  { label: 'Metrics', body: 'We establish the measurements that tell you whether you’re on track.' },
+  { label: 'Management', body: 'We help align your team and operations with the vision.' },
+];
+
+const techPartners = ['ServiceTitan', 'Housecall Pro', 'Gusto', 'Jobber'];
+---
+
+<BaseLayout
+  title="HVAC Accounting Made Easy | Bookkeeping | Tax | Payroll"
+  description="Looking for a better HVAC accounting team? Atlas Accounting Group delivers monthly bookkeeping, bi-weekly payroll, cash flow planning, and tax strategy built for HVAC companies and their seasonal swings."
+>
+
+  <PageHero
+    theme="navy"
+    eyebrow="HVAC Accounting"
+    title="Make your HVAC accounting work for you"
+    subtitle="Afraid you're losing money on jobs or overpaying subcontractors — but can't prove it? Expert bookkeeping gives you an accurate monthly picture of the business, so every pricing and hiring decision rests on real numbers."
+    ctaLabel="Book Your Discovery Call"
+    ctaHref={SITE_DATA.links.bookACall}
+    secondaryLabel="See Pricing"
+    secondaryHref="/pricing/"
+  />
+
+  <section class="bg-base-100">
+    <div class="container mx-auto px-4 py-16 md:py-24">
+      <div class="max-w-3xl">
+        <SectionHeading
+          eyebrow="Grow"
+          title="Don't just run your HVAC company. Grow it"
+        />
+        <div class="mt-6 space-y-5 text-lg leading-relaxed">
+          <p>Your accountant should be helping the company grow, not just keeping score. That means looking ahead: which deductions you're not taking, whether your techs should be contractors or employees, and how to plan cash flow around the heating and cooling seasons instead of getting whipsawed by them.</p>
+          <p>That's the advisory approach we bring to every HVAC client — a partner who studies your numbers and hands you decisions, not spreadsheets.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="bg-cream">
+    <div class="container mx-auto px-4 py-16 md:py-24">
+      <SectionHeading
+        eyebrow="Services"
+        title="Streamline & systemize your HVAC accounting"
+        intro="Everything your back office needs, under one roof."
+      />
+      <div class="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+        {services.map((s) => (
+          <a href={s.href} class="card border border-base-300 shadow-none hover:border-accent hover:shadow-lg transition-shadow group focus-visible:outline-2 focus-visible:outline-accent">
+            <h3 class="heading-display text-lg text-primary group-hover:text-accent-ink transition-colors">{s.title}</h3>
+            <p class="mt-3 text-sm leading-relaxed">{s.blurb}</p>
+            <span class="mt-4 inline-block text-accent-ink font-semibold text-sm uppercase tracking-wide">Learn more →</span>
+          </a>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="bg-primary">
+    <div class="container mx-auto px-4 py-16 md:py-24 grid gap-12 lg:grid-cols-2 lg:items-center">
+      <SectionHeading
+        onDark
+        eyebrow="Visibility"
+        title="See the whole picture of your business & financials"
+        intro="Real-time data means informed decisions. Your monthly reports arrive on time and flag what matters — cash flow trouble forming, budget lines drifting — while there's still time to act."
+      />
+      <div class="card bg-white/5 border border-white/15 shadow-none">
+        <h3 class="heading-display text-lg text-white">Your monthly reporting covers</h3>
+        <ul class="mt-4 space-y-3 text-white/85" role="list">
+          <li class="flex items-start gap-3"><span class="text-sky font-bold" aria-hidden="true">→</span>Where cash stands now — and where it's headed</li>
+          <li class="flex items-start gap-3"><span class="text-sky font-bold" aria-hidden="true">→</span>How actuals compare to budget, line by line</li>
+          <li class="flex items-start gap-3"><span class="text-sky font-bold" aria-hidden="true">→</span>Which parts of the business earn their keep — and which don't</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section class="bg-base-100">
+    <div class="container mx-auto px-4 py-16 md:py-24">
+      <div class="max-w-3xl">
+        <SectionHeading
+          eyebrow="Catch-up & cleanup"
+          title="Clean out the cobwebs and build a stronger foundation"
+        />
+        <div class="mt-6 space-y-5 text-lg leading-relaxed">
+          <p>Books a mess? Months behind? That's more common than you think — and it's fixable. We start with a catch-up and cleanup engagement that gets you to a clean slate, then keep the books maintained monthly so the mess never comes back.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="bg-cream">
+    <div class="container mx-auto px-4 py-16 md:py-24">
+      <SectionHeading
+        eyebrow="The client journey"
+        title="What can you expect when working with expert HVAC accountants?"
+        align="center"
+      />
+      <ol class="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-3" role="list">
+        {journeySteps.map((step, i) => (
+          <li class="card bg-base-100">
+            <span class="eyebrow" aria-hidden="true">Step {i + 1}</span>
+            <h3 class="heading-display text-lg text-primary mt-2">{step.label}</h3>
+            <p class="mt-3 text-sm leading-relaxed">{step.body}</p>
+          </li>
+        ))}
+      </ol>
+      <div class="mt-10 text-center">
+        <a href="/why-we-are-different/" class="btn btn-outline">What's It Like to Work Together?</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="bg-base-100">
+    <div class="container mx-auto px-4 py-16 md:py-24 grid gap-12 lg:grid-cols-2 lg:items-center">
+      <SectionHeading
+        eyebrow="Automated & efficient technology"
+        title="Bring your HVAC company up to speed with best-in-class technology"
+        intro="We work inside the field-service platforms you already use and connect them straight to your books."
+      />
+      <ul class="flex flex-wrap gap-3 lg:justify-end" role="list">
+        {techPartners.map((t) => (
+          <li class="bg-cream-dark text-primary font-semibold px-4 py-2 rounded-full text-sm">{t}</li>
+        ))}
+      </ul>
+    </div>
+  </section>
+
+  <section class="bg-cream">
+    <div class="container mx-auto px-4 py-16 md:py-24">
+      <div class="max-w-3xl mx-auto">
+        <Testimonial
+          quote="Mackenzie and her team have been essential to my business. They've taken the stress out of our finances, kept operations on track, and even guide us on the right apps and CRMs. It's a complete accounting solution."
+          name="Ryann Blake"
+          role="Owner, Chimney Techniques"
+        />
+      </div>
+    </div>
+  </section>
+
+  <section class="bg-base-100">
+    <div class="container mx-auto px-4 py-16 md:py-24">
+      <div class="max-w-3xl mx-auto text-center">
+        <SectionHeading
+          eyebrow="Free tool"
+          title="Try our free Profit Margin Calculator"
+          intro="Estimate project margins with ease and see where the money is going."
+          align="center"
+        />
+        <div class="mt-8">
+          <a href="/profit-margin-calculator/" class="btn btn-outline">Try Now</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <CtaBand
+    heading="Build your HVAC company into something more"
+    subtext="Book a free discovery call and find out how we can help your HVAC business."
+    ctaLabel="Get Started Now"
+  />
+
+</BaseLayout>

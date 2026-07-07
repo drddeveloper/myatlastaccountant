@@ -1,0 +1,52 @@
+---
+interface Props {
+  eyebrow?: string;
+  title: string;
+  subtitle?: string;
+  ctaLabel?: string;
+  ctaHref?: string;
+  secondaryLabel?: string;
+  secondaryHref?: string;
+  theme?: 'cream' | 'navy';
+}
+
+const {
+  eyebrow,
+  title,
+  subtitle,
+  ctaLabel,
+  ctaHref,
+  secondaryLabel,
+  secondaryHref,
+  theme = 'cream',
+} = Astro.props;
+
+const isNavy = theme === 'navy';
+---
+
+<section class={isNavy ? 'bg-primary' : 'bg-cream'}>
+  <div class="container mx-auto px-4 pt-20 pb-16 md:pt-28 md:pb-24">
+    <div class="max-w-3xl">
+      {eyebrow && <p class={`eyebrow mb-4 ${isNavy ? 'text-sky' : ''}`}>{eyebrow}</p>}
+      <h1 class={`heading-display text-4xl md:text-6xl ${isNavy ? 'text-white' : 'text-primary'}`}>
+        {title}
+      </h1>
+      {subtitle && (
+        <p class={`mt-6 text-lg leading-relaxed ${isNavy ? 'text-white/85' : 'text-base-content'}`}>
+          {subtitle}
+        </p>
+      )}
+      {(ctaLabel || secondaryLabel) && (
+        <div class="mt-8 flex flex-wrap gap-4">
+          {ctaLabel && ctaHref && (
+            <a href={ctaHref} class="btn btn-accent">{ctaLabel}</a>
+          )}
+          {secondaryLabel && secondaryHref && (
+            <a href={secondaryHref} class={`btn btn-outline ${isNavy ? 'text-white' : ''}`}>{secondaryLabel}</a>
+          )}
+        </div>
+      )}
+      <slot />
+    </div>
+  </div>
+</section>

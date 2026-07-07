@@ -1,0 +1,60 @@
+---
+import { SITE_DATA } from '../data/constants';
+
+interface Props {
+  /** Extra classes for the widget container */
+  class?: string;
+}
+
+const { class: className = '' } = Astro.props;
+const calendlyUrl = `${SITE_DATA.links.calendly}?hide_gdpr_banner=1&primary_color=003954`;
+---
+
+{/*
+  Performance: the Calendly widget pulls ~2.6 MB of booking JS/CSS plus Stripe.
+  Instead of loading it with the page, the script is injected only when the
+  embed scrolls within 600px of the viewport (IntersectionObserver).
+  Until then — and with JS disabled — the fallback link keeps booking possible.
+*/}
+<div
+  class={`calendly-inline-widget ${className}`}
+  data-url={calendlyUrl}
+  data-calendly-lazy
+  style="min-width:320px;height:700px;"
+>
+  {/* Removed at script-inject time — Calendly appends its iframe to this div
+      without clearing it, so anything left inside pushes the iframe below the
+      container's fixed 700px height. */}
+  <div class="flex flex-col items-center justify-center h-full gap-4 p-8 text-center" data-calendly-fallback>
+    <p>Loading the scheduler…</p>
+    <a href={SITE_DATA.links.calendly} target="_blank" rel="noopener noreferrer" class="btn btn-accent">
+      Open the Booking Page Instead
+    </a>
+  </div>
+</div>
+
+<script>
+  const embeds = document.querySelectorAll('[data-calendly-lazy]');
+  if (embeds.length > 0) {
+    let injected = false;
+    const inject = () => {
+      if (injected) return;
+      injected = true;
+      document.querySelectorAll('[data-calendly-fallback]').forEach((el) => el.remove());
+      const s = document.createElement('script');
+      s.src = 'https://assets.calendly.com/assets/external/widget.js';
+      s.async = true;
+      document.head.appendChild(s);
+    };
+    const io = new IntersectionObserver(
+      (entries, observer) => {
+        if (entries.some((e) => e.isIntersecting)) {
+          inject();
+          observer.disconnect();
+        }
+      },
+      { rootMargin: '600px' }
+    );
+    embeds.forEach((el) => io.observe(el));
+  }
+</script>

@@ -1,60 +1,103 @@
 ---
+import { Image } from 'astro:assets';
 import BaseLayout from '../layouts/BaseLayout.astro';
 import { SITE_DATA } from '../data/constants';
+import logo from '../assets/images/branding/Atlas-Accounting-logo.svg';
+import lightLogo from '../assets/images/branding/Atlas-Accounting-light-logo.svg';
 
-const { colors, fonts } = SITE_DATA.branding;
+const { fonts } = SITE_DATA.branding;
+
+const swatches = [
+  { name: 'Primary', token: 'bg-primary', hex: SITE_DATA.branding.colors.primary, note: 'Deep navy — dark sections, primary surfaces' },
+  { name: 'Secondary', token: 'bg-secondary', hex: SITE_DATA.branding.colors.secondary, note: 'Near-black — headings' },
+  { name: 'Accent', token: 'bg-accent', hex: SITE_DATA.branding.colors.accent, note: 'Orange — CTAs, highlights' },
+  { name: 'Sky', token: 'bg-sky', hex: SITE_DATA.branding.colors.sky, note: 'Light blue — secondary accent, on-dark accents' },
+  { name: 'Cream', token: 'bg-cream', hex: SITE_DATA.branding.colors.cream, note: 'Warm off-white section surface' },
+  { name: 'Cream Dark', token: 'bg-cream-dark', hex: SITE_DATA.branding.colors.creamDark, note: 'Pale peach — testimonial/chip surfaces' },
+];
 ---
 
-<BaseLayout title="Brand Guide">
+<BaseLayout title="Brand Guide" description="Living visual reference for the Atlas Accounting Group website.">
   <div class="container mx-auto px-4 py-12">
-    <h1 class="text-4xl font-bold mb-8">Brand Guide: {SITE_DATA.company.name}</h1>
+    <p class="eyebrow mb-3">Internal Reference</p>
+    <h1 class="heading-display text-4xl text-primary mb-10">Brand Guide: {SITE_DATA.company.name}</h1>
 
-    <section class="mb-12">
-      <h2 class="text-2xl font-bold mb-4">Colors</h2>
-      <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
-        <div class="space-y-2">
-          <div class="h-24 w-full rounded shadow" style={`background-color: ${colors.primary};`}></div>
-          <p class="font-bold">Primary</p>
-          <code class="text-sm bg-base-200 px-2 py-1 rounded">{colors.primary}</code>
+    <section class="mb-14">
+      <h2 class="heading-display text-2xl text-primary mb-6">Colors</h2>
+      <div class="grid grid-cols-2 md:grid-cols-3 gap-6">
+        {swatches.map((s) => (
+          <div class="space-y-2">
+            <div class={`h-24 w-full rounded-xl shadow-sm border border-base-300 ${s.token}`}></div>
+            <p class="font-bold text-secondary">{s.name}</p>
+            <p class="text-sm">{s.note}</p>
+            <code class="text-sm bg-base-200 px-2 py-1 rounded">{s.hex} · {s.token}</code>
+          </div>
+        ))}
+      </div>
+    </section>
+
+    <section class="mb-14">
+      <h2 class="heading-display text-2xl text-primary mb-6">Typography — Sofia Pro (self-hosted)</h2>
+      <div class="space-y-6">
+        <div>
+          <p class="text-sm text-base-content/70 mb-1">Display heading — .heading-display (700, uppercase, 1.06 lh)</p>
+          <p class="heading-display text-4xl text-primary">Built for the trades</p>
         </div>
-        <div class="space-y-2">
-          <div class="h-24 w-full rounded shadow" style={`background-color: ${colors.secondary};`}></div>
-          <p class="font-bold">Secondary</p>
-          <code class="text-sm bg-base-200 px-2 py-1 rounded">{colors.secondary}</code>
+        <div>
+          <p class="text-sm text-base-content/70 mb-1">Eyebrow — .eyebrow</p>
+          <p class="eyebrow">Who we serve</p>
         </div>
-        <div class="space-y-2">
-          <div class="h-24 w-full rounded shadow" style={`background-color: ${colors.accent};`}></div>
-          <p class="font-bold">Accent</p>
-          <code class="text-sm bg-base-200 px-2 py-1 rounded">{colors.accent}</code>
+        <div>
+          <p class="text-sm text-base-content/70 mb-1">Body — {fonts.body}, 400/500/600/700 + italics</p>
+          <p class="text-lg">The quick brown fox jumps over the lazy dog. <em>Italic</em>, <strong>bold</strong>, <span class="font-medium">medium</span>.</p>
         </div>
       </div>
     </section>
 
-    <section class="mb-12">
-      <h2 class="text-2xl font-bold mb-4">Typography</h2>
-      <div class="space-y-4">
-        <div>
-          <p class="text-sm text-base-content/70">Heading Font</p>
-          <p class="text-3xl font-bold" style={`font-family: ${fonts.heading};`}>{fonts.heading}</p>
+    <section class="mb-14">
+      <h2 class="heading-display text-2xl text-primary mb-6">Buttons</h2>
+      <div class="flex flex-wrap items-center gap-4">
+        <a href="#" class="btn btn-accent">Primary CTA</a>
+        <a href="#" class="btn btn-primary">Navy Button</a>
+        <a href="#" class="btn btn-outline">Outline</a>
+        <a href="#" class="btn btn-ghost">Ghost</a>
+      </div>
+      <div class="mt-6 bg-primary rounded-xl p-6 flex flex-wrap items-center gap-4">
+        <a href="#" class="btn btn-accent">On Dark: Accent</a>
+        <a href="#" class="btn btn-outline text-white">On Dark: Outline</a>
+      </div>
+    </section>
+
+    <section class="mb-14">
+      <h2 class="heading-display text-2xl text-primary mb-6">Surfaces</h2>
+      <div class="grid md:grid-cols-3 gap-6">
+        <div class="card border border-base-300 shadow-none">
+          <h3 class="heading-display text-lg text-primary">Card on white</h3>
+          <p class="mt-2 text-sm">Border style, hover:border-accent for links.</p>
         </div>
-        <div>
-          <p class="text-sm text-base-content/70">Body Font</p>
-          <p class="text-lg" style={`font-family: ${fonts.body};`}>{fonts.body} - The quick brown fox jumps over the lazy dog.</p>
+        <div class="bg-cream rounded-xl p-6">
+          <div class="card bg-base-100">
+            <h3 class="heading-display text-lg text-primary">Card on cream</h3>
+            <p class="mt-2 text-sm">Shadowed white card on cream section.</p>
+          </div>
+        </div>
+        <div class="bg-primary rounded-xl p-6">
+          <div class="card bg-white/5 border border-white/15 shadow-none">
+            <h3 class="heading-display text-lg text-white">Card on navy</h3>
+            <p class="mt-2 text-sm text-white/80">Translucent card, hover:border-sky.</p>
+          </div>
         </div>
       </div>
     </section>
 
     <section>
-      <h2 class="text-2xl font-bold mb-4">Logos</h2>
-      <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-        <div class="border p-8 rounded flex items-center justify-center bg-white">
-          <p class="text-gray-400 italic">Color Logo Placeholder</p>
+      <h2 class="heading-display text-2xl text-primary mb-6">Logo</h2>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-2xl">
+        <div class="border border-base-300 p-8 rounded-xl flex items-center justify-center bg-white">
+          <Image src={logo} alt="Atlas Accounting Group logo on white" class="h-16 w-auto" height={128} />
         </div>
-        <div class="border p-8 rounded flex items-center justify-center bg-black">
-             <p class="text-gray-500 italic">White Logo Placeholder</p>
-        </div>
-        <div class="border p-8 rounded flex items-center justify-center bg-white">
-             <p class="text-black italic">Black Logo Placeholder</p>
+        <div class="border border-base-300 p-8 rounded-xl flex items-center justify-center bg-primary">
+          <Image src={lightLogo} alt="Atlas Accounting Group light logo on navy" class="h-16 w-auto" height={128} />
         </div>
       </div>
     </section>

@@ -1,0 +1,203 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PageHero from '../components/sections/PageHero.astro';
+import SectionHeading from '../components/sections/SectionHeading.astro';
+import CtaBand from '../components/sections/CtaBand.astro';
+import FaqList from '../components/sections/FaqList.astro';
+import { SITE_DATA } from '../data/constants';
+
+// Gusto referral link carried over from the live site (client's referral URL).
+const GUSTO_REFERRAL = 'https://gusto.com/r/mackenzie2329';
+
+const benefits = [
+  {
+    title: 'Manage onboarding all-in-one place',
+    body: 'New hires enter their own details online — contact info, bank accounts for direct deposit, and W-4s — so nobody is chasing paperwork across the jobsite.',
+  },
+  {
+    title: 'Offer attractive employee benefits',
+    body: 'Medical stipends, dental insurance, maternity leave, gym reimbursements, retirement funds, and more can all run through Gusto alongside payroll.',
+  },
+  {
+    title: 'Manage time off & sick leave',
+    body: 'Your crew can check paystubs and request time off from their email, their Gusto account, or the Gusto Wallet app — no calls to the office required.',
+  },
+  {
+    title: 'Avoid sticky cash flow issues',
+    body: 'Run payroll on your schedule and keep your cash working until payday. Funds land in employee bank accounts next-day.',
+  },
+  {
+    title: 'Automate payroll tax payments',
+    body: 'Local, state, and federal payroll taxes are calculated, filed, and paid automatically through Gusto, with Atlas keeping an eye on every filing.',
+  },
+  {
+    title: 'Unlimited payroll runs',
+    body: 'Need to pay someone before the next pay period? Run payroll as often as you need — flexible, unlimited runs are built in.',
+  },
+];
+
+const faqs = [
+  {
+    q: 'When is the best time of year to migrate to a new construction payroll system?',
+    a: 'Any time. Quarter-end and year-end are the traditional switching points, but Gusto handles mid-cycle migrations cleanly, so you don’t have to wait months to fix a payroll process that’s hurting you today.',
+  },
+  {
+    q: 'What time tracking system do you recommend for general contractors and construction businesses?',
+    a: 'Gusto includes a native timecard feature and also integrates with the major external timecard apps. We recommend picking whichever option your crew will actually use and that captures the detail you need — we can help you decide.',
+  },
+  {
+    q: 'Do you handle construction payroll taxes for me?',
+    a: 'Yes. Gusto collects the taxes on each payroll run, then remits and files them automatically. Atlas monitors the filings and steps in whenever something needs attention.',
+  },
+  {
+    q: 'Is it easy to switch from another provider?',
+    a: 'Piece of cake. We’ll pull the data we need from your previous payroll provider — or send you a short list of what to gather — and handle the setup from there.',
+  },
+  {
+    q: 'What is the setup process like?',
+    a: 'Usually a week or less. Your employees enter their own personal info and direct deposit details in Gusto, and Atlas guides everyone through each step.',
+  },
+];
+---
+
+<BaseLayout
+  title="Construction Payroll Services"
+  description="All-in-one payroll for construction companies. Run it yourself with Gusto or hand the whole thing to Atlas Accounting Group — onboarding, taxes, and every payroll run handled."
+>
+
+  <PageHero
+    theme="navy"
+    eyebrow="Payroll"
+    title="All-in-one payroll services for construction"
+    subtitle="Payroll shouldn't eat your week. With Atlas, onboarding employees and contractors is simple, monthly approvals take minutes, and every tax filing happens on time — automatically."
+    ctaLabel="Get Started Now"
+    ctaHref={SITE_DATA.links.bookACall}
+    secondaryLabel="See Pricing"
+    secondaryHref="/pricing/"
+  />
+
+  <section class="bg-base-100">
+    <div class="container mx-auto px-4 py-16 md:py-24">
+      <SectionHeading
+        eyebrow="Two ways to run it"
+        title="We customize our construction payroll services to your needs"
+        intro="We offer two really flexible payroll for construction options — pick the one that fits how hands-on you want to be."
+        align="center"
+      />
+      <div class="mt-12 grid gap-8 md:grid-cols-2 max-w-4xl mx-auto">
+        <div class="card border border-base-300 shadow-none flex flex-col">
+          <p class="eyebrow">Option 1</p>
+          <h3 class="heading-display text-2xl text-primary mt-2">DIY Gusto</h3>
+          <p class="mt-4 leading-relaxed flex-grow">Prefer to keep payroll in-house? Run it yourself on Gusto, the platform we recommend to every contractor we work with. You stay in control; the software does the heavy lifting on taxes and direct deposits.</p>
+          <div class="mt-6">
+            <a href={GUSTO_REFERRAL} target="_blank" rel="noopener" class="btn btn-outline">Create a Gusto Account</a>
+          </div>
+        </div>
+        <div class="card bg-cream-dark shadow-none flex flex-col">
+          <p class="eyebrow">Option 2</p>
+          <h3 class="heading-display text-2xl text-primary mt-2">Hassle-free with Atlas</h3>
+          <p class="mt-4 leading-relaxed flex-grow">Want it off your plate entirely? Our team handles the full setup, employee onboarding and offboarding, and any troubleshooting along the way — you just approve and get back to work.</p>
+          <div class="mt-6">
+            <a href={SITE_DATA.links.bookACall} class="btn btn-accent">Get Started</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="bg-cream">
+    <div class="container mx-auto px-4 py-16 md:py-24 grid gap-12 lg:grid-cols-2 lg:items-center">
+      <SectionHeading
+        eyebrow="The monthly rhythm"
+        title="Pay your construction team on time & without the stress"
+        intro="Automated reminders prompt your crew to submit hours and you to approve them. From there, Atlas executes the payroll run and gives you a simple interface to review and sign off. No spreadsheets, no midnight math."
+      />
+      <ol class="grid gap-4" role="list">
+        {['Crew submits hours — automatic reminders keep it on schedule', 'You review and approve in minutes', 'Atlas runs payroll; taxes are filed and paid automatically'].map((step, i) => (
+          <li class="card bg-base-100 flex items-start gap-4">
+            <span class="heading-display text-2xl text-accent-ink" aria-hidden="true">{String(i + 1).padStart(2, '0')}</span>
+            <p class="leading-relaxed">{step}</p>
+          </li>
+        ))}
+      </ol>
+    </div>
+  </section>
+
+  <section class="bg-primary">
+    <div class="container mx-auto px-4 py-16 md:py-24">
+      <SectionHeading
+        onDark
+        eyebrow="Beyond admin"
+        title="Get help growing your business, not just running it"
+        intro="Payroll is table stakes. Because your accountant sees every dollar moving through the business, we also point out where revenue can grow and which expenses are quietly dragging your margin — so you gain revenue and lose admin hours at the same time."
+      />
+      <div class="mt-10 flex flex-wrap gap-4">
+        <a href="/why-we-are-different/" class="btn btn-outline text-white">How We're Different</a>
+        <a href="/labor-calculator/" class="btn btn-accent">Try the Labor Calculator</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="bg-base-100">
+    <div class="container mx-auto px-4 py-16 md:py-24">
+      <SectionHeading
+        eyebrow="Why crews love it"
+        title="Attracting and keeping workers just got easier"
+        align="center"
+      />
+      <div class="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+        {benefits.map((b) => (
+          <div class="card border border-base-300 shadow-none">
+            <h3 class="heading-display text-lg text-primary">{b.title}</h3>
+            <p class="mt-3 text-sm leading-relaxed">{b.body}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="bg-cream">
+    <div class="container mx-auto px-4 py-16 md:py-24">
+      <SectionHeading
+        eyebrow="FAQs"
+        title="Common construction payroll FAQs we get"
+        align="center"
+      />
+      <div class="mt-12 max-w-3xl mx-auto">
+        <FaqList items={faqs} schema />
+      </div>
+    </div>
+  </section>
+
+  <section class="bg-base-100">
+    <div class="container mx-auto px-4 py-16 md:py-24">
+      <SectionHeading
+        eyebrow="Your move"
+        title="Ready to hand over your payroll stress?"
+        align="center"
+      />
+      <div class="mt-12 grid gap-8 md:grid-cols-2 max-w-4xl mx-auto">
+        <div class="card border border-base-300 shadow-none text-center flex flex-col">
+          <h3 class="heading-display text-xl text-primary">DIY Gusto</h3>
+          <p class="mt-3 leading-relaxed flex-grow">Set up your own account and self-manage payroll on the platform we trust.</p>
+          <div class="mt-6">
+            <a href={GUSTO_REFERRAL} target="_blank" rel="noopener" class="btn btn-outline">Create Account</a>
+          </div>
+        </div>
+        <div class="card bg-cream-dark shadow-none text-center flex flex-col">
+          <h3 class="heading-display text-xl text-primary">Work with Atlas Accounting Group</h3>
+          <p class="mt-3 leading-relaxed flex-grow">We set everything up and manage payroll for you month after month.</p>
+          <div class="mt-6">
+            <a href={SITE_DATA.links.bookACall} class="btn btn-accent">Get Started</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <CtaBand
+    heading="Find out how we can help your construction business"
+    ctaLabel="Schedule Your Discovery Call"
+  />
+
+</BaseLayout>

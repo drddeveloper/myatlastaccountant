@@ -1,0 +1,48 @@
+---
+import { getCollection, render } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import PageHero from '../../components/sections/PageHero.astro';
+import CtaBand from '../../components/sections/CtaBand.astro';
+
+export async function getStaticPaths() {
+  const posts = await getCollection('blog', ({ data }) => !data.draft);
+  return posts.map((post) => ({
+    params: { slug: post.id },
+    props: { post },
+  }));
+}
+
+const { post } = Astro.props;
+const { Content } = await render(post);
+
+const formatDate = (date: Date) =>
+  date.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
+---
+
+<BaseLayout title={post.data.title} description={post.data.description}>
+
+  <PageHero
+    theme="cream"
+    eyebrow={formatDate(post.data.pubDate)}
+    title={post.data.title}
+    subtitle={post.data.description}
+  />
+
+  <section class="bg-base-100">
+    <div class="container mx-auto px-4 py-16 md:py-24">
+      <p class="eyebrow max-w-3xl mx-auto mb-8">By {post.data.author}</p>
+      <article class="prose max-w-3xl mx-auto">
+        <Content />
+      </article>
+      <div class="max-w-3xl mx-auto mt-12">
+        <a href="/blog/" class="btn btn-outline">&larr; Back to Blog</a>
+      </div>
+    </div>
+  </section>
+
+  <CtaBand
+    heading="Find out how we can help your trade business"
+    ctaLabel="Book a Call"
+  />
+
+</BaseLayout>

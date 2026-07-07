@@ -1,0 +1,220 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PageHero from '../components/sections/PageHero.astro';
+import SectionHeading from '../components/sections/SectionHeading.astro';
+import CtaBand from '../components/sections/CtaBand.astro';
+import Testimonial from '../components/sections/Testimonial.astro';
+import { SITE_DATA } from '../data/constants';
+
+// Hero differentiator bullets (short functional claims from the live site)
+const heroClaims = [
+  'Experts in HVAC, Plumbing, Electrical & Trade Businesses',
+  'Flat-Rate, Upfront Pricing',
+  'CFO Advisory and Expert Tax Preparation',
+  'Specialists in QBO, ServiceTitan, Housecall Pro & JobTread integration',
+  '1-2 Business Day Response Time',
+];
+
+const toolLogos = ['QuickBooks Online', 'ServiceTitan', 'Housecall Pro', 'JobTread'];
+
+const services = [
+  { title: 'Financial Advisory', href: '/why-we-are-different/', blurb: 'A CFO-level partner who reads your numbers with you, sets targets, and keeps the plan honest month after month.' },
+  { title: 'Monthly Bookkeeping', href: '/pricing/', blurb: 'Job-cost-aware books closed on schedule every month, so you always know where each project actually stands.' },
+  { title: 'Monthly Payroll', href: '/construction-payroll/', blurb: 'Crew payroll handled end to end — wages, taxes, and filings — without eating your Friday afternoons.' },
+  { title: 'Tax Preparation', href: '/tax-services/', blurb: 'Contractor-savvy tax prep built on clean books, so deductions get captured instead of discovered too late.' },
+];
+
+const assessmentQuestions = [
+  'Is your growth where it should be?',
+  'Are your numbers holding you back?',
+  'Is it time for an accountant?',
+];
+
+const differentiators = [
+  { title: 'Bring your technology up to speed', body: 'We connect your field software to your books so data flows automatically instead of living in spreadsheets.' },
+  { title: 'Manage & forecast cash flow', body: 'Know what is coming in and going out weeks ahead — before a slow month catches you off guard.' },
+  { title: 'Increase profitability through smarter accounting', body: 'We flag the jobs, crews, and expense lines that quietly drag your margin down.' },
+  { title: 'Find thousands of dollars in tax breaks', body: 'Clean, well-categorized books mean contractor deductions get captured, not missed.' },
+  { title: 'Build Accounting Operations workflow', body: 'A repeatable back-office system that runs the same way every month, whether you have one crew or ten.' },
+];
+---
+
+<BaseLayout
+  title="Growth Accountants for Construction | Payroll | Books | Tax"
+  description="Atlas Accounting Group helps construction businesses make money, not just track it — job-cost-aware bookkeeping, crew payroll, cash flow forecasting, and proactive tax strategy from accountants who know the trades."
+>
+
+  <PageHero
+    theme="navy"
+    eyebrow="Construction Accountants"
+    title="Best-in-Class accounting for Construction Businesses"
+    subtitle="Run your construction company with clarity, control, and confidence. We handle the books, payroll, and tax strategy — and show you what the numbers mean for your next bid, hire, and season."
+    ctaLabel="Book A Discovery Call"
+    ctaHref={SITE_DATA.links.bookACall}
+    secondaryLabel="See Pricing"
+    secondaryHref="/pricing/"
+  >
+    <ul class="mt-8 grid gap-3 sm:grid-cols-2" role="list">
+      {heroClaims.map((claim) => (
+        <li class="flex items-start gap-3 text-white/85">
+          <svg class="h-5 w-5 shrink-0 mt-0.5 text-sky" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
+          </svg>
+          {claim}
+        </li>
+      ))}
+    </ul>
+  </PageHero>
+
+  <section class="bg-base-100">
+    <div class="container mx-auto px-4 py-16 md:py-24">
+      <SectionHeading
+        eyebrow="Social proof"
+        title="Trusted by construction businesses using tools you know and trust"
+        align="center"
+      />
+      <ul class="mt-10 flex flex-wrap justify-center gap-3" role="list">
+        {toolLogos.map((t) => (
+          <li class="bg-cream-dark text-primary font-semibold px-4 py-2 rounded-full text-sm">{t}</li>
+        ))}
+      </ul>
+    </div>
+  </section>
+
+  <section class="bg-cream">
+    <div class="container mx-auto px-4 py-16 md:py-24">
+      <SectionHeading
+        eyebrow="Our philosophy"
+        title="Accountants should help grow your business, not just organize it"
+        intro="When your accountant is a true partner, you stop guessing. You set financial goals for the company — and get the reporting and advice to beat them."
+      />
+      <div class="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+        {services.map((s) => (
+          <a href={s.href} class="card border border-base-300 shadow-none hover:border-accent hover:shadow-lg transition-shadow group focus-visible:outline-2 focus-visible:outline-accent">
+            <h3 class="heading-display text-lg text-primary group-hover:text-accent-ink transition-colors">{s.title}</h3>
+            <p class="mt-3 text-sm leading-relaxed">{s.blurb}</p>
+            <span class="mt-4 inline-block text-accent-ink font-semibold text-sm uppercase tracking-wide">Learn more →</span>
+          </a>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="bg-base-100">
+    <div class="container mx-auto px-4 py-16 md:py-24 grid gap-12 lg:grid-cols-2 lg:items-center">
+      <SectionHeading
+        eyebrow="Systemize"
+        title="Systemize your construction accounting"
+        intro="Worrying about cash flow between draws is exhausting. We put your back office on a system — automated tools, real-time data, and workflows that give you full visibility into the business."
+      />
+      <div class="card bg-cream shadow-none border border-base-300">
+        <h3 class="heading-display text-lg text-primary">What a systemized back office looks like</h3>
+        <ul class="mt-4 space-y-3" role="list">
+          <li class="flex items-start gap-3"><span class="text-accent font-bold" aria-hidden="true">→</span>Books reconciled and closed on the same schedule every month</li>
+          <li class="flex items-start gap-3"><span class="text-accent font-bold" aria-hidden="true">→</span>Field software and accounting software talking to each other</li>
+          <li class="flex items-start gap-3"><span class="text-accent font-bold" aria-hidden="true">→</span>Cash position and job costs you can check any day, not just at year end</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section class="bg-primary">
+    <div class="container mx-auto px-4 py-16 md:py-24 grid gap-12 lg:grid-cols-2 lg:items-center">
+      <SectionHeading
+        onDark
+        eyebrow="Grow"
+        title="Find opportunities to grow your construction business"
+        intro="Bookkeeping tells you what happened. We go further — spotting revenue you're leaving on the table, expenses worth cutting, and profit strategies worth testing."
+      />
+      <div class="grid gap-6 sm:grid-cols-2">
+        <a href="/labor-calculator/" class="card bg-white/5 border border-white/15 shadow-none hover:border-sky transition-colors group">
+          <h3 class="heading-display text-lg text-white group-hover:text-sky transition-colors">Labor Calculator</h3>
+          <p class="mt-3 text-white/80 text-sm leading-relaxed">See the real hourly cost of your employees — taxes and burden included. Free.</p>
+        </a>
+        <a href="/profit-margin-calculator/" class="card bg-white/5 border border-white/15 shadow-none hover:border-sky transition-colors group">
+          <h3 class="heading-display text-lg text-white group-hover:text-sky transition-colors">Profit Margin Calculator</h3>
+          <p class="mt-3 text-white/80 text-sm leading-relaxed">Estimate project margins in minutes and spot where the money is going.</p>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <section class="bg-cream">
+    <div class="container mx-auto px-4 py-16 md:py-24">
+      <div class="max-w-3xl mx-auto text-center">
+        <SectionHeading
+          eyebrow="On-the-spot business assessment"
+          title="How does your construction business stack up?"
+          align="center"
+        />
+        <ul class="mt-8 space-y-4 text-left max-w-md mx-auto" role="list">
+          {assessmentQuestions.map((q) => (
+            <li class="flex items-start gap-3 text-lg font-semibold text-primary">
+              <svg class="h-6 w-6 shrink-0 text-accent" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01" />
+              </svg>
+              {q}
+            </li>
+          ))}
+        </ul>
+        <div class="mt-10">
+          <a href={SITE_DATA.links.bookACall} class="btn btn-accent">Start Assessment</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="bg-base-100">
+    <div class="container mx-auto px-4 py-16 md:py-24">
+      <SectionHeading
+        eyebrow="Why Atlas"
+        title="Work with construction accountants who push you farther"
+      />
+      <div class="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+        {differentiators.map((d) => (
+          <div class="card bg-cream shadow-none border border-base-300">
+            <h3 class="heading-display text-lg text-primary">{d.title}</h3>
+            <p class="mt-3 text-sm leading-relaxed">{d.body}</p>
+          </div>
+        ))}
+      </div>
+      <div class="mt-10">
+        <a href="/why-we-are-different/" class="btn btn-outline">Why We're Different</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="bg-cream">
+    <div class="container mx-auto px-4 py-16 md:py-24">
+      <div class="max-w-3xl">
+        <SectionHeading
+          eyebrow="The real question"
+          title="Has your construction company reached its potential?"
+        />
+        <div class="mt-6 space-y-5 text-lg leading-relaxed">
+          <p>Construction finances are their own animal. Cash flow swings with the project calendar, job costing gets fuzzy the moment a change order lands, and tax planning tends to happen in a panic every spring. Most contractors are not short on work — they're short on financial clarity.</p>
+          <p>That's the gap Atlas fills. We keep your financials clean and current, build systems that scale with your crew count, and act as a proactive partner instead of a once-a-year form-filer. The result is a company you can steer with confidence — because you finally trust the numbers behind every decision.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="bg-base-100">
+    <div class="container mx-auto px-4 py-16 md:py-24">
+      <div class="max-w-3xl mx-auto">
+        <Testimonial
+          quote="I now have a full understanding of my financial position."
+          name="Ryann Blake"
+          role="Chimney Techniques"
+        />
+      </div>
+    </div>
+  </section>
+
+  <CtaBand
+    heading="Find out how we can help your construction business"
+    subtext="Book a free discovery call and see what a real financial partner looks like for your construction company."
+    ctaLabel="Book A Discovery Call"
+  />
+
+</BaseLayout>

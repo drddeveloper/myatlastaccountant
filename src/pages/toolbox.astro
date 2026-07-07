@@ -1,0 +1,131 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PageHero from '../components/sections/PageHero.astro';
+import SectionHeading from '../components/sections/SectionHeading.astro';
+import CtaBand from '../components/sections/CtaBand.astro';
+import { SITE_DATA } from '../data/constants';
+
+// Products link out to Kajabi checkout pages — there is no on-site cart.
+const products = [
+  {
+    name: 'Profit Planner',
+    price: '$39.00',
+    blurb: 'A standalone planner with the structures and prompts to evaluate your business and act on better profits — no advisory program required.',
+    url: 'https://myatlasaccountant.mykajabi.com/protect-your-profits',
+  },
+  {
+    name: 'KPI Dashboard',
+    price: '$24.00',
+    blurb: 'A workbook built for busy owners: one clear snapshot of business performance, so you spend less time in spreadsheets and more time growing.',
+    url: 'https://myatlasaccountant.mykajabi.com/atlas-accounting-group-expert-accountants-KPI-dashboard',
+  },
+  {
+    name: 'Profit Allocation Projector',
+    price: '$24.00',
+    blurb: 'Stop guessing where profit goes. Plan and project how earnings get used — reinvestment, debt payoff, or owner draws — so every dollar has a job.',
+    // FLAG FOR CLIENT REVIEW: this Kajabi slug reads "kpi-dashboard-1-…", which
+    // looks like a duplicated KPI Dashboard checkout page rather than a checkout
+    // for the Profit Allocation Projector. URL carried over verbatim from the
+    // live site — confirm it lands on the correct product before launch.
+    url: 'https://myatlasaccountant.mykajabi.com/kpi-dashboard-1-9f4d329d-4cf4-449b-8844-1b8c1c1fa51d',
+  },
+  {
+    name: 'Cash Flow Forecast',
+    price: '$24.00',
+    blurb: 'A month-by-month view of income, expenses, and ending balance, so you see the cash crunch coming and decide with confidence before the pressure hits.',
+    url: 'https://myatlasaccountant.mykajabi.com/cash-flow-forecast',
+  },
+  {
+    name: 'Labor Burden Calculator',
+    price: '$24.00',
+    blurb: 'Labor costs more than wages. Calculate the full cost per employee — taxes and benefits included — to price jobs right, manage overhead, and hire smarter.',
+    url: 'https://myatlasaccountant.mykajabi.com/labor-burden-calculator',
+  },
+];
+
+const comingSoon = [
+  'Margin Makers Matrix',
+  'Loan Amortization Schedule',
+  'Overhead Calculator',
+  'Break Even Analysis',
+];
+
+const waitlistMailto = (product: string) =>
+  `mailto:${SITE_DATA.company.email}?subject=${encodeURIComponent(`Waitlist: ${product}`)}`;
+---
+
+<BaseLayout
+  title="Your Financial Toolbox"
+  description="Simple, helpful tools for contractors — profit planners, KPI dashboards, cash flow forecasts, and labor burden calculators built by Atlas Accounting Group."
+>
+
+  <PageHero
+    theme="cream"
+    eyebrow="Shop"
+    title="Your Financial Toolbox"
+    subtitle="Simple, helpful tools to help you build a financially stronger business. Loved and trusted by contractors nationwide."
+  />
+
+  <section class="bg-base-100">
+    <div class="container mx-auto px-4 py-16 md:py-24">
+      <SectionHeading
+        eyebrow="Available now"
+        title="Tools you can put to work today"
+        align="center"
+      />
+      <div class="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+        {products.map((p) => (
+          <div class="card border border-base-300 shadow-none flex flex-col">
+            <h3 class="heading-display text-xl text-primary">{p.name}</h3>
+            <p class="heading-display text-2xl text-accent-ink mt-2">{p.price}</p>
+            <p class="mt-4 text-sm leading-relaxed flex-grow">{p.blurb}</p>
+            <div class="mt-6">
+              <a href={p.url} target="_blank" rel="noopener" class="btn btn-accent">Add to Cart</a>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="bg-primary">
+    <div class="container mx-auto px-4 py-16 md:py-20">
+      <div class="max-w-3xl mx-auto text-center">
+        <h2 class="heading-display text-3xl md:text-4xl text-white">Try our free Labor Calculator</h2>
+        <p class="mt-4 text-lg text-white/85">See the real hourly cost of your employees.</p>
+        <div class="mt-8">
+          <a href="/labor-calculator/" class="btn btn-accent">Try Now</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="bg-cream">
+    <div class="container mx-auto px-4 py-16 md:py-24">
+      <SectionHeading
+        eyebrow="Pre-order"
+        title="Coming soon to the toolbox"
+        intro="These tools are in the works. Join the waitlist and we'll email you the moment each one is released."
+        align="center"
+      />
+      <div class="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+        {comingSoon.map((name) => (
+          <div class="card bg-base-100 border border-base-300 shadow-none flex flex-col">
+            <span class="eyebrow">Pre-Order</span>
+            <h3 class="heading-display text-lg text-primary mt-2">{name}</h3>
+            <p class="mt-3 text-sm leading-relaxed flex-grow">Coming soon! Join the waitlist to be notified when it's released.</p>
+            <div class="mt-5">
+              <a href={waitlistMailto(name)} class="btn btn-outline">Join the Waitlist</a>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <CtaBand
+    heading="Find out how we can help your construction business"
+    ctaLabel="Book a Call"
+  />
+
+</BaseLayout>

@@ -1,0 +1,156 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PageHero from '../components/sections/PageHero.astro';
+import SectionHeading from '../components/sections/SectionHeading.astro';
+import CtaBand from '../components/sections/CtaBand.astro';
+import { SITE_DATA } from '../data/constants';
+
+// All prices are "starting at" figures — final quotes depend on scope.
+// Feature list is identical across tiers; tiers differ on close speed,
+// advisory cadence, and response time.
+const sharedFeatures = [
+  'Bill Pay Services',
+  'Invoicing Software Integration',
+  'Payroll Services',
+  'Sales & Excise Tax Filings',
+  'Monthly Management Report',
+  'Year-End Financials for Tax',
+  'Receipt Management Software',
+];
+
+const tiers = [
+  {
+    name: 'Essentials',
+    price: '$950',
+    close: '20-Day Close',
+    advisory: 'Annual Advisory Meeting',
+    response: 'Response Time: 2 Days',
+    recommended: false,
+  },
+  {
+    name: 'Plus',
+    price: '$1,500',
+    close: '15-Day Close',
+    advisory: 'Quarterly Advisory Meeting',
+    response: 'Response Time: 1 Day',
+    recommended: true,
+  },
+  {
+    name: 'Pro',
+    price: '$4,000',
+    close: '10-Day Close',
+    advisory: 'Monthly Advisory Meeting',
+    response: 'Response Time: 1 Day',
+    recommended: false,
+  },
+];
+---
+
+<BaseLayout
+  title="Pricing"
+  description="Transparent, starting-at monthly pricing for bookkeeping, payroll, and advisory built for home service businesses — plus a one-time accounting system install and clean up."
+>
+
+  <PageHero
+    theme="navy"
+    eyebrow="Pricing"
+    title="Our accounting & strategic tax services are reasonable, transparent, and designed with home service businesses in mind."
+    subtitle="Every plan includes the same core services. Pick the tier that matches how fast you need your numbers and how often you want to meet."
+    ctaLabel="Get Your Custom Quote"
+    ctaHref={SITE_DATA.links.bookACall}
+  />
+
+  <section class="bg-base-100">
+    <div class="container mx-auto px-4 py-16 md:py-24">
+      <SectionHeading
+        eyebrow="Monthly plans"
+        title="Three tiers, one full-service team"
+        intro="All prices are starting-at figures — your quote is tailored to the size and complexity of your business."
+        align="center"
+      />
+      <div class="mt-12 grid gap-8 lg:grid-cols-3 lg:items-stretch max-w-5xl mx-auto">
+        {tiers.map((tier) => (
+          <div class={`card flex flex-col ${tier.recommended ? 'border-2 border-accent relative' : 'border border-base-300 shadow-none'}`}>
+            {tier.recommended && (
+              <span class="absolute -top-4 left-1/2 -translate-x-1/2 bg-accent text-primary text-xs font-semibold uppercase tracking-wide px-4 py-1 rounded-full">
+                Most Popular
+              </span>
+            )}
+            <h3 class="heading-display text-2xl text-primary">{tier.name}</h3>
+            <p class="mt-4">
+              <span class="eyebrow block text-xs">Starting Price</span>
+              <span class="heading-display text-4xl text-secondary">{tier.price}</span>
+              <span class="text-base-content">/mo</span>
+            </p>
+            <ul class="mt-6 space-y-2 font-semibold text-primary" role="list">
+              <li>{tier.close}</li>
+              <li>{tier.advisory}</li>
+              <li>{tier.response}</li>
+            </ul>
+            <ul class="mt-6 pt-6 border-t border-base-300 space-y-2 text-sm flex-grow" role="list">
+              {sharedFeatures.map((f) => (
+                <li class="flex items-start gap-2">
+                  <svg class="h-5 w-5 shrink-0 text-accent" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
+                  </svg>
+                  {f}
+                </li>
+              ))}
+            </ul>
+            <div class="mt-8">
+              <a
+                href={SITE_DATA.links.bookACall}
+                class={tier.recommended ? 'btn btn-accent w-full' : 'btn btn-outline w-full'}
+              >
+                Get Your Custom Quote
+              </a>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="bg-cream">
+    <div class="container mx-auto px-4 py-16 md:py-24 grid gap-12 lg:grid-cols-2 lg:items-center">
+      <SectionHeading
+        eyebrow="One Time Investment"
+        title="Accounting System Install and Clean Up"
+        intro="A full remodel of your books, delivered over three months. We set up your accounting system the right way, work through the backlog, and hand you a clean, reliable foundation before ongoing service begins."
+      />
+      <div class="card bg-base-100 max-w-sm lg:justify-self-end w-full">
+        <span class="eyebrow block text-xs">Starting Price</span>
+        <p class="heading-display text-4xl text-secondary mt-1">$3,000 <span class="text-base font-normal normal-case text-base-content">one-time</span></p>
+        <p class="mt-4 leading-relaxed text-sm">Includes system setup and a three-month rebuild of your books so your ongoing plan starts from accurate numbers.</p>
+        <div class="mt-6">
+          <a href={SITE_DATA.links.bookACall} class="btn btn-accent w-full">Get Started</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="bg-base-100">
+    <div class="container mx-auto px-4 py-16 md:py-24">
+      <SectionHeading
+        eyebrow="Is this you?"
+        title="We want to make sure we're the right team for you"
+        intro="If you run a home service business — HVAC, plumbing, electrical, solar, and similar trades — we have the expertise and knowledge to provide accurate accounting support. Our services fit best for businesses doing $1M+ in annual revenue."
+        align="center"
+      />
+      <div class="mt-10 flex flex-wrap justify-center gap-4">
+        <a href="/hvac-accounting/" class="btn btn-outline">HVAC</a>
+        <a href="/accountants-for-plumbers/" class="btn btn-outline">Plumbing</a>
+        <a href="/accountants-for-electricians/" class="btn btn-outline">Electrical</a>
+        <a href="/accountants-for-solar-companies/" class="btn btn-outline">Solar</a>
+        <a href="/construction-accountants/" class="btn btn-outline">Construction</a>
+      </div>
+    </div>
+  </section>
+
+  <CtaBand
+    heading="Ready for a number that fits your business?"
+    subtext="Book a free discovery call and we'll scope a custom quote around your revenue, systems, and goals."
+    ctaLabel="Get Your Custom Quote"
+  />
+
+</BaseLayout>

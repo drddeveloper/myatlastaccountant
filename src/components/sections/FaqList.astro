@@ -1,0 +1,42 @@
+---
+interface FaqItem {
+  q: string;
+  a: string;
+}
+
+interface Props {
+  items: FaqItem[];
+  /** Emit FAQPage JSON-LD for this list (use on at most one list per page) */
+  schema?: boolean;
+}
+
+const { items, schema = false } = Astro.props;
+
+const jsonLD = schema
+  ? {
+      '@context': 'https://schema.org',
+      '@type': 'FAQPage',
+      mainEntity: items.map((item) => ({
+        '@type': 'Question',
+        name: item.q,
+        acceptedAnswer: { '@type': 'Answer', text: item.a },
+      })),
+    }
+  : null;
+---
+
+<div class="divide-y divide-base-300 rounded-2xl bg-base-100 shadow-sm border border-base-300">
+  {items.map((item) => (
+    <details class="faq-item group p-6">
+      <summary class="flex items-center justify-between gap-4 cursor-pointer font-semibold text-primary text-lg list-none [&::-webkit-details-marker]:hidden">
+        {item.q}
+        <svg class="h-5 w-5 shrink-0 text-accent transition-transform group-open:rotate-45" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+          <path stroke-linecap="round" d="M12 5v14M5 12h14" />
+        </svg>
+      </summary>
+      <p class="mt-4 leading-relaxed">{item.a}</p>
+    </details>
+  ))}
+</div>
+
+{jsonLD && <script type="application/ld+json" set:html={JSON.stringify(jsonLD)} />}

@@ -3,7 +3,6 @@ import Nav from '../components/Nav.astro';
 import Footer from '../components/Footer.astro';
 import { SITE_DATA } from '../data/constants';
 import '../styles/global.css';
-import '@fontsource/inter';
 
 interface Props {
 	title: string;
@@ -13,22 +12,20 @@ interface Props {
 
 const { title, description = SITE_DATA.seo.description, bareLayout = false } = Astro.props;
 
-const jsonLD = {
+// AccountingService schema — phone/address omitted (remote-first practice, email contact only)
+const jsonLD: Record<string, unknown> = {
   "@context": "https://schema.org",
-  "@type": "LocalBusiness",
+  "@type": "AccountingService",
   "name": SITE_DATA.company.name,
-  "image": SITE_DATA.links.url + "/og-image.jpg", // Placeholder or dynamic
-  "telephone": SITE_DATA.company.phone,
+  "image": SITE_DATA.links.url + "/og-image.jpg",
   "email": SITE_DATA.company.email,
-  "address": {
-    "@type": "PostalAddress",
-    "streetAddress": SITE_DATA.company.address.street,
-    "addressLocality": SITE_DATA.company.address.city,
-    "addressRegion": SITE_DATA.company.address.state,
-    "postalCode": SITE_DATA.company.address.zip,
-    "addressCountry": "US"
-  },
   "url": SITE_DATA.links.url,
+  "parentOrganization": {
+    "@type": "Organization",
+    "name": "Lewis Group CPAs",
+    "url": SITE_DATA.links.parentCompany
+  },
+  "sameAs": [SITE_DATA.links.socials.instagram],
   "openingHoursSpecification": {
       "@type": "OpeningHoursSpecification",
       "dayOfWeek": [
@@ -42,6 +39,15 @@ const jsonLD = {
       "closes": "17:00"
     }
 };
+if (SITE_DATA.company.phone) jsonLD.telephone = SITE_DATA.company.phone;
+if (SITE_DATA.company.address.street) jsonLD.address = {
+  "@type": "PostalAddress",
+  "streetAddress": SITE_DATA.company.address.street,
+  "addressLocality": SITE_DATA.company.address.city,
+  "addressRegion": SITE_DATA.company.address.state,
+  "postalCode": SITE_DATA.company.address.zip,
+  "addressCountry": "US"
+};
 
 ---
 
@@ -50,9 +56,12 @@ const jsonLD = {
 	<head>
 		<meta charset="UTF-8" />
 		<meta name="description" content={description} />
-		<meta name="viewport" content="width=device-width" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
 		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 		<meta name="generator" content={Astro.generator} />
+        <link rel="preload" href="/fonts/Sofia-Pro-Regular-Az.woff" as="font" type="font/woff" crossorigin />
+        <link rel="preload" href="/fonts/Sofia-Pro-Semi-Bold-Az.woff" as="font" type="font/woff" crossorigin />
+        <link rel="preload" href="/fonts/Sofia-Pro-Bold-Az.woff" as="font" type="font/woff" crossorigin />
         <meta name="theme-color" content={SITE_DATA.branding.colors.themeColor} />
 		<title>{title} | {SITE_DATA.company.name}</title>
 
@@ -90,8 +99,9 @@ const jsonLD = {
         )}
 	</head>
 	<body class={`min-h-screen flex flex-col${bareLayout ? '' : ' font-body'}`}>
+		{!bareLayout && <a href="#main" class="skip-link">Skip to content</a>}
 		{!bareLayout && <Nav />}
-        <main class="flex-grow">
+        <main id="main" class="flex-grow">
 		    <slot />
         </main>
         {!bareLayout && <Footer />}

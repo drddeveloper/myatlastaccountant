@@ -1,19 +1,223 @@
 ---
+import { Image } from 'astro:assets';
 import BaseLayout from '../layouts/BaseLayout.astro';
+import CalendlyEmbed from '../components/CalendlyEmbed.astro';
+import LaborCalcPopup from '../components/LaborCalcPopup.astro';
 import { SITE_DATA } from '../data/constants';
+
+import heroImg from '../assets/images/home/1-Accountants-for-Contractors.webp';
+import systemizeImg from '../assets/images/home/Accountants-for-Contractors.webp';
+import growImg from '../assets/images/home/Accountants-for-Contractors-and-Trades.webp';
+import testimonialImg from '../assets/images/home/Terra-Tech-Testimonial-1024x965.webp';
+import ctaBgImg from '../assets/images/home/Footer-CTA-card-background.jpg';
+
+import iconConstruction from '../assets/images/home/Construction-icon.svg';
+import iconPlumbers from '../assets/images/home/Plumbers-icon.svg';
+import iconElectricians from '../assets/images/home/Electricians-icon.svg';
+import iconHvac from '../assets/images/home/HVAC-icon.svg';
+import iconSolar from '../assets/images/home/Solar-icon.svg';
+import iconDrill from '../assets/images/home/9940263_drill_construction_industry_machine_technology_icon.svg';
+import iconCaution from '../assets/images/home/Caution-sign-icon.svg';
+import iconBrick from '../assets/images/home/9940261_stone_brick_cement_construction_building_icon.svg';
+
+import logoServiceTitan from '../assets/images/home/Service-Titan.png';
+import logoHousecall from '../assets/images/home/Housecall-Pro.png';
+import logoGusto from '../assets/images/home/Gusto.png';
+import logoJobber from '../assets/images/home/Jobber.png';
+
+const industries = [
+  { label: 'Construction', href: '/construction-accountants/', icon: iconConstruction, alt: 'Construction icon', blurb: 'Do you work in construction? We provide payroll, bookkeeping, and financial advisory services for all construction-led businesses.' },
+  { label: 'Plumbers', href: '/accountants-for-plumbers/', icon: iconPlumbers, alt: 'Plumbers icon', blurb: "Are you a plumber that needs help with ongoing bookkeeping, payroll, and other financial services? We're here to help." },
+  { label: 'Electricians', href: '/accountants-for-electricians/', icon: iconElectricians, alt: 'Electricians icon', blurb: 'Are you an electrician who needs help with your financial numbers and bookkeeping? We help electricians manage and grow their businesses.' },
+  { label: 'HVAC', href: '/hvac-accounting/', icon: iconHvac, alt: 'HVAC icon', blurb: "Do you own a HVAC company? We're here to take the financial side of things off of your plate so you can focus on the work that you do best." },
+  { label: 'Solar', href: '/accountants-for-solar-companies/', icon: iconSolar, alt: 'Solar icon', blurb: 'Need help financially structuring your solar business? We help solar businesses set and hit their short and long-term goals.' },
+];
+
+const differentiators = [
+  { icon: iconDrill, alt: '', title: 'We handle it all', body: "With Atlas Accounting Group, you'll keep it all under one roof — bookkeeping, payroll, tax, and advisory — instead of juggling three firms for one straight answer." },
+  { icon: iconCaution, alt: '', title: 'We know your pain points', body: "It's not easy running a home service business. Job costing, seasonal cash flow, crew payroll — we work in your world every day and speak your language." },
+  { icon: iconBrick, alt: '', title: "We've got your back", body: "There's nothing worse than an accountant who won't pick up the phone. You get a responsive team that explains your numbers and teaches you to use them." },
+];
+
+const techLogos = [
+  { src: logoServiceTitan, alt: 'ServiceTitan' },
+  { src: logoHousecall, alt: 'Housecall Pro' },
+  { src: logoGusto, alt: 'Gusto' },
+  { src: logoJobber, alt: 'Jobber' },
+];
 ---
 
-<BaseLayout title="Home">
-  <section class="container mx-auto px-4 py-24 text-center">
-    <h1 class="text-5xl font-bold mb-6" style={`font-family: ${SITE_DATA.branding.fonts.heading};`}>
-      {SITE_DATA.company.name}
-    </h1>
-    <p class="text-lg max-w-2xl mx-auto mb-8 text-base-content/80">
-      {SITE_DATA.seo.description}
-    </p>
-    <div class="flex gap-4 justify-center">
-      <a href={`tel:${SITE_DATA.company.phone}`} class="btn btn-primary">Call {SITE_DATA.company.phone}</a>
-      <a href="/brand-guide/" class="btn btn-outline">View Brand Guide</a>
+<BaseLayout
+  title="Dedicated Accountants for Contractors - #1 in the Industry"
+  description="Are you a contractor or specialty trade business looking for financial guidance? Our team of accountants for contractors and specialty trades is here to help. Let's chat and see how we can help your business thrive."
+>
+
+  {/* ── Hero ── */}
+  <section class="bg-base-100">
+    <div class="container mx-auto px-4 py-14 md:py-20 grid gap-10 lg:grid-cols-2 lg:items-center">
+      <div>
+        <h1 class="heading-display text-4xl md:text-5xl xl:text-6xl text-primary">
+          Work with the<br />
+          <span class="text-sky-ink">#1 Accountants</span> for Contractors &amp; Specialty Trades
+        </h1>
+        <p class="mt-6 text-lg leading-relaxed max-w-xl">
+          Your trade business deserves better financial direction. We handle the books, payroll, and tax — and show you what the numbers mean — so you can run and grow the company.
+        </p>
+        <div class="mt-8">
+          <a href={SITE_DATA.links.bookACall} class="btn btn-accent">Schedule Your Discovery Call</a>
+        </div>
+      </div>
+      <div>
+        <Image src={heroImg} alt="Accountant meeting with a contractor" class="w-full h-auto" widths={[480, 768, 960, 1200]} sizes="(min-width: 1024px) 45vw, 100vw" loading="eager" fetchpriority="high" />
+      </div>
     </div>
   </section>
+
+  {/* ── Trust band ── */}
+  <section class="bg-primary">
+    <div class="container mx-auto px-4 py-8">
+      <p class="text-center text-white font-semibold uppercase tracking-[0.2em] text-sm md:text-base">
+        Loved and trusted by contractors nationwide
+      </p>
+    </div>
+  </section>
+
+  {/* ── Industries ── */}
+  <section class="bg-cream">
+    <div class="container mx-auto px-4 pt-16 md:pt-24 pb-10">
+      <div class="max-w-3xl mx-auto text-center">
+        <h2 class="heading-display text-3xl md:text-4xl text-secondary">
+          Does your trade business need<br />
+          <span class="text-sky-ink">better financial direction?</span>
+        </h2>
+        <p class="mt-5 leading-relaxed">
+          If you're in the construction industry, we can help. From HVAC to plumbing, we help all specialty trade business owners modernize their processes and grow their financial position.
+        </p>
+      </div>
+      <div class="mt-12 grid gap-5 sm:grid-cols-2 lg:grid-cols-5">
+        {industries.map((ind) => (
+          <div class="bg-base-100 border border-base-300 p-6 flex flex-col">
+            <Image src={ind.icon} alt="" class="h-14 w-14" width={60} height={60} aria-hidden="true" />
+            <h3 class="heading-display text-lg text-secondary mt-5">{ind.label}</h3>
+            <p class="mt-3 text-sm leading-relaxed flex-grow">{ind.blurb}</p>
+            <a href={ind.href} class="mt-5 inline-flex items-center gap-1 font-semibold text-accent-ink hover:text-accent transition-colors">
+              Learn More<span class="sr-only"> — accounting for {ind.label.toLowerCase()}</span>
+              <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/></svg>
+            </a>
+          </div>
+        ))}
+      </div>
+    </div>
+
+    {/* ── Differentiators (same cream canvas, like the live page) ── */}
+    <div class="container mx-auto px-4 pt-14 pb-16 md:pb-24">
+      <div class="max-w-4xl mx-auto text-center">
+        <h2 class="heading-display text-4xl md:text-5xl text-secondary">We do more than your average accountant</h2>
+        <p class="mt-5 text-lg">We're different than the accountants you're used to working with.</p>
+      </div>
+      <div class="mt-14 grid gap-12 md:grid-cols-3">
+        {differentiators.map((d) => (
+          <div class="text-center">
+            <Image src={d.icon} alt="" class="h-24 w-24 mx-auto" width={120} height={120} aria-hidden="true" />
+            <h3 class="heading-display text-xl text-secondary mt-6">{d.title}</h3>
+            <p class="mt-4 leading-relaxed">{d.body}</p>
+          </div>
+        ))}
+      </div>
+      <div class="mt-12 text-center">
+        <a href="/why-we-are-different/" class="btn btn-accent">Here's How We're Different</a>
+      </div>
+    </div>
+  </section>
+
+  {/* ── Systemize ── */}
+  <section class="bg-base-100">
+    <div class="container mx-auto px-4 py-16 md:py-24 grid gap-12 lg:grid-cols-2 lg:items-center">
+      <div>
+        <h2 class="heading-display text-3xl md:text-4xl text-secondary">
+          Work with relatable accountants that will <span class="text-sky-ink">systemize</span> your business
+        </h2>
+        <p class="mt-6 leading-relaxed">
+          An accountant still running 1990s software (and offering dated advice) probably can't move your business forward. We've worked with specialty trades businesses for a long time — we know the inner workings of your industry and stay current on the technology and workflows that streamline your accounting in a way that works for you.
+        </p>
+      </div>
+      <Image src={systemizeImg} alt="Contractor loading equipment into his work van" class="w-full h-auto" widths={[560, 900, 1240]} sizes="(min-width: 1024px) 45vw, 100vw" />
+    </div>
+  </section>
+
+  {/* ── Grow ── */}
+  <section class="bg-base-100">
+    <div class="container mx-auto px-4 pb-16 md:pb-24 grid gap-12 lg:grid-cols-2 lg:items-center">
+      <Image src={growImg} alt="Tradesperson reviewing paperwork at a workbench" class="w-full h-auto order-last lg:order-first" widths={[560, 900, 1240]} sizes="(min-width: 1024px) 45vw, 100vw" />
+      <div>
+        <h2 class="heading-display text-3xl md:text-4xl text-secondary">
+          Get help <span class="text-sky-ink">growing your business</span>, not just running it
+        </h2>
+        <p class="mt-6 leading-relaxed">
+          Contrary to popular belief, your accountant should help you grow your business, not just manage it. We work alongside you to pinpoint revenue opportunities and cut the expenses you may not have noticed. With the right accountant in your corner, annual revenue (and take-home pay) go up while your admin hours go down.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  {/* ── Technology ── */}
+  <section class="bg-accent">
+    <div class="container mx-auto px-4 pt-16 md:pt-24 pb-12 text-center">
+      <p class="eyebrow text-primary mb-4">Automated &amp; Efficient Technology</p>
+      <h2 class="heading-display text-3xl md:text-5xl text-primary max-w-4xl mx-auto">
+        Bring your company up-to-speed with best in class technology
+      </h2>
+    </div>
+    <div class="marquee pb-16 md:pb-24" aria-label="Software we work with">
+      <div class="marquee-track px-4">
+        {/* Each PNG is a complete card (b/w jobsite photo + white product logo), so it renders at card size */}
+        {[false, true].map((decorative) => (
+          <div class="flex gap-4" aria-hidden={decorative || undefined}>
+            {techLogos.map((l) => (
+              <Image src={l.src} alt={decorative ? '' : l.alt} class="h-64 md:h-[26rem] w-auto shrink-0" widths={[350]} />
+            ))}
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  {/* ── Testimonial ── */}
+  <section class="bg-cream">
+    <div class="container mx-auto px-4 py-16 md:py-24 grid gap-12 lg:grid-cols-2 lg:items-center">
+      <Image src={testimonialImg} alt="Terratech Solutions crew in front of their concrete stabilization trailer" class="w-full h-auto" widths={[560, 900, 1024]} sizes="(min-width: 1024px) 45vw, 100vw" />
+      <figure>
+        <blockquote>
+          <p class="heading-display text-3xl md:text-4xl text-secondary normal-case">
+            "Mackenzie and her team <span class="text-sky-ink">have been essential</span> to my business."
+          </p>
+          <p class="mt-6 leading-relaxed">
+            They've alleviated the stress of managing our finances, allowing my business partner and me to focus on other aspects of our operations. They've kept us on track from the start and point us to the right apps, programs, and CRM — a one-stop shop for all our accounting needs.
+          </p>
+        </blockquote>
+        <figcaption class="mt-6 font-semibold text-primary">
+          Noah Swadener <span class="font-normal text-base-content">— Co-founder, Terratech Solutions</span>
+        </figcaption>
+      </figure>
+    </div>
+  </section>
+
+  {/* ── Book a call (Calendly) ── */}
+  <section class="bg-accent relative overflow-hidden">
+    {/* Orange duotone photo from the live site (tint baked into the JPG), with a
+        light dark wash on the upper area to keep the white heading legible */}
+    <Image src={ctaBgImg} alt="" class="absolute inset-0 w-full h-full object-cover object-top" widths={[1280]} sizes="100vw" aria-hidden="true" />
+    <div class="absolute inset-0 bg-gradient-to-b from-black/25 to-transparent pointer-events-none"></div>
+    <div class="container mx-auto px-4 py-16 md:py-20 relative">
+      <h2 class="heading-display text-3xl md:text-4xl text-white text-center max-w-3xl mx-auto">
+        Find out how we can help your trade business
+      </h2>
+      <div class="mt-10 max-w-3xl mx-auto bg-base-100 shadow-xl">
+        <CalendlyEmbed />
+      </div>
+    </div>
+  </section>
+
+  <LaborCalcPopup />
+
 </BaseLayout>

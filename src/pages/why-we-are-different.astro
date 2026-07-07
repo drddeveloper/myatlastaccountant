@@ -1,0 +1,143 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PageHero from '../components/sections/PageHero.astro';
+import SectionHeading from '../components/sections/SectionHeading.astro';
+import CtaBand from '../components/sections/CtaBand.astro';
+import { SITE_DATA } from '../data/constants';
+
+const differentiators = [
+  {
+    title: 'Virtual Team',
+    body: 'Meet with us in our virtual office on Spot. Wherever you are in the country, you can drop in, plan with us, and collaborate on your business — no commute to an accountant’s office required.',
+  },
+  {
+    title: 'Modern & tech-driven',
+    body: 'We help you put best-in-class technology in place so the inner workflows of your business are never harder than they need to be — from field software to your books.',
+  },
+  {
+    title: 'Proactive working',
+    body: 'We’re a partner, not a vendor. We keep your best interests in mind, stay on top of everything, and loop you in on exactly what you need to know before it becomes a problem.',
+  },
+  {
+    title: 'Regular catch ups',
+    body: 'Depending on your plan, we meet for annual, quarterly, or monthly coaching sessions — with email support available year-round in between.',
+  },
+];
+
+const onboardingSteps = [
+  {
+    title: 'Schedule a Discovery Call',
+    body: 'A no-pressure conversation about your business needs and our services, so we can both decide whether we’re the right fit.',
+  },
+  {
+    title: 'A Free Accounting System Diagnostic',
+    body: 'We run a free diagnostic and analysis of your books, flag any issues, and outline a clear scope of work to get everything in order.',
+  },
+  {
+    title: 'Attend Your Options Call',
+    body: 'We walk you through what the diagnostic found and share custom options for how we can help your business.',
+  },
+  {
+    title: "We'll Send You a Proposal",
+    body: 'Your proposal includes three tiers of pricing so you can choose the fit that makes sense for your business and budget.',
+  },
+  {
+    title: 'Kick Off & Access Meeting!',
+    body: 'Once the proposal is signed, we meet to get access to your accounts and officially onboard you with the Atlas team.',
+  },
+  {
+    title: 'Ongoing 1:1 Coaching',
+    body: 'That’s not the last you’ll hear from us. Depending on your plan, we meet annually, quarterly, or monthly to keep your business thriving and on track.',
+  },
+];
+---
+
+<BaseLayout
+  title="We're Different Construction Accountants"
+  description="Accurate accounting done in real-time following proper workflows. See how Atlas Accounting Group is different: a virtual, tech-driven, proactive team with regular 1:1 coaching."
+>
+
+  <PageHero
+    theme="navy"
+    eyebrow="Why we're different"
+    title="Accurate accounting done in real-time following proper workflows"
+    subtitle="You know the smile a client gives you when a project wraps on time and on budget. We deliver that same smile — applied to your financial management. Loved and trusted by contractors nationwide."
+    ctaLabel="Get In Touch"
+    ctaHref={SITE_DATA.links.bookACall}
+    secondaryLabel="See Pricing"
+    secondaryHref="/pricing/"
+  />
+
+  <section class="bg-base-100">
+    <div class="container mx-auto px-4 py-16 md:py-24">
+      <SectionHeading
+        eyebrow="The Atlas experience"
+        title="Your experience is different with Atlas Accounting Group"
+        intro="What sets us apart from traditional accountants: constant communication, easy-to-understand reports, and meaningful 1:1 coaching."
+        align="center"
+      />
+      <div class="mt-12 grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
+        {differentiators.map((d) => (
+          <div class="card border border-base-300 shadow-none">
+            <h3 class="heading-display text-lg text-primary">{d.title}</h3>
+            <p class="mt-3 leading-relaxed text-sm">{d.body}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="bg-cream">
+    <div class="container mx-auto px-4 py-16 md:py-24 grid gap-12 lg:grid-cols-2 lg:items-center">
+      <SectionHeading
+        eyebrow="Full-service"
+        title="Put the right people in the right places"
+        intro="Instead of hiring a bookkeeper, an accountant, a payroll manager, a cash flow manager, and a strategic advisor one by one, get all five in one place — instant expertise for a fraction of the cost of building the department in-house."
+      />
+      <div class="card bg-base-100">
+        <h3 class="heading-display text-lg text-primary">Happier Financials & Meaningful Reports</h3>
+        <p class="mt-3 leading-relaxed">Our goal is to make you a better business owner. Real-time data, monthly reports, cash flow visibility, and goal tracking give you what you need to make smarter financial decisions — not a stack of statements you never open.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="bg-primary">
+    <div class="container mx-auto px-4 py-16 md:py-24">
+      <SectionHeading
+        onDark
+        eyebrow="The people"
+        title="Meet the Atlas Team"
+        intro="Over 100 years of combined experience in accounting for the home services and construction industry — get to know the people who'll be handling your books."
+        align="center"
+      />
+      <div class="mt-8 text-center">
+        <a href="/meet-the-team/" class="btn btn-accent">Meet the Team</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="bg-base-100">
+    <div class="container mx-auto px-4 py-16 md:py-24">
+      <SectionHeading
+        eyebrow="Getting started"
+        title="It Couldn't be Easier to Get Started"
+        align="center"
+      />
+      <ol class="mt-12 grid gap-8 md:grid-cols-2 lg:grid-cols-3 max-w-5xl mx-auto" role="list">
+        {onboardingSteps.map((step, i) => (
+          <li class="card bg-cream shadow-none">
+            <span class="heading-display text-3xl text-accent-ink" aria-hidden="true">{String(i + 1).padStart(2, '0')}</span>
+            <h3 class="heading-display text-lg text-primary mt-3">{step.title}</h3>
+            <p class="mt-3 leading-relaxed text-sm">{step.body}</p>
+          </li>
+        ))}
+      </ol>
+    </div>
+  </section>
+
+  <CtaBand
+    heading="Find out how we can help your construction business"
+    ctaLabel="Schedule Your Discovery Call"
+  />
+
+</BaseLayout>

@@ -1,0 +1,64 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import PageHero from '../../components/sections/PageHero.astro';
+import CtaBand from '../../components/sections/CtaBand.astro';
+
+// Non-draft posts, newest first.
+const posts = (await getCollection('blog', ({ data }) => !data.draft))
+  .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
+
+const formatDate = (date: Date) =>
+  date.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
+---
+
+<BaseLayout
+  title="Blog"
+  description="Accounting updates, tips, and practical guides to help contractors and specialty trade owners become more financially savvy."
+>
+
+  <PageHero
+    theme="navy"
+    eyebrow="Blog"
+    title="Learn from us"
+    subtitle="We post regular accounting updates, tips & tricks to help you become a more financially savvy business owner."
+  />
+
+  <section class="bg-base-100">
+    <div class="container mx-auto px-4 py-16 md:py-24">
+      {posts.length > 0 ? (
+        <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+          {posts.map((post) => (
+            <a
+              href={`/blog/${post.id}/`}
+              class="card border border-base-300 shadow-none hover:border-accent hover:shadow-lg transition-shadow group flex flex-col focus-visible:outline-2 focus-visible:outline-accent"
+            >
+              <time datetime={post.data.pubDate.toISOString()} class="eyebrow">
+                {formatDate(post.data.pubDate)}
+              </time>
+              <h2 class="heading-display text-xl text-primary mt-2 group-hover:text-accent-ink transition-colors">
+                {post.data.title}
+              </h2>
+              <p class="mt-3 text-sm leading-relaxed flex-grow">{post.data.description}</p>
+              <span class="mt-4 inline-block text-accent-ink font-semibold text-sm uppercase tracking-wide">Read more →</span>
+            </a>
+          ))}
+        </div>
+      ) : (
+        <div class="max-w-2xl mx-auto text-center">
+          <h2 class="heading-display text-2xl text-primary">New posts are on the way</h2>
+          <p class="mt-4 text-lg leading-relaxed">We're writing our first articles now. Check back soon — or book a call and get your questions answered in person.</p>
+          <div class="mt-8">
+            <a href="/getting-started/" class="btn btn-accent">Book a Call</a>
+          </div>
+        </div>
+      )}
+    </div>
+  </section>
+
+  <CtaBand
+    heading="Find out how we can help your trade business"
+    ctaLabel="Book a Call"
+  />
+
+</BaseLayout>

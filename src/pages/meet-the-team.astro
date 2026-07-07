@@ -1,0 +1,116 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PageHero from '../components/sections/PageHero.astro';
+import SectionHeading from '../components/sections/SectionHeading.astro';
+import CtaBand from '../components/sections/CtaBand.astro';
+import { SITE_DATA } from '../data/constants';
+
+// TODO: Replace the initials-avatar circles below with real headshots
+// (<Image /> from astro:assets) once photo assets are collected from the
+// WordPress media library.
+const team = [
+  {
+    name: 'Mackenzie Gray',
+    title: 'CEO & Co-Founder',
+    bio: 'Mackenzie leads Atlas with 10+ years in accounting and a non-traditional path into the field — she holds a Bachelor’s in Anthropology from Whitman College. She has built the firm around accounting technology, trade-industry expertise, and advisory excellence, with a deliberate focus on culture, continuing education, and work-life balance for her team. Off the clock she’s developing a five-acre homesite, raising her son, and training in Eskrima, a Filipino martial art.',
+  },
+  {
+    name: 'Jenny Page',
+    title: 'Senior Accountant',
+    bio: 'With 20 years of experience across the trade industries, Jenny handles bookkeeping, financial reporting and analysis, and reconciliations for Atlas clients. She works from Florida, where her free time goes to boating, camping, and a garden full of peppers and sweet potatoes.',
+  },
+  {
+    name: 'Nicole Orlando',
+    title: 'Senior Accountant',
+    bio: 'Nicole brings 23 years of accounting experience — 17 in corporate accounting and 6 supporting small businesses — to her work in bookkeeping, financial reporting and analysis, and reconciliations. A dedicated traveler and outdoor enthusiast, she has visited 49 states (Alaska is next) and fills her weekends with camping, road trips, and antiquing.',
+  },
+  {
+    name: 'Liz Collazo',
+    title: 'Payroll Specialist',
+    bio: 'Liz has spent 25 years in accounting, including 7 as a director at a mental health facility. She keeps client payroll running smoothly — wage calculations, 401(k) reporting, employee updates, and state tax compliance. Away from work you’ll find her at the beach, on date nights with her husband, or listening to music.',
+  },
+  {
+    name: 'Madison Maxwell',
+    title: 'Client Success & Marketing Coordinator',
+    bio: 'Madison draws on 10 years in customer service, project management, client success, and marketing for nonprofits and small businesses. Based in NYC, she builds client relationships, creates resources, and makes sure every client gets the most out of their accounting systems. She loves to travel and explore new food scenes.',
+  },
+  {
+    name: 'Michaela Hunter',
+    title: 'Education Department & Program Coordinator',
+    bio: 'Michaela recently returned to Atlas after volunteering and teaching English in Thailand, building on her earlier experience as an administrative assistant. The trip left her with a love of spicy dishes and Thai dramas — and she’s still keeping up her language studies.',
+  },
+  {
+    name: 'Blythe Potter',
+    title: 'Junior Bookkeeper & IT Support',
+    bio: 'Blythe pairs accounting knowledge with a deep technical background: he was an IT Systems Engineer at Hospice of Kitsap County, spent 5 years as a Network Administrator at Olympic College, and helped establish a Washington State University engineering lab. Outside work he goes off-roading with his son and designs and welds his own projects — go-karts and remote-controlled lawn mowers included.',
+  },
+];
+
+/** Build two-letter initials for the placeholder avatar circles. */
+const initials = (name: string) =>
+  name
+    .split(' ')
+    .map((part) => part[0])
+    .join('');
+---
+
+<BaseLayout
+  title="Meet the Team"
+  description="Meet the Atlas Accounting Group team — over 100 years of combined experience in accounting for the home services and construction industry."
+>
+
+  <PageHero
+    theme="navy"
+    eyebrow="Our people"
+    title="Meet the Atlas Team"
+    subtitle="Over 100 years of combined experience in accounting for the home services and construction industry. Led by Mackenzie, our team pairs financial precision and proper accounting workflows with an innovative approach to making your business more efficient."
+    ctaLabel="Book a Call"
+    ctaHref={SITE_DATA.links.bookACall}
+  />
+
+  <section class="bg-base-100">
+    <div class="container mx-auto px-4 py-16 md:py-24">
+      <SectionHeading
+        eyebrow="The team"
+        title="The people behind your numbers"
+        align="center"
+      />
+      <div class="mt-12 grid gap-8 md:grid-cols-2 max-w-5xl mx-auto">
+        {team.map((member, i) => (
+          <div class="card border border-base-300 shadow-none">
+            {/* TODO: swap this initials avatar for the member's headshot once photo assets are available */}
+            <div
+              class={`h-20 w-20 rounded-full flex items-center justify-center heading-display text-2xl text-primary ${i % 2 === 0 ? 'bg-sky' : 'bg-cream-dark'}`}
+              aria-hidden="true"
+            >
+              {initials(member.name)}
+            </div>
+            <h3 class="heading-display text-xl text-primary mt-5">{member.name}</h3>
+            <p class="eyebrow mt-1 text-xs">{member.title}</p>
+            <p class="mt-4 leading-relaxed text-sm">{member.bio}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="bg-cream">
+    <div class="container mx-auto px-4 py-16 md:py-24">
+      <SectionHeading
+        eyebrow="How we work"
+        title="A different kind of accounting team"
+        intro="Constant communication, easy-to-understand reports, and real 1:1 coaching — see what makes working with Atlas different from a traditional firm."
+        align="center"
+      />
+      <div class="mt-8 text-center">
+        <a href="/why-we-are-different/" class="btn btn-outline">Why We're Different</a>
+      </div>
+    </div>
+  </section>
+
+  <CtaBand
+    heading="Ready to put this team to work?"
+    ctaLabel="Book a Call"
+  />
+
+</BaseLayout>

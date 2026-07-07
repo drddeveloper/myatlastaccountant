@@ -1,0 +1,94 @@
+---
+import { Image } from 'astro:assets';
+import popupImg from '../assets/images/home/Popup-Labor-Calculator.jpg';
+---
+
+{/*
+  Recreation of the live site's Elementor popup (id 807), shown once per
+  browser session. Mobile: full-width sheet anchored to the bottom.
+  Desktop (md+): card that slides in from the left edge. Non-modal — it
+  doesn't trap focus or block the page. Closing slides it back out.
+*/}
+<div
+  class="calc-popup fixed z-[60] bg-primary shadow-2xl hidden inset-x-0 bottom-0 w-full md:inset-x-auto md:left-6 md:bottom-6 md:w-[22rem]"
+  role="dialog"
+  aria-label="Try our free labor calculator"
+  data-calc-popup
+>
+  <button
+    type="button"
+    class="absolute top-3 right-3 z-10 inline-flex items-center justify-center h-9 w-9 text-white hover:text-accent transition-colors focus-visible:outline-2 focus-visible:outline-accent"
+    data-calc-popup-close
+  >
+    <span class="sr-only">Close</span>
+    <svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+      <path stroke-linecap="round" d="M6 6l12 12M18 6L6 18" />
+    </svg>
+  </button>
+  <div class="p-6 text-center">
+    <p class="heading-display text-xl text-white">Try our free Labor Calculator</p>
+    <p class="mt-2 text-white/85 text-sm">See the real hourly cost of your employees.</p>
+    <a href="/labor-calculator/" class="btn btn-accent mt-4 w-full">Try Now</a>
+  </div>
+  <Image src={popupImg} alt="" class="w-full h-28 md:h-40 object-cover" widths={[420, 768]} sizes="(min-width: 768px) 22rem, 100vw" loading="lazy" />
+</div>
+
+<style>
+  .calc-popup {
+    opacity: 0;
+    /* mobile: slide up from the bottom edge */
+    transform: translateY(100%);
+    transition: transform 0.6s ease-out, opacity 0.6s ease-out;
+  }
+  @media (min-width: 768px) {
+    /* desktop: slide in from the left edge */
+    .calc-popup {
+      transform: translateX(calc(-100% - 1.5rem));
+    }
+  }
+  .calc-popup.calc-popup-open {
+    opacity: 1;
+    transform: translate(0, 0);
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .calc-popup {
+      transition: opacity 0.2s ease-out;
+      transform: none;
+    }
+  }
+</style>
+
+<script>
+  const popup = document.querySelector<HTMLElement>('[data-calc-popup]');
+  const closeBtn = document.querySelector<HTMLButtonElement>('[data-calc-popup-close]');
+  const KEY = 'atlas-calc-popup-shown';
+
+  if (popup && closeBtn && !sessionStorage.getItem(KEY)) {
+    // Slight delay so the popup doesn't compete with the initial page render
+    setTimeout(() => {
+      sessionStorage.setItem(KEY, '1');
+      popup.classList.remove('hidden');
+      // force a reflow so the entrance transition runs from the off-screen state
+      void popup.offsetHeight;
+      popup.classList.add('calc-popup-open');
+    }, 2500);
+
+    const close = () => {
+      // reverse the entrance transition, then remove once it finishes
+      popup.classList.remove('calc-popup-open');
+      let removed = false;
+      const remove = () => {
+        if (removed) return;
+        removed = true;
+        popup.remove();
+      };
+      popup.addEventListener('transitionend', remove, { once: true });
+      setTimeout(remove, 700); // fallback (e.g. prefers-reduced-motion)
+    };
+
+    closeBtn.addEventListener('click', close);
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && popup.isConnected && popup.classList.contains('calc-popup-open')) close();
+    });
+  }
+</script>

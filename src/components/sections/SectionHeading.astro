@@ -1,0 +1,17 @@
+---
+interface Props {
+  eyebrow?: string;
+  title: string;
+  intro?: string;
+  align?: 'left' | 'center';
+  onDark?: boolean;
+}
+
+const { eyebrow, title, intro, align = 'left', onDark = false } = Astro.props;
+---
+
+<div class={`max-w-3xl ${align === 'center' ? 'mx-auto text-center' : ''}`}>
+  {eyebrow && <p class={`eyebrow mb-3 ${onDark ? 'text-sky' : ''}`}>{eyebrow}</p>}
+  <h2 class={`heading-display text-3xl md:text-4xl ${onDark ? 'text-white' : 'text-primary'}`}>{title}</h2>
+  {intro && <p class={`mt-4 text-lg leading-relaxed ${onDark ? 'text-white/85' : ''}`}>{intro}</p>}
+</div>

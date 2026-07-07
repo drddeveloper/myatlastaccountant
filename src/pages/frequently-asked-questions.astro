@@ -1,0 +1,181 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PageHero from '../components/sections/PageHero.astro';
+import SectionHeading from '../components/sections/SectionHeading.astro';
+import CtaBand from '../components/sections/CtaBand.astro';
+import FaqList from '../components/sections/FaqList.astro';
+import { SITE_DATA } from '../data/constants';
+
+const generalFaqs = [
+  {
+    q: 'How often will we chat?',
+    a: 'You can email us anytime — we respond within 2 business days on Essentials and 1 business day on Plus and Pro. Coaching meetings run annually on Essentials, quarterly on Plus, and monthly on Pro, and are held virtually over Microsoft Teams.',
+  },
+  {
+    q: 'How long will it take to onboard with Atlas Accounting Group?',
+    a: 'Onboarding runs about 12 weeks, with weekly meetings to get your accounting and workflows accurate and dependable. We handle any backlog bookkeeping and your current bookkeeping at the same time, so nothing falls behind while we catch up.',
+  },
+  {
+    q: 'Why does Atlas Accounting Group work specifically with home service businesses?',
+    a: 'This industry requires a deep understanding of complex, project-based accounting. We specialize in trade-specific financials — job costing, progress billing — and integrate with the tools you already use, including ServiceTitan, Housecall Pro, and Jobber.',
+  },
+  {
+    q: 'Who will I be in contact with?',
+    a: 'At first, you’ll work with our Client Success and Marketing Coordinator and/or a Co-Founder. Once onboarding is complete, you get a dedicated lead accountant — and a payroll specialist if your plan includes payroll — with backup team members who know your account.',
+  },
+  {
+    q: 'What is it like to work with a virtual accounting firm?',
+    a: 'No paperwork, no outdated processes. Email is our primary channel, backed by scheduled phone calls and virtual meetings over Microsoft Teams. Your data stays protected with multi-factor authentication and secure communication channels.',
+  },
+];
+
+const bookkeepingFaqs = [
+  {
+    q: 'Will you set up my bookkeeping software for me?',
+    a: 'Absolutely! Full QuickBooks Online setup is part of our onboarding Accounting System Clean Up and Installation.',
+  },
+  {
+    q: 'What happens if my books are a complete mess?',
+    a: 'Clean-up is built into onboarding. We take temporary access to your system, run a diagnostic, walk you through what we found, and lay out a clear plan to get everything back in order.',
+  },
+  {
+    q: 'What will I receive every month with ongoing bookkeeping services?',
+    a: 'It depends on your tier. Essentials covers compliance with annual meetings. Plus adds payroll and quarterly meetings. Pro adds financial planning, cash flow forecasting, and budgeting with monthly meetings.',
+  },
+  {
+    q: 'Is there anything I need to do each month for bookkeeping?',
+    a: 'Your level of involvement depends on your service level — we work that out together during onboarding so the split of responsibilities is clear from day one.',
+  },
+  {
+    q: 'How much should I be making before I outsource bookkeeping?',
+    a: 'There’s no magic number. If your time could be creating more value elsewhere in the business than it does in the books, it’s time to pay a professional.',
+  },
+  {
+    q: 'What is the best time of year to start with a bookkeeper?',
+    a: 'Yesterday. If you’re already asking the question, you’re already in business — and the sooner your books are handled professionally, the sooner the rest gets easier.',
+  },
+];
+
+const payrollFaqs = [
+  {
+    q: 'When is the best time of year to migrate to a new construction payroll system?',
+    a: 'Payroll systems can be switched any time of the year. Quarter-end and year-end transitions tend to be the smoothest, but they’re not required. We run payroll on Gusto.',
+  },
+  {
+    q: 'What time tracking system do you recommend for general contractors and construction businesses?',
+    a: 'We typically recommend Gusto’s timecard features, with integration options for other tools. The best timecard solution is the one your employees will actually use without friction.',
+  },
+  {
+    q: 'Do you handle construction payroll taxes for me?',
+    a: 'Yes. Gusto collects payroll taxes with each payroll run, remits them automatically, and the required reporting gets filed without you having to lift a finger.',
+  },
+  {
+    q: 'Is it easy to switch from another provider?',
+    a: 'Piece of cake. We pull your previous payroll data directly or request exactly what we need from you to complete the setup.',
+  },
+  {
+    q: 'What is the setup process like?',
+    a: 'Gusto can be set up in as little as one week. Your employees enter their own personal details and manage their direct deposit, while we collect the historical wage and tax data.',
+  },
+];
+
+const taxFaqs = [
+  {
+    q: 'Can you handle my personal and business taxes for me?',
+    a: 'We partner with a professional tax preparation firm staffed with CPAs and EAs, so tax filing, planning, and resolution services are all available to our clients.',
+  },
+  {
+    q: 'What do I need to submit to prepare my taxes?',
+    a: 'Very little — comprehensive packets of financial reports and documents are included in every service package, so your preparer gets what they need without a scramble.',
+  },
+  {
+    q: 'Will you talk to my tax accountant for me?',
+    a: 'We would love to! We regularly collaborate with other professionals and are happy to communicate directly with the tax preparer you’ve chosen.',
+  },
+  {
+    q: 'How do you choose the right tax accountant partner for me?',
+    a: 'We select partners based on credentials, experience, professional standards, and a genuine passion for tax preparation.',
+  },
+  {
+    // Fixed from the live site's miswritten "Can I use your own tax accountant?"
+    q: 'Can I use my own tax accountant?',
+    a: 'Yes. Every service level includes comprehensive financial reports and documents you can hand to any tax preparer you like.',
+  },
+];
+
+const categories = [
+  { label: 'General', items: generalFaqs },
+  { label: 'Bookkeeping', items: bookkeepingFaqs },
+  { label: 'Payroll', items: payrollFaqs },
+  { label: 'Taxes', items: taxFaqs },
+];
+
+// Single combined FAQPage JSON-LD for all 20 questions.
+// Individual FaqList instances intentionally get no schema prop, so we don't
+// emit four competing FAQPage blocks.
+const faqJsonLD = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: categories.flatMap((cat) =>
+    cat.items.map((item) => ({
+      '@type': 'Question',
+      name: item.q,
+      acceptedAnswer: { '@type': 'Answer', text: item.a },
+    }))
+  ),
+};
+---
+
+<BaseLayout
+  title="Construction Accounting FAQs"
+  description="Answers to the questions contractors ask us most — communication, onboarding, bookkeeping, construction payroll, and taxes at Atlas Accounting Group."
+>
+
+  <PageHero
+    theme="navy"
+    eyebrow="FAQs"
+    title="Frequently Asked Questions"
+    subtitle="Everything contractors ask us before signing on — how we communicate, what onboarding looks like, and how bookkeeping, payroll, and taxes are handled. Don't see your question? Book a call and ask us directly."
+    ctaLabel="Book a Call"
+    ctaHref={SITE_DATA.links.bookACall}
+  />
+
+  {categories.map((cat, i) => (
+    <section class={i % 2 === 0 ? 'bg-base-100' : 'bg-cream'}>
+      <div class="container mx-auto px-4 py-16 md:py-20">
+        <div class="max-w-3xl mx-auto">
+          <SectionHeading eyebrow="Category" title={cat.label} />
+          <div class="mt-8">
+            <FaqList items={cat.items} />
+          </div>
+        </div>
+      </div>
+    </section>
+  ))}
+
+  <section class="bg-primary">
+    <div class="container mx-auto px-4 py-16 md:py-20">
+      <SectionHeading
+        onDark
+        eyebrow="Free tools"
+        title="Run your own numbers"
+        intro="Curious what an employee really costs, or where your margin is going? Try our free calculators."
+        align="center"
+      />
+      <div class="mt-8 flex flex-wrap justify-center gap-4">
+        <a href="/labor-calculator/" class="btn btn-accent">Try Our Labor Calculator</a>
+        <a href="/profit-margin-calculator/" class="btn btn-outline text-white">Profit Margin Calculator</a>
+      </div>
+    </div>
+  </section>
+
+  <CtaBand
+    heading="Still have questions?"
+    subtext="Book a free discovery call and get answers specific to your business."
+    ctaLabel="Book a Call"
+  />
+
+  {/* Combined FAQPage schema for all 20 questions across the four categories */}
+  <script type="application/ld+json" set:html={JSON.stringify(faqJsonLD)} />
+
+</BaseLayout>

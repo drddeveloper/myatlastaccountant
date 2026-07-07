@@ -1,0 +1,173 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PageHero from '../components/sections/PageHero.astro';
+import SectionHeading from '../components/sections/SectionHeading.astro';
+import CtaBand from '../components/sections/CtaBand.astro';
+import Testimonial from '../components/sections/Testimonial.astro';
+import { SITE_DATA } from '../data/constants';
+
+const services = [
+  { title: 'Bookkeeping', href: '/pricing/', blurb: 'Monthly books built for electrical contractors — reconciled, categorized, and closed on time, every time.' },
+  { title: 'Payroll', href: '/construction-payroll/', blurb: 'Electricians and apprentices paid accurately and on schedule, with taxes and filings off your plate.' },
+  { title: 'Bookkeeping for Tax Filing', href: '/tax-services/', blurb: 'Tax-ready books all year long, so nothing gets missed when it’s time to file.' },
+];
+
+const checklistAreas = ['Workflows', 'Bookkeeping', 'Profit Margins', 'Technology', 'Organization', 'Financial Goals'];
+
+const capabilities = [
+  { title: 'Bring your technology up to speed', body: 'We connect your field-service software to your books so numbers update themselves.' },
+  { title: 'Manage & forecast cash flow', body: 'See slow stretches coming weeks out — and plan hiring and purchases around them.' },
+  { title: 'Increase profitability through smarter accounting', body: 'Spot the jobs and expense lines quietly eroding your margin.' },
+  { title: 'Clean books that help your CPA capture every tax break', body: 'Well-kept books mean deductions get claimed, not left behind.' },
+  { title: 'Build Accounting operations workflow', body: 'A back office that runs on a repeatable system instead of memory and good intentions.' },
+];
+---
+
+<BaseLayout
+  title="The #1 Accountants for Electricians | Tax | Books | Payroll"
+  description="Atlas Accounting Group is a financial coach and accounting team that specializes in electricians — bookkeeping, payroll, cash flow forecasting, and tax strategy that help your electrical company grow."
+>
+
+  <PageHero
+    theme="navy"
+    eyebrow="Accountants for Electricians"
+    title="We're the expert accountants for Electricians"
+    subtitle="From monthly bookkeeping through payroll, we handle the financial side of your electrical business — so every decision you make is an informed one."
+    ctaLabel="Get Started Now"
+    ctaHref={SITE_DATA.links.bookACall}
+    secondaryLabel="See Pricing"
+    secondaryHref="/pricing/"
+  />
+
+  <section class="bg-base-100">
+    <div class="container mx-auto px-4 py-16 md:py-24">
+      <div class="max-w-3xl">
+        <SectionHeading
+          eyebrow="The obstacles"
+          title="What's holding your electrical company back?"
+        />
+        <div class="mt-6 space-y-5 text-lg leading-relaxed">
+          <p>For most electrical contractors, growth stalls for the same few reasons: nobody knows the real break-even point, there are no operating goals to steer by, and job costing is a rough guess instead of a discipline. You can't fix what you can't see.</p>
+          <p>We help electricians actually understand and manage their financials — so the next truck, hire, or bid is a calculated move, not a gamble.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="bg-cream">
+    <div class="container mx-auto px-4 py-16 md:py-24">
+      <SectionHeading
+        eyebrow="Our promise"
+        title="We don't just organize your financials, we help grow them"
+        intro="A dedicated accounting partner means working smarter, not harder — and taking home more every month for the hours you already put in."
+      />
+    </div>
+  </section>
+
+  <section class="bg-base-100">
+    <div class="container mx-auto px-4 py-16 md:py-24">
+      <SectionHeading
+        eyebrow="360 Financial Management"
+        title="Every financial function, handled by one team"
+      />
+      <div class="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+        {services.map((s) => (
+          <a href={s.href} class="card border border-base-300 shadow-none hover:border-accent hover:shadow-lg transition-shadow group focus-visible:outline-2 focus-visible:outline-accent">
+            <h3 class="heading-display text-lg text-primary group-hover:text-accent-ink transition-colors">{s.title}</h3>
+            <p class="mt-3 text-sm leading-relaxed">{s.blurb}</p>
+            <span class="mt-4 inline-block text-accent-ink font-semibold text-sm uppercase tracking-wide">Learn more →</span>
+          </a>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="bg-cream">
+    <div class="container mx-auto px-4 py-16 md:py-24">
+      <div class="max-w-3xl">
+        <SectionHeading
+          eyebrow="Momentum"
+          title="Get help pushing your business full steam ahead"
+        />
+        <div class="mt-6 space-y-5 text-lg leading-relaxed">
+          <p>You're running crews, quoting work, and keeping customers happy — there aren't hours left over for reconciling accounts. So we carry the accounting load. You stay focused on the work only you can do, while we keep the books current and help you set financial goals worth chasing — then hit them.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="bg-primary">
+    <div class="container mx-auto px-4 py-16 md:py-24">
+      <div class="max-w-3xl">
+        <SectionHeading
+          onDark
+          eyebrow="No jargon"
+          title="Work with accountants you can be real with"
+        />
+        <div class="mt-6 space-y-5 text-lg leading-relaxed text-white/85">
+          <p>Most accountants talk in jargon and tell you what you want to hear. We'd rather be straight with you: if your labor expense ratio is out of line, you'll hear it. If you're leaving deductions on the table, we'll show you exactly where. We treat your company's finances the way we treat our own — honestly and carefully.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="bg-base-100">
+    <div class="container mx-auto px-4 py-16 md:py-24">
+      <div class="max-w-3xl mx-auto text-center">
+        <SectionHeading
+          eyebrow="Quick check"
+          title="Could your electrical business grow with an accountant?"
+          intro="On a discovery call, we look at six areas of your business and tell you honestly where an accounting partner would move the needle."
+          align="center"
+        />
+        <ul class="mt-10 flex flex-wrap justify-center gap-3" role="list">
+          {checklistAreas.map((area) => (
+            <li class="bg-cream-dark text-primary font-semibold px-4 py-2 rounded-full text-sm">{area}</li>
+          ))}
+        </ul>
+        <div class="mt-10">
+          <a href={SITE_DATA.links.bookACall} class="btn btn-accent">Book Your Discovery Call</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="bg-cream">
+    <div class="container mx-auto px-4 py-16 md:py-24">
+      <SectionHeading
+        eyebrow="Capabilities"
+        title="What can Atlas Accounting Group do for your electrician business?"
+      />
+      <div class="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+        {capabilities.map((c) => (
+          <div class="card bg-base-100">
+            <h3 class="heading-display text-lg text-primary">{c.title}</h3>
+            <p class="mt-3 text-sm leading-relaxed">{c.body}</p>
+          </div>
+        ))}
+      </div>
+      <div class="mt-10">
+        <a href="/why-we-are-different/" class="btn btn-outline">Why We're Different</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="bg-base-100">
+    <div class="container mx-auto px-4 py-16 md:py-24">
+      <div class="max-w-3xl mx-auto">
+        <Testimonial
+          quote="I now have a full understanding of my financial position."
+          name="Ryann Blake"
+          role="Owner, Chimney Techniques"
+        />
+      </div>
+    </div>
+  </section>
+
+  <CtaBand
+    heading="Find out how we can help your electrical business"
+    subtext="Book a free discovery call and get a straight answer on what better financial direction looks like for your electrical company."
+    ctaLabel="Book Your Discovery Call"
+  />
+
+</BaseLayout>

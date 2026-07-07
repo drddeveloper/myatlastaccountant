@@ -1,0 +1,31 @@
+---
+import { SITE_DATA } from '../../data/constants';
+
+interface Props {
+  heading?: string;
+  subtext?: string;
+  ctaLabel?: string;
+  ctaHref?: string;
+}
+
+const {
+  heading = 'Find out how we can help your trade business',
+  subtext = 'Book a free discovery call and get a clear picture of what better financial direction looks like.',
+  ctaLabel = 'Schedule Your Discovery Call',
+  ctaHref = SITE_DATA.links.bookACall,
+} = Astro.props;
+---
+
+<section class="bg-primary relative overflow-hidden">
+  {/* soft radial glow keeps the navy band from reading flat */}
+  <div class="absolute inset-0 pointer-events-none" style="background: radial-gradient(60% 80% at 80% 20%, color-mix(in srgb, var(--color-sky) 18%, transparent), transparent);"></div>
+  <div class="container mx-auto px-4 py-16 md:py-20 relative">
+    <div class="max-w-3xl mx-auto text-center">
+      <h2 class="heading-display text-3xl md:text-4xl text-white">{heading}</h2>
+      {subtext && <p class="mt-4 text-lg text-white/85">{subtext}</p>}
+      <div class="mt-8">
+        <a href={ctaHref} class="btn btn-accent">{ctaLabel}</a>
+      </div>
+    </div>
+  </div>
+</section>

@@ -1,0 +1,195 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PageHero from '../components/sections/PageHero.astro';
+import SectionHeading from '../components/sections/SectionHeading.astro';
+import CtaBand from '../components/sections/CtaBand.astro';
+import FaqList from '../components/sections/FaqList.astro';
+
+// Stepper inputs mirror the live site: −/+ buttons, $ prefix, step 1, floor 0.
+const calcInputs = [
+  { id: 'billable-revenue', label: 'Revenue', value: 250000 },
+  { id: 'cost-price', label: 'Job Costs', value: 180000 },
+  { id: 'overhead-costs', label: 'Overhead Costs', value: 30000 },
+];
+
+const results = [
+  { id: 'gross-profit', label: 'Gross Profit' },
+  { id: 'net-profit', label: 'Net Profit' },
+  { id: 'gross-profit-margin', label: 'Gross Profit Margin' },
+  { id: 'profit-margin', label: 'Profit Margin' },
+];
+
+// FAQ copy: original phrasing conveying the live page's explanations. Two live-site
+// typos fixed deliberately: "this results" → "these results" (link text above the
+// FAQ), and the worked example's missing minus sign — the live site prints
+// "[(4,000 (1,000+ 1,000)) / 4,000]"; corrected below to include the subtraction.
+// The overhead formula's stray unmatched parenthesis is also corrected.
+const faqs = [
+  {
+    q: 'What is a profit margin calculator?',
+    a: 'It tells you how much your business actually keeps after paying for everything. Your profit margin represents your future: price each job so the profit covers all of your spending with money left over to grow on.',
+  },
+  {
+    q: 'What does this profit margin calculator tell you?',
+    a: 'How much profit you made on a job. It compares what the job cost you against what you charged, which also shows how efficiently your team performed against budget. Feed each finished job’s numbers back in and your future estimates get sharper every time.',
+  },
+  {
+    q: 'Who uses a profit margin calculator?',
+    a: 'Brand-new entrepreneurs and seasoned owners alike — anyone who would rather not hand-tally receipts, time sheets, and invoices to find out whether a job made money. It’s the quick math without the hassle.',
+  },
+  {
+    q: 'How do you calculate profit margin?',
+    a: 'Profit Margin = [(Billable Revenue − (Cost Price + Overhead Expenses)) / Billable Revenue] × 100',
+  },
+  {
+    q: 'How do you calculate the total cost price for the job?',
+    a: 'Total Cost Price = Labor Cost + Materials Cost',
+  },
+  {
+    q: 'How do you calculate the overhead expenses?',
+    a: 'Overhead Expenses = (All Monthly Expenses / Working Hours Each Month) × Hours to Complete Job. Worked example: with $4,000 revenue, $1,000 cost price, and $1,000 overhead — [(4,000 − (1,000 + 1,000)) / 4,000] × 100 = 50%.',
+  },
+];
+---
+
+<BaseLayout
+  title="Free Profit Margin Calculator"
+  description="Enter revenue, job costs, and overhead to see your gross profit, net profit, and margins instantly — a free tool for contractors and trade businesses."
+>
+
+  <PageHero
+    theme="cream"
+    eyebrow="Free tool"
+    title="Profit margin calculator"
+    subtitle="Estimate every project correctly, every time. Enter your numbers below and see your gross and net margins in seconds — free and easy to use."
+    ctaLabel="Try Calculator"
+    ctaHref="#calc"
+  />
+
+  <section class="bg-base-100" id="calc">
+    <div class="container mx-auto px-4 py-16 md:py-24">
+      <SectionHeading
+        eyebrow="Calculator"
+        title="Know your margin before the job starts"
+        intro="Use the − and + buttons or type directly — results update instantly."
+        align="center"
+      />
+
+      <div class="mt-12 grid gap-10 lg:grid-cols-2 lg:items-start max-w-5xl mx-auto">
+
+        {/*
+          The live site hides results behind a name/email Gravity Forms gate.
+          Per the theme JS the gate is cosmetic — values are computed client-side
+          regardless, and submitting merely removes a CSS overlay. We drop the
+          gate and show results immediately. The separate "Calculate" button is
+          also unnecessary since outputs update live on every change.
+        */}
+        <form id="profit-form" novalidate>
+          <div class="grid gap-6">
+            {calcInputs.map((f) => (
+              <div>
+                <label for={f.id} class="block font-semibold text-sm text-secondary mb-1">{f.label}</label>
+                <div class="flex items-center gap-2">
+                  <button type="button" class="stepper-btn" data-target={f.id} data-dir="down" aria-label={`Decrease ${f.label}`}>&minus;</button>
+                  <div class="relative flex-grow">
+                    <span class="absolute left-3 top-1/2 -translate-y-1/2 text-base-content" aria-hidden="true">$</span>
+                    <input class="input pl-7" type="number" id={f.id} name={f.id} value={f.value} step="1" min="0" inputmode="numeric" />
+                  </div>
+                  <button type="button" class="stepper-btn" data-target={f.id} data-dir="up" aria-label={`Increase ${f.label}`}>+</button>
+                </div>
+              </div>
+            ))}
+          </div>
+        </form>
+
+        <div class="card bg-cream shadow-none">
+          <h3 class="heading-display text-lg text-primary">Results</h3>
+          <div aria-live="polite">
+            <dl class="mt-4 grid gap-4 sm:grid-cols-2">
+              {results.map((r) => (
+                <div class="card bg-base-100 shadow-none border border-base-300">
+                  <dt class="text-sm font-semibold text-secondary">{r.label}</dt>
+                  <dd class="heading-display text-2xl text-accent-ink mt-1" id={r.id}>—</dd>
+                </div>
+              ))}
+            </dl>
+          </div>
+          <p class="mt-6 text-sm">Healthy profit margins for service businesses usually fall between 15% - 25%.</p>
+          <p class="mt-2 text-sm"><a href="#faq" class="link text-primary">Learn how we calculate these results below.</a></p>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <section class="bg-cream" id="faq">
+    <div class="container mx-auto px-4 py-16 md:py-24">
+      <SectionHeading
+        eyebrow="FAQs"
+        title="Quick answers for this calculator"
+        align="center"
+      />
+      <div class="mt-12 max-w-3xl mx-auto">
+        <FaqList items={faqs} schema />
+      </div>
+    </div>
+  </section>
+
+  <CtaBand
+    heading="Find out how we can help your trade business"
+    ctaLabel="Book a Call"
+  />
+
+  <script>
+    // Formulas transcribed from the live site's theme script
+    // (/wp-content/themes/atlasaccounting/script.js).
+    const val = (id: string): number => {
+      const el = document.getElementById(id) as HTMLInputElement | null;
+      return el ? parseFloat(el.value) || 0 : 0;
+    };
+    const money = (n: number): string => '$' + Math.round(n).toLocaleString('en-US');
+    const pct = (n: number): string => n.toFixed(2) + '%';
+    const set = (id: string, value: string) => {
+      const el = document.getElementById(id);
+      if (el) el.textContent = value;
+    };
+
+    function calculateProfit() {
+      const revenue = val('billable-revenue');
+      const cost = val('cost-price');
+      const overhead = val('overhead-costs');
+
+      const netProfit = revenue - (cost + overhead);
+      const profitMargin = revenue > 0 ? (netProfit / revenue) * 100 : 0;
+      const grossProfit = revenue - cost;
+      const grossProfitMargin = revenue > 0 ? (grossProfit / revenue) * 100 : 0;
+
+      set('gross-profit', money(grossProfit));
+      set('net-profit', money(netProfit));
+      set('gross-profit-margin', pct(grossProfitMargin));
+      set('profit-margin', pct(profitMargin));
+    }
+
+    // Stepper buttons: adjust by the input's step (1), floor at its min (0).
+    document.querySelectorAll<HTMLButtonElement>('.stepper-btn').forEach((btn) => {
+      btn.addEventListener('click', () => {
+        const input = document.getElementById(btn.dataset.target || '') as HTMLInputElement | null;
+        if (!input) return;
+        const step = parseFloat(input.step) || 1;
+        const min = input.min !== '' ? parseFloat(input.min) : -Infinity;
+        const current = parseFloat(input.value) || 0;
+        const next = btn.dataset.dir === 'up' ? current + step : current - step;
+        input.value = String(Math.max(min, next));
+        calculateProfit();
+      });
+    });
+
+    const form = document.getElementById('profit-form');
+    if (form) {
+      form.addEventListener('input', calculateProfit);
+      form.addEventListener('submit', (e) => e.preventDefault());
+    }
+    calculateProfit();
+  </script>
+
+</BaseLayout>

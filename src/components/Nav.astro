@@ -1,29 +1,97 @@
 ---
-import { SITE_DATA } from '../data/constants';
+import { Image } from 'astro:assets';
+import { SITE_DATA, NAV } from '../data/constants';
+import logo from '../assets/images/branding/Atlas-Accounting-logo.svg';
+
+const allLinks = [...NAV.main, ...NAV.more];
 ---
 
-<div class="navbar bg-base-100 shadow-sm sticky top-0 z-50">
-  <div class="navbar-start">
-    <div class="dropdown">
-      <div tabindex="0" role="button" class="btn btn-ghost lg:hidden" aria-label="Open Menu">
-        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h8m-8 6h16" /></svg>
-      </div>
-      <ul tabindex="0" class="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52">
-        <li><a href="/">Home</a></li>
-        <!-- Add more mobile links here as pages are created -->
-      </ul>
-    </div>
-    <a href="/" class="btn btn-ghost text-xl font-bold">{SITE_DATA.company.name}</a>
-  </div>
-  <div class="navbar-center hidden lg:flex">
-    <ul class="menu menu-horizontal px-1">
-      <li><a href="/">Home</a></li>
-      <!-- Add more desktop links here -->
-    </ul>
-  </div>
-  <div class="navbar-end">
-    <a href={`tel:${SITE_DATA.company.phone}`} class="btn btn-primary font-bold">
-      Call Now
-    </a>
+{/* Announcement bar */}
+<div class="bg-primary text-white">
+  <div class="container mx-auto px-4 py-2 flex items-center justify-center gap-4 text-sm">
+    <p>Calculate profit margins instantly</p>
+    <a href="/profit-margin-calculator/" class="btn btn-accent px-3 py-1 text-xs">Try Calculator</a>
   </div>
 </div>
+
+<header class="bg-base-100 shadow-sm sticky top-0 z-50">
+  <div class="navbar container mx-auto">
+  <div class="navbar-start">
+    <a href="/" class="flex items-center gap-2 px-2" aria-label={`${SITE_DATA.company.name} — Home`}>
+      <Image src={logo} alt={`${SITE_DATA.company.name} logo`} class="h-12 w-auto" height={96} />
+    </a>
+  </div>
+
+  <nav class="navbar-center hidden lg:flex" aria-label="Main">
+    <ul class="menu menu-horizontal px-1">
+      {NAV.main.map((item) => (
+        <li><a href={item.href}>{item.label}</a></li>
+      ))}
+      <li class="relative" data-more-menu>
+        <button type="button" class="flex items-center gap-1" aria-expanded="false" aria-controls="more-menu" data-more-toggle>
+          More
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-3 w-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" /></svg>
+        </button>
+        <ul id="more-menu" class="hidden absolute right-0 top-full z-10 mt-1 min-w-56 flex-col p-2 shadow-lg bg-base-100 rounded-box border border-base-300" data-more-panel>
+          {NAV.more.map((item) => (
+            <li><a href={item.href}>{item.label}</a></li>
+          ))}
+        </ul>
+      </li>
+    </ul>
+  </nav>
+
+  <div class="navbar-end gap-2">
+    {/* On mobile the header shows only the hamburger; Book a Call lives inside the menu panel */}
+    <a href={SITE_DATA.links.bookACall} class="btn btn-accent hidden lg:inline-flex">Book a Call</a>
+    <button type="button" class="btn btn-ghost lg:hidden" aria-expanded="false" aria-controls="mobile-menu" data-mobile-toggle>
+      <span class="sr-only">Menu</span>
+      <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" /></svg>
+    </button>
+  </div>
+  </div>
+</header>
+
+{/* Mobile menu panel */}
+<nav id="mobile-menu" class="hidden lg:hidden bg-base-100 border-b border-base-300 sticky top-16 z-40 shadow-lg" aria-label="Mobile" data-mobile-panel>
+  <ul class="menu flex-col p-4 max-h-[70vh] overflow-y-auto">
+    {allLinks.map((item) => (
+      <li><a href={item.href} class="py-3 text-base">{item.label}</a></li>
+    ))}
+    <li class="mt-2"><a href={SITE_DATA.links.bookACall} class="btn btn-accent w-full">Book a Call</a></li>
+  </ul>
+</nav>
+
+<script>
+  // Accessible disclosure behavior for the "More" dropdown and mobile menu:
+  // click toggles, Escape closes and refocuses the trigger, outside click closes.
+  function wireDisclosure(toggleSel: string, panelSel: string) {
+    const toggle = document.querySelector<HTMLButtonElement>(toggleSel);
+    const panel = document.querySelector<HTMLElement>(panelSel);
+    if (!toggle || !panel) return;
+
+    const setOpen = (open: boolean) => {
+      toggle.setAttribute('aria-expanded', String(open));
+      panel.classList.toggle('hidden', !open);
+      panel.classList.toggle('flex', open);
+    };
+
+    toggle.addEventListener('click', () => {
+      setOpen(toggle.getAttribute('aria-expanded') !== 'true');
+    });
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && toggle.getAttribute('aria-expanded') === 'true') {
+        setOpen(false);
+        toggle.focus();
+      }
+    });
+    document.addEventListener('click', (e) => {
+      if (!toggle.contains(e.target as Node) && !panel.contains(e.target as Node)) {
+        setOpen(false);
+      }
+    });
+  }
+
+  wireDisclosure('[data-more-toggle]', '[data-more-panel]');
+  wireDisclosure('[data-mobile-toggle]', '[data-mobile-panel]');
+</script>

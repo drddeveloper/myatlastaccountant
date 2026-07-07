@@ -1,0 +1,19 @@
+---
+interface Props {
+  quote: string;
+  name: string;
+  role?: string;
+}
+
+const { quote, name, role } = Astro.props;
+---
+
+<figure class="bg-cream-dark rounded-2xl p-8 md:p-10 relative">
+  <svg class="h-8 w-8 text-accent mb-4" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+    <path d="M9.6 4C5.9 6.1 3.5 9.6 3.5 13.6c0 3.2 1.9 5.4 4.5 5.4 2.3 0 4-1.7 4-4 0-2.2-1.5-3.8-3.6-3.8-.4 0-.9.1-1 .1.3-2.1 2.1-4.6 4-5.8L9.6 4zm10 0c-3.6 2.1-6.1 5.6-6.1 9.6 0 3.2 2 5.4 4.6 5.4 2.2 0 4-1.7 4-4 0-2.2-1.6-3.8-3.7-3.8-.4 0-.8.1-1 .1.4-2.1 2.2-4.6 4.1-5.8L19.6 4z"/>
+  </svg>
+  <blockquote class="text-lg md:text-xl leading-relaxed text-secondary">{quote}</blockquote>
+  <figcaption class="mt-6 font-semibold text-primary">
+    {name}{role && <span class="font-normal text-base-content"> — {role}</span>}
+  </figcaption>
+</figure>

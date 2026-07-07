@@ -1,22 +1,21 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
+import { SITE_DATA } from '../data/constants';
 ---
 
 <BaseLayout title="Page Not Found">
-  <div class="grid h-screen place-content-center bg-white px-4">
+  <div class="grid min-h-[70vh] place-content-center bg-cream px-4">
     <div class="text-center">
-      <h1 class="text-9xl font-black text-gray-200">404</h1>
+      <h1 class="heading-display text-9xl text-base-300">404</h1>
 
-      <p class="text-2xl font-bold tracking-tight text-gray-900 sm:text-4xl">Uh-oh!</p>
+      <p class="heading-display text-2xl text-primary sm:text-4xl mt-4">That page is off the books</p>
 
-      <p class="mt-4 text-gray-500">We can't find that page.</p>
+      <p class="mt-4 max-w-md mx-auto">We can't find the page you're looking for. It may have moved during our site rebuild.</p>
 
-      <a
-        href="/"
-        class="mt-6 inline-block rounded bg-primary px-5 py-3 text-sm font-medium text-white hover:bg-primary/90 focus:outline-none focus:ring"
-      >
-        Go Back Home
-      </a>
+      <div class="mt-8 flex flex-wrap justify-center gap-4">
+        <a href="/" class="btn btn-accent">Go Back Home</a>
+        <a href={SITE_DATA.links.bookACall} class="btn btn-outline">Book a Call</a>
+      </div>
     </div>
   </div>
 </BaseLayout>

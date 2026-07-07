@@ -1,0 +1,178 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PageHero from '../components/sections/PageHero.astro';
+import SectionHeading from '../components/sections/SectionHeading.astro';
+import CtaBand from '../components/sections/CtaBand.astro';
+import Testimonial from '../components/sections/Testimonial.astro';
+import { SITE_DATA } from '../data/constants';
+
+const services = [
+  { title: 'Monthly financials you can actually use', href: '/pricing/', blurb: 'Reports written for an owner, not an auditor — what you earned, what you spent, and what to do next.' },
+  { title: 'Clean books and smart job costing', href: '/pricing/', blurb: 'Know what each install really costs — panels, labor, permits, and all — so pricing stops being a guess.' },
+  { title: 'Payroll and cash flow planning that fit your seasonality', href: '/construction-payroll/', blurb: 'Crews paid on time and cash planned around the install calendar, not against it.' },
+  { title: 'Support from real humans who know the solar space', href: '/meet-the-team/', blurb: 'A responsive team that understands installs, incentives, and growth — not a ticket queue.' },
+];
+
+const assessmentQuestions = [
+  'Is your growth where it should be?',
+  'Are your business tools holding you back?',
+  'Is it time for an accountant?',
+];
+
+const differentiators = [
+  { title: 'Bring your technology up to speed', body: 'Your project management and invoicing tools connected straight to the books.' },
+  { title: 'Manage & forecast cash flow', body: 'See funding gaps between project milestones before they become emergencies.' },
+  { title: 'Increase profitability through smarter accounting', body: 'Find which installs, crews, and cost lines actually drive your margin.' },
+  { title: 'Find thousands of dollars in tax breaks', body: 'Clean, well-categorized books make sure available deductions and credits get captured.' },
+  { title: 'Build better accounting workflows', body: 'A repeatable back-office system that scales with your install volume.' },
+];
+---
+
+<BaseLayout
+  title="Accountants for Solar Companies | Bookkeeping | Payroll | Tax"
+  description="Atlas Accounting Group specializes in solar company finances — clean bookkeeping, smart job costing, payroll, and cash flow planning built around your install calendar, so you can grow the business instead of chasing the books."
+>
+
+  <PageHero
+    theme="navy"
+    eyebrow="Accountants for Solar Companies"
+    title="We're accountants who specialize in Solar Companies"
+    subtitle="You're juggling installs, permits, payroll, and a dozen operational fires at once. We're the problem-solvers who take the financial side off your plate — and hand back numbers you can actually run the company on."
+    ctaLabel="Book A Discovery Call"
+    ctaHref={SITE_DATA.links.bookACall}
+    secondaryLabel="See Pricing"
+    secondaryHref="/pricing/"
+  />
+
+  <section class="bg-base-100">
+    <div class="container mx-auto px-4 py-16 md:py-24">
+      <div class="max-w-3xl">
+        <SectionHeading
+          eyebrow="Close your eyes and picture it"
+          title="What does your dream solar business look like?"
+        />
+        <div class="mt-6 space-y-5 text-lg leading-relaxed">
+          <p>Maybe it's a warehouse humming with crews loading out for the day's installs. Teams that run without you hovering. Profits that show up steadily instead of in unpredictable lumps. Maybe it's simply a real weekend off.</p>
+          <p>You started this company to grow something meaningful — and building clean energy at scale is genuinely hard: ambitious growth targets, a mission you care about, and operational complexity that multiplies with every new crew. The last thing you need is bookkeeping chaos on top of it. That's the piece we take completely off your plate.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="bg-cream">
+    <div class="container mx-auto px-4 py-16 md:py-24">
+      <SectionHeading
+        eyebrow="Services"
+        title="Built for solar businesses like yours"
+        intro="Financial clarity and systems that help you make better decisions and grow with confidence."
+      />
+      <div class="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+        {services.map((s) => (
+          <a href={s.href} class="card border border-base-300 shadow-none hover:border-accent hover:shadow-lg transition-shadow group focus-visible:outline-2 focus-visible:outline-accent">
+            <h3 class="heading-display text-lg text-primary group-hover:text-accent-ink transition-colors">{s.title}</h3>
+            <p class="mt-3 text-sm leading-relaxed">{s.blurb}</p>
+            <span class="mt-4 inline-block text-accent-ink font-semibold text-sm uppercase tracking-wide">Learn more →</span>
+          </a>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="bg-base-100">
+    <div class="container mx-auto px-4 py-16 md:py-24 grid gap-12 lg:grid-cols-2 lg:items-center">
+      <SectionHeading
+        eyebrow="Systemize"
+        title="Systemize your solar accounting"
+        intro="Cash flow stress usually means there's no system — and no strategic plan behind the numbers. We fix both: automated tools, real-time data, and workflows that give you full visibility into the business."
+      />
+      <div class="card bg-cream shadow-none border border-base-300">
+        <h3 class="heading-display text-lg text-primary">What a systemized back office looks like</h3>
+        <ul class="mt-4 space-y-3" role="list">
+          <li class="flex items-start gap-3"><span class="text-accent font-bold" aria-hidden="true">→</span>Books reconciled and closed on the same schedule every month</li>
+          <li class="flex items-start gap-3"><span class="text-accent font-bold" aria-hidden="true">→</span>Project costs tracked in real time, not reconstructed at year end</li>
+          <li class="flex items-start gap-3"><span class="text-accent font-bold" aria-hidden="true">→</span>A cash picture you can check any day of the week</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section class="bg-primary">
+    <div class="container mx-auto px-4 py-16 md:py-24">
+      <div class="max-w-3xl">
+        <SectionHeading
+          onDark
+          eyebrow="Grow"
+          title="Find opportunities to grow your solar business"
+          intro="We look for the revenue you're not capturing, the expenses that don't earn their keep, and the cash management habits that quietly raise profit — then help you act on all three."
+        />
+        <div class="mt-8">
+          <a href={SITE_DATA.links.bookACall} class="btn btn-accent">Get Your Benchmark Assessment</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="bg-cream">
+    <div class="container mx-auto px-4 py-16 md:py-24">
+      <div class="max-w-3xl mx-auto text-center">
+        <SectionHeading
+          eyebrow="Quick check"
+          title="How does your business stack up?"
+          align="center"
+        />
+        <ul class="mt-8 space-y-4 text-left max-w-md mx-auto" role="list">
+          {assessmentQuestions.map((q) => (
+            <li class="flex items-start gap-3 text-lg font-semibold text-primary">
+              <svg class="h-6 w-6 shrink-0 text-accent" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01" />
+              </svg>
+              {q}
+            </li>
+          ))}
+        </ul>
+        <div class="mt-10">
+          <a href={SITE_DATA.links.bookACall} class="btn btn-accent">Start Assessment</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="bg-base-100">
+    <div class="container mx-auto px-4 py-16 md:py-24">
+      <SectionHeading
+        eyebrow="Why Atlas"
+        title="Work with solar accountants who push you farther"
+      />
+      <div class="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+        {differentiators.map((d) => (
+          <div class="card bg-cream shadow-none border border-base-300">
+            <h3 class="heading-display text-lg text-primary">{d.title}</h3>
+            <p class="mt-3 text-sm leading-relaxed">{d.body}</p>
+          </div>
+        ))}
+      </div>
+      <div class="mt-10">
+        <a href="/why-we-are-different/" class="btn btn-outline">What's It Like To Work With Us?</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="bg-cream">
+    <div class="container mx-auto px-4 py-16 md:py-24">
+      <div class="max-w-3xl mx-auto">
+        <Testimonial
+          quote="I now have a full understanding of my financial position."
+          name="Ryann Blake"
+          role="Chimney Techniques"
+        />
+      </div>
+    </div>
+  </section>
+
+  <CtaBand
+    heading="Find out how we can help your solar business"
+    subtext="Book a free discovery call and see what a real financial partner looks like for your solar company."
+    ctaLabel="Book A Discovery Call"
+  />
+
+</BaseLayout>

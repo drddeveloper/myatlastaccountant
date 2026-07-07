@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://ADD-YOUR-SITE-URL-HERE/sitemap-index.xml
+Sitemap: https://www.myatlasaccountant.com/sitemap-index.xml

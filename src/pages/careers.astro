@@ -1,0 +1,85 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PageHero from '../components/sections/PageHero.astro';
+import SectionHeading from '../components/sections/SectionHeading.astro';
+import CtaBand from '../components/sections/CtaBand.astro';
+import { SITE_DATA } from '../data/constants';
+
+// The live WP site used a resume-upload form. This is a static site, so we
+// route speculative applications through a prefilled mailto instead.
+// If the client wants uploads back, that needs a backend/form-service decision.
+const roles = [
+  'Senior Accountant',
+  'Junior Accountant',
+  'Payroll Specialist',
+  'Tax Specialist',
+  'IT Support',
+  'Sales and Marketing',
+];
+
+const applyEmail = SITE_DATA.company.email;
+
+/** Build a mailto link with a role-specific prefilled subject. */
+const applyHref = (role: string) =>
+  `mailto:${applyEmail}?subject=${encodeURIComponent(`Application: ${role}`)}`;
+---
+
+<BaseLayout
+  title="Careers"
+  description="Atlas Accounting Group isn't actively hiring right now, but we welcome speculative applications from talented accountants, payroll and tax specialists, IT, and sales and marketing candidates."
+>
+
+  <PageHero
+    theme="navy"
+    eyebrow="Careers"
+    title="Come join us!"
+    subtitle="We're not actively hiring at the moment — but we're always glad to hear from talented people. Send us your resume and we'll keep your details on file to match you with future openings."
+    ctaLabel="Send Your Resume"
+    ctaHref={applyHref('General Application')}
+  />
+
+  <section class="bg-base-100">
+    <div class="container mx-auto px-4 py-16 md:py-24">
+      <SectionHeading
+        eyebrow="Future openings"
+        title="Roles we hire for"
+        intro="When positions open up, they're typically in one of these areas. Pick the one that fits you best and introduce yourself."
+        align="center"
+      />
+      <div class="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-3 max-w-4xl mx-auto">
+        {roles.map((role) => (
+          <div class="card border border-base-300 shadow-none flex flex-col">
+            <h3 class="heading-display text-lg text-primary">{role}</h3>
+            <p class="mt-2 text-sm text-base-content flex-grow">Atlas Accounting Group</p>
+            <div class="mt-5">
+              <a href={applyHref(role)} class="btn btn-outline w-full">Apply Now</a>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="bg-cream">
+    <div class="container mx-auto px-4 py-16 md:py-24">
+      <SectionHeading
+        eyebrow="Apply now"
+        title="Add your talent and experience to our growing team!"
+        intro="Email us your resume with a few lines about yourself — where you're located, the role you're interested in, and the experience you'd bring. We'll keep your information on hand and reach out when a matching opportunity opens up."
+        align="center"
+      />
+      <div class="mt-8 text-center">
+        <a href={applyHref('General Application')} class="btn btn-accent">Email Your Resume</a>
+        <p class="mt-4 text-sm text-base-content">Or write to us directly at <a href={`mailto:${applyEmail}`} class="link text-primary">{applyEmail}</a></p>
+      </div>
+    </div>
+  </section>
+
+  <CtaBand
+    heading="Curious who you'd be working with?"
+    subtext="Get to know the Atlas team — over 100 years of combined experience in trade-industry accounting."
+    ctaLabel="Meet the Team"
+    ctaHref="/meet-the-team/"
+  />
+
+</BaseLayout>

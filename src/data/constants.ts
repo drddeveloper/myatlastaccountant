@@ -1,20 +1,59 @@
 export const SITE_DATA = {
   company: {
-    name: "Client Name",
-    address: { street: "123 Main St", city: "City", state: "ST", zip: "00000", full: "123 Main St, City, ST 00000" },
-    phone: "(555) 555-5555",
-    email: "hello@example.com",
+    name: "Atlas Accounting Group",
+    legalLine: "Atlas Accounting Group, a Lewis Group CPAs company",
+    // No public street address or phone — the practice is remote-first and email/booking driven.
+    address: { street: "", city: "", state: "", zip: "", full: "" },
+    phone: "",
+    email: "ready@myatlasaccountant.com",
     hours: "Mon-Fri: 9am-5pm",
   },
   links: {
-    url: "https://example.com",
+    url: "https://www.myatlasaccountant.com",
+    bookACall: "/getting-started/",
+    calendly: "https://calendly.com/atlas-group/discovery-call",
+    parentCompany: "https://lewisgroupcpas.com",
     googleBusiness: "#",
-    socials: { facebook: "#", instagram: "#", x: "#", youtube: "#", linkedin: "#" },
+    socials: { facebook: "#", instagram: "https://www.instagram.com/atlasaccountinggroup/", x: "#", youtube: "#", linkedin: "#" },
     siteCredits: "https://deepriverdigital.com",
   },
   branding: {
-    colors: { primary: "#3B82F6", secondary: "#1E40AF", accent: "#F59E0B", themeColor: "#3B82F6" },
-    fonts: { heading: "Inter, sans-serif", body: "Inter, sans-serif" }
+    colors: {
+      primary: "#003954",   // deep navy — headings, dark sections
+      secondary: "#181818", // near-black — body headings, footer
+      accent: "#F4832B",    // orange — CTAs, highlights
+      sky: "#79CAE9",       // light blue — secondary accent
+      cream: "#F7F5F4",     // warm off-white surface
+      creamDark: "#FFEDDF", // pale peach surface
+      themeColor: "#003954",
+    },
+    fonts: { heading: "'Sofia Pro', sans-serif", body: "'Sofia Pro', sans-serif" }
   },
-  seo: { description: "Short one-line description of the business for meta tags and social sharing.", googleAnalyticsId: "" }
+  seo: {
+    description: "Atlas Accounting Group is the #1 accounting firm for contractors and specialty trades — bookkeeping, payroll, and tax for construction, HVAC, electrical, plumbing, and solar businesses.",
+    googleAnalyticsId: ""
+  }
+};
+
+// Site navigation — matches the live site's flat header menu + "More" dropdown.
+export const NAV = {
+  main: [
+    { label: "Construction", href: "/construction-accountants/" },
+    { label: "HVAC", href: "/hvac-accounting/" },
+    { label: "Electrical", href: "/accountants-for-electricians/" },
+    { label: "Plumbing", href: "/accountants-for-plumbers/" },
+    { label: "Pricing", href: "/pricing/" },
+    { label: "The Team", href: "/meet-the-team/" },
+    { label: "Shop", href: "/toolbox/" },
+    { label: "Blog", href: "/blog/" },
+  ],
+  more: [
+    { label: "Payroll", href: "/construction-payroll/" },
+    { label: "Tax", href: "/tax-services/" },
+    { label: "Why We're Different", href: "/why-we-are-different/" },
+    { label: "Careers", href: "/careers/" },
+    { label: "FAQs", href: "/frequently-asked-questions/" },
+    { label: "Try Our Labor Calculator", href: "/labor-calculator/" },
+    { label: "Solar", href: "/accountants-for-solar-companies/" },
+  ],
 };
