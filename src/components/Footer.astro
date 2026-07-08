@@ -13,16 +13,9 @@ const currentYear = new Date().getFullYear();
     </a>
 
     <div class="text-center text-sm space-y-3">
-      <p>
-        © {currentYear} {SITE_DATA.company.name}, a
-        <a href={SITE_DATA.links.parentCompany} target="_blank" rel="noopener noreferrer" class="text-accent link">Lewis Group CPAs</a>
-        company. All rights reserved
-      </p>
+      <p>© {currentYear} {SITE_DATA.company.name}, a <a href={SITE_DATA.links.parentCompany} target="_blank" rel="noopener noreferrer" class="text-accent link">Lewis Group CPAs</a> company. All rights reserved</p>
       <p>
         <a href={`mailto:${SITE_DATA.company.email}`} class="text-accent link-hover">{SITE_DATA.company.email}</a>
-      </p>
-      <p class="text-xs text-white/60">
-        <a href={SITE_DATA.links.siteCredits} target="_blank" rel="noopener noreferrer" class="link-hover">Site Credits: Deep River Digital</a>
       </p>
     </div>
 
