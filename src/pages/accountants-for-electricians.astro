@@ -1,173 +1,319 @@
 ---
+import { Image } from 'astro:assets';
 import BaseLayout from '../layouts/BaseLayout.astro';
-import PageHero from '../components/sections/PageHero.astro';
-import SectionHeading from '../components/sections/SectionHeading.astro';
-import CtaBand from '../components/sections/CtaBand.astro';
-import Testimonial from '../components/sections/Testimonial.astro';
-import { SITE_DATA } from '../data/constants';
+import CalendlyEmbed from '../components/CalendlyEmbed.astro';
 
-const services = [
-  { title: 'Bookkeeping', href: '/pricing/', blurb: 'Monthly books built for electrical contractors — reconciled, categorized, and closed on time, every time.' },
-  { title: 'Payroll', href: '/construction-payroll/', blurb: 'Electricians and apprentices paid accurately and on schedule, with taxes and filings off your plate.' },
-  { title: 'Bookkeeping for Tax Filing', href: '/tax-services/', blurb: 'Tax-ready books all year long, so nothing gets missed when it’s time to file.' },
+// Assets shared with the homepage — imported from home/, not duplicated.
+// (Live section 4 uses the exact same upload as the home "systemize" image.)
+import fullSteamImg from '../assets/images/home/Accountants-for-Contractors.webp';
+import ctaBgImg from '../assets/images/home/Footer-CTA-card-background.jpg';
+
+// Page-specific images (downloaded from the live /accountants-for-electricians/ page)
+import heroImg from '../assets/images/pages/electrical/Accountants-for-Electricians-Company.webp';
+import realTalkImg from '../assets/images/pages/electrical/Accountants-for-Electricians.webp';
+
+// Icons + testimonial photo shared by the electrical / plumbing / solar trade pages
+import testimonialImg from '../assets/images/pages/shared/Ryann-Blake-Testimonial.jpg';
+import popupImg from '../assets/images/pages/shared/Accounting-Team-for-Specialty-Trades.webp';
+import icon360Financial from '../assets/images/pages/shared/360-financial-icon.svg';
+import iconFileBox from '../assets/images/pages/shared/File-Box.svg';
+import iconInvoice from '../assets/images/pages/shared/Invoice.svg';
+import iconData from '../assets/images/pages/shared/Data.svg';
+import iconCheck from '../assets/images/pages/shared/checkmark-accent.svg';
+import iconCpu from '../assets/images/pages/shared/cpu-icon.svg';
+import iconFinancial from '../assets/images/pages/shared/financial-icon.svg';
+import iconDocCalc from '../assets/images/pages/shared/document-with-calculator.svg';
+import iconTax from '../assets/images/pages/shared/tax-1.svg';
+import iconWorkflow from '../assets/images/pages/shared/workflow.svg';
+
+// Linked service cards. Live card 1 links to /bookeeping-for-electricians/ —
+// a misspelled slug with no route in this build → nearest existing route (/pricing/).
+const serviceCards = [
+  { icon: iconFileBox, title: 'Bookkeeping', href: '/pricing/' },
+  { icon: iconInvoice, title: 'Payroll', href: '/construction-payroll/' },
+  { icon: iconData, title: 'Bookkeeping for Tax Filing', href: '/tax-services/' },
 ];
 
-const checklistAreas = ['Workflows', 'Bookkeeping', 'Profit Margins', 'Technology', 'Organization', 'Financial Goals'];
+// "Let's assess your…" checklist (live: six white pills on the navy band)
+const checklist = ['Workflows', 'Bookkeeping', 'Profit Margins', 'Technology', 'Organization', 'Financial Goals'];
 
+// "What can Atlas do" icon boxes (live: row of three + centered row of two)
 const capabilities = [
-  { title: 'Bring your technology up to speed', body: 'We connect your field-service software to your books so numbers update themselves.' },
-  { title: 'Manage & forecast cash flow', body: 'See slow stretches coming weeks out — and plan hiring and purchases around them.' },
-  { title: 'Increase profitability through smarter accounting', body: 'Spot the jobs and expense lines quietly eroding your margin.' },
-  { title: 'Clean books that help your CPA capture every tax break', body: 'Well-kept books mean deductions get claimed, not left behind.' },
-  { title: 'Build Accounting operations workflow', body: 'A back office that runs on a repeatable system instead of memory and good intentions.' },
+  { icon: iconCpu, title: 'Bring your technology up to speed' },
+  { icon: iconFinancial, title: 'Manage & forecast cash flow' },
+  { icon: iconDocCalc, title: 'Increase profitability through smarter accounting' },
+  { icon: iconTax, title: 'Clean books that help your CPA capture every tax break' },
+  { icon: iconWorkflow, title: 'Build Accounting operations workflow' },
 ];
 ---
 
 <BaseLayout
   title="The #1 Accountants for Electricians | Tax | Books | Payroll"
-  description="Atlas Accounting Group is a financial coach and accounting team that specializes in electricians — bookkeeping, payroll, cash flow forecasting, and tax strategy that help your electrical company grow."
+  description="You need a financial coach & accountant who specializes in electricians. At Atlas Accounting Group, we are expert accountants for electricians who provide the financial strategy, bookkeeping, cash flow forecasting, and tax strategy you need to help your company grow."
 >
 
-  <PageHero
-    theme="navy"
-    eyebrow="Accountants for Electricians"
-    title="We're the expert accountants for Electricians"
-    subtitle="From monthly bookkeeping through payroll, we handle the financial side of your electrical business — so every decision you make is an informed one."
-    ctaLabel="Get Started Now"
-    ctaHref={SITE_DATA.links.bookACall}
-    secondaryLabel="See Pricing"
-    secondaryHref="/pricing/"
-  />
-
+  {/* ── Hero (live: white bg, text 57% / image 42%) ── */}
   <section class="bg-base-100">
-    <div class="container mx-auto px-4 py-16 md:py-24">
-      <div class="max-w-3xl">
-        <SectionHeading
-          eyebrow="The obstacles"
-          title="What's holding your electrical company back?"
-        />
-        <div class="mt-6 space-y-5 text-lg leading-relaxed">
-          <p>For most electrical contractors, growth stalls for the same few reasons: nobody knows the real break-even point, there are no operating goals to steer by, and job costing is a rough guess instead of a discipline. You can't fix what you can't see.</p>
-          <p>We help electricians actually understand and manage their financials — so the next truck, hire, or bid is a calculated move, not a gamble.</p>
+    <div class="container mx-auto px-4 py-14 md:py-20 grid gap-10 lg:grid-cols-[4fr_3fr] lg:items-center">
+      <div>
+        <h1 class="heading-display text-4xl md:text-5xl xl:text-6xl text-secondary">
+          We're The Expert Accountants <span class="text-sky-ink">for Electricians</span>
+        </h1>
+        <p class="mt-6 text-lg leading-relaxed max-w-xl">
+          From bookkeeping to payroll, we help elevate every aspect of your electrical business to help you make smarter business decisions.
+        </p>
+        <div class="mt-8">
+          <a href="#calendly" class="btn btn-accent">Get Started Now</a>
         </div>
+      </div>
+      <div>
+        <Image src={heroImg} alt="Accountants for Electricians" class="w-full h-auto block" widths={[480, 768, 900]} sizes="(min-width: 1024px) 40vw, 100vw" loading="eager" fetchpriority="high" />
       </div>
     </div>
   </section>
 
-  <section class="bg-cream">
-    <div class="container mx-auto px-4 py-16 md:py-24">
-      <SectionHeading
-        eyebrow="Our promise"
-        title="We don't just organize your financials, we help grow them"
-        intro="A dedicated accounting partner means working smarter, not harder — and taking home more every month for the hours you already put in."
-      />
+  {/* ── What's holding you back (live: navy band, centered) ── */}
+  <section class="bg-primary">
+    <div class="container mx-auto px-4 py-16 md:py-24 text-center">
+      <h2 class="heading-display text-3xl md:text-5xl text-white max-w-4xl mx-auto">
+        What's holding your <span class="text-sky">electrical company</span> back?
+      </h2>
+      <p class="mt-6 text-lg leading-relaxed text-white/90 max-w-4xl mx-auto">
+        You run a successful electrician business, and you’re great at what you do. However, your break even numbers, lack of operating goals, or loose cost-per-job numbers may be holding your business back from reaching its full potential. At Atlas Accounting Group, that’s where we come in. We’re expert accountants for electricians who help you understand and manage your financial numbers so that you can make more savvy business decisions and accelerate your business growth.
+      </p>
     </div>
   </section>
 
-  <section class="bg-base-100">
+  {/* ── Services (live: cream body bg, centered heading, orange card + 3 linked white cards, 2px gaps) ── */}
+  <section class="bg-cream">
     <div class="container mx-auto px-4 py-16 md:py-24">
-      <SectionHeading
-        eyebrow="360 Financial Management"
-        title="Every financial function, handled by one team"
-      />
-      <div class="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-        {services.map((s) => (
-          <a href={s.href} class="card border border-base-300 shadow-none hover:border-accent hover:shadow-lg transition-shadow group focus-visible:outline-2 focus-visible:outline-accent">
-            <h3 class="heading-display text-lg text-primary group-hover:text-accent-ink transition-colors">{s.title}</h3>
-            <p class="mt-3 text-sm leading-relaxed">{s.blurb}</p>
-            <span class="mt-4 inline-block text-accent-ink font-semibold text-sm uppercase tracking-wide">Learn more →</span>
+      <div class="max-w-3xl mx-auto text-center">
+        <h2 class="heading-display text-3xl md:text-5xl text-secondary">
+          We don't just organize your financials, <span class="text-sky-ink">we help grow them.</span>
+        </h2>
+        <p class="mt-5 text-lg leading-relaxed">
+          With the right dedicated electrician accountants in your corner, you and your team can work smarter, not harder, in order to take home more money each month.
+        </p>
+      </div>
+      <div class="mt-12 grid gap-0.5 sm:grid-cols-2 lg:grid-cols-4">
+        {/* Card 1 — orange, not linked on the live page. Navy title (live white fails contrast on orange). */}
+        <div class="bg-accent px-6 py-12 flex flex-col items-center text-center">
+          <Image src={icon360Financial} alt="" class="h-[70px] w-auto" width={70} height={70} aria-hidden="true" />
+          <h3 class="text-2xl font-bold text-primary mt-6">360 Financial Management</h3>
+        </div>
+        {/* Cards 2–4 — white, whole card is the link (as on live) */}
+        {serviceCards.map((card) => (
+          <a href={card.href} class="group bg-base-100 border border-base-300 hover:border-accent transition-colors px-6 py-12 flex flex-col items-center text-center focus-visible:outline-2 focus-visible:outline-accent">
+            <Image src={card.icon} alt="" class="h-[70px] w-auto" width={70} height={70} aria-hidden="true" />
+            <h3 class="text-2xl font-bold text-secondary mt-6">{card.title}</h3>
+            <span class="mt-auto pt-6 inline-flex items-center gap-2 font-semibold text-lg text-accent-ink group-hover:text-accent transition-colors">
+              Learn More
+              <svg class="h-4 w-4" viewBox="0 0 320 512" fill="currentColor" aria-hidden="true"><path d="M285.476 272.971L91.132 467.314c-9.373 9.373-24.569 9.373-33.941 0l-22.667-22.667c-9.357-9.357-9.375-24.522-.04-33.901L188.505 256 34.484 101.255c-9.335-9.379-9.317-24.544.04-33.901l22.667-22.667c9.373-9.373 24.569-9.373 33.941 0L285.475 239.03c9.373 9.372 9.373 24.568.001 33.941z"/></svg>
+              <span class="sr-only"> — {card.title}</span>
+            </span>
           </a>
         ))}
       </div>
     </div>
   </section>
 
-  <section class="bg-cream">
-    <div class="container mx-auto px-4 py-16 md:py-24">
-      <div class="max-w-3xl">
-        <SectionHeading
-          eyebrow="Momentum"
-          title="Get help pushing your business full steam ahead"
-        />
-        <div class="mt-6 space-y-5 text-lg leading-relaxed">
-          <p>You're running crews, quoting work, and keeping customers happy — there aren't hours left over for reconciling accounts. So we carry the accounting load. You stay focused on the work only you can do, while we keep the books current and help you set financial goals worth chasing — then hit them.</p>
-        </div>
+  {/* ── Full steam ahead (live: white, text left / image right) ── */}
+  <section class="bg-base-100">
+    <div class="container mx-auto px-4 py-16 md:py-24 grid gap-12 lg:grid-cols-2 lg:items-center">
+      <div>
+        <h2 class="heading-display text-3xl md:text-5xl text-secondary">
+          Get help pushing your business <span class="text-sky-ink">full steam ahead</span>
+        </h2>
+        <p class="mt-6 leading-relaxed">
+          As an electrician, you’re busy with the day-to-day of running your business. You’re managing contractors and vendors, calculating numbers on the fly, and engaging in labor-intensive work that has you exhausted day in and day out. The last thing on your mind is how to structure your business more efficiently in order to take home and increase your pay. At Atlas Accounting Group, we take the accounting parts of your business off of your plate. We’ll help you define and hit lofty financial goals, so you can focus solely on doing what you do best.
+        </p>
+      </div>
+      <Image src={fullSteamImg} alt="Accountants for Contractors" class="w-full h-auto" widths={[499]} sizes="(min-width: 1024px) 45vw, 100vw" />
+    </div>
+
+    {/* ── Real with you (live: white, image left / text right) ── */}
+    <div class="container mx-auto px-4 pb-16 md:pb-24 grid gap-12 lg:grid-cols-2 lg:items-center">
+      <Image src={realTalkImg} alt="" class="w-full h-auto order-last lg:order-first" widths={[480, 768, 900]} sizes="(min-width: 1024px) 45vw, 100vw" aria-hidden="true" />
+      <div>
+        <h2 class="heading-display text-3xl md:text-5xl text-secondary">
+          Work with accountants <span class="text-sky-ink">you can be real with</span>
+        </h2>
+        <p class="mt-6 leading-relaxed">
+          We’re not the jargon-filled accountants you’re used to working with. At Atlas Accounting Group, we’ll always shoot it to you straight. Are your labor expenses too high? Are you missing lucrative tax breaks simply by not keeping receipts? We care about your bottom line as it if it were our own, and we’ll help you make smarter financial decisions that will serve your business well now and into the future.
+        </p>
       </div>
     </div>
   </section>
 
+  {/* ── Could your business grow with an accountant? (live: navy band, six white checklist pills) ── */}
   <section class="bg-primary">
     <div class="container mx-auto px-4 py-16 md:py-24">
-      <div class="max-w-3xl">
-        <SectionHeading
-          onDark
-          eyebrow="No jargon"
-          title="Work with accountants you can be real with"
-        />
-        <div class="mt-6 space-y-5 text-lg leading-relaxed text-white/85">
-          <p>Most accountants talk in jargon and tell you what you want to hear. We'd rather be straight with you: if your labor expense ratio is out of line, you'll hear it. If you're leaving deductions on the table, we'll show you exactly where. We treat your company's finances the way we treat our own — honestly and carefully.</p>
-        </div>
+      <div class="max-w-3xl mx-auto text-center">
+        <h2 class="heading-display text-3xl md:text-5xl text-white">
+          Could your electrical business grow with an accountant?
+        </h2>
+        <p class="mt-6 text-lg leading-relaxed text-white/90">
+          Is your business in need of a dedicated electrician accountant?
+        </p>
+        <p class="mt-4 text-2xl font-medium text-white">Let’s assess your…</p>
+      </div>
+      <ul class="mt-12 grid gap-4 md:gap-x-10 md:gap-y-5 sm:grid-cols-2 lg:grid-cols-3 max-w-5xl mx-auto" role="list">
+        {checklist.map((item) => (
+          <li class="flex items-center gap-4 bg-base-100 px-5 py-3.5">
+            <Image src={iconCheck} alt="" class="h-10 w-10 shrink-0" width={42} height={42} aria-hidden="true" />
+            <span class="text-xl md:text-2xl font-bold text-secondary">{item}</span>
+          </li>
+        ))}
+      </ul>
+      <div class="mt-12 text-center">
+        <a href="#calendly" class="btn btn-accent">Book Your Discovery Call</a>
       </div>
     </div>
   </section>
 
+  {/* ── What can Atlas do (live: white, centered icon boxes — row of 3 + centered row of 2) ── */}
   <section class="bg-base-100">
     <div class="container mx-auto px-4 py-16 md:py-24">
-      <div class="max-w-3xl mx-auto text-center">
-        <SectionHeading
-          eyebrow="Quick check"
-          title="Could your electrical business grow with an accountant?"
-          intro="On a discovery call, we look at six areas of your business and tell you honestly where an accounting partner would move the needle."
-          align="center"
-        />
-        <ul class="mt-10 flex flex-wrap justify-center gap-3" role="list">
-          {checklistAreas.map((area) => (
-            <li class="bg-cream-dark text-primary font-semibold px-4 py-2 rounded-full text-sm">{area}</li>
-          ))}
-        </ul>
-        <div class="mt-10">
-          <a href={SITE_DATA.links.bookACall} class="btn btn-accent">Book Your Discovery Call</a>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <section class="bg-cream">
-    <div class="container mx-auto px-4 py-16 md:py-24">
-      <SectionHeading
-        eyebrow="Capabilities"
-        title="What can Atlas Accounting Group do for your electrician business?"
-      />
-      <div class="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-        {capabilities.map((c) => (
-          <div class="card bg-base-100">
-            <h3 class="heading-display text-lg text-primary">{c.title}</h3>
-            <p class="mt-3 text-sm leading-relaxed">{c.body}</p>
+      <h2 class="heading-display text-3xl md:text-5xl text-secondary text-center max-w-4xl mx-auto">
+        What Can Atlas Accounting Group Do For Your <span class="text-sky-ink">electrician business?</span>
+      </h2>
+      <div class="mt-14 flex flex-wrap justify-center gap-x-10 gap-y-12">
+        {capabilities.map((cap) => (
+          <div class="w-full text-center sm:w-[calc(50%-1.25rem)] lg:w-[calc(33.333%-1.75rem)]">
+            <Image src={cap.icon} alt="" class="h-20 w-auto mx-auto" width={85} height={85} aria-hidden="true" />
+            <h3 class="heading-display text-lg md:text-xl text-secondary mt-6">{cap.title}</h3>
           </div>
         ))}
       </div>
-      <div class="mt-10">
-        <a href="/why-we-are-different/" class="btn btn-outline">Why We're Different</a>
+    </div>
+  </section>
+
+  {/* ── Testimonial (live: cream body bg, photo w/ name overlay + quote) ── */}
+  <section class="bg-cream">
+    <div class="container mx-auto px-4 py-16 md:py-24 grid gap-12 lg:grid-cols-[9fr_11fr] lg:items-center">
+      <div class="relative">
+        <Image src={testimonialImg} alt="Ryann Blake Testimonial" class="w-full h-auto" widths={[420, 525]} sizes="(min-width: 1024px) 40vw, 100vw" />
+        {/* Live overlays the name bottom-left in white; gradient added so the text passes contrast */}
+        <div class="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/70 to-transparent pt-16 pb-6 px-8">
+          <p class="heading-display text-2xl md:text-3xl text-white">Ryann Blake</p>
+          <p class="text-white text-lg uppercase">Owner of Chimney Techniques</p>
+        </div>
+      </div>
+      <figure>
+        <blockquote>
+          <p class="heading-display text-3xl md:text-4xl text-secondary">
+            “I now have a <span class="text-sky-ink">full understanding</span> of my financial position.”
+          </p>
+          <p class="mt-6 leading-relaxed">
+            Working with Atlas Accounting Group has completely changed the outlook of my business. When we started our partnership, I knew very little about the financial health of my company. Like many small business owners, I had a family member overseeing everything. When retirement forced a change, Alysia took the reins and because of her I now have a full understanding of my financial position and am able to make educated business decisions instead of basing them on guesses and feelings.
+          </p>
+        </blockquote>
+        <figcaption class="sr-only">Ryann Blake, Owner of Chimney Techniques</figcaption>
+      </figure>
+    </div>
+  </section>
+
+  {/* ── Book a call (live: footer template band — orange duotone photo + Calendly).
+       Live heading says "construction business" on every page → localized per trade. ── */}
+  <section id="calendly" class="bg-accent relative overflow-hidden scroll-mt-24">
+    <Image src={ctaBgImg} alt="" class="absolute inset-0 w-full h-full object-cover object-top" widths={[1280]} sizes="100vw" aria-hidden="true" />
+    <div class="absolute inset-0 bg-gradient-to-b from-black/25 to-transparent pointer-events-none"></div>
+    <div class="container mx-auto px-4 py-16 md:py-20 relative">
+      <h2 class="heading-display text-3xl md:text-4xl text-white text-center max-w-3xl mx-auto">
+        Find out how we can help your electrical business
+      </h2>
+      <div class="mt-10 max-w-3xl mx-auto bg-base-100 shadow-xl">
+        <CalendlyEmbed />
       </div>
     </div>
   </section>
 
-  <section class="bg-base-100">
-    <div class="container mx-auto px-4 py-16 md:py-24">
-      <div class="max-w-3xl mx-auto">
-        <Testimonial
-          quote="I now have a full understanding of my financial position."
-          name="Ryann Blake"
-          role="Owner, Chimney Techniques"
-        />
-      </div>
+  {/*
+    Profit Margin Calculator popup — recreation of the live Elementor popup (id 666),
+    which also shows on this page: slides in once per session, non-modal.
+    Kept inline (no new shared components); pattern mirrors hvac-accounting.astro.
+  */}
+  <div
+    class="pm-popup fixed z-[60] bg-primary shadow-2xl hidden inset-x-0 bottom-0 w-full md:inset-x-auto md:right-6 md:bottom-6 md:w-[22rem]"
+    role="dialog"
+    aria-label="Try our free Profit Margin Calculator"
+    data-pm-popup
+  >
+    <button
+      type="button"
+      class="absolute top-3 right-3 z-10 inline-flex items-center justify-center h-9 w-9 text-white hover:text-accent transition-colors focus-visible:outline-2 focus-visible:outline-accent"
+      data-pm-popup-close
+    >
+      <span class="sr-only">Close</span>
+      <svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+        <path stroke-linecap="round" d="M6 6l12 12M18 6L6 18" />
+      </svg>
+    </button>
+    <div class="p-6 px-10 text-center">
+      <p class="heading-display text-xl text-white">Try our free Profit Margin Calculator</p>
+      <p class="mt-2 text-white/85 text-sm">Estimate your project margins with ease.</p>
+      <a href="/profit-margin-calculator/" class="btn btn-accent mt-4 w-full">Try Now</a>
     </div>
-  </section>
-
-  <CtaBand
-    heading="Find out how we can help your electrical business"
-    subtext="Book a free discovery call and get a straight answer on what better financial direction looks like for your electrical company."
-    ctaLabel="Book Your Discovery Call"
-  />
+    <Image src={popupImg} alt="" class="w-full h-28 md:h-40 object-cover" widths={[420, 768]} sizes="(min-width: 768px) 22rem, 100vw" loading="lazy" aria-hidden="true" />
+  </div>
 
 </BaseLayout>
+
+<style>
+  .pm-popup {
+    opacity: 0;
+    /* mobile: slide up from the bottom edge */
+    transform: translateY(100%);
+    transition: transform 0.6s ease-out, opacity 0.6s ease-out;
+  }
+  @media (min-width: 768px) {
+    /* desktop: slide in from the right edge (live: fadeInRight) */
+    .pm-popup {
+      transform: translateX(calc(100% + 1.5rem));
+    }
+  }
+  .pm-popup.pm-popup-open {
+    opacity: 1;
+    transform: translate(0, 0);
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .pm-popup {
+      transition: opacity 0.2s ease-out;
+      transform: none;
+    }
+  }
+</style>
+
+<script>
+  const popup = document.querySelector<HTMLElement>('[data-pm-popup]');
+  const closeBtn = document.querySelector<HTMLButtonElement>('[data-pm-popup-close]');
+  const KEY = 'atlas-pm-popup-shown';
+
+  if (popup && closeBtn && !sessionStorage.getItem(KEY)) {
+    // Slight delay so the popup doesn't compete with the initial page render
+    setTimeout(() => {
+      sessionStorage.setItem(KEY, '1');
+      popup.classList.remove('hidden');
+      // force a reflow so the entrance transition runs from the off-screen state
+      void popup.offsetHeight;
+      popup.classList.add('pm-popup-open');
+    }, 2500);
+
+    const close = () => {
+      popup.classList.remove('pm-popup-open');
+      let removed = false;
+      const remove = () => {
+        if (removed) return;
+        removed = true;
+        popup.remove();
+      };
+      popup.addEventListener('transitionend', remove, { once: true });
+      setTimeout(remove, 700); // fallback (e.g. prefers-reduced-motion)
+    };
+
+    closeBtn.addEventListener('click', close);
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && popup.isConnected && popup.classList.contains('pm-popup-open')) close();
+    });
+  }
+</script>

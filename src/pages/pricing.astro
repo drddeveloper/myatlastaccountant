@@ -1,14 +1,35 @@
 ---
+import { Image } from 'astro:assets';
 import BaseLayout from '../layouts/BaseLayout.astro';
-import PageHero from '../components/sections/PageHero.astro';
-import SectionHeading from '../components/sections/SectionHeading.astro';
-import CtaBand from '../components/sections/CtaBand.astro';
-import { SITE_DATA } from '../data/constants';
+import CalendlyEmbed from '../components/CalendlyEmbed.astro';
 
-// All prices are "starting at" figures — final quotes depend on scope.
-// Feature list is identical across tiers; tiers differ on close speed,
-// advisory cadence, and response time.
-const sharedFeatures = [
+import cleanupImg from '../assets/images/pages/pricing/Contractor-Taxes.webp';
+import ctaBgImg from '../assets/images/home/Footer-CTA-card-background.jpg';
+
+/*
+ * Pixel-parity rewrite of https://www.myatlasaccountant.com/pricing/
+ * Live section order: navy hero → plan cards (Pro / Plus / Essentials) →
+ * navy install & clean-up band → "good fit" copy → quiz CTA → Calendly band.
+ *
+ * Copy is verbatim from the live page except "Fillings" → "Filings"
+ * and the Typeform quiz link, which now points at /getting-started/.
+ */
+
+// The live double-check icon (viewBox 0 0 22 23), recolored via currentColor.
+const checkIconPaths = `
+  <path d="M15.9873 5.22604C15.5457 4.89483 14.7728 4.89483 14.4416 5.44684L6.71302 15.3831L2.95913 10.7462C2.6279 10.3046 1.85504 10.1942 1.41341 10.5254C0.971772 10.8566 0.861364 11.6294 1.19259 12.071L5.82975 17.812C6.05057 18.1432 6.38179 18.2536 6.71302 18.2536C7.04425 18.2536 7.37547 18.1432 7.59629 17.812L16.2082 6.77168C16.6498 6.33006 16.5394 5.66765 15.9873 5.22604Z"/>
+  <path d="M21.5049 5.22604C21.0633 4.89483 20.2904 4.89483 19.9592 5.44684L12.2306 15.3831L11.5681 14.4999L10.1328 16.2663L11.3473 17.812C11.5681 18.0328 11.8993 18.2536 12.2306 18.2536C12.5618 18.2536 12.893 18.1432 13.1138 17.812L21.7257 6.77168C22.1674 6.33006 22.0569 5.55724 21.5049 5.22604Z"/>
+  <path d="M7.26416 12.8446L8.69948 11.0782L8.47866 10.8574C8.14743 10.3053 7.37457 10.1949 6.93294 10.5261C6.4913 10.8574 6.38089 11.6302 6.71212 12.0718L7.26416 12.8446Z"/>`;
+
+// The live "not included" cross icon (viewBox 0 0 23 23).
+const crossIconPaths = `
+  <path d="M15.4343 13.2571C15.1091 12.939 13.7621 12.9324 13.4442 13.2571C13.1261 13.582 13.1198 14.7685 13.4446 15.0865L19.2369 20.7524C19.3971 20.9092 20.3062 20.9997 20.5139 20.9997C20.7276 20.9997 20.9411 20.917 21.1023 20.7524C21.4204 20.4275 21.4271 18.9996 21.1023 18.6816L15.4343 13.2571Z"/>
+  <path d="M8.17455 9.61163C8.33523 9.77229 9.15541 9.85269 9.36618 9.85269C9.57694 9.85269 9.78756 9.77229 9.94838 9.61163C10.2699 9.29017 10.2699 8.15988 9.94838 7.83842L4.4088 2.2411C4.08731 1.91963 2.89842 1.91963 2.57706 2.2411C2.25556 2.56256 2.25556 3.87746 2.57706 4.19892L8.17455 9.61163Z"/>
+  <path d="M21.0953 2.2411C20.7738 1.91963 19.6721 1.91963 19.3507 2.2411L2.57706 18.9581C2.25556 19.2796 2.25556 20.4359 2.57706 20.7574C2.73774 20.918 2.9485 20.9984 3.15926 20.9984C3.37002 20.9984 4.3391 20.918 4.49991 20.7574L21.0953 4.10782C21.4168 3.78622 21.4168 2.56269 21.0953 2.2411Z"/>`;
+
+// Feature order matches the Pro card on the live page; each tier flags what it excludes.
+// "Filings" is a deliberate fix of the live page's "Fillings" typo.
+const allFeatures = [
   'Bill Pay Services',
   'Invoicing Software Integration',
   'Payroll Services',
@@ -18,139 +39,171 @@ const sharedFeatures = [
   'Receipt Management Software',
 ];
 
+// DOM (and visual) order on the live page is Pro → Plus → Essentials.
 const tiers = [
   {
-    name: 'Essentials',
-    price: '$950',
-    close: '20-Day Close',
-    advisory: 'Annual Advisory Meeting',
-    response: 'Response Time: 2 Days',
-    recommended: false,
+    name: 'Pro',
+    price: '$4,000',
+    dark: true, // navy card
+    meta: ['10-Day Close', 'Monthly Advisory Meeting', 'Response Time - 1 Day'],
+    excluded: [] as string[],
   },
   {
     name: 'Plus',
     price: '$1,500',
-    close: '15-Day Close',
-    advisory: 'Quarterly Advisory Meeting',
-    response: 'Response Time: 1 Day',
-    recommended: true,
+    dark: false,
+    meta: ['15-Day Close', 'Quarterly Advisory Meeting', 'Response Time - 1 Day'],
+    excluded: ['Bill Pay Services'],
   },
   {
-    name: 'Pro',
-    price: '$4,000',
-    close: '10-Day Close',
-    advisory: 'Monthly Advisory Meeting',
-    response: 'Response Time: 1 Day',
-    recommended: false,
+    name: 'Essentials',
+    price: '$950',
+    dark: false,
+    meta: ['20-Day Close', 'Annual Advisory Meeting', 'Response Time - 2 Day'],
+    excluded: ['Bill Pay Services', 'Invoicing Software Integration', 'Payroll Services'],
   },
 ];
 ---
 
 <BaseLayout
   title="Pricing"
-  description="Transparent, starting-at monthly pricing for bookkeeping, payroll, and advisory built for home service businesses — plus a one-time accounting system install and clean up."
+  description="Our accounting & strategic tax services are reasonable, transparent, and designed with home service businesses in mind. You’ll know exactly how much"
 >
 
-  <PageHero
-    theme="navy"
-    eyebrow="Pricing"
-    title="Our accounting & strategic tax services are reasonable, transparent, and designed with home service businesses in mind."
-    subtitle="Every plan includes the same core services. Pick the tier that matches how fast you need your numbers and how often you want to meet."
-    ctaLabel="Get Your Custom Quote"
-    ctaHref={SITE_DATA.links.bookACall}
-  />
+  {/* ── Hero (navy, centered) ── */}
+  <section class="bg-primary">
+    <div class="container mx-auto px-4 pt-20 pb-16 md:pt-28 md:pb-20">
+      <div class="max-w-3xl mx-auto text-center">
+        <h1 class="heading-display text-5xl md:text-6xl text-white">Pricing</h1>
+        <p class="mt-6 text-lg leading-relaxed text-white">
+          Our accounting &amp; strategic tax services are reasonable, transparent, and designed with home service businesses in mind. You’ll know exactly how much you’re paying before we start.
+        </p>
+      </div>
+    </div>
+  </section>
 
+  {/* ── Plan cards ── */}
   <section class="bg-base-100">
     <div class="container mx-auto px-4 py-16 md:py-24">
-      <SectionHeading
-        eyebrow="Monthly plans"
-        title="Three tiers, one full-service team"
-        intro="All prices are starting-at figures — your quote is tailored to the size and complexity of your business."
-        align="center"
-      />
-      <div class="mt-12 grid gap-8 lg:grid-cols-3 lg:items-stretch max-w-5xl mx-auto">
+      <h2 class="heading-display text-3xl md:text-5xl text-secondary text-center">Choose your plan</h2>
+
+      <div class="mt-14 grid gap-7 md:grid-cols-2 lg:grid-cols-3 max-w-6xl mx-auto">
         {tiers.map((tier) => (
-          <div class={`card flex flex-col ${tier.recommended ? 'border-2 border-accent relative' : 'border border-base-300 shadow-none'}`}>
-            {tier.recommended && (
-              <span class="absolute -top-4 left-1/2 -translate-x-1/2 bg-accent text-primary text-xs font-semibold uppercase tracking-wide px-4 py-1 rounded-full">
-                Most Popular
-              </span>
-            )}
-            <h3 class="heading-display text-2xl text-primary">{tier.name}</h3>
-            <p class="mt-4">
-              <span class="eyebrow block text-xs">Starting Price</span>
-              <span class="heading-display text-4xl text-secondary">{tier.price}</span>
-              <span class="text-base-content">/mo</span>
-            </p>
-            <ul class="mt-6 space-y-2 font-semibold text-primary" role="list">
-              <li>{tier.close}</li>
-              <li>{tier.advisory}</li>
-              <li>{tier.response}</li>
-            </ul>
-            <ul class="mt-6 pt-6 border-t border-base-300 space-y-2 text-sm flex-grow" role="list">
-              {sharedFeatures.map((f) => (
-                <li class="flex items-start gap-2">
-                  <svg class="h-5 w-5 shrink-0 text-accent" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
-                  </svg>
-                  {f}
-                </li>
-              ))}
-            </ul>
-            <div class="mt-8">
-              <a
-                href={SITE_DATA.links.bookACall}
-                class={tier.recommended ? 'btn btn-accent w-full' : 'btn btn-outline w-full'}
-              >
-                Get Your Custom Quote
-              </a>
+          <div class={`rounded-[14px] px-8 pt-12 pb-14 flex flex-col ${tier.dark ? 'bg-primary' : 'bg-cream'}`}>
+
+            {/* Name + starting price */}
+            <div class={`pb-5 border-b ${tier.dark ? 'border-white/20' : 'border-primary/15'}`}>
+              <p class={`text-[2.6rem] leading-tight font-bold ${tier.dark ? 'text-white' : 'text-primary'}`}>{tier.name}</p>
+              <p class={`mt-1 text-base font-semibold ${tier.dark ? 'text-sky' : 'text-primary'}`}>Starts at</p>
+              <p class={`heading-display text-4xl mt-1 ${tier.dark ? 'text-accent' : 'text-accent-ink'}`}>{tier.price}</p>
             </div>
+
+            {/* Close speed / advisory cadence / response time */}
+            <ul class={`py-5 space-y-3 border-b text-xl font-bold ${tier.dark ? 'border-white/20 text-white' : 'border-primary/15 text-primary'}`} role="list">
+              {tier.meta.map((m) => <li>{m}</li>)}
+            </ul>
+
+            {/* Feature list — crosses mark what the tier leaves out */}
+            <ul class="pt-5 space-y-4" role="list">
+              {allFeatures.map((f) => {
+                const excluded = tier.excluded.includes(f);
+                return (
+                  <li class="flex items-start gap-3">
+                    {excluded ? (
+                      <>
+                        <svg class="h-[22px] w-[22px] shrink-0 mt-0.5 text-accent-ink" viewBox="0 0 23 23" fill="currentColor" aria-hidden="true" set:html={crossIconPaths} />
+                        <span class="text-[15px] font-semibold leading-tight line-through text-primary/70">
+                          {f}<span class="sr-only"> (not included)</span>
+                        </span>
+                      </>
+                    ) : (
+                      <>
+                        <svg class={`h-[22px] w-[22px] shrink-0 mt-0.5 ${tier.dark ? 'text-sky' : 'text-primary'}`} viewBox="0 0 22 23" fill="currentColor" aria-hidden="true" set:html={checkIconPaths} />
+                        <span class={`text-lg font-semibold leading-tight ${tier.dark ? 'text-white' : 'text-primary'}`}>{f}</span>
+                      </>
+                    )}
+                  </li>
+                );
+              })}
+            </ul>
           </div>
         ))}
       </div>
     </div>
   </section>
 
-  <section class="bg-cream">
-    <div class="container mx-auto px-4 py-16 md:py-24 grid gap-12 lg:grid-cols-2 lg:items-center">
-      <SectionHeading
-        eyebrow="One Time Investment"
-        title="Accounting System Install and Clean Up"
-        intro="A full remodel of your books, delivered over three months. We set up your accounting system the right way, work through the backlog, and hand you a clean, reliable foundation before ongoing service begins."
-      />
-      <div class="card bg-base-100 max-w-sm lg:justify-self-end w-full">
-        <span class="eyebrow block text-xs">Starting Price</span>
-        <p class="heading-display text-4xl text-secondary mt-1">$3,000 <span class="text-base font-normal normal-case text-base-content">one-time</span></p>
-        <p class="mt-4 leading-relaxed text-sm">Includes system setup and a three-month rebuild of your books so your ongoing plan starts from accurate numbers.</p>
-        <div class="mt-6">
-          <a href={SITE_DATA.links.bookACall} class="btn btn-accent w-full">Get Started</a>
+  {/* ── Accounting System Install and Clean Up (navy, image flush left) ── */}
+  <section class="bg-primary">
+    <div class="grid lg:grid-cols-2 lg:items-stretch gap-10 lg:gap-20">
+      <div class="order-last lg:order-first">
+        <Image
+          src={cleanupImg}
+          alt=""
+          class="w-full h-full object-cover"
+          widths={[480, 768, 900]}
+          sizes="(min-width: 1024px) 50vw, 100vw"
+        />
+      </div>
+      <div class="px-4 sm:px-8 lg:px-0 lg:pr-16 pt-16 lg:py-24 max-w-2xl">
+        <h2 class="heading-display text-3xl md:text-5xl text-white">Accounting System Install and Clean Up</h2>
+        <p class="mt-4 text-3xl md:text-4xl font-bold text-white">One Time Investment</p>
+        <p class="mt-6 flex items-center gap-3 text-sky">
+          <span class="text-2xl md:text-3xl font-bold">Starts at</span>
+          <span class="heading-display text-5xl md:text-6xl">$3,000</span>
+        </p>
+        <p class="mt-6 leading-relaxed text-white">
+          Our Accounting System Install and Clean Up is a full remodel of your books. We untangle the mess, clean things up with care, and build a solid foundation. Over three months, we set up a system you can trust-designed for clarity, confidence, and better decisions.
+        </p>
+        <div class="mt-8">
+          <a href="#calendly" class="btn btn-accent">Get Your Custom Quote</a>
         </div>
       </div>
     </div>
   </section>
 
+  {/* ── Are we a good fit? ── */}
   <section class="bg-base-100">
     <div class="container mx-auto px-4 py-16 md:py-24">
-      <SectionHeading
-        eyebrow="Is this you?"
-        title="We want to make sure we're the right team for you"
-        intro="If you run a home service business — HVAC, plumbing, electrical, solar, and similar trades — we have the expertise and knowledge to provide accurate accounting support. Our services fit best for businesses doing $1M+ in annual revenue."
-        align="center"
-      />
-      <div class="mt-10 flex flex-wrap justify-center gap-4">
-        <a href="/hvac-accounting/" class="btn btn-outline">HVAC</a>
-        <a href="/accountants-for-plumbers/" class="btn btn-outline">Plumbing</a>
-        <a href="/accountants-for-electricians/" class="btn btn-outline">Electrical</a>
-        <a href="/accountants-for-solar-companies/" class="btn btn-outline">Solar</a>
-        <a href="/construction-accountants/" class="btn btn-outline">Construction</a>
+      <div class="max-w-3xl mx-auto text-center">
+        <h2 class="heading-display text-3xl md:text-5xl text-secondary">
+          Are we a <span class="text-sky-ink">good fit?</span>
+        </h2>
+        <div class="mt-6 space-y-4 leading-relaxed">
+          <p>We want to make sure we’re the right team for you. If you’re a home service business (HVAC, Plumbing, Electrical, Solar, etc), then we have the expertise and knowledge needed to provide you with accurate accounting support.</p>
+          <p>After a handful of years niched in this industry, we’ve found that businesses making $1M+ in annual revenue are at the point where it makes the most financial sense to hire us based on our cost and the value we provide. If you’re not quite there yet, we might be more than you need right now.</p>
+          <p>To make sure we’re the right fit and to find out what package would be a good fit for your business, please take our quiz below!</p>
+        </div>
       </div>
     </div>
   </section>
 
-  <CtaBand
-    heading="Ready for a number that fits your business?"
-    subtext="Book a free discovery call and we'll scope a custom quote around your revenue, systems, and goals."
-    ctaLabel="Get Your Custom Quote"
-  />
+  {/* ── Quiz CTA ── */}
+  <section class="bg-base-100">
+    <div class="container mx-auto px-4 pb-16 md:pb-24 pt-4 md:pt-8">
+      <div class="max-w-3xl mx-auto text-center">
+        <h2 class="heading-display text-3xl md:text-5xl text-secondary">
+          Which Service Level Is Right For Your Business? Take The Quiz
+        </h2>
+        <div class="mt-8">
+          {/* Live page links a Typeform quiz; rerouted to the on-site intake flow */}
+          <a href="/getting-started/" class="btn btn-accent">Take The Quiz</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  {/* ── Book a call (Calendly) — mirrors the live site's global pre-footer band; #calendly anchor target ── */}
+  <section id="calendly" class="bg-accent relative overflow-hidden scroll-mt-20">
+    <Image src={ctaBgImg} alt="" class="absolute inset-0 w-full h-full object-cover object-top" widths={[1280]} sizes="100vw" aria-hidden="true" />
+    <div class="absolute inset-0 bg-gradient-to-b from-black/25 to-transparent pointer-events-none"></div>
+    <div class="container mx-auto px-4 py-16 md:py-20 relative">
+      <h2 class="heading-display text-3xl md:text-4xl text-white text-center max-w-3xl mx-auto">
+        Find out how we can help your trade business
+      </h2>
+      <div class="mt-10 max-w-3xl mx-auto bg-base-100 shadow-xl">
+        <CalendlyEmbed />
+      </div>
+    </div>
+  </section>
 
 </BaseLayout>

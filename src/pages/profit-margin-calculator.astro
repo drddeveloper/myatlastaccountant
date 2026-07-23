@@ -1,9 +1,11 @@
 ---
+import { Image } from 'astro:assets';
 import BaseLayout from '../layouts/BaseLayout.astro';
-import PageHero from '../components/sections/PageHero.astro';
-import SectionHeading from '../components/sections/SectionHeading.astro';
-import CtaBand from '../components/sections/CtaBand.astro';
+import CalendlyEmbed from '../components/CalendlyEmbed.astro';
 import FaqList from '../components/sections/FaqList.astro';
+
+import heroImg from '../assets/images/pages/profit-calc/Accounting-Team-for-Specialty-Trades.webp';
+import ctaBgImg from '../assets/images/home/Footer-CTA-card-background.jpg';
 
 // Stepper inputs mirror the live site: −/+ buttons, $ prefix, step 1, floor 0.
 const calcInputs = [
@@ -19,80 +21,95 @@ const results = [
   { id: 'profit-margin', label: 'Profit Margin' },
 ];
 
-// FAQ copy: original phrasing conveying the live page's explanations. Two live-site
-// typos fixed deliberately: "this results" → "these results" (link text above the
-// FAQ), and the worked example's missing minus sign — the live site prints
-// "[(4,000 (1,000+ 1,000)) / 4,000]"; corrected below to include the subtraction.
-// The overhead formula's stray unmatched parenthesis is also corrected.
+// FAQ copy carried over verbatim from the live accordion, with three live-site
+// defects fixed deliberately: the overhead formula's stray unmatched parenthesis
+// (live prints "= All Monthly Expenses / Working Hours Each Month) ×"), the
+// worked example's missing minus sign (live prints "[(4,000 (1,000+ 1,000)) /
+// 4,000]"), and the example's run-together "thecalculator".
 const faqs = [
   {
     q: 'What is a profit margin calculator?',
-    a: 'It tells you how much your business actually keeps after paying for everything. Your profit margin represents your future: price each job so the profit covers all of your spending with money left over to grow on.',
+    a: 'A profit margin calculator helps you determine how much money your business actually makes once you’ve paid for everything. Your profit margin represents your future! So estimating the price of materials and your team’s time is a big deal. Your goal is to price each job so that the profit earned is enough to cover everything you spent and still have some money left over to help you grow your business.',
   },
   {
     q: 'What does this profit margin calculator tell you?',
-    a: 'How much profit you made on a job. It compares what the job cost you against what you charged, which also shows how efficiently your team performed against budget. Feed each finished job’s numbers back in and your future estimates get sharper every time.',
+    a: 'Our profit margin calculator tells you how much profit you’re making on a job. It compares the cost of performing the job to what you’re charging the customer. When the job is done, you’ll have a clear picture of how efficiently your team is working. Did they perform within budget? Take the knowledge gained from each job and use that data to inform future calculations.',
   },
   {
     q: 'Who uses a profit margin calculator?',
-    a: 'Brand-new entrepreneurs and seasoned owners alike — anyone who would rather not hand-tally receipts, time sheets, and invoices to find out whether a job made money. It’s the quick math without the hassle.',
+    a: 'A profit margin calculator is perfect for new entrepreneurs. It’s also great for seasoned business owners who hate manually tallying receipts, time sheets, and invoices. This tool offers a quick and easy way to calculate profit margins without the hassle of doing the math yourself.',
   },
   {
     q: 'How do you calculate profit margin?',
-    a: 'Profit Margin = [(Billable Revenue − (Cost Price + Overhead Expenses)) / Billable Revenue] × 100',
+    a: 'Learning how to calculate profit margin is as easy as plugging numbers into this profit margin formula: [(Billable Revenue – (Cost Price + Overhead Expenses)) / Billable Revenue] × 100',
   },
   {
     q: 'How do you calculate the total cost price for the job?',
-    a: 'Total Cost Price = Labor Cost + Materials Cost',
+    a: 'To determine the total cost price of a job, use this simple formula: Total Cost Price = Labor Cost + Materials Cost',
   },
   {
     q: 'How do you calculate the overhead expenses?',
-    a: 'Overhead Expenses = (All Monthly Expenses / Working Hours Each Month) × Hours to Complete Job. Worked example: with $4,000 revenue, $1,000 cost price, and $1,000 overhead — [(4,000 − (1,000 + 1,000)) / 4,000] × 100 = 50%.',
+    a: 'To determine the overhead expenses for a completed job, use this formula: Overhead Expenses = (All Monthly Expenses / Working Hours Each Month) × Hours to Complete Job. Profit Margin Calculator Example: Let’s say the billable revenue for a specific job is $4,000, while the total cost price for the job is $1,000 and the overhead expenses for the job total $1,000. In that case, the formula used to calculate the profit margin by the calculator is: [(4,000 − (1,000 + 1,000)) / 4,000] × 100 = 50%',
   },
 ];
 ---
 
+{/* Title/meta carried over verbatim from the live page. The live <title> is just
+    "Profit" (no site suffix) — likely a misconfigured SEO title; BaseLayout
+    appends "| Atlas Accounting Group", flagged for client review. */}
 <BaseLayout
-  title="Free Profit Margin Calculator"
-  description="Enter revenue, job costs, and overhead to see your gross profit, net profit, and margins instantly — a free tool for contractors and trade businesses."
+  title="Profit"
+  description="Estimate every project correctly every time with our free and easy-to-use calculator."
 >
 
-  <PageHero
-    theme="cream"
-    eyebrow="Free tool"
-    title="Profit margin calculator"
-    subtitle="Estimate every project correctly, every time. Enter your numbers below and see your gross and net margins in seconds — free and easy to use."
-    ctaLabel="Try Calculator"
-    ctaHref="#calc"
-  />
+  {/* ── Hero (live: white, two columns, blue "calculator", button → #calc) ── */}
+  <section class="bg-base-100">
+    <div class="container mx-auto px-4 py-14 md:py-24 grid gap-10 lg:grid-cols-2 lg:items-center">
+      <div>
+        <h1 class="heading-display text-4xl md:text-5xl xl:text-6xl text-primary">
+          Profit margin <span class="text-sky-ink">calculator</span>
+        </h1>
+        <p class="mt-6 text-lg leading-relaxed max-w-xl">
+          Estimate every project correctly every time with our free and easy-to-use calculator.
+        </p>
+        <div class="mt-8">
+          <a href="#calc" class="btn btn-accent">Try Calculator</a>
+        </div>
+      </div>
+      <Image
+        src={heroImg}
+        alt="Accounting Team for Specialty Trades"
+        class="w-full h-auto"
+        widths={[450, 900]}
+        sizes="(min-width: 1024px) 45vw, 100vw"
+        loading="eager"
+        fetchpriority="high"
+      />
+    </div>
+  </section>
 
+  {/* ── Calculator (live: one white card, orange border, deep drop shadow with a
+       4px orange base edge; inputs 45% left, peach results box 55% right) ── */}
   <section class="bg-base-100" id="calc">
     <div class="container mx-auto px-4 py-16 md:py-24">
-      <SectionHeading
-        eyebrow="Calculator"
-        title="Know your margin before the job starts"
-        intro="Use the − and + buttons or type directly — results update instantly."
-        align="center"
-      />
-
-      <div class="mt-12 grid gap-10 lg:grid-cols-2 lg:items-start max-w-5xl mx-auto">
+      <div class="max-w-6xl mx-auto bg-base-100 border border-accent shadow-[0_60px_80px_0_rgba(0,0,0,0.10),0_4px_0_0_var(--color-accent)] p-6 md:p-10 lg:p-16 lg:flex lg:items-center lg:gap-14">
 
         {/*
           The live site hides results behind a name/email Gravity Forms gate.
           Per the theme JS the gate is cosmetic — values are computed client-side
           regardless, and submitting merely removes a CSS overlay. We drop the
-          gate and show results immediately. The separate "Calculate" button is
-          also unnecessary since outputs update live on every change.
+          gate and show results immediately. The live "Calculate" button is
+          already hidden by the theme CSS, so omitting it changes nothing.
         */}
-        <form id="profit-form" novalidate>
+        <form id="profit-form" novalidate class="lg:w-[45%]">
           <div class="grid gap-6">
             {calcInputs.map((f) => (
               <div>
-                <label for={f.id} class="block font-semibold text-sm text-secondary mb-1">{f.label}</label>
+                <label for={f.id} class="block font-bold text-lg text-secondary mb-1.5">{f.label}</label>
                 <div class="flex items-center gap-2">
                   <button type="button" class="stepper-btn" data-target={f.id} data-dir="down" aria-label={`Decrease ${f.label}`}>&minus;</button>
                   <div class="relative flex-grow">
-                    <span class="absolute left-3 top-1/2 -translate-y-1/2 text-base-content" aria-hidden="true">$</span>
+                    <span class="absolute left-3 top-1/2 -translate-y-1/2 font-bold text-base-content" aria-hidden="true">$</span>
                     <input class="input pl-7" type="number" id={f.id} name={f.id} value={f.value} step="1" min="0" inputmode="numeric" />
                   </div>
                   <button type="button" class="stepper-btn" data-target={f.id} data-dir="up" aria-label={`Increase ${f.label}`}>+</button>
@@ -102,43 +119,56 @@ const faqs = [
           </div>
         </form>
 
-        <div class="card bg-cream shadow-none">
-          <h3 class="heading-display text-lg text-primary">Results</h3>
+        <div class="mt-10 lg:mt-0 lg:w-[55%]">
+          {/* h2, not the live h3 — keeps the heading outline h1 → h2 */}
+          <h2 class="heading-display text-2xl text-secondary text-center">Results</h2>
           <div aria-live="polite">
-            <dl class="mt-4 grid gap-4 sm:grid-cols-2">
+            <dl class="mt-4 bg-cream-dark px-6 py-8 md:px-8 md:py-10 grid gap-6 sm:grid-cols-2">
               {results.map((r) => (
-                <div class="card bg-base-100 shadow-none border border-base-300">
-                  <dt class="text-sm font-semibold text-secondary">{r.label}</dt>
-                  <dd class="heading-display text-2xl text-accent-ink mt-1" id={r.id}>—</dd>
+                <div class="text-center">
+                  <dt class="text-lg font-medium text-secondary">{r.label}</dt>
+                  <dd class="heading-display text-3xl md:text-4xl text-accent-ink mt-2" id={r.id}>—</dd>
                 </div>
               ))}
+              <div class="sm:col-span-2 text-center">
+                <p class="text-sm leading-snug">Healthy profit margins for service businesses usually fall between 15% - 25%.</p>
+              </div>
             </dl>
           </div>
-          <p class="mt-6 text-sm">Healthy profit margins for service businesses usually fall between 15% - 25%.</p>
-          <p class="mt-2 text-sm"><a href="#faq" class="link text-primary">Learn how we calculate these results below.</a></p>
+          {/* Live-site typo fixed deliberately: "this results" → "these results". */}
+          <p class="mt-4 text-center">
+            Learn how we calculate these results <a href="#faq" class="link font-semibold text-accent-ink hover:text-accent transition-colors">below.</a>
+          </p>
         </div>
 
       </div>
     </div>
   </section>
 
-  <section class="bg-cream" id="faq">
-    <div class="container mx-auto px-4 py-16 md:py-24">
-      <SectionHeading
-        eyebrow="FAQs"
-        title="Quick answers for this calculator"
-        align="center"
-      />
+  {/* ── FAQs (live: white section, ~860px column) ── */}
+  <section class="bg-base-100" id="faq">
+    <div class="container mx-auto px-4 pb-16 md:pb-24 pt-4 md:pt-8">
+      <h2 class="heading-display text-3xl md:text-4xl text-secondary text-center">Quick Answers for this calculator</h2>
       <div class="mt-12 max-w-3xl mx-auto">
         <FaqList items={faqs} schema />
       </div>
     </div>
   </section>
 
-  <CtaBand
-    heading="Find out how we can help your trade business"
-    ctaLabel="Book a Call"
-  />
+  {/* ── Book a call (live footer band: orange duotone photo card + inline Calendly;
+       same treatment as the homepage's canonical version) ── */}
+  <section class="bg-accent relative overflow-hidden" id="calendly">
+    <Image src={ctaBgImg} alt="" class="absolute inset-0 w-full h-full object-cover object-top" widths={[1280]} sizes="100vw" aria-hidden="true" />
+    <div class="absolute inset-0 bg-gradient-to-b from-black/25 to-transparent pointer-events-none"></div>
+    <div class="container mx-auto px-4 py-16 md:py-20 relative">
+      <h2 class="heading-display text-3xl md:text-4xl text-white text-center max-w-3xl mx-auto">
+        Find out how we can help your trade business
+      </h2>
+      <div class="mt-10 max-w-3xl mx-auto bg-base-100 shadow-xl">
+        <CalendlyEmbed />
+      </div>
+    </div>
+  </section>
 
   <script>
     // Formulas transcribed from the live site's theme script

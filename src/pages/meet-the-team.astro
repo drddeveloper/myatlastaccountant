@@ -1,116 +1,114 @@
 ---
+import { Image } from 'astro:assets';
 import BaseLayout from '../layouts/BaseLayout.astro';
-import PageHero from '../components/sections/PageHero.astro';
-import SectionHeading from '../components/sections/SectionHeading.astro';
 import CtaBand from '../components/sections/CtaBand.astro';
-import { SITE_DATA } from '../data/constants';
 
-// TODO: Replace the initials-avatar circles below with real headshots
-// (<Image /> from astro:assets) once photo assets are collected from the
-// WordPress media library.
+import chrisImg from '../assets/images/pages/team/Chris-Lewis-CPA-SEO.jpg';
+import jennyImg from '../assets/images/pages/team/Jenny-Page.jpg';
+import nicoleImg from '../assets/images/pages/team/Construction-Accountant_Nicole.png';
+import lizImg from '../assets/images/pages/team/Liz_Construction-Accountant.png';
+import madisonImg from '../assets/images/pages/team/Madison_Construction-Accountant.webp';
+
+// Live page parity: 5 members, each a full-width row (circular photo left,
+// name + title + bio right). Copy is verbatim from the live loop items.
 const team = [
   {
-    name: 'Mackenzie Gray',
-    title: 'CEO & Co-Founder',
-    bio: 'Mackenzie leads Atlas with 10+ years in accounting and a non-traditional path into the field — she holds a Bachelor’s in Anthropology from Whitman College. She has built the firm around accounting technology, trade-industry expertise, and advisory excellence, with a deliberate focus on culture, continuing education, and work-life balance for her team. Off the clock she’s developing a five-acre homesite, raising her son, and training in Eskrima, a Filipino martial art.',
+    name: 'Chris Lewis, CPA',
+    title: 'CEO',
+    photo: chrisImg,
+    alt: 'Chris Lewis CPA headshot',
+    bio: [
+      'Chris Lewis is the CEO of Atlas Accounting Group, taking the helm from Mackenzie Gray to continue Atlas’s mission of delivering elite, industry-specific financial support for contractors and specialty trades. As the founder of Lewis Group CPAs, which acquired Atlas in 2026, Chris saw a perfect match between the two firms. His goal is to give contractors a full financial team: Atlas’s day-to-day operational mastery combined with Lewis Group’s heavy-hitting tax strategy.',
+      'Though his official title is CEO, Chris usually describes his role as “machine operator and master juggler.” He is fiercely passionate about helping clients scale their businesses and equally dedicated to helping his staff develop their skills. Chris is a leader who proves that work-life balance actually drives growth. Years ago, he pitched a firm-wide 4-day workweek for eight months out of the year so staff could enjoy three-day weekends. Despite initial skepticism, the team loved it. The firm grew more that year than ever before. He brings that same innovative, people-first philosophy to the Atlas team.',
+    ],
   },
   {
     name: 'Jenny Page',
     title: 'Senior Accountant',
-    bio: 'With 20 years of experience across the trade industries, Jenny handles bookkeeping, financial reporting and analysis, and reconciliations for Atlas clients. She works from Florida, where her free time goes to boating, camping, and a garden full of peppers and sweet potatoes.',
+    photo: jennyImg,
+    alt: 'Jenny Page headshot',
+    bio: [
+      'Jenny is a Senior Accountant at Atlas Accounting Group with 20 years of experience across different trade industries. Her expertise includes bookkeeping, financial reporting and analysis, and reconciliations, ensuring accurate and insightful financial management for our clients. Based in sunny Florida, Jenny enjoys spending her free time outdoors boating, camping, and tending to her garden, where she takes pride in growing many fruits and veggies (peppers and sweet potatoes in particular).',
+    ],
   },
   {
     name: 'Nicole Orlando',
     title: 'Senior Accountant',
-    bio: 'Nicole brings 23 years of accounting experience — 17 in corporate accounting and 6 supporting small businesses — to her work in bookkeeping, financial reporting and analysis, and reconciliations. A dedicated traveler and outdoor enthusiast, she has visited 49 states (Alaska is next) and fills her weekends with camping, road trips, and antiquing.',
+    photo: nicoleImg,
+    alt: 'Nicole Orlando',
+    bio: [
+      // Live copy ends without a period — added per typo-fix policy.
+      'Nicole is a Senior Accountant at Atlas Accounting Group with 23 years of experience in the field, including 17 years in corporate accounting and 6 years working with small businesses. Her expertise spans bookkeeping, financial reporting and analysis, and reconciliations, providing clients with accurate and insightful financial management. A natural auditor with a keen eye for detail, Nicole thrives on uncovering the finer points that ensure excellence in her work. Outside of the office, Nicole is an avid traveler and outdoor enthusiast who has explored 49 states, with Alaska next on her list. She enjoys camping, road trips, and hunting for unique finds while antiquing, combining her love of adventure with a passion for the past.',
+    ],
   },
   {
     name: 'Liz Collazo',
     title: 'Payroll Specialist',
-    bio: 'Liz has spent 25 years in accounting, including 7 as a director at a mental health facility. She keeps client payroll running smoothly — wage calculations, 401(k) reporting, employee updates, and state tax compliance. Away from work you’ll find her at the beach, on date nights with her husband, or listening to music.',
+    photo: lizImg,
+    alt: 'Liz Collazo',
+    bio: [
+      'Liz is our Payroll Specialist at Atlas Accounting Group, ensuring client employees are paid accurately and on time while maintaining compliance with state tax regulations. She manages wage calculations, 401(k) reporting, and employee updates, providing seamless payroll services for our clients. With 25 years of accounting experience, Liz also previously served as a director in a mental health facility for 7 years. Outside of work, Liz loves spending time at the beach, enjoying date nights and meals with her husband, and relaxing to her favorite music.',
+    ],
   },
   {
     name: 'Madison Maxwell',
     title: 'Client Success & Marketing Coordinator',
-    bio: 'Madison draws on 10 years in customer service, project management, client success, and marketing for nonprofits and small businesses. Based in NYC, she builds client relationships, creates resources, and makes sure every client gets the most out of their accounting systems. She loves to travel and explore new food scenes.',
-  },
-  {
-    name: 'Michaela Hunter',
-    title: 'Education Department & Program Coordinator',
-    bio: 'Michaela recently returned to Atlas after volunteering and teaching English in Thailand, building on her earlier experience as an administrative assistant. The trip left her with a love of spicy dishes and Thai dramas — and she’s still keeping up her language studies.',
-  },
-  {
-    name: 'Blythe Potter',
-    title: 'Junior Bookkeeper & IT Support',
-    bio: 'Blythe pairs accounting knowledge with a deep technical background: he was an IT Systems Engineer at Hospice of Kitsap County, spent 5 years as a Network Administrator at Olympic College, and helped establish a Washington State University engineering lab. Outside work he goes off-roading with his son and designs and welds his own projects — go-karts and remote-controlled lawn mowers included.',
+    photo: madisonImg,
+    alt: 'Madison Maxwell',
+    bio: [
+      'Madison is the Client Success and Marketing Coordinator at Atlas Accounting Group, dedicated to fostering strong relationships with clients and ensuring they get the most out of the accounting systems we’ve tailored for them. She also creates valuable resources to support both current and prospective clients. With 10 years of experience in customer service, project management, client success, and marketing for non-profits and small businesses, Madison brings a wealth of expertise and a personal touch to her role. When she’s not working, Madison loves traveling to new destinations, whether across the country or overseas, and is currently living in NYC immersing herself in the vibrant food scene and lively atmosphere.',
+    ],
   },
 ];
-
-/** Build two-letter initials for the placeholder avatar circles. */
-const initials = (name: string) =>
-  name
-    .split(' ')
-    .map((part) => part[0])
-    .join('');
 ---
 
 <BaseLayout
   title="Meet the Team"
-  description="Meet the Atlas Accounting Group team — over 100 years of combined experience in accounting for the home services and construction industry."
+  description="Meet your dedicated team of expert accountants specializing in helping contractors and specialty trades businesses like yours grow and thrive"
 >
 
-  <PageHero
-    theme="navy"
-    eyebrow="Our people"
-    title="Meet the Atlas Team"
-    subtitle="Over 100 years of combined experience in accounting for the home services and construction industry. Led by Mackenzie, our team pairs financial precision and proper accounting workflows with an innovative approach to making your business more efficient."
-    ctaLabel="Book a Call"
-    ctaHref={SITE_DATA.links.bookACall}
-  />
-
+  {/* ── Hero — white, centered (live section 12b0035) ── */}
   <section class="bg-base-100">
+    <div class="container mx-auto px-4 pt-14 pb-14 md:pt-28 md:pb-20">
+      <div class="max-w-4xl mx-auto text-center">
+        <h1 class="heading-display text-4xl md:text-6xl text-secondary">Meet the Atlas Team</h1>
+        <p class="mt-6 text-lg leading-relaxed">
+          At Atlas Accounting Group, our team is the foundation of your success. Each member brings expertise, dedication, and a personal touch to ensure you get the best service possible. Collectively, with over 100 years of experience in accounting for the home services and construction industry, Mackenzie and the Atlas team have earned their reputation as trusted experts for their financial precision, understanding of proper accounting workflows, and innovative approach to client efficiency.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  {/* ── Team — cream, one full-width row per member (live loop grid 3829c97) ── */}
+  <section class="bg-cream">
     <div class="container mx-auto px-4 py-16 md:py-24">
-      <SectionHeading
-        eyebrow="The team"
-        title="The people behind your numbers"
-        align="center"
-      />
-      <div class="mt-12 grid gap-8 md:grid-cols-2 max-w-5xl mx-auto">
+      <div class="max-w-6xl mx-auto grid gap-y-14 md:gap-y-16">
         {team.map((member, i) => (
-          <div class="card border border-base-300 shadow-none">
-            {/* TODO: swap this initials avatar for the member's headshot once photo assets are available */}
-            <div
-              class={`h-20 w-20 rounded-full flex items-center justify-center heading-display text-2xl text-primary ${i % 2 === 0 ? 'bg-sky' : 'bg-cream-dark'}`}
-              aria-hidden="true"
-            >
-              {initials(member.name)}
+          <article class="grid gap-8 md:grid-cols-[330px_1fr] md:gap-12 md:items-center">
+            <Image
+              src={member.photo}
+              alt={member.alt}
+              class="w-full h-auto rounded-full"
+              widths={[330, 660]}
+              sizes="(min-width: 768px) 330px, 100vw"
+              loading={i === 0 ? 'eager' : 'lazy'}
+            />
+            <div>
+              <h2 class="font-heading font-bold text-3xl md:text-4xl text-secondary leading-tight">{member.name}</h2>
+              <p class="eyebrow text-base md:text-lg mt-2">{member.title}</p>
+              <div class="mt-5 space-y-4 leading-relaxed">
+                {member.bio.map((para) => <p>{para}</p>)}
+              </div>
             </div>
-            <h3 class="heading-display text-xl text-primary mt-5">{member.name}</h3>
-            <p class="eyebrow mt-1 text-xs">{member.title}</p>
-            <p class="mt-4 leading-relaxed text-sm">{member.bio}</p>
-          </div>
+          </article>
         ))}
       </div>
     </div>
   </section>
 
-  <section class="bg-cream">
-    <div class="container mx-auto px-4 py-16 md:py-24">
-      <SectionHeading
-        eyebrow="How we work"
-        title="A different kind of accounting team"
-        intro="Constant communication, easy-to-understand reports, and real 1:1 coaching — see what makes working with Atlas different from a traditional firm."
-        align="center"
-      />
-      <div class="mt-8 text-center">
-        <a href="/why-we-are-different/" class="btn btn-outline">Why We're Different</a>
-      </div>
-    </div>
-  </section>
-
-  <CtaBand
-    heading="Ready to put this team to work?"
-    ctaLabel="Book a Call"
-  />
+  {/* Live pages end with the global footer CTA band ("Find out how we can
+      help your trade business" + Calendly); the rebuild represents it
+      with the shared CtaBand, as on the other rebuilt pages. */}
+  <CtaBand heading="Find out how we can help your trade business" />
 
 </BaseLayout>

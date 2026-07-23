@@ -1,143 +1,253 @@
 ---
+import { Image } from 'astro:assets';
 import BaseLayout from '../layouts/BaseLayout.astro';
-import PageHero from '../components/sections/PageHero.astro';
-import SectionHeading from '../components/sections/SectionHeading.astro';
-import CtaBand from '../components/sections/CtaBand.astro';
-import { SITE_DATA } from '../data/constants';
+import CalendlyEmbed from '../components/CalendlyEmbed.astro';
 
-const differentiators = [
-  {
-    title: 'Virtual Team',
-    body: 'Meet with us in our virtual office on Spot. Wherever you are in the country, you can drop in, plan with us, and collaborate on your business — no commute to an accountant’s office required.',
-  },
-  {
-    title: 'Modern & tech-driven',
-    body: 'We help you put best-in-class technology in place so the inner workflows of your business are never harder than they need to be — from field software to your books.',
-  },
-  {
-    title: 'Proactive working',
-    body: 'We’re a partner, not a vendor. We keep your best interests in mind, stay on top of everything, and loop you in on exactly what you need to know before it becomes a problem.',
-  },
-  {
-    title: 'Regular catch ups',
-    body: 'Depending on your plan, we meet for annual, quarterly, or monthly coaching sessions — with email support available year-round in between.',
-  },
+/*
+ * Pixel-parity rewrite of https://www.myatlasaccountant.com/why-we-are-different/
+ * Live section order: white hero → navy trust band → "your experience is
+ * different" icon grid → navy team roster → two full-width copy/photo rows →
+ * "It Couldn't be Easier" vertical stepper → Calendly band.
+ *
+ * Copy is verbatim from the live page. The hero heading is an h2 on the live
+ * page (which ships no h1 at all); it is promoted to h1 here.
+ */
+
+import iconVirtual from '../assets/images/pages/why-different/6570711_education_from_home_learning_online_icon.svg';
+import iconTech from '../assets/images/pages/why-different/9264941_software_computer-application_app_icon-1.svg';
+import iconProactive from '../assets/images/pages/why-different/7055165_meeting_consultation_partnership_communication_brainstorm_icon-1.svg';
+import iconCatchUps from '../assets/images/pages/why-different/7055172_analysis_consultation_advise_work_brainstorm_icon.svg';
+
+import photoChris from '../assets/images/pages/why-different/Chris-Lewis-CPA-SEO.jpg';
+import photoJenny from '../assets/images/pages/why-different/Jenny-Page.jpg';
+import photoNicole from '../assets/images/pages/why-different/Construction-Accountant_Nicole.png';
+import photoLiz from '../assets/images/pages/why-different/Liz_Construction-Accountant.png';
+import photoMadison from '../assets/images/pages/why-different/Madison_Construction-Accountant.webp';
+
+import teamTradesImg from '../assets/images/pages/why-different/Accounting-Team-for-Specialty-Trades.webp';
+import teamConstructionImg from '../assets/images/pages/why-different/Accounting-Team-for-Construction.webp';
+
+import iconStepDiscovery from '../assets/images/pages/why-different/6599578_e-learning_education_evaluation_exam_online_icon-1.svg';
+import iconStepDiagnostic from '../assets/images/pages/why-different/63a6d72cc7b1440d241043c2_cpu-1.svg';
+import iconStepOptions from '../assets/images/pages/why-different/63a70d3becd826b524c4f019_6570711_education_from_home_learning_online_icon-1.svg';
+import iconStepProposal from '../assets/images/pages/why-different/tax-1-1.svg';
+import iconStepKickoff from '../assets/images/pages/why-different/7055172_analysis_consultation_advise_work_brainstorm_icon.svg';
+import iconStepCoaching from '../assets/images/pages/why-different/7055165_meeting_consultation_partnership_communication_brainstorm_icon-1.svg';
+import arrowDown from '../assets/images/pages/why-different/arrow-down-dash.svg';
+
+import ctaBgImg from '../assets/images/home/Footer-CTA-card-background.jpg';
+
+const team = [
+  { photo: photoChris, alt: 'Chris Lewis CPA headshot', name: 'Chris Lewis, CPA', role: 'CEO' },
+  { photo: photoJenny, alt: 'Jenny Page headshot', name: 'Jenny Page', role: 'Senior Accountant' },
+  { photo: photoNicole, alt: 'Nicole Orlando', name: 'Nicole Orlando', role: 'Senior Accountant' },
+  { photo: photoLiz, alt: 'Liz Collazo', name: 'Liz Collazo', role: 'Payroll Specialist' },
+  { photo: photoMadison, alt: 'Madison Maxwell', name: 'Madison Maxwell', role: 'Client Success & Marketing Coordinator' },
 ];
 
-const onboardingSteps = [
+const steps = [
   {
+    icon: iconStepDiscovery,
     title: 'Schedule a Discovery Call',
-    body: 'A no-pressure conversation about your business needs and our services, so we can both decide whether we’re the right fit.',
+    body: "An opportunity to discuss your business needs and our services to determine how we can support you and whether we're the right fit.",
   },
   {
+    icon: iconStepDiagnostic,
     title: 'A Free Accounting System Diagnostic',
-    body: 'We run a free diagnostic and analysis of your books, flag any issues, and outline a clear scope of work to get everything in order.',
+    body: 'We will do a free diagnostic and analysis of your books to identify any issues and outline a clear scope of work to get everything in order.',
   },
   {
+    icon: iconStepOptions,
     title: 'Attend Your Options Call',
-    body: 'We walk you through what the diagnostic found and share custom options for how we can help your business.',
+    body: "We'll talk over the results of our diagnostic with you and share custom options on how we can help your business.",
   },
   {
+    icon: iconStepProposal,
     title: "We'll Send You a Proposal",
-    body: 'Your proposal includes three tiers of pricing so you can choose the fit that makes sense for your business and budget.',
+    body: "We'll send you a proposal that includes 3 tiers of pricing. You can choose the best fit for you and your business.",
   },
   {
+    icon: iconStepKickoff,
     title: 'Kick Off & Access Meeting!',
-    body: 'Once the proposal is signed, we meet to get access to your accounts and officially onboard you with the Atlas team.',
+    body: "Once your proposal is signed, we'll have a meeting to get access to your accounts and officially onboard you with the Atlas team.",
   },
   {
+    icon: iconStepCoaching,
     title: 'Ongoing 1:1 Coaching',
-    body: 'That’s not the last you’ll hear from us. Depending on your plan, we meet annually, quarterly, or monthly to keep your business thriving and on track.',
+    body: 'Unlike many other accountants, that won’t be the last time you hear from us. Depending on your plan, we’ll meet annually, quarterly, or monthly to make sure your business is thriving and on track.',
   },
 ];
 ---
 
 <BaseLayout
   title="We're Different Construction Accountants"
-  description="Accurate accounting done in real-time following proper workflows. See how Atlas Accounting Group is different: a virtual, tech-driven, proactive team with regular 1:1 coaching."
+  description="We're different from the construction accountants you're used to. Our job is to help you grow your business, not just run the numbers. We provide comprehensive financial strategy, bookkeeping, cash flow forecasting, and more to help you understand your business a little more."
 >
 
-  <PageHero
-    theme="navy"
-    eyebrow="Why we're different"
-    title="Accurate accounting done in real-time following proper workflows"
-    subtitle="You know the smile a client gives you when a project wraps on time and on budget. We deliver that same smile — applied to your financial management. Loved and trusted by contractors nationwide."
-    ctaLabel="Get In Touch"
-    ctaHref={SITE_DATA.links.bookACall}
-    secondaryLabel="See Pricing"
-    secondaryHref="/pricing/"
-  />
+  {/* ── Hero (white, centered) ── */}
+  <section class="bg-base-100">
+    <div class="container mx-auto px-4 pt-20 pb-16 md:pt-28 md:pb-24">
+      <div class="max-w-5xl mx-auto text-center">
+        <h1 class="heading-display text-4xl md:text-5xl xl:text-6xl text-secondary">
+          <span class="text-sky-ink">Accurate</span> accounting done in <span class="text-sky-ink">real-time</span> following proper <span class="text-sky-ink">workflows</span>
+        </h1>
+        <p class="mt-7 text-lg leading-relaxed max-w-3xl mx-auto">
+          You know that smile you get when a project finishes on-time and on-budget? Our goal is for you to have that same smile when you think about your financials.
+        </p>
+        <div class="mt-8">
+          <a href="#calendly" class="btn btn-accent">Get In Touch</a>
+        </div>
+      </div>
+    </div>
+  </section>
 
+  {/* ── Trust band ── */}
+  <section class="bg-primary">
+    <div class="container mx-auto px-4 py-8">
+      <p class="text-center text-white font-semibold uppercase tracking-[0.2em] text-sm md:text-base">
+        Loved and trusted by Contractors Nationwide
+      </p>
+    </div>
+  </section>
+
+  {/* ── Your experience is different ── */}
   <section class="bg-base-100">
     <div class="container mx-auto px-4 py-16 md:py-24">
-      <SectionHeading
-        eyebrow="The Atlas experience"
-        title="Your experience is different with Atlas Accounting Group"
-        intro="What sets us apart from traditional accountants: constant communication, easy-to-understand reports, and meaningful 1:1 coaching."
-        align="center"
-      />
-      <div class="mt-12 grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
-        {differentiators.map((d) => (
-          <div class="card border border-base-300 shadow-none">
-            <h3 class="heading-display text-lg text-primary">{d.title}</h3>
-            <p class="mt-3 leading-relaxed text-sm">{d.body}</p>
-          </div>
-        ))}
+      <div class="max-w-3xl mx-auto text-center">
+        <h2 class="heading-display text-3xl md:text-5xl text-secondary">
+          Your experience is different with atlas accounting group
+        </h2>
+        <p class="mt-6 text-lg leading-relaxed">
+          We’re different than the accountants you’re used to. You’ll enjoy the constant communication, easy-to-understand reports, and meaningful 1:1 coaching you need to push your business forward.
+        </p>
+      </div>
+
+      <div class="mt-14 grid gap-10 sm:grid-cols-2 lg:grid-cols-4 lg:gap-14">
+        <div class="text-center">
+          <Image src={iconVirtual} alt="" class="h-20 w-auto mx-auto" width={99} height={86} aria-hidden="true" />
+          <h3 class="heading-display text-xl text-secondary mt-6">Virtual Team</h3>
+          <p class="mt-3 leading-relaxed">
+            Meet with us in our virtual office over on
+            <a href="https://www.spotvirtual.com/en" target="_blank" rel="noopener" class="font-semibold text-accent-ink underline underline-offset-2 hover:text-accent focus-visible:outline-2 focus-visible:outline-accent transition-colors">Spot</a>!
+            No matter where you are, you can join us in our office to plan and collaborate on your business success.
+          </p>
+        </div>
+        <div class="text-center">
+          <Image src={iconTech} alt="" class="h-20 w-auto mx-auto" width={85} height={84} aria-hidden="true" />
+          <h3 class="heading-display text-xl text-secondary mt-6">Modern &amp; tech-driven</h3>
+          <p class="mt-3 leading-relaxed">
+            We’ll help you implement best-in-class technology to ensure the inner workflows of your business are never harder than they need to be.
+          </p>
+        </div>
+        <div class="text-center">
+          <Image src={iconProactive} alt="" class="h-20 w-auto mx-auto" width={87} height={86} aria-hidden="true" />
+          <h3 class="heading-display text-xl text-secondary mt-6">Proactive working</h3>
+          <p class="mt-3 leading-relaxed">
+            We’re not just a vendor - we’re a partner. We have your best interests in mind. We stay on top of everything and keep you looped in on what you need to know.
+          </p>
+        </div>
+        <div class="text-center">
+          <Image src={iconCatchUps} alt="" class="h-20 w-auto mx-auto" width={83} height={85} aria-hidden="true" />
+          <h3 class="heading-display text-xl text-secondary mt-6">Regular catch ups</h3>
+          <p class="mt-3 leading-relaxed">
+            We’ll meet for annual, quarterly, or monthly coaching (depending on your plan) and provide you with email support year-round.
+          </p>
+        </div>
       </div>
     </div>
   </section>
 
-  <section class="bg-cream">
-    <div class="container mx-auto px-4 py-16 md:py-24 grid gap-12 lg:grid-cols-2 lg:items-center">
-      <SectionHeading
-        eyebrow="Full-service"
-        title="Put the right people in the right places"
-        intro="Instead of hiring a bookkeeper, an accountant, a payroll manager, a cash flow manager, and a strategic advisor one by one, get all five in one place — instant expertise for a fraction of the cost of building the department in-house."
-      />
-      <div class="card bg-base-100">
-        <h3 class="heading-display text-lg text-primary">Happier Financials & Meaningful Reports</h3>
-        <p class="mt-3 leading-relaxed">Our goal is to make you a better business owner. Real-time data, monthly reports, cash flow visibility, and goal tracking give you what you need to make smarter financial decisions — not a stack of statements you never open.</p>
-      </div>
-    </div>
-  </section>
-
+  {/* ── Meet the Atlas Team (navy roster) ── */}
   <section class="bg-primary">
     <div class="container mx-auto px-4 py-16 md:py-24">
-      <SectionHeading
-        onDark
-        eyebrow="The people"
-        title="Meet the Atlas Team"
-        intro="Over 100 years of combined experience in accounting for the home services and construction industry — get to know the people who'll be handling your books."
-        align="center"
-      />
-      <div class="mt-8 text-center">
-        <a href="/meet-the-team/" class="btn btn-accent">Meet the Team</a>
+      <h2 class="heading-display text-3xl md:text-5xl text-white text-center">Meet the Atlas Team</h2>
+      <ul class="mt-14 grid gap-y-14 gap-x-8 sm:grid-cols-2 lg:grid-cols-3 lg:gap-x-20 max-w-5xl mx-auto" role="list">
+        {team.map((member) => (
+          <li class="text-center sm:text-left">
+            <Image
+              src={member.photo}
+              alt={member.alt}
+              class="w-full h-auto rounded-full"
+              widths={[300, 480, 660]}
+              sizes="(min-width: 1024px) 30vw, (min-width: 640px) 45vw, 90vw"
+            />
+            <h3 class="heading-display text-2xl text-white mt-7">{member.name}</h3>
+            <p class="mt-2 text-sm font-medium uppercase tracking-wider text-accent">{member.role}</p>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </section>
+
+  {/* ── Put the right people in the right places ── */}
+  <section class="bg-base-100">
+    <div class="container mx-auto px-4 pt-16 md:pt-24 pb-8 md:pb-12 grid gap-12 lg:grid-cols-2 lg:items-center">
+      <div>
+        <h2 class="heading-display text-3xl md:text-4xl text-secondary">
+          Put the right people <span class="text-sky-ink">in the right places</span>
+        </h2>
+        <p class="mt-6 leading-relaxed">
+          When running a successful business, you need the right people in the right seats. But it doesn’t always make sense to hire for all of the roles in-house. At Atlas Accounting Group, we cover the roles of bookkeeper, accountant, payroll manager, cash flow manager, and strategic advisor all in one place. You can bring in instant expertise for a fraction of the cost.
+        </p>
+      </div>
+      <Image src={teamTradesImg} alt="Accounting Team for Specialty Trades" class="w-full h-auto" widths={[560, 900, 1240]} sizes="(min-width: 1024px) 45vw, 100vw" />
+    </div>
+
+    {/* ── Happier Financials & Meaningful Reports ── */}
+    <div class="container mx-auto px-4 pt-8 md:pt-12 pb-16 md:pb-24 grid gap-12 lg:grid-cols-2 lg:items-center">
+      <Image src={teamConstructionImg} alt="Accounting Team for Construction" class="w-full h-auto order-last lg:order-first" widths={[560, 900, 1240]} sizes="(min-width: 1024px) 45vw, 100vw" />
+      <div>
+        <h2 class="heading-display text-3xl md:text-4xl text-secondary">
+          Happier Financials &amp; <span class="text-sky-ink">Meaningful Reports</span>
+        </h2>
+        <p class="mt-6 leading-relaxed">
+          At Atlas Accounting Group, our goal is to make you a better business owner. Our updates and monthly reports will give you the real-time data you need to capture the full scope of your business’s financial picture. When you know how your business is actually performing, how much cash is coming in and out, and how you’re tracking against your short and long-term goals, you’ll be able to continuously make smarter financial decisions.
+        </p>
       </div>
     </div>
   </section>
 
+  {/* ── It Couldn't be Easier to Get Started (vertical stepper) ── */}
   <section class="bg-base-100">
-    <div class="container mx-auto px-4 py-16 md:py-24">
-      <SectionHeading
-        eyebrow="Getting started"
-        title="It Couldn't be Easier to Get Started"
-        align="center"
-      />
-      <ol class="mt-12 grid gap-8 md:grid-cols-2 lg:grid-cols-3 max-w-5xl mx-auto" role="list">
-        {onboardingSteps.map((step, i) => (
-          <li class="card bg-cream shadow-none">
-            <span class="heading-display text-3xl text-accent-ink" aria-hidden="true">{String(i + 1).padStart(2, '0')}</span>
-            <h3 class="heading-display text-lg text-primary mt-3">{step.title}</h3>
-            <p class="mt-3 leading-relaxed text-sm">{step.body}</p>
-          </li>
+    <div class="container mx-auto px-4 pb-20 md:pb-32 pt-4 md:pt-8">
+      <h2 class="heading-display text-3xl md:text-5xl text-secondary text-center max-w-3xl mx-auto">
+        It Couldn’t be Easier to Get Started
+      </h2>
+      <ol class="mt-14 max-w-3xl mx-auto flex flex-col items-center" role="list">
+        {steps.map((step, i) => (
+          <>
+            {i > 0 && (
+              <li aria-hidden="true" class="py-4">
+                <Image src={arrowDown} alt="" class="h-7 w-auto" width={24} height={28} />
+              </li>
+            )}
+            <li class="w-full bg-base-100 shadow-[0_6px_24px_rgba(0,0,0,0.06)] p-6 md:p-8">
+              <div class="flex flex-col sm:flex-row gap-6 sm:items-start text-center sm:text-left">
+                <Image src={step.icon} alt="" class="w-[76px] h-auto shrink-0 mx-auto sm:mx-0" width={76} height={76} aria-hidden="true" />
+                <div>
+                  <h3 class="text-2xl font-bold text-secondary">{step.title}</h3>
+                  <p class="mt-2 leading-relaxed">{step.body}</p>
+                </div>
+              </div>
+            </li>
+          </>
         ))}
       </ol>
     </div>
   </section>
 
-  <CtaBand
-    heading="Find out how we can help your construction business"
-    ctaLabel="Schedule Your Discovery Call"
-  />
+  {/* ── Book a call (Calendly) — mirrors the live site's global pre-footer band; #calendly anchor target ── */}
+  <section id="calendly" class="bg-accent relative overflow-hidden scroll-mt-20">
+    <Image src={ctaBgImg} alt="" class="absolute inset-0 w-full h-full object-cover object-top" widths={[1280]} sizes="100vw" aria-hidden="true" />
+    <div class="absolute inset-0 bg-gradient-to-b from-black/25 to-transparent pointer-events-none"></div>
+    <div class="container mx-auto px-4 py-16 md:py-20 relative">
+      <h2 class="heading-display text-3xl md:text-4xl text-white text-center max-w-3xl mx-auto">
+        Find out how we can help your trade business
+      </h2>
+      <div class="mt-10 max-w-3xl mx-auto bg-base-100 shadow-xl">
+        <CalendlyEmbed />
+      </div>
+    </div>
+  </section>
 
 </BaseLayout>

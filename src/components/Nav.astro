@@ -58,7 +58,9 @@ const allLinks = [...NAV.main, ...NAV.more];
     {allLinks.map((item) => (
       <li><a href={item.href} class="py-3 text-base">{item.label}</a></li>
     ))}
-    <li class="mt-2"><a href={SITE_DATA.links.bookACall} class="btn btn-accent w-full">Book a Call</a></li>
+    {/* Mobile menu CTAs — Call + Schedule, per DRD convention */}
+    <li class="mt-2"><a href={SITE_DATA.company.phoneHref} class="btn btn-primary w-full">Call {SITE_DATA.company.phone}</a></li>
+    <li class="mt-2"><a href={SITE_DATA.links.bookACall} class="btn btn-accent w-full">Schedule a Meeting</a></li>
   </ul>
 </nav>
 

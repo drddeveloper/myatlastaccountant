@@ -2,9 +2,10 @@ export const SITE_DATA = {
   company: {
     name: "Atlas Accounting Group",
     legalLine: "Atlas Accounting Group, a Lewis Group CPAs company",
-    // No public street address or phone — the practice is remote-first and email/booking driven.
+    // No public street address — the practice is remote-first and booking driven.
     address: { street: "", city: "", state: "", zip: "", full: "" },
-    phone: "",
+    phone: "(360) 900-0421",
+    phoneHref: "tel:3609000421",
     email: "ready@myatlasaccountant.com",
     hours: "Mon-Fri: 9am-5pm",
   },
@@ -22,7 +23,9 @@ export const SITE_DATA = {
       primary: "#003954",   // deep navy — headings, dark sections
       secondary: "#181818", // near-black — body headings, footer
       accent: "#F4832B",    // orange — CTAs, highlights
-      sky: "#79CAE9",       // light blue — secondary accent
+      sky: "#79CAE9",       // light blue — secondary accent (dark surfaces only)
+      skyInk: "#2387B8",    // darkened sky for highlight text on light surfaces (WCAG)
+      accentInk: "#B4540A", // darkened orange for small text/links on light surfaces (WCAG)
       cream: "#F7F5F4",     // warm off-white surface
       creamDark: "#FFEDDF", // pale peach surface
       themeColor: "#003954",

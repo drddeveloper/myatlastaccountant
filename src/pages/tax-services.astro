@@ -1,149 +1,189 @@
 ---
+import { Image } from 'astro:assets';
 import BaseLayout from '../layouts/BaseLayout.astro';
-import PageHero from '../components/sections/PageHero.astro';
-import SectionHeading from '../components/sections/SectionHeading.astro';
-import CtaBand from '../components/sections/CtaBand.astro';
-import Testimonial from '../components/sections/Testimonial.astro';
-import { SITE_DATA } from '../data/constants';
+import CalendlyEmbed from '../components/CalendlyEmbed.astro';
 
-// Positioning note: Atlas does NOT file taxes directly — it coordinates with
-// external, industry-specific tax CPAs. Keep this framing intact in all copy.
+import iconPartner from '../assets/images/pages/tax/6570643_annual_cost_fee_legal_money_icon-1.svg';
+import iconSupport from '../assets/images/pages/tax/6570641_annual_calculate_cost_data_payment_icon-1.svg';
+import iconSave from '../assets/images/pages/tax/6570638_annual_cost_fee_legal_money_icon-1.svg';
+import iconDeductions from '../assets/images/pages/tax/6570644_annual_data_document_fee_legal_icon-1.svg';
+import iconFile from '../assets/images/pages/tax/6570650_annual_calculate_data_document_fee_icon-1.svg';
+import iconMaximize from '../assets/images/pages/tax/6570652_management_icon-1.svg';
+import longTermImg from '../assets/images/pages/tax/Contractor-Taxes.webp';
+import lowTaxesImg from '../assets/images/pages/tax/Contractor-Tax-Services.webp';
+import testimonialImg from '../assets/images/pages/tax/Ryann-Blake-Testimonial.jpg';
+import ctaBgImg from '../assets/images/home/Footer-CTA-card-background.jpg';
 
-const partnershipColumns = [
+const partnership = [
   {
+    icon: iconPartner,
     title: 'Partner with tax experts',
-    body: 'We work strategically with construction and specialty trade CPAs so you keep more of what you earn. Smart planning, not shortcuts.',
+    body: "Whether you choose our sister company, Lewis Group CPAs, as your CPA firm or bring your own, we work strategically with them to make sure you're keeping more of what you earn. It's about smart planning, not shortcuts.",
   },
   {
-    title: 'Gain year-round support',
-    body: 'Every Atlas plan includes year-round advisory support, so the financial decisions you make in June are just as tax-efficient as the ones you make in April.',
+    icon: iconSupport,
+    title: 'Gain year round support',
+    body: 'No matter which plan you choose with Atlas Accounting Group, you will gain year-round advisory support to ensure that you’re making the most tax-efficient financial decisions.',
   },
   {
+    icon: iconSave,
     title: 'Save money with industry expertise',
-    body: 'Generalist tax accountants routinely miss deductions and credits specific to the trades. Our industry-focused partners make sure every saving your business qualifies for is captured.',
+    body: 'Working with general tax accountants can often result in missed tax deductions or credits that are suitable for your specific industry. With Atlas Accounting Group, you can be sure that every savings is accounted for.',
   },
 ];
 
 const processSteps = [
-  { num: '01', title: 'We Finalize Accurate Deductions & Reports', body: 'Because your books stay current all year, we hand your tax specialist clean, complete numbers — deductions identified, reports finalized.' },
-  { num: '02', title: 'Tax Experts File & Submit Your Taxes', body: 'Our partner CPAs handle the full compliance work: federal and state income tax returns, sales tax, payroll tax, property tax, and excise tax.' },
-  { num: '03', title: 'Together, We Maximize Your Business Potential', body: 'Filing is the finish line, not the goal. We fold what we learn each season back into your strategy for the year ahead.' },
+  { icon: iconDeductions, title: 'We Finalize Accurate Deductions & Reports' },
+  { icon: iconFile, title: 'Tax Experts file & Submit Your Taxes' },
+  { icon: iconMaximize, title: 'Together, We Maximize Your Business Potential' },
 ];
 ---
 
 <BaseLayout
-  title="Tax Services for Contractors"
-  description="Atlas Accounting Group keeps your books tax-ready all year and coordinates with industry-specific tax CPAs who file for you — no surprises at tax time."
+  title="Strategic Tax Services for Construction"
+  description="Alleviate your tax burden by working with specialized construction accountants who provide expert tax services for construction businesses like yours…"
 >
 
-  {/* Live-site defect fixed here: the original page rendered its hero heading as an
-      <h2>. PageHero outputs a proper <h1>. */}
-  <PageHero
-    theme="cream"
-    eyebrow="Tax"
-    title="Ditch the tax stress with Atlas Accounting Group"
-    subtitle="Tax season stops being scary when your bookkeeping, advisory, and payroll live under one roof. We keep your books current all year long, so there are no nasty surprises waiting for you in April."
-    ctaLabel="Book Your Discovery Call"
-    ctaHref={SITE_DATA.links.bookACall}
-    secondaryLabel="See Pricing"
-    secondaryHref="/pricing/"
-  />
-
+  {/* ── Hero — white, centered (live 26434aa1; its heading is an <h2> — ours is a proper h1) ── */}
   <section class="bg-base-100">
+    <div class="container mx-auto px-4 py-16 md:py-24 text-center">
+      <h1 class="heading-display text-4xl md:text-5xl xl:text-6xl text-secondary max-w-4xl mx-auto">
+        Ditch The Tax Stress With <span class="text-sky-ink">Atlas Accounting Group</span>
+      </h1>
+      <p class="mt-6 text-lg leading-relaxed max-w-3xl mx-auto">
+        Tax season is a breeze when you keep your bookkeeping, advisory, and payroll services all under one roof. By making sure your books are up-to-date all year long, we will make sure there are no nasty surprises at tax time.
+      </p>
+      <div class="mt-8">
+        <a href="#calendly" class="btn btn-accent">Book Your Discovery Call</a>
+      </div>
+    </div>
+  </section>
+
+  {/* ── Seamless with your tax accountant — cream, three centered tiles (live 3327a32) ── */}
+  <section class="bg-cream">
     <div class="container mx-auto px-4 py-16 md:py-24">
-      <SectionHeading
-        eyebrow="How it works"
-        title="We work seamlessly with your tax accountant"
-        intro="We partner with industry-specific tax specialists who provide full tax compliance services — federal and state income tax returns, sales tax, payroll tax, property tax, and excise tax. Atlas prepares the numbers; the specialists file."
-        align="center"
-      />
-      <div class="mt-12 grid gap-8 md:grid-cols-3">
-        {partnershipColumns.map((col) => (
-          <div class="card border border-base-300 shadow-none">
-            <h3 class="heading-display text-lg text-primary">{col.title}</h3>
-            <p class="mt-3 leading-relaxed">{col.body}</p>
+      <div class="max-w-3xl mx-auto text-center">
+        <h2 class="heading-display text-3xl md:text-4xl text-secondary">
+          We Work Seamlessly With Your Tax Accountant
+        </h2>
+        <p class="mt-5 text-lg leading-relaxed">
+          We partner with industry-specific tax specialists who provide full tax compliance services, including federal and state income tax returns, sales tax, payroll tax, property tax, and excise tax.
+        </p>
+      </div>
+      <div class="mt-14 grid gap-x-8 gap-y-12 md:grid-cols-3">
+        {partnership.map((col) => (
+          <div class="text-center">
+            <Image src={col.icon} alt="" class="h-20 w-auto mx-auto" width={99} height={84} aria-hidden="true" />
+            <h3 class="heading-display text-xl text-secondary mt-5">{col.title}</h3>
+            <p class="mt-4 leading-relaxed max-w-sm mx-auto">{col.body}</p>
           </div>
         ))}
       </div>
     </div>
   </section>
 
-  <section class="bg-cream">
-    <div class="container mx-auto px-4 py-16 md:py-24 grid gap-12 lg:grid-cols-2 lg:items-center">
-      <SectionHeading
-        eyebrow="Start here"
-        title="Are your books a mess?"
-        intro="Messy, incomplete, long-overdue books are our starting point every week — we expect them. Wiping the slate clean is the job. Our ongoing bookkeeping keeps your numbers accurate and up to date from here forward, which is exactly what makes tax time painless."
-      />
-      <div class="lg:justify-self-end">
-        {/* Live page links to /bookkeeper-for-construction/, which doesn't exist in
-            this rebuild — routing to the construction industry page instead. */}
+  {/* ── Are your books a mess? — navy band (live 83f9922) ── */}
+  <section class="bg-primary">
+    <div class="container mx-auto px-4 py-16 md:py-20 text-center">
+      <h2 class="heading-display text-3xl md:text-4xl text-white">Are Your Books a Mess?</h2>
+      <p class="mt-5 text-lg leading-relaxed text-white/85 max-w-3xl mx-auto">
+        We deal with messy, incomplete, and long overdue books all the time. In fact, we expect it! It’s our job to wipe the slate clean. Check out our ongoing bookkeeping services to ensure your financial numbers are up-to-date and accurate moving forward from here!
+      </p>
+      <div class="mt-8">
+        {/* Live links to /bookkeeper-for-construction/ (dead slug) — routed to the
+            construction industry page, which covers ongoing bookkeeping. */}
         <a href="/construction-accountants/" class="btn btn-accent">Learn More</a>
       </div>
     </div>
   </section>
 
-  <section class="bg-primary">
+  {/* ── How our tax partnership works — cream, three heading-only tiles (live 8ce617f) ── */}
+  <section class="bg-cream">
     <div class="container mx-auto px-4 py-16 md:py-24">
-      <SectionHeading
-        onDark
-        eyebrow="The process"
-        title="How our tax partnership works"
-        align="center"
-      />
-      <div class="mt-12 grid gap-6 md:grid-cols-3">
+      <h2 class="heading-display text-3xl md:text-4xl text-secondary text-center max-w-3xl mx-auto">
+        How Our Tax Partnership Works
+      </h2>
+      <div class="mt-14 grid gap-x-8 gap-y-12 md:grid-cols-3">
         {processSteps.map((step) => (
-          <div class="card bg-white/5 border border-white/15 shadow-none">
-            <span class="heading-display text-3xl text-sky" aria-hidden="true">{step.num}</span>
-            <h3 class="heading-display text-lg text-white mt-3">{step.title}</h3>
-            <p class="mt-3 text-white/80 leading-relaxed">{step.body}</p>
+          <div class="text-center">
+            <Image src={step.icon} alt="" class="h-20 w-auto mx-auto" width={88} height={84} aria-hidden="true" />
+            <h3 class="heading-display text-xl md:text-2xl text-secondary mt-5 max-w-xs mx-auto">{step.title}</h3>
           </div>
         ))}
       </div>
     </div>
   </section>
 
+  {/* ── Long-term success — white, photo left / text right (live 2344c8d) ── */}
   <section class="bg-base-100">
-    <div class="container mx-auto px-4 py-16 md:py-24 grid gap-12 lg:grid-cols-2">
+    <div class="container mx-auto px-4 py-16 md:py-24 grid gap-12 lg:grid-cols-2 lg:items-center">
+      <Image src={longTermImg} alt="Accountant walking a contractor through his tax numbers" class="w-full h-auto order-last lg:order-first" widths={[560, 768, 900]} sizes="(min-width: 1024px) 45vw, 100vw" />
       <div>
-        <SectionHeading
-          eyebrow="Strategy"
-          title="Focus on your long-term financial success"
-        />
-        <p class="mt-4 text-lg leading-relaxed max-w-prose">We start from where your business actually stands today, then build the accounting support around your short- and long-term goals: comprehensive tax strategy, forecasting, cash-flow support, and strategic advisory work — all aimed at getting your business performing at its full potential.</p>
-      </div>
-      <div>
-        <SectionHeading
-          eyebrow="Optimization"
-          title="Keep taxes as low as legally possible"
-        />
-        <p class="mt-4 text-lg leading-relaxed max-w-prose">If your tax advice comes from a generic, stuck-in-the-1990s accountant, it's probably as dated as their office decor. Our tax partnership tracks the latest industry-specific grants, deductions, and credits each year — down to the last cent.</p>
+        <h2 class="heading-display text-3xl md:text-4xl text-secondary">
+          Focus on your <span class="text-sky-ink">Long-term Financial success</span>
+        </h2>
+        <p class="mt-6 leading-relaxed">
+          At Atlas Accounting Group, we take a look at the current financial position of your business, and implement accounting services that support your short and long-term goals. This includes comprehensive tax strategy, forecasting, cash-flow support, and strategic advisory calculations. We ensure your business is performing at its ultimate potential.
+        </p>
       </div>
     </div>
   </section>
 
+  {/* ── Taxes as low as legally possible — white, text left / photo right (live a1f2b64) ── */}
+  <section class="bg-base-100">
+    <div class="container mx-auto px-4 pb-16 md:pb-24 grid gap-12 lg:grid-cols-2 lg:items-center">
+      <div>
+        <h2 class="heading-display text-3xl md:text-4xl text-secondary">
+          Focus on How to keep taxes as low <span class="text-sky-ink">as legally possible</span>
+        </h2>
+        <p class="mt-6 leading-relaxed">
+          If you’ve been working with a 1990s, generic tax accountant, chances are that your tax advice and strategy has been outdated as well. Our expert tax partnership ensures that you receive the latest, industry-specific grants, deductions, and credits down to the last cent each year.
+        </p>
+      </div>
+      <Image src={lowTaxesImg} alt="Tax services for construction company" class="w-full h-auto" widths={[560, 768, 900]} sizes="(min-width: 1024px) 45vw, 100vw" />
+    </div>
+  </section>
+
+  {/* ── Testimonial — cream, photo with name overlay + quote (live 6cb7c055) ── */}
   <section class="bg-cream">
-    <div class="container mx-auto px-4 py-16 md:py-24">
-      <div class="max-w-3xl mx-auto">
-        <SectionHeading
-          eyebrow="Client story"
-          title="“I now have a full understanding of my financial position.”"
-          align="center"
-        />
-        <div class="mt-10">
-          <Testimonial
-            quote="Working with Atlas Accounting Group has completely changed the outlook of my business. I knew very little about the financial health of my company when we started. Now I have a full understanding of my financial position and can make educated business decisions instead of basing them on guesses and feelings."
-            name="Ryann Blake"
-            role="Owner, Chimney Techniques"
-          />
+    <div class="container mx-auto px-4 py-16 md:py-24 grid gap-12 lg:grid-cols-2 lg:items-center">
+      <div class="relative max-w-xl">
+        <Image src={testimonialImg} alt="Ryann Blake, owner of Chimney Techniques" class="w-full h-auto block" widths={[480, 525]} sizes="(min-width: 1024px) 45vw, 100vw" />
+        {/* Bottom wash keeps the white name legible over the photo */}
+        <div class="absolute inset-x-0 bottom-0 h-2/5 bg-gradient-to-t from-black/60 to-transparent pointer-events-none"></div>
+        <div class="absolute bottom-5 left-5">
+          <p class="heading-display text-2xl md:text-3xl text-white">Ryann Blake</p>
+          <p class="mt-1 text-sm font-semibold uppercase tracking-wide text-white">Owner of Chimney Techniques</p>
         </div>
       </div>
+      <figure>
+        <blockquote>
+          <p class="heading-display text-3xl md:text-4xl text-secondary">
+            "I now have a <span class="text-sky-ink">full understanding</span> of my financial position."
+          </p>
+          <p class="mt-6 leading-relaxed">
+            Working with Atlas Accounting Group has completely changed the outlook of my business. When we started our partnership, I knew very little about the financial health of my company. Like many small business owners, I had a family member overseeing everything. When retirement forced a change, Alysia took the reins and because of her I now have a full understanding of my financial position and am able to make educated business decisions instead of basing them on guesses and feelings.
+          </p>
+        </blockquote>
+        <figcaption class="sr-only">Ryann Blake — Owner of Chimney Techniques</figcaption>
+      </figure>
     </div>
   </section>
 
-  <CtaBand
-    heading="Find out how we can help your construction business"
-    ctaLabel="Book Your Discovery Call"
-  />
+  {/* ── Book a call (Calendly) — shared footer band on the live site ── */}
+  <section id="calendly" class="bg-accent relative overflow-hidden scroll-mt-24">
+    {/* Orange duotone photo from the live site (tint baked into the JPG), with a
+        light dark wash on the upper area to keep the white heading legible */}
+    <Image src={ctaBgImg} alt="" class="absolute inset-0 w-full h-full object-cover object-top" widths={[1280]} sizes="100vw" aria-hidden="true" />
+    <div class="absolute inset-0 bg-gradient-to-b from-black/25 to-transparent pointer-events-none"></div>
+    <div class="container mx-auto px-4 py-16 md:py-20 relative">
+      <h2 class="heading-display text-3xl md:text-4xl text-white text-center max-w-3xl mx-auto">
+        Find out how we can help your trade business
+      </h2>
+      <div class="mt-10 max-w-3xl mx-auto bg-base-100 shadow-xl">
+        <CalendlyEmbed />
+      </div>
+    </div>
+  </section>
 
 </BaseLayout>

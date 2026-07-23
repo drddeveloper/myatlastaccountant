@@ -1,48 +1,68 @@
 ---
+import { Image } from 'astro:assets';
 import BaseLayout from '../layouts/BaseLayout.astro';
-import PageHero from '../components/sections/PageHero.astro';
-import SectionHeading from '../components/sections/SectionHeading.astro';
-import CtaBand from '../components/sections/CtaBand.astro';
+import CalendlyEmbed from '../components/CalendlyEmbed.astro';
 import { SITE_DATA } from '../data/constants';
 
+import imgProfitPlanner from '../assets/images/pages/toolbox/Profit-Planner.png';
+import imgKpiDash from '../assets/images/pages/toolbox/KPI-Dash.png';
+import imgProfAlloc from '../assets/images/pages/toolbox/Prof-Alloc-Proj.png';
+import imgCashFlow from '../assets/images/pages/toolbox/Cash-Flow-Forecast-Thumbnail.png';
+import imgLaborBurden from '../assets/images/pages/toolbox/Labor-Burden-Calculator-Thumbnail.png';
+import imgUnderConstruction from '../assets/images/pages/toolbox/Under-Construction-Thumbnail.png';
+import ctaBgImg from '../assets/images/home/Footer-CTA-card-background.jpg';
+
 // Products link out to Kajabi checkout pages — there is no on-site cart.
+// Copy, prices, order, and images carried over verbatim from the live loop grid.
 const products = [
   {
     name: 'Profit Planner',
     price: '$39.00',
-    blurb: 'A standalone planner with the structures and prompts to evaluate your business and act on better profits — no advisory program required.',
+    blurb: 'This planner is designed to stand on its own, giving you structures and prompts that help to evaluate your business and take action toward better profits, even without the full advisory program.',
     url: 'https://myatlasaccountant.mykajabi.com/protect-your-profits',
+    img: imgProfitPlanner,
+    alt: 'Profit Planner',
   },
   {
     name: 'KPI Dashboard',
     price: '$24.00',
-    blurb: 'A workbook built for busy owners: one clear snapshot of business performance, so you spend less time in spreadsheets and more time growing.',
+    blurb: 'Built for busy business owners, this KPI dashboard workbook gives you a clear snapshot of your performance so you can spend less time on spreadsheets and more time growing your business.',
     url: 'https://myatlasaccountant.mykajabi.com/atlas-accounting-group-expert-accountants-KPI-dashboard',
+    img: imgKpiDash,
+    alt: '',
   },
   {
     name: 'Profit Allocation Projector',
     price: '$24.00',
-    blurb: 'Stop guessing where profit goes. Plan and project how earnings get used — reinvestment, debt payoff, or owner draws — so every dollar has a job.',
+    blurb: 'Stop guessing where your profit is going. This tool helps you plan and project how earnings will be used, whether for reinvestment, debt payoff, or owner draws, so every dollar has a job.',
     // FLAG FOR CLIENT REVIEW: this Kajabi slug reads "kpi-dashboard-1-…", which
     // looks like a duplicated KPI Dashboard checkout page rather than a checkout
     // for the Profit Allocation Projector. URL carried over verbatim from the
     // live site — confirm it lands on the correct product before launch.
     url: 'https://myatlasaccountant.mykajabi.com/kpi-dashboard-1-9f4d329d-4cf4-449b-8844-1b8c1c1fa51d',
+    img: imgProfAlloc,
+    alt: '',
   },
   {
     name: 'Cash Flow Forecast',
     price: '$24.00',
-    blurb: 'A month-by-month view of income, expenses, and ending balance, so you see the cash crunch coming and decide with confidence before the pressure hits.',
+    blurb: 'Stay ahead of cash crunches with a clear month-by-month view of income, expenses, and ending balance. This tool helps you make confident financial decisions before the pressure hits.',
     url: 'https://myatlasaccountant.mykajabi.com/cash-flow-forecast',
+    img: imgCashFlow,
+    alt: '',
   },
   {
     name: 'Labor Burden Calculator',
     price: '$24.00',
-    blurb: 'Labor costs more than wages. Calculate the full cost per employee — taxes and benefits included — to price jobs right, manage overhead, and hire smarter.',
+    blurb: 'Labor costs more than wages. This tool calculates the full cost per employee, including taxes and benefits, so you can price jobs right, manage overhead, and hire smarter.',
     url: 'https://myatlasaccountant.mykajabi.com/labor-burden-calculator',
+    img: imgLaborBurden,
+    alt: '',
   },
 ];
 
+// Live pre-order cards open a "Join Waiting List" Gravity Forms popup; we
+// intentionally replace that with a waitlist mailto (no forms backend).
 const comingSoon = [
   'Margin Makers Matrix',
   'Loan Amortization Schedule',
@@ -52,80 +72,89 @@ const comingSoon = [
 
 const waitlistMailto = (product: string) =>
   `mailto:${SITE_DATA.company.email}?subject=${encodeURIComponent(`Waitlist: ${product}`)}`;
+
+// Live cards are one whole-card link with a flat surface that lifts on hover.
+const cardClasses =
+  'flex flex-col p-2.5 bg-base-100 transition-shadow hover:shadow-[0_14px_40px_0_rgba(0,0,0,0.1)] focus-visible:outline-2 focus-visible:outline-accent focus-visible:outline-offset-2';
 ---
 
+{/* Title/meta carried over verbatim from the live page. The live meta
+    description is an auto-generated excerpt run-on ("Your Financial Toolbox
+    Simple, helpful tools…") — flagged for client review, kept for parity. */}
 <BaseLayout
-  title="Your Financial Toolbox"
-  description="Simple, helpful tools for contractors — profit planners, KPI dashboards, cash flow forecasts, and labor burden calculators built by Atlas Accounting Group."
+  title="Toolbox"
+  description="Your Financial Toolbox Simple, helpful tools to help you build a financially stronger business. Loved and trusted by Contractors Nationwide"
 >
 
-  <PageHero
-    theme="cream"
-    eyebrow="Shop"
-    title="Your Financial Toolbox"
-    subtitle="Simple, helpful tools to help you build a financially stronger business. Loved and trusted by contractors nationwide."
-  />
+  {/* ── Hero (live: white, centered; the live page has no h1 — promoted here for a11y) ── */}
+  <section class="bg-base-100">
+    <div class="container mx-auto px-4 pt-20 pb-16 md:pt-24 md:pb-24 text-center">
+      <h1 class="heading-display text-4xl md:text-6xl text-secondary">Your Financial Toolbox</h1>
+      <p class="mt-5 text-lg max-w-2xl mx-auto">Simple, helpful tools to help you build a financially stronger business.</p>
+    </div>
+  </section>
 
+  {/* ── Trust band (live: navy strip between hero and grid) ── */}
+  <section class="bg-primary">
+    <div class="container mx-auto px-4 py-8 md:py-12">
+      <p class="text-center text-white font-semibold uppercase tracking-[0.2em] text-sm md:text-base">
+        Loved and trusted by Contractors Nationwide
+      </p>
+    </div>
+  </section>
+
+  {/* ── Product grid (live: single loop grid, 4/3/2/1 columns, products then
+       pre-orders; each card is one outbound link) ── */}
   <section class="bg-base-100">
     <div class="container mx-auto px-4 py-16 md:py-24">
-      <SectionHeading
-        eyebrow="Available now"
-        title="Tools you can put to work today"
-        align="center"
-      />
-      <div class="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+      <div class="grid gap-x-6 gap-y-8 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+
         {products.map((p) => (
-          <div class="card border border-base-300 shadow-none flex flex-col">
-            <h3 class="heading-display text-xl text-primary">{p.name}</h3>
-            <p class="heading-display text-2xl text-accent-ink mt-2">{p.price}</p>
-            <p class="mt-4 text-sm leading-relaxed flex-grow">{p.blurb}</p>
-            <div class="mt-6">
-              <a href={p.url} target="_blank" rel="noopener" class="btn btn-accent">Add to Cart</a>
+          <a href={p.url} target="_blank" rel="noopener" class={cardClasses}>
+            <Image src={p.img} alt={p.alt} class="w-full aspect-3/2 object-cover" widths={[400, 800, 1200]} sizes="(min-width: 1280px) 22vw, (min-width: 1024px) 30vw, (min-width: 640px) 45vw, 100vw" />
+            <div class="mt-4 px-1.5 pb-1.5 flex flex-col flex-grow">
+              {/* h2 keeps the outline h1 → h2 (live uses non-semantic divs);
+                  live product titles are bold but not uppercase */}
+              <h2 class="text-xl font-bold text-secondary normal-case">{p.name}</h2>
+              <p class="mt-3 text-sm leading-relaxed flex-grow">{p.blurb}</p>
+              <div class="mt-5 flex items-center justify-between gap-5">
+                <span class="text-lg font-bold text-accent-ink">{p.price}</span>
+                <span class="btn btn-accent">Add to Cart<span class="sr-only"> — {p.name} (opens checkout in a new tab)</span></span>
+              </div>
             </div>
-          </div>
+          </a>
         ))}
-      </div>
-    </div>
-  </section>
 
-  <section class="bg-primary">
-    <div class="container mx-auto px-4 py-16 md:py-20">
-      <div class="max-w-3xl mx-auto text-center">
-        <h2 class="heading-display text-3xl md:text-4xl text-white">Try our free Labor Calculator</h2>
-        <p class="mt-4 text-lg text-white/85">See the real hourly cost of your employees.</p>
-        <div class="mt-8">
-          <a href="/labor-calculator/" class="btn btn-accent">Try Now</a>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <section class="bg-cream">
-    <div class="container mx-auto px-4 py-16 md:py-24">
-      <SectionHeading
-        eyebrow="Pre-order"
-        title="Coming soon to the toolbox"
-        intro="These tools are in the works. Join the waitlist and we'll email you the moment each one is released."
-        align="center"
-      />
-      <div class="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
         {comingSoon.map((name) => (
-          <div class="card bg-base-100 border border-base-300 shadow-none flex flex-col">
-            <span class="eyebrow">Pre-Order</span>
-            <h3 class="heading-display text-lg text-primary mt-2">{name}</h3>
-            <p class="mt-3 text-sm leading-relaxed flex-grow">Coming soon! Join the waitlist to be notified when it's released.</p>
-            <div class="mt-5">
-              <a href={waitlistMailto(name)} class="btn btn-outline">Join the Waitlist</a>
+          <a href={waitlistMailto(name)} class={cardClasses}>
+            <Image src={imgUnderConstruction} alt="" class="w-full aspect-3/2 object-cover" widths={[400, 800, 1200]} sizes="(min-width: 1280px) 22vw, (min-width: 1024px) 30vw, (min-width: 640px) 45vw, 100vw" />
+            <div class="mt-4 px-1.5 pb-1.5 flex flex-col flex-grow">
+              <h2 class="text-xl font-bold text-secondary normal-case">{name}</h2>
+              <p class="mt-3 text-sm leading-relaxed flex-grow">Coming soon! Join the waitlist to be notified when it's released.</p>
+              <div class="mt-5 flex items-center justify-end">
+                <span class="btn btn-accent">Pre-Order<span class="sr-only"> — join the {name} waitlist by email</span></span>
+              </div>
             </div>
-          </div>
+          </a>
         ))}
+
       </div>
     </div>
   </section>
 
-  <CtaBand
-    heading="Find out how we can help your construction business"
-    ctaLabel="Book a Call"
-  />
+  {/* ── Book a call (live footer band: orange duotone photo card + inline Calendly;
+       same treatment as the homepage's canonical version) ── */}
+  <section class="bg-accent relative overflow-hidden" id="calendly">
+    <Image src={ctaBgImg} alt="" class="absolute inset-0 w-full h-full object-cover object-top" widths={[1280]} sizes="100vw" aria-hidden="true" />
+    <div class="absolute inset-0 bg-gradient-to-b from-black/25 to-transparent pointer-events-none"></div>
+    <div class="container mx-auto px-4 py-16 md:py-20 relative">
+      <h2 class="heading-display text-3xl md:text-4xl text-white text-center max-w-3xl mx-auto">
+        Find out how we can help your trade business
+      </h2>
+      <div class="mt-10 max-w-3xl mx-auto bg-base-100 shadow-xl">
+        <CalendlyEmbed />
+      </div>
+    </div>
+  </section>
 
 </BaseLayout>

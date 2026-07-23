@@ -1,105 +1,169 @@
 ---
+import { Image } from 'astro:assets';
 import BaseLayout from '../layouts/BaseLayout.astro';
-import PageHero from '../components/sections/PageHero.astro';
-import SectionHeading from '../components/sections/SectionHeading.astro';
 import CtaBand from '../components/sections/CtaBand.astro';
-import FaqList from '../components/sections/FaqList.astro';
-import { SITE_DATA } from '../data/constants';
 
-const generalFaqs = [
+import popupImg from '../assets/images/pages/faqs/Accounting-Team-for-Specialty-Trades.webp';
+
+// Live page parity: four category sections (General / Bookkeeping / Payroll /
+// Taxes), each an orange category label + borderless accordion list.
+// Copy is verbatim from the live accordions. Answers keep their original
+// paragraph breaks, which is why these render inline instead of through
+// FaqList (that component only supports single-paragraph answers).
+interface FaqItem {
+  q: string;
+  a: string[];
+}
+
+const generalFaqs: FaqItem[] = [
   {
     q: 'How often will we chat?',
-    a: 'You can email us anytime — we respond within 2 business days on Essentials and 1 business day on Plus and Pro. Coaching meetings run annually on Essentials, quarterly on Plus, and monthly on Pro, and are held virtually over Microsoft Teams.',
+    a: [
+      'You can reach us by email anytime! Throughout the month, we have a two-day response time with our Essentials package, and a one day response time with our Plus and Pro packages. We have an annual coaching meeting with the Essentials package, a Quarterly coaching meeting with our Plus package, and a monthly coaching meeting with our Pro package.',
+      'All meetings are held in our virtual office or Microsoft Teams, and phone calls are scheduled in advance as needed. We create well-planned and organized financial processes so you won’t run into emergencies!',
+    ],
   },
   {
     q: 'How long will it take to onboard with Atlas Accounting Group?',
-    a: 'Onboarding runs about 12 weeks, with weekly meetings to get your accounting and workflows accurate and dependable. We handle any backlog bookkeeping and your current bookkeeping at the same time, so nothing falls behind while we catch up.',
+    a: [
+      'Onboarding is the most important and collaborative phase of our relationship. Over the course of 12 weeks, we’ll work closely together to lay the foundation for accurate, real-time accounting and seamless workflows, setting us up for a successful partnership for years to come.',
+      'We’ll meet with you every single week to make sure everything is set up correctly, your data is clean, and your systems are aligned with our standards. Each week includes key milestones, progress checks, and open communication to ensure nothing gets overlooked.',
+      'In some cases, onboarding may begin up to a month before your recurring monthly service starts. For most of the onboarding process, we’ll be working simultaneously on backwork bookkeeping and your current, active bookkeeping.',
+    ],
   },
   {
     q: 'Why does Atlas Accounting Group work specifically with home service businesses?',
-    a: 'This industry requires a deep understanding of complex, project-based accounting. We specialize in trade-specific financials — job costing, progress billing — and integrate with the tools you already use, including ServiceTitan, Housecall Pro, and Jobber.',
+    a: [
+      'We work with home service businesses because this industry requires a deep understanding of complex, project-based accounting. It’s not something just any general accountant can handle.',
+      'Our team has spent years becoming experts in trade-specific financials, including job costing, progress billing, and integrating with industry tools like ServiceTitan, Housecall Pro, and Jobber.',
+      'This focused knowledge is what sets us apart. We understand the challenges our clients face and help them build the right systems to support long-term success in their field.',
+    ],
   },
   {
     q: 'Who will I be in contact with?',
-    a: 'At first, you’ll work with our Client Success and Marketing Coordinator and/or a Co-Founder. Once onboarding is complete, you get a dedicated lead accountant — and a payroll specialist if your plan includes payroll — with backup team members who know your account.',
+    a: [
+      'Your first connection will be with one or both of the following team members: our Client Success and Marketing Coordinator, and our Co-Founder. They’ll guide you through the Discovery Call process.',
+      'Once you decide to move forward and sign your proposal, you’ll be assigned a dedicated lead accountant, along with a payroll specialist if applicable. Every accountant on our team is highly trained. If your lead accountant is ever out of office, we use a collaborative approach, where another team member can step in seamlessly, to ensure nothing falls through the cracks!',
+    ],
   },
   {
     q: 'What is it like to work with a virtual accounting firm?',
-    a: 'No paperwork, no outdated processes. Email is our primary channel, backed by scheduled phone calls and virtual meetings over Microsoft Teams. Your data stays protected with multi-factor authentication and secure communication channels.',
+    a: [
+      'It’s a smooth and easy experience.',
+      'Say goodbye to paper and outdated processes. We set you up with secure methods for submitting information, eliminating the need for snail mail or storing piles of paperwork in an office.',
+      'Email is our primary form of communication, with phone calls reserved for scheduled appointments. Virtual meetings are hosted in our virtual office or through Microsoft Teams.',
+      'Virtual accountants are often more accessible than traditional brick-and-mortar firms. We also take data security seriously. All of our applications use multi-factor authentication, and we only exchange sensitive information through approved and secure channels.',
+    ],
   },
 ];
 
-const bookkeepingFaqs = [
+const bookkeepingFaqs: FaqItem[] = [
   {
     q: 'Will you set up my bookkeeping software for me?',
-    a: 'Absolutely! Full QuickBooks Online setup is part of our onboarding Accounting System Clean Up and Installation.',
+    a: [
+      'Absolutely! We work exclusively with cloud-based accounting software, primarily QuickBooks Online, and offer a full setup of your books during your Onboarding Accounting System Clean Up and Install.',
+    ],
   },
   {
     q: 'What happens if my books are a complete mess?',
-    a: 'Clean-up is built into onboarding. We take temporary access to your system, run a diagnostic, walk you through what we found, and lay out a clear plan to get everything back in order.',
+    a: [
+      'Yes, clean-up is a key part of our onboarding process for those who decide to work with us. It’s included in our Onboarding Accounting System Clean Up and Installation, a one-time service designed to build a strong accounting foundation from the start. This includes cleaning up your existing books, putting the right workflows in place, and ensuring accurate, real-time financial reporting moving forward.',
+      'During your Discovery Call, we’ll request temporary access to your current accounting system to complete a diagnostic of your books. Then, we’ll meet with you to go over our findings and provide a clear plan to get everything in order. A proposal for the clean-up and installation work will be shared at that time, so you know exactly what to expect.',
+    ],
   },
   {
     q: 'What will I receive every month with ongoing bookkeeping services?',
-    a: 'It depends on your tier. Essentials covers compliance with annual meetings. Plus adds payroll and quarterly meetings. Pro adds financial planning, cash flow forecasting, and budgeting with monthly meetings.',
+    a: [
+      'Atlas Accounting Group offers three levels of service. What you receive will vary depending on what is most useful to you and what you’ve chosen to invest in.',
+      'Our Essentials package offers compliance-level services and annual advisory meetings.',
+      'Our Plus package offers management-level services, including compliance, payroll, and quarterly advisory meetings.',
+      'Our Pro package offers leadership-level services, including financial planning, cash flow forecasting, budgeting, leadership support, and monthly advisory meetings.',
+      'It’s best to book a quick call with us to determine the best level of service for your business. Packages are customizable to fit your needs.',
+    ],
   },
   {
     q: 'Is there anything I need to do each month for bookkeeping?',
-    a: 'Your level of involvement depends on your service level — we work that out together during onboarding so the split of responsibilities is clear from day one.',
+    a: [
+      'Your involvement in the accounting process is going to vary based on the service you’re investing in. During onboarding, we work together to clearly determine what responsibilities you (or others on your team) will have.',
+    ],
   },
   {
     q: 'How much should I be making before I outsource bookkeeping?',
-    a: 'There’s no magic number. If your time could be creating more value elsewhere in the business than it does in the books, it’s time to pay a professional.',
+    a: [
+      'There is no exact amount of money you should be making before you hire someone to support your bookkeeping and accounting functions; however, a good rule of thumb is that if you could be spending your time on your business in more valuable ways, you should pay a professional. You didn’t start a business to become an accountant!',
+    ],
   },
   {
     q: 'What is the best time of year to start with a bookkeeper?',
-    a: 'Yesterday. If you’re already asking the question, you’re already in business — and the sooner your books are handled professionally, the sooner the rest gets easier.',
+    a: [
+      'Yesterday. Truly, if you are now considering professional accounting services, you are likely already in business and would benefit from the assistance of a professional.',
+    ],
   },
 ];
 
-const payrollFaqs = [
+const payrollFaqs: FaqItem[] = [
   {
     q: 'When is the best time of year to migrate to a new construction payroll system?',
-    a: 'Payroll systems can be switched any time of the year. Quarter-end and year-end transitions tend to be the smoothest, but they’re not required. We run payroll on Gusto.',
+    a: [
+      'Payroll systems can be switched any time of the year! Traditionally, a more seamless transition can be had at the end of a quarter or the end of the year. But Gusto (the platform we use and recommend!) makes transferring your payroll service easy any time.',
+    ],
   },
   {
     q: 'What time tracking system do you recommend for general contractors and construction businesses?',
-    a: 'We typically recommend Gusto’s timecard features, with integration options for other tools. The best timecard solution is the one your employees will actually use without friction.',
+    a: [
+      'Gusto provides a timecard feature and allows many different timecard applications to integrate. The best timecard solution is the one that is easy for your employees to use and that gives you the level of information you need.',
+    ],
   },
   {
     q: 'Do you handle construction payroll taxes for me?',
-    a: 'Yes. Gusto collects payroll taxes with each payroll run, remits them automatically, and the required reporting gets filed without you having to lift a finger.',
+    a: [
+      'Gusto will collect payroll taxes with each payroll run. The taxes are remitted to the proper authorities and the reports are filed as required without you needing to lift a finger. Atlas Accounting Group keeps a watchful eye on reporting and helps resolve any issues with support.',
+    ],
   },
   {
     q: 'Is it easy to switch from another provider?',
-    a: 'Piece of cake. We pull your previous payroll data directly or request exactly what we need from you to complete the setup.',
+    a: [
+      'Piece of cake. Atlas will access your previous payroll process or data or send you a list of what we need to get you all set up.',
+    ],
   },
   {
     q: 'What is the setup process like?',
-    a: 'Gusto can be set up in as little as one week. Your employees enter their own personal details and manage their direct deposit, while we collect the historical wage and tax data.',
+    a: [
+      'Setup and implementation of Gusto can take as little as one week! Gusto allows employees to enter their own personal information and manage their own direct deposit. Information about historical wages and tax payments are also collected. We are here to help at any point!',
+    ],
   },
 ];
 
-const taxFaqs = [
+const taxFaqs: FaqItem[] = [
   {
     q: 'Can you handle my personal and business taxes for me?',
-    a: 'We partner with a professional tax preparation firm staffed with CPAs and EAs, so tax filing, planning, and resolution services are all available to our clients.',
+    a: [
+      'Atlas Accounting Group works with a professional tax preparation firm that has CPAs and EAs on staff to take care of all your tax needs. We handle the administrative tasks and interactions on your behalf to provide a stress-free experience. Tax filing, planning, and resolution services are all available to our clients. Estimates of fees are presented up front.',
+    ],
   },
   {
     q: 'What do I need to submit to prepare my taxes?',
-    a: 'Very little — comprehensive packets of financial reports and documents are included in every service package, so your preparer gets what they need without a scramble.',
+    a: [
+      'Our packages include a comprehensive packet of financial reports and documents to send to our tax preparation partner or to a tax preparer of your choice.',
+    ],
   },
   {
     q: 'Will you talk to my tax accountant for me?',
-    a: 'We would love to! We regularly collaborate with other professionals and are happy to communicate directly with the tax preparer you’ve chosen.',
+    a: [
+      'We would love to! We love to collaborate with other professionals. Our goal is to be a supportive advisor to your business, and that includes working closely with other professionals on your team.',
+    ],
   },
   {
     q: 'How do you choose the right tax accountant partner for me?',
-    a: 'We select partners based on credentials, experience, professional standards, and a genuine passion for tax preparation.',
+    a: [
+      'Experience matters when it comes to taxes. We partner with tax professionals that not only hold the required credentials and experience, but also love preparing taxes and hold themselves to high standards.',
+    ],
   },
   {
-    // Fixed from the live site's miswritten "Can I use your own tax accountant?"
     q: 'Can I use my own tax accountant?',
-    a: 'Yes. Every service level includes comprehensive financial reports and documents you can hand to any tax preparer you like.',
+    a: [
+      'Yes. A comprehensive package of financial reports and documents is included in each of our levels of service. You can bring that information to a tax preparer of your choosing or use our tax partner. Atlas Accounting Group is a strong collaborator with other professionals, and we are happy to make a connection with your chosen tax preparer in an effort to give you a better experience.',
+    ],
   },
 ];
 
@@ -110,9 +174,7 @@ const categories = [
   { label: 'Taxes', items: taxFaqs },
 ];
 
-// Single combined FAQPage JSON-LD for all 20 questions.
-// Individual FaqList instances intentionally get no schema prop, so we don't
-// emit four competing FAQPage blocks.
+// Single combined FAQPage JSON-LD for all 21 questions across the categories.
 const faqJsonLD = {
   '@context': 'https://schema.org',
   '@type': 'FAQPage',
@@ -120,7 +182,7 @@ const faqJsonLD = {
     cat.items.map((item) => ({
       '@type': 'Question',
       name: item.q,
-      acceptedAnswer: { '@type': 'Answer', text: item.a },
+      acceptedAnswer: { '@type': 'Answer', text: item.a.join(' ') },
     }))
   ),
 };
@@ -128,54 +190,139 @@ const faqJsonLD = {
 
 <BaseLayout
   title="Construction Accounting FAQs"
-  description="Answers to the questions contractors ask us most — communication, onboarding, bookkeeping, construction payroll, and taxes at Atlas Accounting Group."
+  description="Curious how our accounting for construction services work? Here are a list of frequently asked questions around payroll, taxes, bookkeeping, and ongoing accounting with Atlas Accounting Group."
 >
 
-  <PageHero
-    theme="navy"
-    eyebrow="FAQs"
-    title="Frequently Asked Questions"
-    subtitle="Everything contractors ask us before signing on — how we communicate, what onboarding looks like, and how bookkeeping, payroll, and taxes are handled. Don't see your question? Book a call and ask us directly."
-    ctaLabel="Book a Call"
-    ctaHref={SITE_DATA.links.bookACall}
-  />
+  {/* ── Heading band — white, centered (live section 19028294).
+        Live renders this as an h2; promoted to h1 for accessibility. ── */}
+  <section class="bg-base-100">
+    <div class="container mx-auto px-4 pt-20 pb-16 md:pt-24 md:pb-28">
+      <h1 class="heading-display text-4xl md:text-6xl text-secondary text-center">Frequently asked questions</h1>
+    </div>
+  </section>
 
+  {/* ── Category sections — alternating cream/white (live 5a992a0…7e5fe9b) ── */}
   {categories.map((cat, i) => (
-    <section class={i % 2 === 0 ? 'bg-base-100' : 'bg-cream'}>
-      <div class="container mx-auto px-4 py-16 md:py-20">
+    <section class={i % 2 === 0 ? 'bg-cream' : 'bg-base-100'}>
+      <div class="container mx-auto px-4 py-16 md:py-24">
         <div class="max-w-3xl mx-auto">
-          <SectionHeading eyebrow="Category" title={cat.label} />
-          <div class="mt-8">
-            <FaqList items={cat.items} />
+          <h2 class="eyebrow text-lg md:text-xl text-center">{cat.label}</h2>
+          <div class="mt-8 md:mt-10 space-y-6 md:space-y-8">
+            {cat.items.map((item) => (
+              <details class="group">
+                <summary class="flex items-start justify-between gap-6 cursor-pointer list-none [&::-webkit-details-marker]:hidden focus-visible:outline-2 focus-visible:outline-accent">
+                  <span class="heading-display text-lg md:text-2xl text-secondary group-hover:text-primary transition-colors">{item.q}</span>
+                  <svg class="h-6 w-6 mt-0.5 shrink-0 text-accent transition-transform group-open:rotate-45" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                    <path stroke-linecap="round" d="M12 5v14M5 12h14" />
+                  </svg>
+                </summary>
+                <div class="mt-4 space-y-4 leading-relaxed max-w-2xl">
+                  {item.a.map((para) => <p>{para}</p>)}
+                </div>
+              </details>
+            ))}
           </div>
         </div>
       </div>
     </section>
   ))}
 
-  <section class="bg-primary">
-    <div class="container mx-auto px-4 py-16 md:py-20">
-      <SectionHeading
-        onDark
-        eyebrow="Free tools"
-        title="Run your own numbers"
-        intro="Curious what an employee really costs, or where your margin is going? Try our free calculators."
-        align="center"
-      />
-      <div class="mt-8 flex flex-wrap justify-center gap-4">
-        <a href="/labor-calculator/" class="btn btn-accent">Try Our Labor Calculator</a>
-        <a href="/profit-margin-calculator/" class="btn btn-outline text-white">Profit Margin Calculator</a>
-      </div>
-    </div>
-  </section>
+  {/* Live pages end with the global footer CTA band ("Find out how we can
+      help your trade business" + Calendly); the rebuild represents it
+      with the shared CtaBand, as on the other rebuilt pages. */}
+  <CtaBand heading="Find out how we can help your trade business" />
 
-  <CtaBand
-    heading="Still have questions?"
-    subtext="Book a free discovery call and get answers specific to your business."
-    ctaLabel="Book a Call"
-  />
-
-  {/* Combined FAQPage schema for all 20 questions across the four categories */}
+  {/* Combined FAQPage schema for all questions across the four categories */}
   <script type="application/ld+json" set:html={JSON.stringify(faqJsonLD)} />
 
+  {/*
+    Recreation of the live site's Elementor popup (id 666), shown once per
+    browser session on this page. Mobile: full-width sheet anchored to the
+    bottom. Desktop (md+): card that slides in from the right edge.
+    Non-modal — it doesn't trap focus or block the page.
+  */}
+  <div
+    class="profit-popup fixed z-[60] bg-primary shadow-2xl hidden inset-x-0 bottom-0 w-full md:inset-x-auto md:right-6 md:bottom-6 md:w-[22rem]"
+    role="dialog"
+    aria-label="Try our free profit margin calculator"
+    data-profit-popup
+  >
+    <button
+      type="button"
+      class="absolute top-3 right-3 z-10 inline-flex items-center justify-center h-9 w-9 text-white hover:text-accent transition-colors focus-visible:outline-2 focus-visible:outline-accent"
+      data-profit-popup-close
+    >
+      <span class="sr-only">Close</span>
+      <svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+        <path stroke-linecap="round" d="M6 6l12 12M18 6L6 18" />
+      </svg>
+    </button>
+    <div class="p-6 px-10 text-center">
+      <p class="heading-display text-xl text-white">Try our free Profit Margin Calculator</p>
+      <p class="mt-2 text-white/85 text-sm">Estimate your project margins with ease.</p>
+      <a href="/profit-margin-calculator/" class="btn btn-accent mt-4 w-full">Try Now</a>
+    </div>
+    <Image src={popupImg} alt="" class="w-full h-28 md:h-40 object-cover" widths={[420, 768]} sizes="(min-width: 768px) 22rem, 100vw" loading="lazy" />
+  </div>
+
 </BaseLayout>
+
+<style>
+  .profit-popup {
+    opacity: 0;
+    /* mobile: slide up from the bottom edge */
+    transform: translateY(100%);
+    transition: transform 0.6s ease-out, opacity 0.6s ease-out;
+  }
+  @media (min-width: 768px) {
+    /* desktop: slide in from the right edge, like the live fadeInRight popup */
+    .profit-popup {
+      transform: translateX(calc(100% + 1.5rem));
+    }
+  }
+  .profit-popup.profit-popup-open {
+    opacity: 1;
+    transform: translate(0, 0);
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .profit-popup {
+      transition: opacity 0.2s ease-out;
+      transform: none;
+    }
+  }
+</style>
+
+<script>
+  const popup = document.querySelector<HTMLElement>('[data-profit-popup]');
+  const closeBtn = document.querySelector<HTMLButtonElement>('[data-profit-popup-close]');
+  const KEY = 'atlas-pm-popup-shown';
+
+  if (popup && closeBtn && !sessionStorage.getItem(KEY)) {
+    // Slight delay so the popup doesn't compete with the initial page render
+    setTimeout(() => {
+      sessionStorage.setItem(KEY, '1');
+      popup.classList.remove('hidden');
+      // force a reflow so the entrance transition runs from the off-screen state
+      void popup.offsetHeight;
+      popup.classList.add('profit-popup-open');
+    }, 2500);
+
+    const close = () => {
+      // reverse the entrance transition, then remove once it finishes
+      popup.classList.remove('profit-popup-open');
+      let removed = false;
+      const remove = () => {
+        if (removed) return;
+        removed = true;
+        popup.remove();
+      };
+      popup.addEventListener('transitionend', remove, { once: true });
+      setTimeout(remove, 700); // fallback (e.g. prefers-reduced-motion)
+    };
+
+    closeBtn.addEventListener('click', close);
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && popup.isConnected && popup.classList.contains('profit-popup-open')) close();
+    });
+  }
+</script>

@@ -1,54 +1,80 @@
 ---
 import { Image } from 'astro:assets';
 import BaseLayout from '../layouts/BaseLayout.astro';
+import SectionHeading from '../components/sections/SectionHeading.astro';
+import Testimonial from '../components/sections/Testimonial.astro';
+import FaqList from '../components/sections/FaqList.astro';
+import CtaBand from '../components/sections/CtaBand.astro';
 import { SITE_DATA } from '../data/constants';
 import logo from '../assets/images/branding/Atlas-Accounting-logo.svg';
 import lightLogo from '../assets/images/branding/Atlas-Accounting-light-logo.svg';
 
-const { fonts } = SITE_DATA.branding;
+const { fonts, colors } = SITE_DATA.branding;
 
 const swatches = [
-  { name: 'Primary', token: 'bg-primary', hex: SITE_DATA.branding.colors.primary, note: 'Deep navy — dark sections, primary surfaces' },
-  { name: 'Secondary', token: 'bg-secondary', hex: SITE_DATA.branding.colors.secondary, note: 'Near-black — headings' },
-  { name: 'Accent', token: 'bg-accent', hex: SITE_DATA.branding.colors.accent, note: 'Orange — CTAs, highlights' },
-  { name: 'Sky', token: 'bg-sky', hex: SITE_DATA.branding.colors.sky, note: 'Light blue — secondary accent, on-dark accents' },
-  { name: 'Cream', token: 'bg-cream', hex: SITE_DATA.branding.colors.cream, note: 'Warm off-white section surface' },
-  { name: 'Cream Dark', token: 'bg-cream-dark', hex: SITE_DATA.branding.colors.creamDark, note: 'Pale peach — testimonial/chip surfaces' },
+  { name: 'Primary', token: 'bg-primary', hex: colors.primary, note: 'Deep navy — dark sections, hero, footer' },
+  { name: 'Secondary', token: 'bg-secondary', hex: colors.secondary, note: 'Near-black — display headings on light' },
+  { name: 'Accent', token: 'bg-accent', hex: colors.accent, note: 'Orange — CTA fills, orange sections' },
+  { name: 'Accent Ink', token: 'text-accent-ink', hex: colors.accentInk, note: 'Orange TEXT on light surfaces (AA-safe)' },
+  { name: 'Sky', token: 'text-sky', hex: colors.sky, note: 'Light blue — highlight words on navy only' },
+  { name: 'Sky Ink', token: 'text-sky-ink', hex: colors.skyInk, note: 'Blue highlight TEXT on light surfaces (AA-safe)' },
+  { name: 'Cream', token: 'bg-cream', hex: colors.cream, note: 'Warm off-white section surface' },
+  { name: 'Cream Dark', token: 'bg-cream-dark', hex: colors.creamDark, note: 'Pale peach — chips, newsletter band' },
+];
+
+const sampleFaqs = [
+  { q: 'What does this component look like?', a: 'Exactly like this — details/summary accordion with an animated plus icon, used for all FAQ sections.' },
+  { q: 'Does it emit schema?', a: 'Pass schema={true} on one list per page (or emit a combined FAQPage JSON-LD at page level, as /frequently-asked-questions/ does).' },
 ];
 ---
 
 <BaseLayout title="Brand Guide" description="Living visual reference for the Atlas Accounting Group website.">
   <div class="container mx-auto px-4 py-12">
     <p class="eyebrow mb-3">Internal Reference</p>
-    <h1 class="heading-display text-4xl text-primary mb-10">Brand Guide: {SITE_DATA.company.name}</h1>
+    <h1 class="heading-display text-4xl text-primary mb-4">Brand Guide: {SITE_DATA.company.name}</h1>
+    <p class="max-w-2xl mb-10">The living reference for every visual decision on this site. If a style isn't here, add it here first — then use it in the build.</p>
 
     <section class="mb-14">
       <h2 class="heading-display text-2xl text-primary mb-6">Colors</h2>
-      <div class="grid grid-cols-2 md:grid-cols-3 gap-6">
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-6">
         {swatches.map((s) => (
           <div class="space-y-2">
-            <div class={`h-24 w-full rounded-xl shadow-sm border border-base-300 ${s.token}`}></div>
+            <div class="h-20 w-full rounded-xl shadow-sm border border-base-300" style={`background-color: ${s.hex}`}></div>
             <p class="font-bold text-secondary">{s.name}</p>
             <p class="text-sm">{s.note}</p>
-            <code class="text-sm bg-base-200 px-2 py-1 rounded">{s.hex} · {s.token}</code>
+            <code class="text-xs bg-base-200 px-2 py-1 rounded">{s.hex} · {s.token}</code>
           </div>
         ))}
       </div>
+      <p class="mt-6 text-sm bg-cream-dark p-4 rounded-lg max-w-3xl"><strong>Contrast rules:</strong> raw Sky and Accent are backgrounds/dark-surface colors only. Any orange or blue <em>text</em> on white/cream must use the Ink variants. Text on orange fills is navy, never white.</p>
+    </section>
+
+    <section class="mb-14">
+      <h2 class="heading-display text-2xl text-primary mb-6">Logos</h2>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-2xl">
+        <div class="border border-base-300 p-8 rounded-xl flex items-center justify-center bg-white">
+          <Image src={logo} alt="Atlas Accounting Group color logo on white" class="h-16 w-auto" height={128} />
+        </div>
+        <div class="border border-base-300 p-8 rounded-xl flex items-center justify-center bg-primary">
+          <Image src={lightLogo} alt="Atlas Accounting Group light logo on navy" class="h-16 w-auto" height={128} />
+        </div>
+      </div>
+      <p class="mt-4 text-sm">Color SVG on light surfaces (header); light SVG on navy (footer, dark panels). Files: <code class="bg-base-200 px-1 rounded">src/assets/images/branding/</code></p>
     </section>
 
     <section class="mb-14">
       <h2 class="heading-display text-2xl text-primary mb-6">Typography — Sofia Pro (self-hosted)</h2>
       <div class="space-y-6">
         <div>
-          <p class="text-sm text-base-content/70 mb-1">Display heading — .heading-display (700, uppercase, 1.06 lh)</p>
-          <p class="heading-display text-4xl text-primary">Built for the trades</p>
+          <p class="text-sm text-base-content/70 mb-1">Display heading — .heading-display (700, uppercase, 1.06 lh, -0.01em tracking)</p>
+          <p class="heading-display text-4xl text-primary">Built for the <span class="text-sky-ink">trades</span></p>
         </div>
         <div>
-          <p class="text-sm text-base-content/70 mb-1">Eyebrow — .eyebrow</p>
+          <p class="text-sm text-base-content/70 mb-1">Eyebrow — .eyebrow (600, uppercase, accent-ink on light; add text-sky on navy)</p>
           <p class="eyebrow">Who we serve</p>
         </div>
         <div>
-          <p class="text-sm text-base-content/70 mb-1">Body — {fonts.body}, 400/500/600/700 + italics</p>
+          <p class="text-sm text-base-content/70 mb-1">Body — {fonts.body}, weights 400/500/600/700 + italics</p>
           <p class="text-lg">The quick brown fox jumps over the lazy dog. <em>Italic</em>, <strong>bold</strong>, <span class="font-medium">medium</span>.</p>
         </div>
       </div>
@@ -66,14 +92,62 @@ const swatches = [
         <a href="#" class="btn btn-accent">On Dark: Accent</a>
         <a href="#" class="btn btn-outline text-white">On Dark: Outline</a>
       </div>
+      <p class="mt-4 text-sm">Square corners, uppercase, navy text on orange fills. Text link pattern: <a href="#" class="text-accent-ink font-semibold uppercase text-sm tracking-wide">Learn More →</a></p>
     </section>
 
     <section class="mb-14">
-      <h2 class="heading-display text-2xl text-primary mb-6">Surfaces</h2>
+      <h2 class="heading-display text-2xl text-primary mb-6">Form Elements</h2>
+      <div class="grid md:grid-cols-2 gap-8 max-w-2xl">
+        <div>
+          <label for="bg-sample-input" class="block font-semibold text-secondary mb-2">Text / number input — .input</label>
+          <input id="bg-sample-input" type="text" class="input" placeholder="1880" />
+        </div>
+        <div>
+          <p class="font-semibold text-secondary mb-2">Stepper — .stepper-btn</p>
+          <div class="flex items-center gap-2">
+            <button type="button" class="stepper-btn" aria-label="Decrease">−</button>
+            <input type="text" class="input text-center" value="250,000" readonly aria-label="Stepper value sample" />
+            <button type="button" class="stepper-btn" aria-label="Increase">+</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="mb-14">
+      <h2 class="heading-display text-2xl text-primary mb-6">Section Heading Pattern</h2>
+      <div class="border border-base-300 rounded-xl p-8">
+        <SectionHeading
+          eyebrow="Eyebrow label"
+          title="Section heading with a highlight"
+          intro="Intro copy sits under the heading with relaxed leading. Use align='center' for centered sections."
+        />
+      </div>
+    </section>
+
+    <section class="mb-14">
+      <h2 class="heading-display text-2xl text-primary mb-6">Testimonial</h2>
+      <div class="max-w-2xl">
+        <Testimonial
+          quote="This is the reusable testimonial treatment — peach panel, orange quote mark, attribution line."
+          name="Component Sample"
+          role="Brand Guide"
+        />
+      </div>
+    </section>
+
+    <section class="mb-14">
+      <h2 class="heading-display text-2xl text-primary mb-6">FAQ Accordion</h2>
+      <div class="max-w-2xl">
+        <FaqList items={sampleFaqs} />
+      </div>
+    </section>
+
+    <section class="mb-14">
+      <h2 class="heading-display text-2xl text-primary mb-6">Cards</h2>
       <div class="grid md:grid-cols-3 gap-6">
         <div class="card border border-base-300 shadow-none">
           <h3 class="heading-display text-lg text-primary">Card on white</h3>
-          <p class="mt-2 text-sm">Border style, hover:border-accent for links.</p>
+          <p class="mt-2 text-sm">Border style; link cards get hover:border-accent or hover:-translate-y-2.</p>
         </div>
         <div class="bg-cream rounded-xl p-6">
           <div class="card bg-base-100">
@@ -90,16 +164,13 @@ const swatches = [
       </div>
     </section>
 
-    <section>
-      <h2 class="heading-display text-2xl text-primary mb-6">Logo</h2>
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-2xl">
-        <div class="border border-base-300 p-8 rounded-xl flex items-center justify-center bg-white">
-          <Image src={logo} alt="Atlas Accounting Group logo on white" class="h-16 w-auto" height={128} />
-        </div>
-        <div class="border border-base-300 p-8 rounded-xl flex items-center justify-center bg-primary">
-          <Image src={lightLogo} alt="Atlas Accounting Group light logo on navy" class="h-16 w-auto" height={128} />
-        </div>
+    <section class="mb-14">
+      <h2 class="heading-display text-2xl text-primary mb-6">CTA Band</h2>
+      <div class="rounded-xl overflow-hidden border border-base-300">
+        <CtaBand heading="Reusable closing CTA band" subtext="Navy band with radial sky glow — ends most pages." ctaLabel="Sample CTA" ctaHref="#" />
       </div>
+      <p class="mt-4 text-sm">The homepage and /blog/ use the photo-background variant instead (orange duotone image + Calendly embed) — see index.astro.</p>
     </section>
+
   </div>
 </BaseLayout>

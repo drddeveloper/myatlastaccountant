@@ -1,178 +1,245 @@
 ---
+import { Image } from 'astro:assets';
 import BaseLayout from '../layouts/BaseLayout.astro';
-import PageHero from '../components/sections/PageHero.astro';
-import SectionHeading from '../components/sections/SectionHeading.astro';
-import CtaBand from '../components/sections/CtaBand.astro';
-import Testimonial from '../components/sections/Testimonial.astro';
-import { SITE_DATA } from '../data/constants';
+import CalendlyEmbed from '../components/CalendlyEmbed.astro';
 
-const services = [
-  { title: 'Monthly financials you can actually use', href: '/pricing/', blurb: 'Reports written for an owner, not an auditor — what you earned, what you spent, and what to do next.' },
-  { title: 'Clean books and smart job costing', href: '/pricing/', blurb: 'Know what each install really costs — panels, labor, permits, and all — so pricing stops being a guess.' },
-  { title: 'Payroll and cash flow planning that fit your seasonality', href: '/construction-payroll/', blurb: 'Crews paid on time and cash planned around the install calendar, not against it.' },
-  { title: 'Support from real humans who know the solar space', href: '/meet-the-team/', blurb: 'A responsive team that understands installs, incentives, and growth — not a ticket queue.' },
+// Asset shared with the homepage — imported from home/, not duplicated
+import ctaBgImg from '../assets/images/home/Footer-CTA-card-background.jpg';
+
+// Page-specific images (downloaded from the live /accountants-for-solar-companies/ page)
+import heroImg from '../assets/images/pages/solar/Accounting-for-solar-companies.png';
+import systemizeImg from '../assets/images/pages/solar/Group-2dd2.png';
+import growImg from '../assets/images/pages/solar/Accountants-for-solar.png';
+
+// Icons + testimonial photo shared by the electrical / plumbing / solar trade pages
+import testimonialImg from '../assets/images/pages/shared/Ryann-Blake-Testimonial.jpg';
+import icon360Financial from '../assets/images/pages/shared/360-financial-icon.svg';
+import iconFileBox from '../assets/images/pages/shared/File-Box.svg';
+import iconInvoice from '../assets/images/pages/shared/Invoice.svg';
+import iconData from '../assets/images/pages/shared/Data.svg';
+import iconCheck from '../assets/images/pages/shared/checkmark-accent.svg';
+import iconCpu from '../assets/images/pages/shared/cpu-icon.svg';
+import iconFinancial from '../assets/images/pages/shared/financial-icon.svg';
+import iconDocCalc from '../assets/images/pages/shared/document-with-calculator.svg';
+import iconTax from '../assets/images/pages/shared/tax-1.svg';
+import iconWorkflow from '../assets/images/pages/shared/workflow.svg';
+
+// Linked service cards. Live card 1 links to /bookkeeper-for-construction/ —
+// no route in this build → nearest existing route (/pricing/).
+const serviceCards = [
+  { icon: iconFileBox, title: 'Clean books and smart job costing', href: '/pricing/' },
+  { icon: iconInvoice, title: 'Payroll and cash flow planning that fit your seasonality', href: '/construction-payroll/' },
+  { icon: iconData, title: 'Support from real humans who know the solar space', href: '/meet-the-team/' },
 ];
 
+// Benchmark assessment pills (live: three white pills on the orange band)
 const assessmentQuestions = [
   'Is your growth where it should be?',
   'Are your business tools holding you back?',
   'Is it time for an accountant?',
 ];
 
-const differentiators = [
-  { title: 'Bring your technology up to speed', body: 'Your project management and invoicing tools connected straight to the books.' },
-  { title: 'Manage & forecast cash flow', body: 'See funding gaps between project milestones before they become emergencies.' },
-  { title: 'Increase profitability through smarter accounting', body: 'Find which installs, crews, and cost lines actually drive your margin.' },
-  { title: 'Find thousands of dollars in tax breaks', body: 'Clean, well-categorized books make sure available deductions and credits get captured.' },
-  { title: 'Build better accounting workflows', body: 'A repeatable back-office system that scales with your install volume.' },
+// "Push you farther" icon boxes (live: row of three + centered row of two)
+const capabilities = [
+  { icon: iconCpu, title: 'Bring your technology up to speed' },
+  { icon: iconFinancial, title: 'Manage & forecast cash flow' },
+  { icon: iconDocCalc, title: 'Increase profitability through smarter accounting' },
+  { icon: iconTax, title: 'Find thousands of dollars In tax breaks' },
+  { icon: iconWorkflow, title: 'Build better accounting workflows' },
 ];
 ---
 
+{/* Live <title>/meta are copy-pasted from the construction page — the solar-specific
+    title/description below are kept instead (per the rebuild fix list). */}
 <BaseLayout
   title="Accountants for Solar Companies | Bookkeeping | Payroll | Tax"
   description="Atlas Accounting Group specializes in solar company finances — clean bookkeeping, smart job costing, payroll, and cash flow planning built around your install calendar, so you can grow the business instead of chasing the books."
 >
 
-  <PageHero
-    theme="navy"
-    eyebrow="Accountants for Solar Companies"
-    title="We're accountants who specialize in Solar Companies"
-    subtitle="You're juggling installs, permits, payroll, and a dozen operational fires at once. We're the problem-solvers who take the financial side off your plate — and hand back numbers you can actually run the company on."
-    ctaLabel="Book A Discovery Call"
-    ctaHref={SITE_DATA.links.bookACall}
-    secondaryLabel="See Pricing"
-    secondaryHref="/pricing/"
-  />
-
+  {/* ── Hero (live: white bg, text 57% / image 42%) ── */}
   <section class="bg-base-100">
-    <div class="container mx-auto px-4 py-16 md:py-24">
-      <div class="max-w-3xl">
-        <SectionHeading
-          eyebrow="Close your eyes and picture it"
-          title="What does your dream solar business look like?"
-        />
-        <div class="mt-6 space-y-5 text-lg leading-relaxed">
-          <p>Maybe it's a warehouse humming with crews loading out for the day's installs. Teams that run without you hovering. Profits that show up steadily instead of in unpredictable lumps. Maybe it's simply a real weekend off.</p>
-          <p>You started this company to grow something meaningful — and building clean energy at scale is genuinely hard: ambitious growth targets, a mission you care about, and operational complexity that multiplies with every new crew. The last thing you need is bookkeeping chaos on top of it. That's the piece we take completely off your plate.</p>
+    <div class="container mx-auto px-4 py-14 md:py-20 grid gap-10 lg:grid-cols-[4fr_3fr] lg:items-center">
+      <div>
+        <h1 class="heading-display text-4xl md:text-5xl xl:text-6xl text-secondary">
+          we're accountants who specialize in <span class="text-sky-ink">Solar Companies</span>
+        </h1>
+        <p class="mt-6 text-lg leading-relaxed max-w-xl">
+          What does financial success look like for your solar business?
+        </p>
+        <div class="mt-8">
+          <a href="#calendly" class="btn btn-accent">Book A Discovery Call</a>
         </div>
+      </div>
+      <div>
+        <Image src={heroImg} alt="Accounting for solar companies" class="w-full h-auto block" widths={[480, 768, 1200]} sizes="(min-width: 1024px) 40vw, 100vw" loading="eager" fetchpriority="high" />
       </div>
     </div>
   </section>
 
+  {/* ── Close your eyes (live: navy band, centered) ── */}
+  <section class="bg-primary">
+    <div class="container mx-auto px-4 py-16 md:py-24 text-center">
+      <h2 class="heading-display text-3xl md:text-5xl text-white max-w-4xl mx-auto">
+        Close Your Eyes <span class="text-sky">And Picture It</span>
+      </h2>
+      <div class="mt-6 space-y-5 text-lg leading-relaxed text-white/90 max-w-4xl mx-auto">
+        <p>What does your dream solar business look like?</p>
+        <p>
+          Maybe it’s a warehouse buzzing with installs.<br />
+          Maybe it’s a team that finally runs like a well-oiled machine.<br />
+          Maybe it’s steady, reliable profits… and time off when you want it.
+        </p>
+        <p>Now open your eyes. How close are you?</p>
+        <p>We know that solar founders are building more than just a business. You’re pushing for growth, sustainability, and something that lasts. But it’s hard to keep your books clean when you’re managing installs, permits, team payroll, and a hundred other moving pieces.</p>
+        <p>That’s where we come in.</p>
+      </div>
+    </div>
+  </section>
+
+  {/* ── Services (live: cream body bg, centered heading, orange card + 3 linked white cards, 2px gaps) ── */}
   <section class="bg-cream">
     <div class="container mx-auto px-4 py-16 md:py-24">
-      <SectionHeading
-        eyebrow="Services"
-        title="Built for solar businesses like yours"
-        intro="Financial clarity and systems that help you make better decisions and grow with confidence."
-      />
-      <div class="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
-        {services.map((s) => (
-          <a href={s.href} class="card border border-base-300 shadow-none hover:border-accent hover:shadow-lg transition-shadow group focus-visible:outline-2 focus-visible:outline-accent">
-            <h3 class="heading-display text-lg text-primary group-hover:text-accent-ink transition-colors">{s.title}</h3>
-            <p class="mt-3 text-sm leading-relaxed">{s.blurb}</p>
-            <span class="mt-4 inline-block text-accent-ink font-semibold text-sm uppercase tracking-wide">Learn more →</span>
+      <div class="max-w-3xl mx-auto text-center">
+        <h2 class="heading-display text-3xl md:text-5xl text-secondary">
+          Built For Solar Businesses<br /> <span class="text-sky-ink">Like Yours</span>
+        </h2>
+        <p class="mt-5 text-lg leading-relaxed">
+          At Atlas Accounting Group, we help solar company owners get the financial clarity and systems they need to make better decisions, and hit the next stage of growth.
+        </p>
+      </div>
+      <div class="mt-12 grid gap-0.5 sm:grid-cols-2 lg:grid-cols-4">
+        {/* Card 1 — orange, not linked on the live page. Navy title (live white fails contrast on orange). */}
+        <div class="bg-accent px-6 py-12 flex flex-col items-center text-center">
+          <Image src={icon360Financial} alt="" class="h-[70px] w-auto" width={70} height={70} aria-hidden="true" />
+          <h3 class="text-2xl font-bold text-primary mt-6">Monthly financials you can actually use</h3>
+        </div>
+        {/* Cards 2–4 — white, whole card is the link (as on live) */}
+        {serviceCards.map((card) => (
+          <a href={card.href} class="group bg-base-100 border border-base-300 hover:border-accent transition-colors px-6 py-12 flex flex-col items-center text-center focus-visible:outline-2 focus-visible:outline-accent">
+            <Image src={card.icon} alt="" class="h-[70px] w-auto" width={70} height={70} aria-hidden="true" />
+            <h3 class="text-2xl font-bold text-secondary mt-6">{card.title}</h3>
+            <span class="mt-auto pt-6 inline-flex items-center gap-2 font-semibold text-lg text-accent-ink group-hover:text-accent transition-colors">
+              Learn More
+              <svg class="h-4 w-4" viewBox="0 0 320 512" fill="currentColor" aria-hidden="true"><path d="M285.476 272.971L91.132 467.314c-9.373 9.373-24.569 9.373-33.941 0l-22.667-22.667c-9.357-9.357-9.375-24.522-.04-33.901L188.505 256 34.484 101.255c-9.335-9.379-9.317-24.544.04-33.901l22.667-22.667c9.373-9.373 24.569-9.373 33.941 0L285.475 239.03c9.373 9.372 9.373 24.568.001 33.941z"/></svg>
+              <span class="sr-only"> — {card.title}</span>
+            </span>
           </a>
         ))}
       </div>
     </div>
   </section>
 
+  {/* ── Systemize (live: white, text left / image right) ── */}
   <section class="bg-base-100">
     <div class="container mx-auto px-4 py-16 md:py-24 grid gap-12 lg:grid-cols-2 lg:items-center">
-      <SectionHeading
-        eyebrow="Systemize"
-        title="Systemize your solar accounting"
-        intro="Cash flow stress usually means there's no system — and no strategic plan behind the numbers. We fix both: automated tools, real-time data, and workflows that give you full visibility into the business."
-      />
-      <div class="card bg-cream shadow-none border border-base-300">
-        <h3 class="heading-display text-lg text-primary">What a systemized back office looks like</h3>
-        <ul class="mt-4 space-y-3" role="list">
-          <li class="flex items-start gap-3"><span class="text-accent font-bold" aria-hidden="true">→</span>Books reconciled and closed on the same schedule every month</li>
-          <li class="flex items-start gap-3"><span class="text-accent font-bold" aria-hidden="true">→</span>Project costs tracked in real time, not reconstructed at year end</li>
-          <li class="flex items-start gap-3"><span class="text-accent font-bold" aria-hidden="true">→</span>A cash picture you can check any day of the week</li>
-        </ul>
+      <div>
+        <h2 class="heading-display text-3xl md:text-5xl text-secondary">
+          <span class="text-sky-ink">Systemize</span> Your Solar Accounting
+        </h2>
+        <p class="mt-6 leading-relaxed">
+          Are you stressed about cash flow… not knowing how much money will be coming into and out of the business, and when? Do you feel like you’re always running around putting out fires because you don’t have a comprehensive and strategic plan in place? At Atlas Accounting Group, we help you systemize your solar business through automated technology, real-time data, and improved internal workflows so you always have a grip on the full picture of your business.
+        </p>
+      </div>
+      <Image src={systemizeImg} alt="accounting for construction team" class="w-full h-auto" widths={[480, 700]} sizes="(min-width: 1024px) 45vw, 100vw" />
+    </div>
+
+    {/* ── Grow (live: white, image left / text right) ── */}
+    <div class="container mx-auto px-4 pb-16 md:pb-24 grid gap-12 lg:grid-cols-2 lg:items-center">
+      <Image src={growImg} alt="Accountants for solar" class="w-full h-auto order-last lg:order-first" widths={[480, 768, 1050]} sizes="(min-width: 1024px) 45vw, 100vw" />
+      <div>
+        <h2 class="heading-display text-3xl md:text-5xl text-secondary">
+          Find Opportunities to <span class="text-sky-ink">grow your solar business</span>
+        </h2>
+        <p class="mt-6 leading-relaxed">
+          We’ll dive into your business to pull out any low-hanging revenue opportunities we see, find ways to cut down on unnecessary expenses, and help you manage your money in a way that brings in more profits month-on-month.
+        </p>
       </div>
     </div>
   </section>
 
-  <section class="bg-primary">
-    <div class="container mx-auto px-4 py-16 md:py-24">
-      <div class="max-w-3xl">
-        <SectionHeading
-          onDark
-          eyebrow="Grow"
-          title="Find opportunities to grow your solar business"
-          intro="We look for the revenue you're not capturing, the expenses that don't earn their keep, and the cash management habits that quietly raise profit — then help you act on all three."
-        />
-        <div class="mt-8">
-          <a href={SITE_DATA.links.bookACall} class="btn btn-accent">Get Your Benchmark Assessment</a>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <section class="bg-cream">
+  {/* ── Benchmark assessment (live: orange band; navy text kept for WCAG contrast on orange).
+       Live "Start Assessment" button opens a Typeform quiz → routed to /getting-started/. ── */}
+  <section class="bg-accent">
     <div class="container mx-auto px-4 py-16 md:py-24">
       <div class="max-w-3xl mx-auto text-center">
-        <SectionHeading
-          eyebrow="Quick check"
-          title="How does your business stack up?"
-          align="center"
-        />
-        <ul class="mt-8 space-y-4 text-left max-w-md mx-auto" role="list">
-          {assessmentQuestions.map((q) => (
-            <li class="flex items-start gap-3 text-lg font-semibold text-primary">
-              <svg class="h-6 w-6 shrink-0 text-accent" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01" />
-              </svg>
-              {q}
-            </li>
-          ))}
-        </ul>
-        <div class="mt-10">
-          <a href={SITE_DATA.links.bookACall} class="btn btn-accent">Start Assessment</a>
-        </div>
+        <p class="eyebrow text-primary mb-4">Get Your Benchmark Assessment</p>
+        <h2 class="heading-display text-3xl md:text-5xl text-primary">
+          How does Your business stack up?
+        </h2>
+        <p class="mt-4 text-2xl font-medium text-primary">Let’s assess…</p>
+      </div>
+      <ul class="mt-12 grid gap-4 md:gap-10 lg:grid-cols-3 max-w-5xl mx-auto" role="list">
+        {assessmentQuestions.map((q) => (
+          <li class="flex items-start gap-4 bg-base-100 px-5 py-3.5">
+            <Image src={iconCheck} alt="" class="h-10 w-10 shrink-0" width={42} height={42} aria-hidden="true" />
+            <span class="text-xl md:text-2xl font-bold text-secondary">{q}</span>
+          </li>
+        ))}
+      </ul>
+      <div class="mt-12 text-center">
+        <a href="/getting-started/" class="btn btn-primary">Start Assessment</a>
       </div>
     </div>
   </section>
 
+  {/* ── Push you farther (live: white, centered icon boxes — row of 3 + centered row of 2 — then button) ── */}
   <section class="bg-base-100">
     <div class="container mx-auto px-4 py-16 md:py-24">
-      <SectionHeading
-        eyebrow="Why Atlas"
-        title="Work with solar accountants who push you farther"
-      />
-      <div class="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-        {differentiators.map((d) => (
-          <div class="card bg-cream shadow-none border border-base-300">
-            <h3 class="heading-display text-lg text-primary">{d.title}</h3>
-            <p class="mt-3 text-sm leading-relaxed">{d.body}</p>
+      <h2 class="heading-display text-3xl md:text-5xl text-secondary text-center max-w-4xl mx-auto">
+        Work with Solar accountants <span class="text-sky-ink">who push you farther</span>
+      </h2>
+      <div class="mt-14 flex flex-wrap justify-center gap-x-10 gap-y-12">
+        {capabilities.map((cap) => (
+          <div class="w-full text-center sm:w-[calc(50%-1.25rem)] lg:w-[calc(33.333%-1.75rem)]">
+            <Image src={cap.icon} alt="" class="h-20 w-auto mx-auto" width={85} height={85} aria-hidden="true" />
+            <h3 class="heading-display text-lg md:text-xl text-secondary mt-6">{cap.title}</h3>
           </div>
         ))}
       </div>
-      <div class="mt-10">
-        <a href="/why-we-are-different/" class="btn btn-outline">What's It Like To Work With Us?</a>
+      <div class="mt-12 text-center">
+        <a href="/why-we-are-different/" class="btn btn-accent">What's It Like To Work With Us?</a>
       </div>
     </div>
   </section>
 
+  {/* ── Testimonial (live: cream body bg, photo w/ name overlay + quote) ── */}
   <section class="bg-cream">
-    <div class="container mx-auto px-4 py-16 md:py-24">
-      <div class="max-w-3xl mx-auto">
-        <Testimonial
-          quote="I now have a full understanding of my financial position."
-          name="Ryann Blake"
-          role="Chimney Techniques"
-        />
+    <div class="container mx-auto px-4 py-16 md:py-24 grid gap-12 lg:grid-cols-[9fr_11fr] lg:items-center">
+      <div class="relative">
+        <Image src={testimonialImg} alt="Ryann Blake Testimonial" class="w-full h-auto" widths={[420, 525]} sizes="(min-width: 1024px) 40vw, 100vw" />
+        {/* Live overlays the name bottom-left in white; gradient added so the text passes contrast */}
+        <div class="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/70 to-transparent pt-16 pb-6 px-8">
+          <p class="heading-display text-2xl md:text-3xl text-white">Ryann Blake</p>
+          <p class="text-white text-lg uppercase">Owner of Chimney Techniques</p>
+        </div>
       </div>
+      <figure>
+        <blockquote>
+          <p class="heading-display text-3xl md:text-4xl text-secondary">
+            “I now have a <span class="text-sky-ink">full understanding</span> of my financial position.”
+          </p>
+          <p class="mt-6 leading-relaxed">
+            Working with Atlas Accounting Group has completely changed the outlook of my business. When we started our partnership, I knew very little about the financial health of my company. Like many small business owners, I had a family member overseeing everything. When retirement forced a change, Alysia took the reins and because of her I now have a full understanding of my financial position and am able to make educated business decisions instead of basing them on guesses and feelings.
+          </p>
+        </blockquote>
+        <figcaption class="sr-only">Ryann Blake, Owner of Chimney Techniques</figcaption>
+      </figure>
     </div>
   </section>
 
-  <CtaBand
-    heading="Find out how we can help your solar business"
-    subtext="Book a free discovery call and see what a real financial partner looks like for your solar company."
-    ctaLabel="Book A Discovery Call"
-  />
+  {/* ── Book a call (live: footer template band — orange duotone photo + Calendly).
+       Live heading says "construction business" on every page → localized per trade. ── */}
+  <section id="calendly" class="bg-accent relative overflow-hidden scroll-mt-24">
+    <Image src={ctaBgImg} alt="" class="absolute inset-0 w-full h-full object-cover object-top" widths={[1280]} sizes="100vw" aria-hidden="true" />
+    <div class="absolute inset-0 bg-gradient-to-b from-black/25 to-transparent pointer-events-none"></div>
+    <div class="container mx-auto px-4 py-16 md:py-20 relative">
+      <h2 class="heading-display text-3xl md:text-4xl text-white text-center max-w-3xl mx-auto">
+        Find out how we can help your solar business
+      </h2>
+      <div class="mt-10 max-w-3xl mx-auto bg-base-100 shadow-xl">
+        <CalendlyEmbed />
+      </div>
+    </div>
+  </section>
 
 </BaseLayout>

@@ -1,19 +1,19 @@
 ---
+import { Image } from 'astro:assets';
 import BaseLayout from '../layouts/BaseLayout.astro';
-import PageHero from '../components/sections/PageHero.astro';
-import SectionHeading from '../components/sections/SectionHeading.astro';
 import CtaBand from '../components/sections/CtaBand.astro';
 import { SITE_DATA } from '../data/constants';
 
-// The live WP site used a resume-upload form. This is a static site, so we
-// route speculative applications through a prefilled mailto instead.
+import formBgImg from '../assets/images/pages/careers/aa-career-form-bg.jpg';
+
+// Live page parity: 4 open-application roles rendered as accordions.
+// The live WP site submits a Gravity Form with a resume upload; this is a
+// static site, so Apply CTAs are mailto links with role-prefilled subjects.
 // If the client wants uploads back, that needs a backend/form-service decision.
 const roles = [
   'Senior Accountant',
   'Junior Accountant',
   'Payroll Specialist',
-  'Tax Specialist',
-  'IT Support',
   'Sales and Marketing',
 ];
 
@@ -22,64 +22,95 @@ const applyEmail = SITE_DATA.company.email;
 /** Build a mailto link with a role-specific prefilled subject. */
 const applyHref = (role: string) =>
   `mailto:${applyEmail}?subject=${encodeURIComponent(`Application: ${role}`)}`;
+
+/** General (no specific role) application link for the Apply section. */
+const generalApplyHref = `mailto:${applyEmail}?subject=${encodeURIComponent('Job Application')}`;
 ---
 
 <BaseLayout
-  title="Careers"
-  description="Atlas Accounting Group isn't actively hiring right now, but we welcome speculative applications from talented accountants, payroll and tax specialists, IT, and sales and marketing candidates."
+  title="Career"
+  description="While we may not be actively hiring at the moment, we’re always interested in connecting with talented individuals who are passionate about what they do. If you’re interested in joining our team in the future, we’d love to hear from you."
 >
 
-  <PageHero
-    theme="navy"
-    eyebrow="Careers"
-    title="Come join us!"
-    subtitle="We're not actively hiring at the moment — but we're always glad to hear from talented people. Send us your resume and we'll keep your details on file to match you with future openings."
-    ctaLabel="Send Your Resume"
-    ctaHref={applyHref('General Application')}
-  />
+  {/* ── Hero — navy, centered (live section 3993d78) ── */}
+  <section class="bg-primary">
+    <div class="container mx-auto px-4 pt-20 pb-20 md:pt-32 md:pb-36">
+      <div class="max-w-4xl mx-auto text-center">
+        <h1 class="heading-display text-4xl md:text-6xl text-white">
+          come <span class="text-sky">join us!</span>
+        </h1>
+        <p class="mt-8 text-lg leading-relaxed text-white">
+          While we may not be actively hiring at the moment, we’re always interested in connecting with talented individuals who are passionate about what they do. If you’re interested in joining our team in the future, we’d love to hear from you. Feel free to submit your resume for the positions listed below. We’ll keep your information on file and reach out when a role that fits your experience becomes available.
+        </p>
+      </div>
+    </div>
+  </section>
 
-  <section class="bg-base-100">
+  {/* ── Roles — cream, white accordion cards (live section 209eb67) ── */}
+  <section class="bg-cream">
     <div class="container mx-auto px-4 py-16 md:py-24">
-      <SectionHeading
-        eyebrow="Future openings"
-        title="Roles we hire for"
-        intro="When positions open up, they're typically in one of these areas. Pick the one that fits you best and introduce yourself."
-        align="center"
-      />
-      <div class="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-3 max-w-4xl mx-auto">
+      <h2 class="heading-display text-3xl md:text-5xl text-secondary text-center">what we’re looking for</h2>
+      <div class="mt-10 md:mt-14 max-w-3xl mx-auto space-y-4">
         {roles.map((role) => (
-          <div class="card border border-base-300 shadow-none flex flex-col">
-            <h3 class="heading-display text-lg text-primary">{role}</h3>
-            <p class="mt-2 text-sm text-base-content flex-grow">Atlas Accounting Group</p>
-            <div class="mt-5">
-              <a href={applyHref(role)} class="btn btn-outline w-full">Apply Now</a>
+          <details class="group bg-base-100">
+            <summary class="flex items-center justify-between gap-6 cursor-pointer list-none [&::-webkit-details-marker]:hidden px-6 py-7 md:px-7 md:py-9 font-semibold text-xl md:text-2xl text-secondary hover:text-primary transition-colors focus-visible:outline-2 focus-visible:outline-accent">
+              {role}
+              <svg class="h-6 w-6 shrink-0 text-secondary transition-transform group-open:rotate-45" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true">
+                <path stroke-linecap="round" d="M12 5v14M5 12h14" />
+              </svg>
+            </summary>
+            <div class="px-6 pb-7 md:px-7 md:pb-9 -mt-2 flex flex-wrap items-center justify-between gap-4">
+              <a href="/" class="inline-flex items-center gap-2 text-sm font-medium text-sky-ink hover:text-primary transition-colors">
+                Atlas Accounting Group
+                <svg class="h-3.5 w-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M14 4h6v6M20 4L9 15M18 13v6a1 1 0 01-1 1H5a1 1 0 01-1-1V7a1 1 0 011-1h6" />
+                </svg>
+                <span class="sr-only"> (home page)</span>
+              </a>
+              <a href={applyHref(role)} class="btn btn-accent">Apply Now</a>
             </div>
-          </div>
+          </details>
         ))}
       </div>
     </div>
   </section>
 
-  <section class="bg-cream">
-    <div class="container mx-auto px-4 py-16 md:py-24">
-      <SectionHeading
-        eyebrow="Apply now"
-        title="Add your talent and experience to our growing team!"
-        intro="Email us your resume with a few lines about yourself — where you're located, the role you're interested in, and the experience you'd bring. We'll keep your information on hand and reach out when a matching opportunity opens up."
-        align="center"
-      />
-      <div class="mt-8 text-center">
-        <a href={applyHref('General Application')} class="btn btn-accent">Email Your Resume</a>
-        <p class="mt-4 text-sm text-base-content">Or write to us directly at <a href={`mailto:${applyEmail}`} class="link text-primary">{applyEmail}</a></p>
+  {/* ── Apply — cream section, orange duotone photo card (live 6b71390 / d156bc8) ── */}
+  <section id="apply-now" class="bg-cream">
+    <div class="container mx-auto px-4 pb-16 md:pb-24">
+      <div class="relative overflow-hidden">
+        <Image
+          src={formBgImg}
+          alt=""
+          class="absolute inset-0 w-full h-full object-cover"
+          widths={[768, 1280, 1920]}
+          sizes="(min-width: 1280px) 1200px, 100vw"
+          aria-hidden="true"
+        />
+        {/* dark wash keeps the white copy legible over the orange duotone photo */}
+        <div class="absolute inset-0 bg-gradient-to-b from-black/40 to-black/20 pointer-events-none"></div>
+        <div class="relative max-w-3xl mx-auto px-6 py-16 md:py-24 text-center">
+          <h2 class="heading-display text-3xl md:text-5xl text-white">Apply now</h2>
+          <p class="mt-5 text-lg text-white">Add your talent and experience to our growing team!</p>
+          {/* The live resume-upload form needs a backend this static site doesn't
+              have — applications go through a prefilled email instead. */}
+          <p class="mt-4 text-white/90 leading-relaxed">
+            Email us your resume with your name, phone number, location, and the role you’re interested in. We’ll keep your information on file and reach out when a matching opportunity opens up.
+          </p>
+          <div class="mt-8">
+            <a href={generalApplyHref} class="btn btn-accent">Email Your Resume</a>
+          </div>
+          <p class="mt-5 text-sm text-white">
+            Or write to us directly at <a href={`mailto:${applyEmail}`} class="link font-semibold text-white hover:text-sky transition-colors">{applyEmail}</a>
+          </p>
+        </div>
       </div>
     </div>
   </section>
 
-  <CtaBand
-    heading="Curious who you'd be working with?"
-    subtext="Get to know the Atlas team — over 100 years of combined experience in trade-industry accounting."
-    ctaLabel="Meet the Team"
-    ctaHref="/meet-the-team/"
-  />
+  {/* Live pages end with the global footer CTA band ("Find out how we can
+      help your trade business" + Calendly); the rebuild represents it
+      with the shared CtaBand, as on the other rebuilt pages. */}
+  <CtaBand heading="Find out how we can help your trade business" />
 
 </BaseLayout>

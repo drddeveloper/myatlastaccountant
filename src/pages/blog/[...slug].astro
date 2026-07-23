@@ -1,5 +1,6 @@
 ---
 import { getCollection, render } from 'astro:content';
+import { Image } from 'astro:assets';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import PageHero from '../../components/sections/PageHero.astro';
 import CtaBand from '../../components/sections/CtaBand.astro';
@@ -30,7 +31,24 @@ const formatDate = (date: Date) =>
 
   <section class="bg-base-100">
     <div class="container mx-auto px-4 py-16 md:py-24">
-      <p class="eyebrow max-w-3xl mx-auto mb-8">By {post.data.author}</p>
+      {post.data.image && (
+        <Image
+          src={post.data.image}
+          alt=""
+          inferSize
+          class="w-full max-w-3xl mx-auto aspect-video object-cover mb-12"
+        />
+      )}
+      <div class="max-w-3xl mx-auto mb-8 flex flex-wrap items-center gap-x-6 gap-y-2">
+        <p class="eyebrow">By {post.data.author}</p>
+        {post.data.tags && post.data.tags.length > 0 && (
+          <ul class="flex flex-wrap gap-2" role="list">
+            {post.data.tags.map((tag) => (
+              <li class="bg-cream-dark text-primary font-semibold px-3 py-1 text-xs uppercase tracking-wide">{tag}</li>
+            ))}
+          </ul>
+        )}
+      </div>
       <article class="prose max-w-3xl mx-auto">
         <Content />
       </article>
