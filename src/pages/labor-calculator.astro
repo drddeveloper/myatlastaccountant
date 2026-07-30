@@ -1,10 +1,9 @@
 ---
 import { Image } from 'astro:assets';
 import BaseLayout from '../layouts/BaseLayout.astro';
-import CalendlyEmbed from '../components/CalendlyEmbed.astro';
+import CalendlyCta from '../components/sections/CalendlyCta.astro';
 
 import heroImg from '../assets/images/pages/labor-calc/Bookkeeping-for-electricians.png';
-import ctaBgImg from '../assets/images/home/Footer-CTA-card-background.jpg';
 
 // Input definitions drive both the form markup and keep IDs consistent with
 // the live site's calculator script. `cols` mirrors the live widget's
@@ -73,8 +72,10 @@ const breakdownRows = [
 
   {/* ── Hero (live: white, two columns, blue "calculator", navy button → #calculator) ── */}
   <section class="bg-base-100">
-    <div class="container mx-auto px-4 py-14 md:py-24 grid gap-10 lg:grid-cols-2 lg:items-center">
-      <div>
+    <div class="container mx-auto px-4 grid gap-x-10 lg:grid-cols-2 items-stretch">
+      {/* .hero-copy owns the vertical padding (--hero-pad-y) so .hero-media
+          can run flush to the sections above and below */}
+      <div class="hero-copy">
         <h1 class="heading-display text-4xl md:text-5xl xl:text-6xl text-primary">
           Labor cost <span class="text-sky-ink">calculator</span>
         </h1>
@@ -85,15 +86,14 @@ const breakdownRows = [
           <a href="#calculator" class="btn btn-accent">Try Calculator</a>
         </div>
       </div>
-      <Image
+      <div class="hero-media"><Image
         src={heroImg}
         alt="Bookkeeping for electricians"
-        class="w-full h-auto"
         widths={[400, 800]}
         sizes="(min-width: 1024px) 45vw, 100vw"
         loading="eager"
         fetchpriority="high"
-      />
+      /></div>
     </div>
   </section>
 
@@ -182,20 +182,7 @@ const breakdownRows = [
     </div>
   </section>
 
-  {/* ── Book a call (live footer band: orange duotone photo card + inline Calendly;
-       same treatment as the homepage's canonical version) ── */}
-  <section class="bg-accent relative overflow-hidden" id="calendly">
-    <Image src={ctaBgImg} alt="" class="absolute inset-0 w-full h-full object-cover object-top" widths={[1280]} sizes="100vw" aria-hidden="true" />
-    <div class="absolute inset-0 bg-gradient-to-b from-black/25 to-transparent pointer-events-none"></div>
-    <div class="container mx-auto px-4 py-16 md:py-20 relative">
-      <h2 class="heading-display text-3xl md:text-4xl text-white text-center max-w-3xl mx-auto">
-        Find out how we can help your trade business
-      </h2>
-      <div class="mt-10 max-w-3xl mx-auto bg-base-100 shadow-xl">
-        <CalendlyEmbed />
-      </div>
-    </div>
-  </section>
+  <CalendlyCta heading="Find out how we can help your trade business" />
 
   <script>
     // Formulas transcribed from the live site's theme script

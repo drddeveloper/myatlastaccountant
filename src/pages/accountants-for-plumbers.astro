@@ -1,10 +1,8 @@
 ---
 import { Image } from 'astro:assets';
 import BaseLayout from '../layouts/BaseLayout.astro';
-import CalendlyEmbed from '../components/CalendlyEmbed.astro';
+import CalendlyCta from '../components/sections/CalendlyCta.astro';
 
-// Asset shared with the homepage — imported from home/, not duplicated
-import ctaBgImg from '../assets/images/home/Footer-CTA-card-background.jpg';
 
 // Page-specific images (downloaded from the live /accountants-for-plumbers/ page)
 import heroImg from '../assets/images/pages/plumbing/Best-accountants-for-plumbers.webp';
@@ -25,13 +23,14 @@ import iconDocCalc from '../assets/images/pages/shared/document-with-calculator.
 import iconTax from '../assets/images/pages/shared/tax-1.svg';
 import iconWorkflow from '../assets/images/pages/shared/workflow.svg';
 
-// Service cards. Unlike the electrical/solar pages, the live plumbing cards are NOT
-// linked (the only "Learn More" pill carries a broken href and is hidden at every
-// breakpoint), so these render as static cards.
+// Service cards. On the live site these are unlinked (the only "Learn More" pill
+// carries a broken href and is hidden at every breakpoint). We link them to the
+// same destinations the sibling trade pages use, so the card behaves consistently
+// site-wide instead of looking clickable and doing nothing.
 const serviceCards = [
-  { icon: iconFileBox, title: 'Monthly Bookkeeping' },
-  { icon: iconInvoice, title: 'Monthly Payroll' },
-  { icon: iconData, title: 'Bookkeeping for Tax Filing' },
+  { icon: iconFileBox, title: 'Monthly Bookkeeping', href: '/pricing/' },
+  { icon: iconInvoice, title: 'Monthly Payroll', href: '/construction-payroll/' },
+  { icon: iconData, title: 'Bookkeeping for Tax Filing', href: '/tax-services/' },
 ];
 
 // Benchmark assessment pills (live: three white pills on the orange band)
@@ -58,8 +57,10 @@ const capabilities = [
 
   {/* ── Hero (live: white bg, text 57% / image 42%) ── */}
   <section class="bg-base-100">
-    <div class="container mx-auto px-4 py-14 md:py-20 grid gap-10 lg:grid-cols-[4fr_3fr] lg:items-center">
-      <div>
+    <div class="container mx-auto px-4 grid gap-x-10 lg:grid-cols-[4fr_3fr] items-stretch">
+      {/* .hero-copy owns the vertical padding (--hero-pad-y) so .hero-media
+          can run flush to the sections above and below */}
+      <div class="hero-copy">
         <h1 class="heading-display text-4xl md:text-5xl xl:text-6xl text-secondary">
           Work With The #1 <span class="text-sky-ink">Accountants for Plumbers</span>
         </h1>
@@ -70,8 +71,8 @@ const capabilities = [
           <a href="#calendly" class="btn btn-accent">Get Started Now</a>
         </div>
       </div>
-      <div>
-        <Image src={heroImg} alt="Accountants for plumbers" class="w-full h-auto block" widths={[480, 768, 900]} sizes="(min-width: 1024px) 40vw, 100vw" loading="eager" fetchpriority="high" />
+      <div class="hero-media">
+        <Image src={heroImg} alt="Accountants for plumbers" widths={[480, 768, 900]} sizes="(min-width: 1024px) 40vw, 100vw" loading="eager" fetchpriority="high" />
       </div>
     </div>
   </section>
@@ -99,18 +100,18 @@ const capabilities = [
           With the right team of accountants on your side, you should be able to define and surpass your loftiest financial goals.
         </p>
       </div>
-      <div class="mt-12 grid gap-0.5 sm:grid-cols-2 lg:grid-cols-4">
+      <div class="mt-12 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
         {/* Card 1 — orange. Navy title (live white fails contrast on orange). */}
         <div class="bg-accent px-6 py-12 flex flex-col items-center text-center">
           <Image src={icon360Financial} alt="" class="h-[70px] w-auto" width={70} height={70} aria-hidden="true" />
           <h3 class="text-2xl font-bold text-primary mt-6">Financial Advisory</h3>
         </div>
-        {/* Cards 2–4 — white, static on the live page */}
+        {/* Cards 2–4 — white, whole card is the link (matching the sibling trade pages) */}
         {serviceCards.map((card) => (
-          <div class="bg-base-100 border border-base-300 hover:border-accent transition-colors px-6 py-12 flex flex-col items-center text-center">
+          <a href={card.href} class="card-tile group px-6 py-12 items-center text-center">
             <Image src={card.icon} alt="" class="h-[70px] w-auto" width={70} height={70} aria-hidden="true" />
             <h3 class="text-2xl font-bold text-secondary mt-6">{card.title}</h3>
-          </div>
+          </a>
         ))}
       </div>
     </div>
@@ -214,20 +215,7 @@ const capabilities = [
     </div>
   </section>
 
-  {/* ── Book a call (live: footer template band — orange duotone photo + Calendly).
-       Live heading says "construction business" on every page → localized per trade. ── */}
-  <section id="calendly" class="bg-accent relative overflow-hidden scroll-mt-24">
-    <Image src={ctaBgImg} alt="" class="absolute inset-0 w-full h-full object-cover object-top" widths={[1280]} sizes="100vw" aria-hidden="true" />
-    <div class="absolute inset-0 bg-gradient-to-b from-black/25 to-transparent pointer-events-none"></div>
-    <div class="container mx-auto px-4 py-16 md:py-20 relative">
-      <h2 class="heading-display text-3xl md:text-4xl text-white text-center max-w-3xl mx-auto">
-        Find out how we can help your plumbing business
-      </h2>
-      <div class="mt-10 max-w-3xl mx-auto bg-base-100 shadow-xl">
-        <CalendlyEmbed />
-      </div>
-    </div>
-  </section>
+  <CalendlyCta heading="Find out how we can help your plumbing business" />
 
   {/*
     Profit Margin Calculator popup — recreation of the live Elementor popup (id 666),

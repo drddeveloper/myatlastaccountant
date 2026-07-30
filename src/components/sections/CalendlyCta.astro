@@ -1,0 +1,45 @@
+---
+import { Image } from 'astro:assets';
+import CalendlyEmbed from '../CalendlyEmbed.astro';
+import ctaBgImg from '../../assets/images/home/Footer-CTA-card-background.jpg';
+
+/**
+ * The closing "book a discovery call" band that ends most pages: orange duotone
+ * photo (the tint is baked into the JPG), a dark wash at the top so the white
+ * heading stays legible, and the lazy-loaded Calendly embed on a white card.
+ *
+ * Only the heading changes page to page — pass it in. Everything else is fixed
+ * so the band is identical everywhere.
+ */
+interface Props {
+  /** Page-specific heading, e.g. "Find out how we can help your HVAC business" */
+  heading?: string;
+  /** Anchor id — in-page CTAs link to #calendly */
+  id?: string;
+}
+
+const {
+  heading = 'Find out how we can help your trade business',
+  id = 'calendly',
+} = Astro.props;
+---
+
+<section id={id} class="bg-accent relative overflow-hidden scroll-mt-[var(--header-h)]">
+  <Image
+    src={ctaBgImg}
+    alt=""
+    class="absolute inset-0 w-full h-full object-cover object-top"
+    widths={[1280]}
+    sizes="100vw"
+    aria-hidden="true"
+  />
+  <div class="absolute inset-0 bg-gradient-to-b from-black/25 to-transparent pointer-events-none"></div>
+  <div class="container mx-auto px-4 py-16 md:py-20 relative">
+    <h2 class="heading-display text-3xl md:text-4xl text-white text-center max-w-3xl mx-auto">
+      {heading}
+    </h2>
+    <div class="mt-10 max-w-3xl mx-auto bg-base-100 shadow-xl">
+      <CalendlyEmbed />
+    </div>
+  </div>
+</section>

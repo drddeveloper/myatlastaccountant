@@ -57,7 +57,13 @@ if (SITE_DATA.company.address.street) jsonLD.address = {
 		<meta charset="UTF-8" />
 		<meta name="description" content={description} />
 		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		{/* Favicons generated from the brand logo, composited on white so the navy
+		    wordmark stays visible against dark browser chrome (the source SVG is
+		    transparent, which renders the mark near-invisible in dark mode). */}
 		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+		<link rel="icon" type="image/x-icon" href="/favicon.ico" sizes="16x16 32x32 48x48 64x64" />
+		<link rel="icon" type="image/png" href="/favicon-192.png" sizes="192x192" />
+		<link rel="apple-touch-icon" href="/apple-touch-icon.png" />
 		<meta name="generator" content={Astro.generator} />
         <link rel="preload" href="/fonts/Sofia-Pro-Regular-Az.woff" as="font" type="font/woff" crossorigin />
         <link rel="preload" href="/fonts/Sofia-Pro-Semi-Bold-Az.woff" as="font" type="font/woff" crossorigin />

@@ -25,6 +25,15 @@ const applyHref = (role: string) =>
 
 /** General (no specific role) application link for the Apply section. */
 const generalApplyHref = `mailto:${applyEmail}?subject=${encodeURIComponent('Job Application')}`;
+
+// Where the application form posts. Empty until the form endpoint is decided —
+// see SITE_DATA.forms.careers. While empty the form still validates and then
+// falls back to a prefilled email rather than silently failing.
+const careersEndpoint = SITE_DATA.forms.careers;
+const privacyPolicyHref = SITE_DATA.links.privacyPolicy;
+
+/** Matches the live Gravity Form's stated limit. */
+const MAX_RESUME_BYTES = 50 * 1024 * 1024;
 ---
 
 <BaseLayout
@@ -34,7 +43,7 @@ const generalApplyHref = `mailto:${applyEmail}?subject=${encodeURIComponent('Job
 
   {/* ── Hero — navy, centered (live section 3993d78) ── */}
   <section class="bg-primary">
-    <div class="container mx-auto px-4 pt-20 pb-20 md:pt-32 md:pb-36">
+    <div class="container mx-auto px-4 pt-12 pb-20 md:pt-16 md:pb-36">
       <div class="max-w-4xl mx-auto text-center">
         <h1 class="heading-display text-4xl md:text-6xl text-white">
           come <span class="text-sky">join us!</span>
@@ -52,10 +61,10 @@ const generalApplyHref = `mailto:${applyEmail}?subject=${encodeURIComponent('Job
       <h2 class="heading-display text-3xl md:text-5xl text-secondary text-center">what we’re looking for</h2>
       <div class="mt-10 md:mt-14 max-w-3xl mx-auto space-y-4">
         {roles.map((role) => (
-          <details class="group bg-base-100">
-            <summary class="flex items-center justify-between gap-6 cursor-pointer list-none [&::-webkit-details-marker]:hidden px-6 py-7 md:px-7 md:py-9 font-semibold text-xl md:text-2xl text-secondary hover:text-primary transition-colors focus-visible:outline-2 focus-visible:outline-accent">
+          <details class="accordion bg-base-100">
+            <summary class="flex items-center justify-between gap-6 px-6 py-7 md:px-7 md:py-9 font-semibold text-xl md:text-2xl text-secondary hover:text-primary transition-colors">
               {role}
-              <svg class="h-6 w-6 shrink-0 text-secondary transition-transform group-open:rotate-45" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true">
+              <svg class="accordion-icon h-6 w-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true">
                 <path stroke-linecap="round" d="M12 5v14M5 12h14" />
               </svg>
             </summary>
@@ -89,19 +98,86 @@ const generalApplyHref = `mailto:${applyEmail}?subject=${encodeURIComponent('Job
         />
         {/* dark wash keeps the white copy legible over the orange duotone photo */}
         <div class="absolute inset-0 bg-gradient-to-b from-black/40 to-black/20 pointer-events-none"></div>
-        <div class="relative max-w-3xl mx-auto px-6 py-16 md:py-24 text-center">
-          <h2 class="heading-display text-3xl md:text-5xl text-white">Apply now</h2>
-          <p class="mt-5 text-lg text-white">Add your talent and experience to our growing team!</p>
-          {/* The live resume-upload form needs a backend this static site doesn't
-              have — applications go through a prefilled email instead. */}
-          <p class="mt-4 text-white/90 leading-relaxed">
-            Email us your resume with your name, phone number, location, and the role you’re interested in. We’ll keep your information on file and reach out when a matching opportunity opens up.
-          </p>
-          <div class="mt-8">
-            <a href={generalApplyHref} class="btn btn-accent">Email Your Resume</a>
+        <div class="relative max-w-3xl mx-auto px-6 py-16 md:py-24">
+          <div class="text-center">
+            <h2 class="heading-display text-3xl md:text-5xl text-white">Apply now</h2>
+            <p class="mt-5 text-lg text-white">Add your talent and experience to our growing team!</p>
           </div>
-          <p class="mt-5 text-sm text-white">
-            Or write to us directly at <a href={`mailto:${applyEmail}`} class="link font-semibold text-white hover:text-sky transition-colors">{applyEmail}</a>
+
+          <form
+            class="mt-10 bg-base-100 p-6 md:p-10 text-left"
+            action={careersEndpoint || undefined}
+            method="post"
+            enctype="multipart/form-data"
+            novalidate
+            data-careers-form
+            data-endpoint={careersEndpoint}
+            data-fallback-email={applyEmail}
+            data-max-bytes={MAX_RESUME_BYTES}
+          >
+            <div class="grid gap-6 sm:grid-cols-2">
+              <div>
+                <label for="cf-name" class="form-label">Full Name <span class="text-accent-ink" aria-hidden="true">*</span></label>
+                <input id="cf-name" name="fullName" type="text" class="input" autocomplete="name" placeholder="Full Name" required />
+              </div>
+              <div>
+                <label for="cf-email" class="form-label">Email Address <span class="text-accent-ink" aria-hidden="true">*</span></label>
+                <input id="cf-email" name="email" type="email" class="input" autocomplete="email" placeholder="Email Address" required />
+              </div>
+              <div>
+                <label for="cf-phone" class="form-label">Phone Number <span class="text-accent-ink" aria-hidden="true">*</span></label>
+                <input id="cf-phone" name="phone" type="tel" class="input" autocomplete="tel" placeholder="Phone Number" required />
+              </div>
+              <div>
+                <label for="cf-location" class="form-label">Location <span class="text-accent-ink" aria-hidden="true">*</span></label>
+                <input id="cf-location" name="location" type="text" class="input" autocomplete="address-level2" placeholder="City, State" required />
+              </div>
+              <div class="sm:col-span-2">
+                <label for="cf-role" class="form-label">Role Interested In <span class="text-accent-ink" aria-hidden="true">*</span></label>
+                <select id="cf-role" name="role" class="input" required>
+                  <option value="" selected disabled>Role Interested In</option>
+                  {roles.map((role) => <option value={role}>{role}</option>)}
+                  <option value="General application">General application</option>
+                </select>
+              </div>
+              <div class="sm:col-span-2">
+                <label for="cf-resume" class="form-label">Upload Your Resume <span class="text-accent-ink" aria-hidden="true">*</span></label>
+                <input
+                  id="cf-resume"
+                  name="resume"
+                  type="file"
+                  class="input file:mr-4 file:border-0 file:bg-cream-dark file:px-4 file:py-2 file:font-semibold file:text-primary"
+                  accept=".pdf,.doc,.docx,.rtf,.txt,application/pdf"
+                  aria-describedby="cf-resume-hint"
+                  required
+                />
+                <p id="cf-resume-hint" class="mt-2 text-sm">PDF or Word document. Max. file size: 50 MB.</p>
+              </div>
+            </div>
+
+            <div class="mt-6">
+              <p class="form-label">Privacy Policy <span class="text-accent-ink" aria-hidden="true">*</span></p>
+              <label class="mt-2 flex items-start gap-3 text-sm leading-relaxed">
+                <input id="cf-privacy" name="privacyConsent" type="checkbox" value="yes" class="mt-1 h-5 w-5 shrink-0 accent-[var(--color-accent)]" required />
+                <span>
+                  By submitting this form I agree that I have read and accept this site’s
+                  {privacyPolicyHref
+                    ? <a href={privacyPolicyHref} class="link font-semibold text-accent-ink"> Privacy Policy</a>
+                    : <span> Privacy Policy</span>}.
+                </span>
+              </label>
+            </div>
+
+            {/* Populated by the script below when a field fails validation */}
+            <p class="mt-6 text-accent-ink font-semibold hidden" role="alert" data-form-error></p>
+
+            <div class="mt-8">
+              <button type="submit" class="btn btn-accent w-full sm:w-auto">Submit Application</button>
+            </div>
+          </form>
+
+          <p class="mt-6 text-sm text-white text-center">
+            Prefer email? Write to us at <a href={generalApplyHref} class="link font-semibold text-white hover:text-sky transition-colors">{applyEmail}</a>
           </p>
         </div>
       </div>
@@ -114,3 +190,83 @@ const generalApplyHref = `mailto:${applyEmail}?subject=${encodeURIComponent('Job
   <CtaBand heading="Find out how we can help your trade business" />
 
 </BaseLayout>
+
+<script>
+  // Client-side validation for the careers form. Native validation is turned off
+  // (novalidate) so we can show one consistent message in brand styling and
+  // enforce the 50 MB resume cap, which no browser checks on its own.
+  const form = document.querySelector<HTMLFormElement>('[data-careers-form]');
+  if (form) {
+    const errorBox = form.querySelector<HTMLElement>('[data-form-error]')!;
+    const endpoint = form.dataset.endpoint ?? '';
+    const fallbackEmail = form.dataset.fallbackEmail ?? '';
+    const maxBytes = Number(form.dataset.maxBytes ?? 0);
+
+    const field = (name: string) =>
+      form.elements.namedItem(name) as HTMLInputElement | HTMLSelectElement | null;
+
+    const fail = (message: string, focus?: HTMLElement | null) => {
+      errorBox.textContent = message;
+      errorBox.classList.remove('hidden');
+      focus?.focus();
+      return false;
+    };
+
+    const validate = () => {
+      errorBox.classList.add('hidden');
+      for (const [name, label] of [
+        ['fullName', 'your full name'],
+        ['email', 'your email address'],
+        ['phone', 'your phone number'],
+        ['location', 'your location'],
+        ['role', 'the role you’re interested in'],
+      ] as const) {
+        const el = field(name);
+        if (!el?.value.trim()) return fail(`Please enter ${label}.`, el);
+      }
+
+      const email = field('email') as HTMLInputElement;
+      if (!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email.value.trim())) {
+        return fail('Please enter a valid email address.', email);
+      }
+
+      const resume = field('resume') as HTMLInputElement;
+      const file = resume.files?.[0];
+      if (!file) return fail('Please attach your resume.', resume);
+      if (maxBytes && file.size > maxBytes) {
+        return fail('That file is over the 50 MB limit. Please attach a smaller file.', resume);
+      }
+
+      const privacy = field('privacyConsent') as HTMLInputElement;
+      if (!privacy.checked) {
+        return fail('Please accept the Privacy Policy to continue.', privacy);
+      }
+      return true;
+    };
+
+    form.addEventListener('submit', (e) => {
+      if (!validate()) {
+        e.preventDefault();
+        return;
+      }
+      // No endpoint configured yet: hand off to the applicant's mail client with
+      // everything except the file, which has to be attached manually.
+      if (!endpoint) {
+        e.preventDefault();
+        const get = (n: string) => (field(n)?.value ?? '').trim();
+        const body = [
+          `Name: ${get('fullName')}`,
+          `Email: ${get('email')}`,
+          `Phone: ${get('phone')}`,
+          `Location: ${get('location')}`,
+          `Role interested in: ${get('role')}`,
+          '',
+          'Please attach your resume to this email before sending.',
+        ].join('\n');
+        const subject = `Application: ${get('role')} — ${get('fullName')}`;
+        window.location.href =
+          `mailto:${fallbackEmail}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+      }
+    });
+  }
+</script>

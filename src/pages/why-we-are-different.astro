@@ -1,7 +1,7 @@
 ---
 import { Image } from 'astro:assets';
 import BaseLayout from '../layouts/BaseLayout.astro';
-import CalendlyEmbed from '../components/CalendlyEmbed.astro';
+import CalendlyCta from '../components/sections/CalendlyCta.astro';
 
 /*
  * Pixel-parity rewrite of https://www.myatlasaccountant.com/why-we-are-different/
@@ -35,7 +35,6 @@ import iconStepKickoff from '../assets/images/pages/why-different/7055172_analys
 import iconStepCoaching from '../assets/images/pages/why-different/7055165_meeting_consultation_partnership_communication_brainstorm_icon-1.svg';
 import arrowDown from '../assets/images/pages/why-different/arrow-down-dash.svg';
 
-import ctaBgImg from '../assets/images/home/Footer-CTA-card-background.jpg';
 
 const team = [
   { photo: photoChris, alt: 'Chris Lewis CPA headshot', name: 'Chris Lewis, CPA', role: 'CEO' },
@@ -86,7 +85,7 @@ const steps = [
 
   {/* ── Hero (white, centered) ── */}
   <section class="bg-base-100">
-    <div class="container mx-auto px-4 pt-20 pb-16 md:pt-28 md:pb-24">
+    <div class="container mx-auto px-4 pt-12 pb-16 md:pt-16 md:pb-24">
       <div class="max-w-5xl mx-auto text-center">
         <h1 class="heading-display text-4xl md:text-5xl xl:text-6xl text-secondary">
           <span class="text-sky-ink">Accurate</span> accounting done in <span class="text-sky-ink">real-time</span> following proper <span class="text-sky-ink">workflows</span>
@@ -208,8 +207,8 @@ const steps = [
   </section>
 
   {/* ── It Couldn't be Easier to Get Started (vertical stepper) ── */}
-  <section class="bg-base-100">
-    <div class="container mx-auto px-4 pb-20 md:pb-32 pt-4 md:pt-8">
+  <section class="bg-cream">
+    <div class="container mx-auto px-4 py-20 md:py-32">
       <h2 class="heading-display text-3xl md:text-5xl text-secondary text-center max-w-3xl mx-auto">
         It Couldn’t be Easier to Get Started
       </h2>
@@ -236,18 +235,6 @@ const steps = [
     </div>
   </section>
 
-  {/* ── Book a call (Calendly) — mirrors the live site's global pre-footer band; #calendly anchor target ── */}
-  <section id="calendly" class="bg-accent relative overflow-hidden scroll-mt-20">
-    <Image src={ctaBgImg} alt="" class="absolute inset-0 w-full h-full object-cover object-top" widths={[1280]} sizes="100vw" aria-hidden="true" />
-    <div class="absolute inset-0 bg-gradient-to-b from-black/25 to-transparent pointer-events-none"></div>
-    <div class="container mx-auto px-4 py-16 md:py-20 relative">
-      <h2 class="heading-display text-3xl md:text-4xl text-white text-center max-w-3xl mx-auto">
-        Find out how we can help your trade business
-      </h2>
-      <div class="mt-10 max-w-3xl mx-auto bg-base-100 shadow-xl">
-        <CalendlyEmbed />
-      </div>
-    </div>
-  </section>
+  <CalendlyCta heading="Find out how we can help your trade business" />
 
 </BaseLayout>

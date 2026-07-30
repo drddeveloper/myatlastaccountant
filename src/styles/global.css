@@ -8,6 +8,7 @@
   --color-primary: #003954;    /* deep navy — dark sections, primary buttons */
   --color-secondary: #181818;  /* near-black — headings */
   --color-accent: #F4832B;     /* orange — CTAs, highlights */
+  --color-accent-light: #F69C55; /* accent + 20% white — orange button hover fill */
   --color-sky: #79CAE9;        /* light blue — secondary accent (dark surfaces only) */
   --color-sky-ink: #2387B8;    /* darkened sky for highlight TEXT on light surfaces (WCAG) */
   --color-accent-ink: #B4540A; /* darkened orange for small TEXT/links on light surfaces (WCAG) */
@@ -21,6 +22,29 @@
 
   --font-heading: "Sofia Pro", ui-sans-serif, system-ui, sans-serif;
   --font-body: "Sofia Pro", ui-sans-serif, system-ui, sans-serif;
+
+  /* Header / nav link size — one step up from the old 0.875rem */
+  --text-nav: 1rem;
+  --text-nav--line-height: 1.5rem;
+
+  /* Sticky header height: logo (3.75rem) + its 0.5rem py + the navbar's 0.5rem py.
+     The mobile menu panel offsets by this, so keep the two in step. */
+  --header-h: 5.75rem;
+
+  /* Internal padding for hero copy columns. Heroes put their padding here rather
+     than on the grid container, so the hero photo can run flush to the sections
+     above and below no matter how long the copy gets. */
+  --hero-pad-y: 3.5rem;
+  --hero-pad-y-lg: 5rem;
+
+  /* Global motion. These are Tailwind v4's defaults for every transition-*
+     utility, and the component classes below reference them too, so the whole
+     site shares one 0.5s ease-in-out feel. */
+  --default-transition-duration: 330ms;
+  --default-transition-timing-function: ease-in-out;
+
+  /* Press feedback stays snappy — a 0.5s :active nudge reads as lag */
+  --duration-press: 120ms;
 }
 
 /* ─── Fonts ─────────────────────────────────────────────────────────────────── */
@@ -73,6 +97,12 @@
 /* ─── Base Styles ───────────────────────────────────────────────────────────── */
 
 @layer base {
+  /* Lets accordions animate to/from height:auto (Chrome 129+/Safari 26+).
+     Unsupported browsers fall back to snapping open. */
+  :root {
+    interpolate-size: allow-keywords;
+  }
+
   body {
     color: var(--color-base-content);
     background-color: var(--color-base-100);
@@ -130,7 +160,12 @@
     text-transform: uppercase;
     border-radius: 0; /* square corners, matching the live brand */
     cursor: pointer;
-    transition: background-color 150ms ease-in-out, color 150ms ease-in-out, border-color 150ms ease-in-out, transform 150ms ease-in-out;
+    transition:
+      background-color var(--default-transition-duration) var(--default-transition-timing-function),
+      color var(--default-transition-duration) var(--default-transition-timing-function),
+      border-color var(--default-transition-duration) var(--default-transition-timing-function),
+      box-shadow var(--default-transition-duration) var(--default-transition-timing-function),
+      transform var(--duration-press) ease-in-out;
     text-decoration: none;
     border: 1px solid transparent;
   }
@@ -144,12 +179,19 @@
     outline-offset: 2px;
   }
 
+  /* Navy button hover shifts to sky-ink (fill AND border) with a lifted shadow.
+     NOTE: white on sky-ink measures ~4.0:1 — just under the 4.5:1 AA minimum for
+     15px text. Darkening --color-sky-ink to #1E7AA8 would clear it if we decide
+     accessibility outranks the exact brand blue here. */
   .btn-primary {
     background-color: var(--color-primary);
+    border-color: var(--color-primary);
     color: #fff;
   }
   .btn-primary:hover {
-    background-color: color-mix(in srgb, var(--color-primary) 85%, black);
+    background-color: var(--color-sky-ink);
+    border-color: var(--color-sky-ink);
+    box-shadow: 0 4px 10px -3px color-mix(in srgb, var(--color-primary) 45%, transparent);
   }
 
   .btn-secondary {
@@ -163,11 +205,16 @@
   /* Navy text on orange: 4.7:1 (white on orange is only 2.6:1 and fails WCAG AA) */
   .btn-accent {
     background-color: var(--color-accent);
+    border-color: var(--color-accent);
     color: var(--color-primary);
     font-weight: 700;
   }
+  /* Hover lightens to accent-light (fill AND border); navy text stays put and
+     still clears AA at 5.7:1 on the lighter fill. */
   .btn-accent:hover {
-    background-color: color-mix(in srgb, var(--color-accent) 85%, black);
+    background-color: var(--color-accent-light);
+    border-color: var(--color-accent-light);
+    box-shadow: 0 4px 10px -3px color-mix(in srgb, var(--color-primary) 40%, transparent);
   }
 
   .btn-outline {
@@ -190,6 +237,14 @@
 
   /* ── Form inputs ── */
 
+  /* Field label above an .input */
+  .form-label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-weight: 600;
+    color: var(--color-secondary);
+  }
+
   /* Text/number inputs for forms and calculators */
   .input {
     display: block;
@@ -201,7 +256,7 @@
     background-color: var(--color-base-100);
     border: 1px solid var(--color-base-300);
     border-radius: 0.5rem;
-    transition: border-color 150ms ease-in-out;
+    transition: border-color var(--default-transition-duration) var(--default-transition-timing-function);
   }
   .input:hover {
     border-color: color-mix(in srgb, var(--color-base-300) 60%, var(--color-primary));
@@ -228,7 +283,10 @@
     border: 1px solid var(--color-base-300);
     border-radius: 0.5rem;
     cursor: pointer;
-    transition: background-color 150ms ease-in-out, border-color 150ms ease-in-out, transform 150ms ease-in-out;
+    transition:
+      background-color var(--default-transition-duration) var(--default-transition-timing-function),
+      border-color var(--default-transition-duration) var(--default-transition-timing-function),
+      transform var(--duration-press) ease-in-out;
   }
   .stepper-btn:hover {
     background-color: var(--color-cream-dark);
@@ -263,7 +321,7 @@
     align-items: center;
     justify-content: space-between;
     padding: 0.5rem 1rem;
-    min-height: 4rem;
+    min-height: var(--header-h);
   }
   .navbar-start {
     display: flex;
@@ -296,26 +354,36 @@
     display: block;
     padding: 0.5rem 0.75rem;
     border-radius: 0.375rem;
-    font-size: 0.875rem;
+    font-size: var(--text-nav);
+    line-height: var(--text-nav--line-height);
     font-weight: 500;
     color: var(--color-secondary);
     background: none;
     border: none;
     cursor: pointer;
-    transition: background-color 150ms ease-in-out;
+    transition: background-color var(--default-transition-duration) var(--default-transition-timing-function);
   }
+  /* .is-active keeps the hover treatment latched on for the current page's link
+     (and for "More" when the current page lives inside that dropdown). */
   .menu li a:hover,
   .menu li button:hover,
   .menu li a:focus-visible,
-  .menu li button:focus-visible {
+  .menu li button:focus-visible,
+  .menu li a.is-active,
+  .menu li button.is-active {
     background-color: var(--color-base-200);
+  }
+  .menu li a.is-active,
+  .menu li button.is-active {
+    color: var(--color-primary);
+    font-weight: 600;
   }
   .menu-horizontal {
     flex-direction: row;
   }
   .menu-sm li a {
     padding: 0.375rem 0.625rem;
-    font-size: 0.8125rem;
+    font-size: 0.9375rem;
   }
 
   /* ── Dropdown ── */
@@ -335,7 +403,33 @@
     flex-direction: column;
   }
 
-  /* ── Hero ── */
+  /* ── Page hero ── */
+  /* Two-column hero. The grid container carries NO vertical padding: the copy
+     column supplies its own (from --hero-pad-y), and the photo column stretches
+     to the full row height so the image always meets the sections above and
+     below — however long the copy grows. Row height is max(copy + padding,
+     photo's natural height), and the photo covers whatever that resolves to. */
+
+  .hero-copy {
+    padding-block: var(--hero-pad-y);
+    align-self: center;
+  }
+  .hero-media {
+    display: grid; /* makes the column height definite so the img can fill it */
+  }
+  .hero-media > img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  @media (min-width: 1024px) {
+    .hero-copy {
+      padding-block: var(--hero-pad-y-lg);
+    }
+  }
+
+  /* ── Hero (legacy layout helpers) ── */
 
   .hero {
     display: flex;
@@ -368,6 +462,52 @@
     opacity: 0.6;
   }
 
+  /* ── Accordion ── */
+  /* One treatment for every <details> accordion on the site (FaqList, the FAQ
+     page, the payroll feature list). The panel animates open on the global
+     timing via interpolate-size + the ::details-content pseudo-element; browsers
+     without that support just snap open, which is the pre-existing behaviour. */
+
+  .accordion > summary {
+    cursor: pointer;
+    list-style: none;
+  }
+  .accordion > summary::-webkit-details-marker {
+    display: none;
+  }
+  .accordion > summary:focus-visible {
+    outline: 2px solid var(--color-accent);
+    outline-offset: 2px;
+  }
+  /* The +/− icon rotates to an × on open */
+  .accordion .accordion-icon {
+    flex-shrink: 0;
+    color: var(--color-accent);
+    transition: transform var(--default-transition-duration) var(--default-transition-timing-function);
+  }
+  .accordion[open] .accordion-icon {
+    transform: rotate(45deg);
+  }
+  .accordion::details-content {
+    block-size: 0;
+    overflow: hidden;
+    opacity: 0;
+    transition:
+      block-size var(--default-transition-duration) var(--default-transition-timing-function),
+      content-visibility var(--default-transition-duration) allow-discrete,
+      opacity var(--default-transition-duration) var(--default-transition-timing-function);
+  }
+  .accordion[open]::details-content {
+    block-size: auto;
+    opacity: 1;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .accordion::details-content,
+    .accordion .accordion-icon {
+      transition: none;
+    }
+  }
+
   /* ── Card ── */
 
   .card {
@@ -375,6 +515,45 @@
     border-radius: 0.75rem;
     padding: 1.5rem;
     box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.1);
+  }
+
+  /* ── Tile card ── */
+  /* Square bordered white tile used for the industry grid, trade service cards
+     and step cards. Hover/focus: scales up, border goes brand orange, and a
+     layered navy + orange shadow lifts it off the surface. Works as either an
+     <a> (preferred — the whole tile is the link) or a plain container. */
+
+  .card-tile {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    background-color: var(--color-base-100);
+    border: 1px solid var(--color-base-300);
+    text-decoration: none;
+    transition:
+      transform var(--default-transition-duration) var(--default-transition-timing-function),
+      box-shadow var(--default-transition-duration) var(--default-transition-timing-function),
+      border-color var(--default-transition-duration) var(--default-transition-timing-function);
+  }
+  .card-tile:hover,
+  .card-tile:focus-visible {
+    transform: scale(1.04);
+    border-color: var(--color-accent);
+    /* raised above its neighbours so the scaled edges aren't clipped by them */
+    z-index: 1;
+    box-shadow:
+      0 18px 34px -8px color-mix(in srgb, var(--color-primary) 32%, transparent),
+      0 6px 12px -4px color-mix(in srgb, var(--color-accent) 30%, transparent);
+  }
+  .card-tile:focus-visible {
+    outline: 2px solid var(--color-accent);
+    outline-offset: 2px;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .card-tile:hover,
+    .card-tile:focus-visible {
+      transform: none;
+    }
   }
 
   /* ── Prose (Typography) ── */
@@ -423,9 +602,20 @@
   }
   .marquee-track {
     display: flex;
-    gap: 1rem;
     width: max-content;
-    animation: marquee-scroll 35s linear infinite;
+    /* Duration is tuned to the track length (6 copies) to keep the scroll at
+       roughly the same pixels-per-second as the original 2-copy strip */
+    animation: marquee-scroll 105s linear infinite;
+  }
+  /* One full set of logos. The trailing gap lives inside the group (rather than
+     between groups) so the group's width is an exact half of the track — that
+     is what makes translateX(-50%) land copy 2 precisely where copy 1 started
+     and the loop run seamlessly instead of jumping at the seam. */
+  .marquee-group {
+    display: flex;
+    flex-shrink: 0;
+    gap: 1rem;
+    padding-right: 1rem;
   }
   .marquee:hover .marquee-track,
   .marquee:focus-within .marquee-track {
@@ -441,6 +631,12 @@
       flex-wrap: wrap;
       width: auto;
       justify-content: center;
+      gap: 1rem;
+    }
+    .marquee-group {
+      flex-wrap: wrap;
+      justify-content: center;
+      padding-right: 0;
     }
     .marquee-track > [aria-hidden="true"] {
       display: none;

@@ -1,7 +1,7 @@
 ---
 import { Image } from 'astro:assets';
 import BaseLayout from '../layouts/BaseLayout.astro';
-import CalendlyEmbed from '../components/CalendlyEmbed.astro';
+import CalendlyCta from '../components/sections/CalendlyCta.astro';
 import LaborCalcPopup from '../components/LaborCalcPopup.astro';
 import { SITE_DATA } from '../data/constants';
 
@@ -9,7 +9,6 @@ import heroImg from '../assets/images/home/1-Accountants-for-Contractors.webp';
 import systemizeImg from '../assets/images/home/Accountants-for-Contractors.webp';
 import growImg from '../assets/images/home/Accountants-for-Contractors-and-Trades.webp';
 import testimonialImg from '../assets/images/home/Terra-Tech-Testimonial-1024x965.webp';
-import ctaBgImg from '../assets/images/home/Footer-CTA-card-background.jpg';
 
 import iconConstruction from '../assets/images/home/Construction-icon.svg';
 import iconPlumbers from '../assets/images/home/Plumbers-icon.svg';
@@ -45,6 +44,14 @@ const techLogos = [
   { src: logoGusto, alt: 'Gusto' },
   { src: logoJobber, alt: 'Jobber' },
 ];
+
+// Copies of the logo set laid end to end in the marquee. Must be EVEN: the
+// animation scrolls the track by -50%, so the back half has to be a pixel-exact
+// duplicate of the front half for the loop to be seamless. Half the track also
+// has to be wider than the viewport or the strip scrolls into empty space —
+// four logos are ~1450px, so 6 copies (≈4350px per half) covers up to 4K.
+// Only 4 image files are ever requested; the repeats reuse them from cache.
+const MARQUEE_COPIES = 6;
 ---
 
 <BaseLayout
@@ -53,9 +60,11 @@ const techLogos = [
 >
 
   {/* ── Hero ── */}
+  {/* .hero-copy owns the vertical padding (--hero-pad-y) so .hero-media can run
+      flush from the header down to the trust band */}
   <section class="bg-base-100">
-    <div class="container mx-auto px-4 pt-14 md:pt-20 grid gap-10 lg:grid-cols-2 lg:items-end">
-      <div class="pb-14 md:pb-20 lg:self-center">
+    <div class="container mx-auto px-4 grid gap-x-10 lg:grid-cols-2 items-stretch">
+      <div class="hero-copy">
         <h1 class="heading-display text-4xl md:text-5xl xl:text-6xl text-primary">
           Work with the<br />
           <span class="text-sky-ink">#1 Accountants</span> for Contractors &amp; Specialty Trades
@@ -67,8 +76,8 @@ const techLogos = [
           <a href={SITE_DATA.links.bookACall} class="btn btn-accent">Schedule Your Discovery Call</a>
         </div>
       </div>
-      <div class="self-end">
-        <Image src={heroImg} alt="Accountant meeting with a contractor" class="w-full h-auto block" widths={[480, 768, 960, 1200]} sizes="(min-width: 1024px) 45vw, 100vw" loading="eager" fetchpriority="high" />
+      <div class="hero-media">
+        <Image src={heroImg} alt="Accountant meeting with a contractor" widths={[480, 768, 960, 1200]} sizes="(min-width: 1024px) 45vw, 100vw" loading="eager" fetchpriority="high" />
       </div>
     </div>
   </section>
@@ -96,15 +105,15 @@ const techLogos = [
       </div>
       <div class="mt-12 grid gap-5 sm:grid-cols-2 lg:grid-cols-5">
         {industries.map((ind) => (
-          <div class="bg-base-100 border border-base-300 p-6 flex flex-col">
+          <a href={ind.href} class="card-tile group p-6">
             <Image src={ind.icon} alt="" class="h-14 w-14" width={60} height={60} aria-hidden="true" />
             <h3 class="heading-display text-lg text-secondary mt-5">{ind.label}</h3>
             <p class="mt-3 text-sm leading-relaxed flex-grow">{ind.blurb}</p>
-            <a href={ind.href} class="mt-5 inline-flex items-center gap-1 font-semibold text-accent-ink hover:text-accent transition-colors">
+            <span class="mt-5 inline-flex items-center gap-1 font-semibold text-accent-ink">
               Learn More<span class="sr-only"> — accounting for {ind.label.toLowerCase()}</span>
-              <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/></svg>
-            </a>
-          </div>
+              <svg class="h-4 w-4 transition-transform group-hover:translate-x-1" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/></svg>
+            </span>
+          </a>
         ))}
       </div>
     </div>
@@ -131,9 +140,11 @@ const techLogos = [
   </section>
 
   {/* ── Systemize ── */}
+  {/* Padding sits on the copy column only, so the photo runs edge-to-edge
+      vertically and meets the cream section above it (and the Grow photo below) */}
   <section class="bg-base-100">
-    <div class="container mx-auto px-4 py-16 md:py-24 grid gap-12 lg:grid-cols-2 lg:items-center">
-      <div>
+    <div class="container mx-auto px-4 grid gap-x-12 lg:grid-cols-2 lg:items-center">
+      <div class="pt-14 pb-10 md:pt-20 lg:py-24">
         <h2 class="heading-display text-3xl md:text-4xl text-secondary">
           Work with relatable accountants that will <span class="text-sky-ink">systemize</span> your business
         </h2>
@@ -141,15 +152,15 @@ const techLogos = [
           An accountant still running 1990s software (and offering dated advice) probably can't move your business forward. We've worked with specialty trades businesses for a long time — we know the inner workings of your industry and stay current on the technology and workflows that streamline your accounting in a way that works for you.
         </p>
       </div>
-      <Image src={systemizeImg} alt="Contractor loading equipment into his work van" class="w-full h-auto" widths={[560, 900, 1240]} sizes="(min-width: 1024px) 45vw, 100vw" />
+      <Image src={systemizeImg} alt="Contractor loading equipment into his work van" class="w-full h-auto block" widths={[560, 900, 1240]} sizes="(min-width: 1024px) 45vw, 100vw" />
     </div>
   </section>
 
   {/* ── Grow ── */}
   <section class="bg-base-100">
-    <div class="container mx-auto px-4 pb-16 md:pb-24 grid gap-12 lg:grid-cols-2 lg:items-center">
-      <Image src={growImg} alt="Tradesperson reviewing paperwork at a workbench" class="w-full h-auto order-last lg:order-first" widths={[560, 900, 1240]} sizes="(min-width: 1024px) 45vw, 100vw" />
-      <div>
+    <div class="container mx-auto px-4 grid gap-x-12 lg:grid-cols-2 lg:items-center">
+      <Image src={growImg} alt="Tradesperson reviewing paperwork at a workbench" class="w-full h-auto block order-last lg:order-first" widths={[560, 900, 1240]} sizes="(min-width: 1024px) 45vw, 100vw" />
+      <div class="pt-10 pb-14 md:pb-20 lg:py-24">
         <h2 class="heading-display text-3xl md:text-4xl text-secondary">
           Get help <span class="text-sky-ink">growing your business</span>, not just running it
         </h2>
@@ -169,12 +180,13 @@ const techLogos = [
       </h2>
     </div>
     <div class="marquee pb-16 md:pb-24" aria-label="Software we work with">
-      <div class="marquee-track px-4">
-        {/* Each PNG is a complete card (b/w jobsite photo + white product logo), so it renders at card size */}
-        {[false, true].map((decorative) => (
-          <div class="flex gap-4" aria-hidden={decorative || undefined}>
+      <div class="marquee-track">
+        {/* Each PNG is a complete card (b/w jobsite photo + white product logo), so it renders at card size.
+            Only the first copy is exposed to assistive tech; the repeats are decorative. */}
+        {Array.from({ length: MARQUEE_COPIES }, (_, i) => (
+          <div class="marquee-group" aria-hidden={i > 0 || undefined}>
             {techLogos.map((l) => (
-              <Image src={l.src} alt={decorative ? '' : l.alt} class="h-64 md:h-[26rem] w-auto shrink-0" widths={[350]} />
+              <Image src={l.src} alt={i === 0 ? l.alt : ''} class="h-64 md:h-[26rem] w-auto shrink-0" widths={[350]} />
             ))}
           </div>
         ))}
@@ -202,21 +214,7 @@ const techLogos = [
     </div>
   </section>
 
-  {/* ── Book a call (Calendly) ── */}
-  <section class="bg-accent relative overflow-hidden">
-    {/* Orange duotone photo from the live site (tint baked into the JPG), with a
-        light dark wash on the upper area to keep the white heading legible */}
-    <Image src={ctaBgImg} alt="" class="absolute inset-0 w-full h-full object-cover object-top" widths={[1280]} sizes="100vw" aria-hidden="true" />
-    <div class="absolute inset-0 bg-gradient-to-b from-black/25 to-transparent pointer-events-none"></div>
-    <div class="container mx-auto px-4 py-16 md:py-20 relative">
-      <h2 class="heading-display text-3xl md:text-4xl text-white text-center max-w-3xl mx-auto">
-        Find out how we can help your trade business
-      </h2>
-      <div class="mt-10 max-w-3xl mx-auto bg-base-100 shadow-xl">
-        <CalendlyEmbed />
-      </div>
-    </div>
-  </section>
+  <CalendlyCta heading="Find out how we can help your trade business" />
 
   <LaborCalcPopup />
 

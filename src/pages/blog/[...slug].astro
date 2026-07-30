@@ -35,8 +35,9 @@ const formatDate = (date: Date) =>
         <Image
           src={post.data.image}
           alt=""
-          inferSize
           class="w-full max-w-3xl mx-auto aspect-video object-cover mb-12"
+          widths={[768, 1200]}
+          sizes="(min-width: 768px) 48rem, 100vw"
         />
       )}
       <div class="max-w-3xl mx-auto mb-8 flex flex-wrap items-center gap-x-6 gap-y-2">

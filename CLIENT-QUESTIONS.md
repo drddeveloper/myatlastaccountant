@@ -11,17 +11,19 @@ checklist — check items off and note decisions inline.
   login, no technical knowledge needed) for Job Postings + Blog Posts as the
   pilot for our standard setup. Job postings would become add/close-a-job
   from a simple form; publishes in ~2 minutes.
-- [ ] **Careers — resume submissions.** The old site had an upload form
-  (50 MB). The rebuild currently uses email links (`ready@`) with prefilled
-  subjects. Do they want a real application form with file upload? (Needs a
-  form/storage service or LeadFlow — files can't be private on the static
-  site itself.)
+- [ ] **Careers — form endpoint. BLOCKING.** The application form is built
+  (name, email, phone, location, role, resume upload, privacy consent) with
+  full client-side validation including the 50 MB cap. It has nowhere to POST:
+  set `SITE_DATA.forms.careers` once we have an endpoint that accepts
+  multipart/form-data. Until then the form falls back to opening a prefilled
+  email and asking the applicant to attach the resume manually.
 - [ ] **Newsletter signup.** Old site used a Gravity Form; rebuild has a
   styled section with an email CTA as a stub. What list/provider should this
   actually feed? (LeadFlow form endpoint preferred on our side.)
-- [ ] **Blog migration.** ~60–70 posts live at `/post/<slug>/` on the old
-  site. Migrate all, a selection, or none? (Old URLs need 301s either way —
-  significant SEO equity at stake.)
+- [x] **Blog migration.** DONE — all 51 posts pulled off the WordPress REST
+  API into the content collection, original slugs kept, featured images stored
+  locally in `src/assets/images/blog/`. Per-post 301s (`/post/<slug>/` →
+  `/blog/<slug>/`) plus a `/post/*` splat are in `public/_redirects`.
 
 ## Copy & attribution
 
@@ -56,6 +58,12 @@ checklist — check items off and note decisions inline.
 - [ ] **Kajabi checkout slug** for the Profit Allocation Projector points at
   "kpi-dashboard-1…" — looks copy-pasted from the KPI Dashboard product.
   Confirm the correct checkout URL.
+- [ ] **Privacy Policy. BLOCKING for the careers form.** The live
+  `/privacy-policy/` page is the *unmodified* WordPress template — it still
+  contains "Suggested text:" placeholders throughout. It was deliberately NOT
+  migrated. We need real policy copy from the client; then set
+  `SITE_DATA.links.privacyPolicy` and the careers consent line becomes a link
+  instead of plain text.
 - [ ] **Toolbox pre-order items** currently use a waitlist email link (old
   site used a Gravity Forms popup). OK, or wire to a form?
 
@@ -75,6 +83,10 @@ checklist — check items off and note decisions inline.
 
 - [ ] Set `BLOG_API_KEY` + `GITHUB_TOKEN` env vars in Cloudflare Pages so
   the blog posting API goes live (steps in BLOG-API.md).
+- [ ] **Navy button hover contrast.** `.btn-primary:hover` fills sky-ink per
+  the client's direction; white on sky-ink is ~4.0:1, just under the 4.5:1 AA
+  floor for 15px text. Darkening `--color-sky-ink` to #1E7AA8 clears it —
+  decide whether AA or the exact brand blue wins.
 - [ ] LeadFlow → site publishing contract: confirm LeadFlow's outbound
   capabilities, then lock the endpoint spec (see BLOG-API.md as v1).
 - [ ] Domain cutover plan + old-URL 301 map (especially /post/*).

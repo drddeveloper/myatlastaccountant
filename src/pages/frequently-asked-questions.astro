@@ -196,7 +196,7 @@ const faqJsonLD = {
   {/* ── Heading band — white, centered (live section 19028294).
         Live renders this as an h2; promoted to h1 for accessibility. ── */}
   <section class="bg-base-100">
-    <div class="container mx-auto px-4 pt-20 pb-16 md:pt-24 md:pb-28">
+    <div class="container mx-auto px-4 pt-12 pb-16 md:pt-14 md:pb-28">
       <h1 class="heading-display text-4xl md:text-6xl text-secondary text-center">Frequently asked questions</h1>
     </div>
   </section>
@@ -209,10 +209,10 @@ const faqJsonLD = {
           <h2 class="eyebrow text-lg md:text-xl text-center">{cat.label}</h2>
           <div class="mt-8 md:mt-10 space-y-6 md:space-y-8">
             {cat.items.map((item) => (
-              <details class="group">
-                <summary class="flex items-start justify-between gap-6 cursor-pointer list-none [&::-webkit-details-marker]:hidden focus-visible:outline-2 focus-visible:outline-accent">
+              <details class="accordion group">
+                <summary class="flex items-start justify-between gap-6">
                   <span class="heading-display text-lg md:text-2xl text-secondary group-hover:text-primary transition-colors">{item.q}</span>
-                  <svg class="h-6 w-6 mt-0.5 shrink-0 text-accent transition-transform group-open:rotate-45" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                  <svg class="accordion-icon h-6 w-6 mt-0.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
                     <path stroke-linecap="round" d="M12 5v14M5 12h14" />
                   </svg>
                 </summary>

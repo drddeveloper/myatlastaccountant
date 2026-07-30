@@ -1,7 +1,7 @@
 ---
 import { Image } from 'astro:assets';
 import BaseLayout from '../layouts/BaseLayout.astro';
-import CalendlyEmbed from '../components/CalendlyEmbed.astro';
+import CalendlyCta from '../components/sections/CalendlyCta.astro';
 import { SITE_DATA } from '../data/constants';
 
 import imgProfitPlanner from '../assets/images/pages/toolbox/Profit-Planner.png';
@@ -10,7 +10,6 @@ import imgProfAlloc from '../assets/images/pages/toolbox/Prof-Alloc-Proj.png';
 import imgCashFlow from '../assets/images/pages/toolbox/Cash-Flow-Forecast-Thumbnail.png';
 import imgLaborBurden from '../assets/images/pages/toolbox/Labor-Burden-Calculator-Thumbnail.png';
 import imgUnderConstruction from '../assets/images/pages/toolbox/Under-Construction-Thumbnail.png';
-import ctaBgImg from '../assets/images/home/Footer-CTA-card-background.jpg';
 
 // Products link out to Kajabi checkout pages — there is no on-site cart.
 // Copy, prices, order, and images carried over verbatim from the live loop grid.
@@ -88,7 +87,7 @@ const cardClasses =
 
   {/* ── Hero (live: white, centered; the live page has no h1 — promoted here for a11y) ── */}
   <section class="bg-base-100">
-    <div class="container mx-auto px-4 pt-20 pb-16 md:pt-24 md:pb-24 text-center">
+    <div class="container mx-auto px-4 pt-12 pb-16 md:pt-16 md:pb-24 text-center">
       <h1 class="heading-display text-4xl md:text-6xl text-secondary">Your Financial Toolbox</h1>
       <p class="mt-5 text-lg max-w-2xl mx-auto">Simple, helpful tools to help you build a financially stronger business.</p>
     </div>
@@ -142,19 +141,6 @@ const cardClasses =
     </div>
   </section>
 
-  {/* ── Book a call (live footer band: orange duotone photo card + inline Calendly;
-       same treatment as the homepage's canonical version) ── */}
-  <section class="bg-accent relative overflow-hidden" id="calendly">
-    <Image src={ctaBgImg} alt="" class="absolute inset-0 w-full h-full object-cover object-top" widths={[1280]} sizes="100vw" aria-hidden="true" />
-    <div class="absolute inset-0 bg-gradient-to-b from-black/25 to-transparent pointer-events-none"></div>
-    <div class="container mx-auto px-4 py-16 md:py-20 relative">
-      <h2 class="heading-display text-3xl md:text-4xl text-white text-center max-w-3xl mx-auto">
-        Find out how we can help your trade business
-      </h2>
-      <div class="mt-10 max-w-3xl mx-auto bg-base-100 shadow-xl">
-        <CalendlyEmbed />
-      </div>
-    </div>
-  </section>
+  <CalendlyCta heading="Find out how we can help your trade business" />
 
 </BaseLayout>

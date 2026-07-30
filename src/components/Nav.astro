@@ -4,6 +4,12 @@ import { SITE_DATA, NAV } from '../data/constants';
 import logo from '../assets/images/branding/Atlas-Accounting-logo.svg';
 
 const allLinks = [...NAV.main, ...NAV.more];
+
+// Current path, normalised to the trailing-slash form the NAV hrefs use, so the
+// active link can keep its hover treatment on. Blog post URLs (/blog/<slug>/)
+// mark the Blog entry active too.
+const path = Astro.url.pathname.endsWith('/') ? Astro.url.pathname : `${Astro.url.pathname}/`;
+const isActive = (href: string) => path === href || (href !== '/' && path.startsWith(href));
 ---
 
 {/* Announcement bar */}
@@ -14,27 +20,37 @@ const allLinks = [...NAV.main, ...NAV.more];
   </div>
 </div>
 
-<header class="bg-base-100 shadow-sm sticky top-0 z-50">
+<header class="bg-base-100 sticky top-0 z-50">
   <div class="navbar container mx-auto">
   <div class="navbar-start">
-    <a href="/" class="flex items-center gap-2 px-2" aria-label={`${SITE_DATA.company.name} — Home`}>
-      <Image src={logo} alt={`${SITE_DATA.company.name} logo`} class="h-12 w-auto" height={96} />
+    <a href="/" class="flex items-center gap-2 px-2 py-2" aria-label={`${SITE_DATA.company.name} — Home`}>
+      <Image src={logo} alt={`${SITE_DATA.company.name} logo`} class="h-15 w-auto" height={120} />
     </a>
   </div>
 
   <nav class="navbar-center hidden lg:flex" aria-label="Main">
     <ul class="menu menu-horizontal px-1">
       {NAV.main.map((item) => (
-        <li><a href={item.href}>{item.label}</a></li>
+        <li>
+          <a href={item.href} class={isActive(item.href) ? 'is-active' : undefined} aria-current={isActive(item.href) ? 'page' : undefined}>{item.label}</a>
+        </li>
       ))}
       <li class="relative" data-more-menu>
-        <button type="button" class="flex items-center gap-1" aria-expanded="false" aria-controls="more-menu" data-more-toggle>
+        <button
+          type="button"
+          class:list={['flex items-center gap-1', NAV.more.some((i) => isActive(i.href)) && 'is-active']}
+          aria-expanded="false"
+          aria-controls="more-menu"
+          data-more-toggle
+        >
           More
           <svg xmlns="http://www.w3.org/2000/svg" class="h-3 w-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" /></svg>
         </button>
         <ul id="more-menu" class="hidden absolute right-0 top-full z-10 mt-1 min-w-56 flex-col p-2 shadow-lg bg-base-100 rounded-box border border-base-300" data-more-panel>
           {NAV.more.map((item) => (
-            <li><a href={item.href}>{item.label}</a></li>
+            <li>
+              <a href={item.href} class={isActive(item.href) ? 'is-active' : undefined} aria-current={isActive(item.href) ? 'page' : undefined}>{item.label}</a>
+            </li>
           ))}
         </ul>
       </li>
@@ -53,10 +69,12 @@ const allLinks = [...NAV.main, ...NAV.more];
 </header>
 
 {/* Mobile menu panel */}
-<nav id="mobile-menu" class="hidden lg:hidden bg-base-100 border-b border-base-300 sticky top-16 z-40 shadow-lg" aria-label="Mobile" data-mobile-panel>
+<nav id="mobile-menu" class="hidden lg:hidden bg-base-100 border-b border-base-300 sticky top-[var(--header-h)] z-40 shadow-lg" aria-label="Mobile" data-mobile-panel>
   <ul class="menu flex-col p-4 max-h-[70vh] overflow-y-auto">
     {allLinks.map((item) => (
-      <li><a href={item.href} class="py-3 text-base">{item.label}</a></li>
+      <li>
+        <a href={item.href} class:list={['py-3', isActive(item.href) && 'is-active']} aria-current={isActive(item.href) ? 'page' : undefined}>{item.label}</a>
+      </li>
     ))}
     {/* Mobile menu CTAs — Call + Schedule, per DRD convention */}
     <li class="mt-2"><a href={SITE_DATA.company.phoneHref} class="btn btn-primary w-full">Call {SITE_DATA.company.phone}</a></li>

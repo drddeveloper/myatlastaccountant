@@ -16,13 +16,25 @@ export const SITE_DATA = {
     parentCompany: "https://lewisgroupcpas.com",
     googleBusiness: "#",
     socials: { facebook: "#", instagram: "https://www.instagram.com/atlasaccountinggroup/", x: "#", youtube: "#", linkedin: "#" },
-    siteCredits: "https://deepriverdigital.com",
+    // Privacy Policy. The live WP page is still the unmodified WordPress
+    // template (it literally contains "Suggested text:" placeholders), so it was
+    // NOT migrated. Set this once the client supplies real policy copy — the
+    // careers form consent line renders as plain text while it's empty.
+    privacyPolicy: "",
+  },
+  forms: {
+    // Careers application endpoint (accepts multipart/form-data incl. the resume).
+    // Empty until the LeadFlow form endpoint is locked — see CLIENT-QUESTIONS.md.
+    // While empty, the form validates client-side and falls back to a prefilled
+    // email so applicants are never left with a dead submit button.
+    careers: "",
   },
   branding: {
     colors: {
       primary: "#003954",   // deep navy — headings, dark sections
       secondary: "#181818", // near-black — body headings, footer
       accent: "#F4832B",    // orange — CTAs, highlights
+      accentLight: "#F69C55", // accent + 20% white — orange button hover fill
       sky: "#79CAE9",       // light blue — secondary accent (dark surfaces only)
       skyInk: "#2387B8",    // darkened sky for highlight text on light surfaces (WCAG)
       accentInk: "#B4540A", // darkened orange for small text/links on light surfaces (WCAG)
@@ -45,10 +57,10 @@ export const NAV = {
     { label: "HVAC", href: "/hvac-accounting/" },
     { label: "Electrical", href: "/accountants-for-electricians/" },
     { label: "Plumbing", href: "/accountants-for-plumbers/" },
+    { label: "Solar", href: "/accountants-for-solar-companies/" },
     { label: "Pricing", href: "/pricing/" },
     { label: "The Team", href: "/meet-the-team/" },
     { label: "Shop", href: "/toolbox/" },
-    { label: "Blog", href: "/blog/" },
   ],
   more: [
     { label: "Payroll", href: "/construction-payroll/" },
@@ -57,6 +69,6 @@ export const NAV = {
     { label: "Careers", href: "/careers/" },
     { label: "FAQs", href: "/frequently-asked-questions/" },
     { label: "Try Our Labor Calculator", href: "/labor-calculator/" },
-    { label: "Solar", href: "/accountants-for-solar-companies/" },
+    { label: "Blog", href: "/blog/" },
   ],
 };

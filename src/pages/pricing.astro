@@ -1,10 +1,9 @@
 ---
 import { Image } from 'astro:assets';
 import BaseLayout from '../layouts/BaseLayout.astro';
-import CalendlyEmbed from '../components/CalendlyEmbed.astro';
+import CalendlyCta from '../components/sections/CalendlyCta.astro';
 
 import cleanupImg from '../assets/images/pages/pricing/Contractor-Taxes.webp';
-import ctaBgImg from '../assets/images/home/Footer-CTA-card-background.jpg';
 
 /*
  * Pixel-parity rewrite of https://www.myatlasaccountant.com/pricing/
@@ -63,6 +62,9 @@ const tiers = [
     excluded: ['Bill Pay Services', 'Invoicing Software Integration', 'Payroll Services'],
   },
 ];
+
+// Service-level quiz — the live site's Typeform
+const QUIZ_URL = 'https://form.typeform.com/to/PuRWsMES?typeform-source=www.myatlasaccountant.com';
 ---
 
 <BaseLayout
@@ -72,7 +74,7 @@ const tiers = [
 
   {/* ── Hero (navy, centered) ── */}
   <section class="bg-primary">
-    <div class="container mx-auto px-4 pt-20 pb-16 md:pt-28 md:pb-20">
+    <div class="container mx-auto px-4 pt-12 pb-16 md:pt-16 md:pb-20">
       <div class="max-w-3xl mx-auto text-center">
         <h1 class="heading-display text-5xl md:text-6xl text-white">Pricing</h1>
         <p class="mt-6 text-lg leading-relaxed text-white">
@@ -144,7 +146,7 @@ const tiers = [
           sizes="(min-width: 1024px) 50vw, 100vw"
         />
       </div>
-      <div class="px-4 sm:px-8 lg:px-0 lg:pr-16 pt-16 lg:py-24 max-w-2xl">
+      <div class="px-4 sm:px-8 lg:px-0 lg:pr-16 pt-16 pb-16 lg:py-24 max-w-2xl lg:self-center">
         <h2 class="heading-display text-3xl md:text-5xl text-white">Accounting System Install and Clean Up</h2>
         <p class="mt-4 text-3xl md:text-4xl font-bold text-white">One Time Investment</p>
         <p class="mt-6 flex items-center gap-3 text-sky">
@@ -178,32 +180,21 @@ const tiers = [
   </section>
 
   {/* ── Quiz CTA ── */}
-  <section class="bg-base-100">
-    <div class="container mx-auto px-4 pb-16 md:pb-24 pt-4 md:pt-8">
+  <section class="bg-cream">
+    <div class="container mx-auto px-4 py-16 md:py-24">
       <div class="max-w-3xl mx-auto text-center">
         <h2 class="heading-display text-3xl md:text-5xl text-secondary">
           Which Service Level Is Right For Your Business? Take The Quiz
         </h2>
         <div class="mt-8">
-          {/* Live page links a Typeform quiz; rerouted to the on-site intake flow */}
-          <a href="/getting-started/" class="btn btn-accent">Take The Quiz</a>
+          <a href={QUIZ_URL} target="_blank" rel="noopener" class="btn btn-accent">
+            Take The Quiz<span class="sr-only"> (opens in a new tab)</span>
+          </a>
         </div>
       </div>
     </div>
   </section>
 
-  {/* ── Book a call (Calendly) — mirrors the live site's global pre-footer band; #calendly anchor target ── */}
-  <section id="calendly" class="bg-accent relative overflow-hidden scroll-mt-20">
-    <Image src={ctaBgImg} alt="" class="absolute inset-0 w-full h-full object-cover object-top" widths={[1280]} sizes="100vw" aria-hidden="true" />
-    <div class="absolute inset-0 bg-gradient-to-b from-black/25 to-transparent pointer-events-none"></div>
-    <div class="container mx-auto px-4 py-16 md:py-20 relative">
-      <h2 class="heading-display text-3xl md:text-4xl text-white text-center max-w-3xl mx-auto">
-        Find out how we can help your trade business
-      </h2>
-      <div class="mt-10 max-w-3xl mx-auto bg-base-100 shadow-xl">
-        <CalendlyEmbed />
-      </div>
-    </div>
-  </section>
+  <CalendlyCta heading="Find out how we can help your trade business" />
 
 </BaseLayout>

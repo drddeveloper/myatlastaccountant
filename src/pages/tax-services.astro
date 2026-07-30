@@ -1,7 +1,7 @@
 ---
 import { Image } from 'astro:assets';
 import BaseLayout from '../layouts/BaseLayout.astro';
-import CalendlyEmbed from '../components/CalendlyEmbed.astro';
+import CalendlyCta from '../components/sections/CalendlyCta.astro';
 
 import iconPartner from '../assets/images/pages/tax/6570643_annual_cost_fee_legal_money_icon-1.svg';
 import iconSupport from '../assets/images/pages/tax/6570641_annual_calculate_cost_data_payment_icon-1.svg';
@@ -12,7 +12,6 @@ import iconMaximize from '../assets/images/pages/tax/6570652_management_icon-1.s
 import longTermImg from '../assets/images/pages/tax/Contractor-Taxes.webp';
 import lowTaxesImg from '../assets/images/pages/tax/Contractor-Tax-Services.webp';
 import testimonialImg from '../assets/images/pages/tax/Ryann-Blake-Testimonial.jpg';
-import ctaBgImg from '../assets/images/home/Footer-CTA-card-background.jpg';
 
 const partnership = [
   {
@@ -46,7 +45,7 @@ const processSteps = [
 
   {/* ── Hero — white, centered (live 26434aa1; its heading is an <h2> — ours is a proper h1) ── */}
   <section class="bg-base-100">
-    <div class="container mx-auto px-4 py-16 md:py-24 text-center">
+    <div class="container mx-auto px-4 pt-12 pb-16 md:pt-16 md:pb-24 text-center">
       <h1 class="heading-display text-4xl md:text-5xl xl:text-6xl text-secondary max-w-4xl mx-auto">
         Ditch The Tax Stress With <span class="text-sky-ink">Atlas Accounting Group</span>
       </h1>
@@ -170,20 +169,6 @@ const processSteps = [
     </div>
   </section>
 
-  {/* ── Book a call (Calendly) — shared footer band on the live site ── */}
-  <section id="calendly" class="bg-accent relative overflow-hidden scroll-mt-24">
-    {/* Orange duotone photo from the live site (tint baked into the JPG), with a
-        light dark wash on the upper area to keep the white heading legible */}
-    <Image src={ctaBgImg} alt="" class="absolute inset-0 w-full h-full object-cover object-top" widths={[1280]} sizes="100vw" aria-hidden="true" />
-    <div class="absolute inset-0 bg-gradient-to-b from-black/25 to-transparent pointer-events-none"></div>
-    <div class="container mx-auto px-4 py-16 md:py-20 relative">
-      <h2 class="heading-display text-3xl md:text-4xl text-white text-center max-w-3xl mx-auto">
-        Find out how we can help your trade business
-      </h2>
-      <div class="mt-10 max-w-3xl mx-auto bg-base-100 shadow-xl">
-        <CalendlyEmbed />
-      </div>
-    </div>
-  </section>
+  <CalendlyCta heading="Find out how we can help your trade business" />
 
 </BaseLayout>

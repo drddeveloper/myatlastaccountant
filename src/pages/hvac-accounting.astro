@@ -1,11 +1,10 @@
 ---
 import { Image } from 'astro:assets';
 import BaseLayout from '../layouts/BaseLayout.astro';
-import CalendlyEmbed from '../components/CalendlyEmbed.astro';
+import CalendlyCta from '../components/sections/CalendlyCta.astro';
 
 // Assets shared with the homepage — imported from home/, not duplicated
 import wholePictureImg from '../assets/images/home/1-Accountants-for-Contractors.webp';
-import ctaBgImg from '../assets/images/home/Footer-CTA-card-background.jpg';
 import logoServiceTitan from '../assets/images/home/Service-Titan.png';
 import logoHousecall from '../assets/images/home/Housecall-Pro.png';
 import logoGusto from '../assets/images/home/Gusto.png';
@@ -15,7 +14,6 @@ import logoJobber from '../assets/images/home/Jobber.png';
 import heroImg from '../assets/images/pages/hvac/HVAC-Accounting.webp';
 import teamImg from '../assets/images/pages/hvac/HVAC-Accounting-Team.webp';
 import testimonialImg from '../assets/images/pages/hvac/Ryann-Blake-Testimonial.jpg';
-import finalCtaBg from '../assets/images/pages/hvac/CTA-background-image.jpg';
 import popupImg from '../assets/images/pages/hvac/Accounting-Team-for-Specialty-Trades.webp';
 
 import icon360Financial from '../assets/images/pages/hvac/360-financial-icon.svg';
@@ -60,8 +58,10 @@ const checkIcon = `<path d="M173.898 439.404l-166.4-166.4c-9.997-9.997-9.997-26.
 
   {/* ── Hero (live: white bg, text 57% / image 43%) ── */}
   <section class="bg-base-100">
-    <div class="container mx-auto px-4 py-14 md:py-20 grid gap-10 lg:grid-cols-[4fr_3fr] lg:items-center">
-      <div>
+    <div class="container mx-auto px-4 grid gap-x-10 lg:grid-cols-[4fr_3fr] items-stretch">
+      {/* .hero-copy owns the vertical padding (--hero-pad-y) so .hero-media
+          can run flush to the sections above and below */}
+      <div class="hero-copy">
         <h1 class="heading-display text-4xl md:text-5xl xl:text-6xl text-secondary">
           Make Your HVAC Accounting Work <span class="text-sky-ink">For</span> You
         </h1>
@@ -72,8 +72,8 @@ const checkIcon = `<path d="M173.898 439.404l-166.4-166.4c-9.997-9.997-9.997-26.
           <a href="#calendly" class="btn btn-accent">Book Your Discovery Call</a>
         </div>
       </div>
-      <div>
-        <Image src={heroImg} alt="HVAC Accounting" class="w-full h-auto block" widths={[480, 728]} sizes="(min-width: 1024px) 40vw, 100vw" loading="eager" fetchpriority="high" />
+      <div class="hero-media">
+        <Image src={heroImg} alt="HVAC Accounting" widths={[480, 728]} sizes="(min-width: 1024px) 40vw, 100vw" loading="eager" fetchpriority="high" />
       </div>
     </div>
   </section>
@@ -109,7 +109,7 @@ const checkIcon = `<path d="M173.898 439.404l-166.4-166.4c-9.997-9.997-9.997-26.
         </div>
         {/* Cards 2–4 — white, whole card is the link (as on live) */}
         {serviceCards.map((card) => (
-          <a href={card.href} class="group bg-base-100 border border-base-300 hover:border-accent transition-colors px-6 py-12 flex flex-col items-center text-center focus-visible:outline-2 focus-visible:outline-accent">
+          <a href={card.href} class="card-tile group px-6 py-12 items-center text-center">
             <Image src={card.icon} alt={card.alt} class="h-[70px] w-auto" width={70} height={70} aria-hidden={card.alt === '' ? 'true' : undefined} />
             <h3 class="text-2xl font-bold text-secondary mt-6">{card.title}</h3>
             <span class="mt-auto pt-6 inline-flex items-center gap-2 font-semibold text-lg text-accent-ink group-hover:text-accent transition-colors">
@@ -225,33 +225,7 @@ const checkIcon = `<path d="M173.898 439.404l-166.4-166.4c-9.997-9.997-9.997-26.
     </div>
   </section>
 
-  {/* ── Something more (live: photo CTA band) ── */}
-  <section class="bg-primary relative overflow-hidden">
-    <Image src={finalCtaBg} alt="" class="absolute inset-0 w-full h-full object-cover object-center" widths={[1280, 1440]} sizes="100vw" aria-hidden="true" />
-    <div class="absolute inset-0 bg-primary/40 pointer-events-none"></div>
-    <div class="container mx-auto px-4 py-20 md:py-28 relative text-center">
-      <h2 class="heading-display text-3xl md:text-5xl text-white max-w-3xl mx-auto">
-        Build your hvac company into something more.
-      </h2>
-      <div class="mt-8">
-        <a href="#calendly" class="btn btn-primary">Get Started Now</a>
-      </div>
-    </div>
-  </section>
-
-  {/* ── Book a call (live: footer template band — orange duotone photo + Calendly) ── */}
-  <section id="calendly" class="bg-accent relative overflow-hidden">
-    <Image src={ctaBgImg} alt="" class="absolute inset-0 w-full h-full object-cover object-top" widths={[1280]} sizes="100vw" aria-hidden="true" />
-    <div class="absolute inset-0 bg-gradient-to-b from-black/25 to-transparent pointer-events-none"></div>
-    <div class="container mx-auto px-4 py-16 md:py-20 relative">
-      <h2 class="heading-display text-3xl md:text-4xl text-white text-center max-w-3xl mx-auto">
-        Find out how we can help your HVAC business
-      </h2>
-      <div class="mt-10 max-w-3xl mx-auto bg-base-100 shadow-xl">
-        <CalendlyEmbed />
-      </div>
-    </div>
-  </section>
+  <CalendlyCta heading="Build your HVAC company into something more" />
 
   {/*
     Profit Margin Calculator popup — recreation of the live Elementor popup (id 666)

@@ -6,6 +6,59 @@
 /hvac-bookkeeping/ /hvac-accounting/ 301
 /hvac-payroll/ /construction-payroll/ 301
 
-# NOTE: Blog posts on the old site live under /post/<category>/<slug>/.
-# Posts are not yet migrated — once they are, add per-post 301s here
-# (or /post/* wildcards if slugs are kept identical).
+# Blog: all 51 posts were migrated off WordPress keeping their original
+# slugs, so /post/<slug>/ maps 1:1 onto /blog/<slug>/. The explicit rules
+# come first so the splat below only catches anything we missed.
+/post/3-construction-company-kpis/ /blog/3-construction-company-kpis/ 301
+/post/4-ways-construction-project-tracking/ /blog/4-ways-construction-project-tracking/ 301
+/post/accounting-for-construction-projects/ /blog/accounting-for-construction-projects/ 301
+/post/accounting-is-the-language-of-business/ /blog/accounting-is-the-language-of-business/ 301
+/post/average-profit-margin-for-construction-companies/ /blog/average-profit-margin-for-construction-companies/ 301
+/post/average-profit-margin-for-electrical-contractors/ /blog/average-profit-margin-for-electrical-contractors/ 301
+/post/back-from-serviceworld-expo/ /blog/back-from-serviceworld-expo/ 301
+/post/better-construction-bookkeeping/ /blog/better-construction-bookkeeping/ 301
+/post/build-a-construction-budget/ /blog/build-a-construction-budget/ 301
+/post/business-deductions-for-self-employed-owners/ /blog/business-deductions-for-self-employed-owners/ 301
+/post/business-success-with-a-kpi-dashboard/ /blog/business-success-with-a-kpi-dashboard/ 301
+/post/can-your-hvac-company-afford-to-hire/ /blog/can-your-hvac-company-afford-to-hire/ 301
+/post/cash-flow-for-construction/ /blog/cash-flow-for-construction/ 301
+/post/cash-flow-forecast-for-construction-business/ /blog/cash-flow-forecast-for-construction-business/ 301
+/post/communication-in-home-service-business/ /blog/communication-in-home-service-business/ 301
+/post/construction-accountants-help/ /blog/construction-accountants-help/ 301
+/post/construction-business-break-even/ /blog/construction-business-break-even/ 301
+/post/construction-businesses-staffing/ /blog/construction-businesses-staffing/ 301
+/post/construction-chart-of-accounts-2025/ /blog/construction-chart-of-accounts-2025/ 301
+/post/construction-company-r-d-tax-credit/ /blog/construction-company-r-d-tax-credit/ 301
+/post/construction-equipment-depreciation-explained/ /blog/construction-equipment-depreciation-explained/ 301
+/post/construction-financing-guide/ /blog/construction-financing-guide/ 301
+/post/construction-industry-bookkeeping/ /blog/construction-industry-bookkeeping/ 301
+/post/construction-profit-and-loss-statement/ /blog/construction-profit-and-loss-statement/ 301
+/post/construction-tax-credits-2023/ /blog/construction-tax-credits-2023/ 301
+/post/contractor-invoices-types-quickbooks-simplifies-the-process/ /blog/contractor-invoices-types-quickbooks-simplifies-the-process/ 301
+/post/contractor-labor-cost-calculator/ /blog/contractor-labor-cost-calculator/ 301
+/post/estimated-taxes-for-electricians-hvac-and-plumbers/ /blog/estimated-taxes-for-electricians-hvac-and-plumbers/ 301
+/post/gusto-for-hvac-businesses/ /blog/gusto-for-hvac-businesses/ 301
+/post/home-services-advisory-program/ /blog/home-services-advisory-program/ 301
+/post/hvac-and-electrical-contractors-in-slow-season/ /blog/hvac-and-electrical-contractors-in-slow-season/ 301
+/post/hvac-tax-deductions-2026/ /blog/hvac-tax-deductions-2026/ 301
+/post/inside-our-new-protect-your-profits-book/ /blog/inside-our-new-protect-your-profits-book/ 301
+/post/integrate-software-with-quickbooks/ /blog/integrate-software-with-quickbooks/ 301
+/post/job-costing-mistakes-for-electricians/ /blog/job-costing-mistakes-for-electricians/ 301
+/post/non-financial-hvac-kpis/ /blog/non-financial-hvac-kpis/ 301
+/post/profitable-hvac-cash-flow/ /blog/profitable-hvac-cash-flow/ 301
+/post/protect-from-business-fraud-2025/ /blog/protect-from-business-fraud-2025/ 301
+/post/quickbooks-servicetitan-integration/ /blog/quickbooks-servicetitan-integration/ 301
+/post/quickbooks-tips-for-contractors/ /blog/quickbooks-tips-for-contractors/ 301
+/post/servicetitan-and-quickbooks/ /blog/servicetitan-and-quickbooks/ 301
+/post/stop-inaccurate-hvac-job-costing/ /blog/stop-inaccurate-hvac-job-costing/ 301
+/post/target-hvac-business-profit-margin/ /blog/target-hvac-business-profit-margin/ 301
+/post/tax-credits-for-construction/ /blog/tax-credits-for-construction/ 301
+/post/track-hvac-company-cash-flow/ /blog/track-hvac-company-cash-flow/ 301
+/post/washington-cares-payroll-tax/ /blog/washington-cares-payroll-tax/ 301
+/post/year-end-accounting-checklist-for-electricians/ /blog/year-end-accounting-checklist-for-electricians/ 301
+/post/year-end-accounting-checklist-for-hvacs/ /blog/year-end-accounting-checklist-for-hvacs/ 301
+/post/year-end-accounting-checklist-for-plumbers/ /blog/year-end-accounting-checklist-for-plumbers/ 301
+/post/year-end-review/ /blog/year-end-review/ 301
+/post/your-guide-to-workers-compensation-in-washington-state-2023/ /blog/your-guide-to-workers-compensation-in-washington-state-2023/ 301
+
+/post/* /blog/:splat 301

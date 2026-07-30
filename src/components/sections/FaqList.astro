@@ -27,10 +27,10 @@ const jsonLD = schema
 
 <div class="divide-y divide-base-300 rounded-2xl bg-base-100 shadow-sm border border-base-300">
   {items.map((item) => (
-    <details class="faq-item group p-6">
-      <summary class="flex items-center justify-between gap-4 cursor-pointer font-semibold text-primary text-lg list-none [&::-webkit-details-marker]:hidden">
+    <details class="accordion p-6">
+      <summary class="flex items-center justify-between gap-4 font-semibold text-primary text-lg">
         {item.q}
-        <svg class="h-5 w-5 shrink-0 text-accent transition-transform group-open:rotate-45" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+        <svg class="accordion-icon h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
           <path stroke-linecap="round" d="M12 5v14M5 12h14" />
         </svg>
       </summary>

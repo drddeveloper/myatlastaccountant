@@ -1,10 +1,8 @@
 ---
 import { Image } from 'astro:assets';
 import BaseLayout from '../layouts/BaseLayout.astro';
-import CalendlyEmbed from '../components/CalendlyEmbed.astro';
+import CalendlyCta from '../components/sections/CalendlyCta.astro';
 
-// Asset shared with the homepage — imported from home/, not duplicated
-import ctaBgImg from '../assets/images/home/Footer-CTA-card-background.jpg';
 
 // Page-specific images (downloaded from the live /accountants-for-solar-companies/ page)
 import heroImg from '../assets/images/pages/solar/Accounting-for-solar-companies.png';
@@ -58,8 +56,10 @@ const capabilities = [
 
   {/* ── Hero (live: white bg, text 57% / image 42%) ── */}
   <section class="bg-base-100">
-    <div class="container mx-auto px-4 py-14 md:py-20 grid gap-10 lg:grid-cols-[4fr_3fr] lg:items-center">
-      <div>
+    <div class="container mx-auto px-4 grid gap-x-10 lg:grid-cols-[4fr_3fr] items-stretch">
+      {/* .hero-copy owns the vertical padding (--hero-pad-y) so .hero-media
+          can run flush to the sections above and below */}
+      <div class="hero-copy">
         <h1 class="heading-display text-4xl md:text-5xl xl:text-6xl text-secondary">
           we're accountants who specialize in <span class="text-sky-ink">Solar Companies</span>
         </h1>
@@ -70,8 +70,8 @@ const capabilities = [
           <a href="#calendly" class="btn btn-accent">Book A Discovery Call</a>
         </div>
       </div>
-      <div>
-        <Image src={heroImg} alt="Accounting for solar companies" class="w-full h-auto block" widths={[480, 768, 1200]} sizes="(min-width: 1024px) 40vw, 100vw" loading="eager" fetchpriority="high" />
+      <div class="hero-media">
+        <Image src={heroImg} alt="Accounting for solar companies" widths={[480, 768, 1200]} sizes="(min-width: 1024px) 40vw, 100vw" loading="eager" fetchpriority="high" />
       </div>
     </div>
   </section>
@@ -115,7 +115,7 @@ const capabilities = [
         </div>
         {/* Cards 2–4 — white, whole card is the link (as on live) */}
         {serviceCards.map((card) => (
-          <a href={card.href} class="group bg-base-100 border border-base-300 hover:border-accent transition-colors px-6 py-12 flex flex-col items-center text-center focus-visible:outline-2 focus-visible:outline-accent">
+          <a href={card.href} class="card-tile group px-6 py-12 items-center text-center">
             <Image src={card.icon} alt="" class="h-[70px] w-auto" width={70} height={70} aria-hidden="true" />
             <h3 class="text-2xl font-bold text-secondary mt-6">{card.title}</h3>
             <span class="mt-auto pt-6 inline-flex items-center gap-2 font-semibold text-lg text-accent-ink group-hover:text-accent transition-colors">
@@ -227,19 +227,6 @@ const capabilities = [
     </div>
   </section>
 
-  {/* ── Book a call (live: footer template band — orange duotone photo + Calendly).
-       Live heading says "construction business" on every page → localized per trade. ── */}
-  <section id="calendly" class="bg-accent relative overflow-hidden scroll-mt-24">
-    <Image src={ctaBgImg} alt="" class="absolute inset-0 w-full h-full object-cover object-top" widths={[1280]} sizes="100vw" aria-hidden="true" />
-    <div class="absolute inset-0 bg-gradient-to-b from-black/25 to-transparent pointer-events-none"></div>
-    <div class="container mx-auto px-4 py-16 md:py-20 relative">
-      <h2 class="heading-display text-3xl md:text-4xl text-white text-center max-w-3xl mx-auto">
-        Find out how we can help your solar business
-      </h2>
-      <div class="mt-10 max-w-3xl mx-auto bg-base-100 shadow-xl">
-        <CalendlyEmbed />
-      </div>
-    </div>
-  </section>
+  <CalendlyCta heading="Find out how we can help your solar business" />
 
 </BaseLayout>

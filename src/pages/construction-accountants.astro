@@ -1,11 +1,10 @@
 ---
 import { Image } from 'astro:assets';
 import BaseLayout from '../layouts/BaseLayout.astro';
-import CalendlyEmbed from '../components/CalendlyEmbed.astro';
+import CalendlyCta from '../components/sections/CalendlyCta.astro';
 
 // Hero image is the same asset the homepage uses — imported from home/, not duplicated
 import heroImg from '../assets/images/home/1-Accountants-for-Contractors.webp';
-import ctaBgImg from '../assets/images/home/Footer-CTA-card-background.jpg';
 
 // Page-specific images (downloaded from the live /construction-accountants/ page)
 import logoServiceTitan from '../assets/images/pages/construction/ServiceTitan.png';
@@ -28,6 +27,10 @@ import opportunitiesImg from '../assets/images/pages/construction/Opportunities.
 import testimonialImg from '../assets/images/pages/construction/Ryann-Blake-Testimonial.jpg';
 
 // Trust-band logo carousel (live: Elementor image-carousel, continuous autoplay)
+// Copies of the logo set in the marquee. Must be EVEN (the animation translates
+// the track -50%, so the back half has to duplicate the front half exactly).
+const MARQUEE_COPIES = 6;
+
 const trustLogos = [
   { src: logoServiceTitan, alt: 'ServiceTitan' },
   { src: logoJobTread, alt: 'JobTread' },
@@ -81,8 +84,10 @@ const pushRow2 = [
 
   {/* ── Hero (live: white bg, text 57% / image 43%) ── */}
   <section class="bg-base-100">
-    <div class="container mx-auto px-4 py-14 md:py-20 grid gap-10 lg:grid-cols-[4fr_3fr] lg:items-center">
-      <div>
+    <div class="container mx-auto px-4 grid gap-x-10 lg:grid-cols-[4fr_3fr] items-stretch">
+      {/* .hero-copy owns the vertical padding (--hero-pad-y) so .hero-media
+          can run flush to the sections above and below */}
+      <div class="hero-copy">
         <h1 class="heading-display text-4xl md:text-5xl xl:text-6xl text-secondary">
           Best-in-Class accounting for <span class="text-sky-ink">Construction Businesses</span>
         </h1>
@@ -101,8 +106,8 @@ const pushRow2 = [
           <a href="#calendly" class="btn btn-accent">Book A Discovery Call</a>
         </div>
       </div>
-      <div>
-        <Image src={heroImg} alt="#1 Accountants for Contractors" class="w-full h-auto block" widths={[480, 768, 960, 1200]} sizes="(min-width: 1024px) 40vw, 100vw" loading="eager" fetchpriority="high" />
+      <div class="hero-media">
+        <Image src={heroImg} alt="#1 Accountants for Contractors" widths={[480, 768, 960, 1200]} sizes="(min-width: 1024px) 40vw, 100vw" loading="eager" fetchpriority="high" />
       </div>
     </div>
   </section>
@@ -115,12 +120,15 @@ const pushRow2 = [
       </h2>
     </div>
     <div class="marquee py-10 md:py-14" aria-label="Software our construction clients use">
-      {/* Group pr + the track's built-in 1rem gap = the in-group gap, so the loop seam is invisible */}
-      <div class="marquee-track px-4">
-        {[false, true].map((decorative) => (
-          <div class="flex items-center gap-16 pr-12 md:gap-24 md:pr-20" aria-hidden={decorative || undefined}>
+      {/* Each group's trailing padding matches its gap, so the group is an exact
+          half-multiple of the track and the -50% loop has no visible seam. Six
+          copies keep half the track wider than any viewport — with fewer, the
+          strip scrolls into empty navy before the duplicate arrives. */}
+      <div class="marquee-track">
+        {Array.from({ length: MARQUEE_COPIES }, (_, i) => (
+          <div class="marquee-group items-center gap-16 pr-16 md:gap-24 md:pr-24" aria-hidden={i > 0 || undefined}>
             {trustLogos.map((l) => (
-              <Image src={l.src} alt={decorative ? '' : l.alt} class="h-14 md:h-20 w-auto shrink-0" widths={[240, 440]} />
+              <Image src={l.src} alt={i === 0 ? l.alt : ''} class="h-14 md:h-20 w-auto shrink-0" widths={[240, 440]} />
             ))}
           </div>
         ))}
@@ -147,7 +155,7 @@ const pushRow2 = [
         </div>
         {/* Cards 2–4 — white, whole card is the link (as on live) */}
         {serviceCards.map((card) => (
-          <a href={card.href} class="group bg-base-100 border border-base-300 hover:border-accent transition-colors px-6 py-12 flex flex-col items-center text-center focus-visible:outline-2 focus-visible:outline-accent">
+          <a href={card.href} class="card-tile group px-6 py-12 items-center text-center">
             <Image src={card.icon} alt={card.alt} class="h-[70px] w-auto" width={70} height={70} aria-hidden={card.alt === '' ? 'true' : undefined} />
             <h3 class="text-2xl font-bold text-secondary mt-6">{card.title}</h3>
             <span class="mt-auto pt-6 inline-flex items-center gap-2 font-semibold text-lg text-accent-ink group-hover:text-accent transition-colors">
@@ -277,18 +285,6 @@ const pushRow2 = [
     </div>
   </section>
 
-  {/* ── Book a call (live: footer template band — orange duotone photo + Calendly) ── */}
-  <section id="calendly" class="bg-accent relative overflow-hidden">
-    <Image src={ctaBgImg} alt="" class="absolute inset-0 w-full h-full object-cover object-top" widths={[1280]} sizes="100vw" aria-hidden="true" />
-    <div class="absolute inset-0 bg-gradient-to-b from-black/25 to-transparent pointer-events-none"></div>
-    <div class="container mx-auto px-4 py-16 md:py-20 relative">
-      <h2 class="heading-display text-3xl md:text-4xl text-white text-center max-w-3xl mx-auto">
-        Find out how we can help your construction business
-      </h2>
-      <div class="mt-10 max-w-3xl mx-auto bg-base-100 shadow-xl">
-        <CalendlyEmbed />
-      </div>
-    </div>
-  </section>
+  <CalendlyCta heading="Find out how we can help your construction business" />
 
 </BaseLayout>

@@ -15,6 +15,7 @@ const swatches = [
   { name: 'Primary', token: 'bg-primary', hex: colors.primary, note: 'Deep navy — dark sections, hero, footer' },
   { name: 'Secondary', token: 'bg-secondary', hex: colors.secondary, note: 'Near-black — display headings on light' },
   { name: 'Accent', token: 'bg-accent', hex: colors.accent, note: 'Orange — CTA fills, orange sections' },
+  { name: 'Accent Light', token: 'bg-accent-light', hex: colors.accentLight, note: 'Accent + 20% white — orange button hover fill + border' },
   { name: 'Accent Ink', token: 'text-accent-ink', hex: colors.accentInk, note: 'Orange TEXT on light surfaces (AA-safe)' },
   { name: 'Sky', token: 'text-sky', hex: colors.sky, note: 'Light blue — highlight words on navy only' },
   { name: 'Sky Ink', token: 'text-sky-ink', hex: colors.skyInk, note: 'Blue highlight TEXT on light surfaces (AA-safe)' },
@@ -93,6 +94,37 @@ const sampleFaqs = [
         <a href="#" class="btn btn-outline text-white">On Dark: Outline</a>
       </div>
       <p class="mt-4 text-sm">Square corners, uppercase, navy text on orange fills. Text link pattern: <a href="#" class="text-accent-ink font-semibold uppercase text-sm tracking-wide">Learn More →</a></p>
+      <div class="mt-4 grid gap-3 max-w-3xl text-sm">
+        <p class="bg-cream-dark p-4 rounded-lg"><strong>Orange hover (.btn-accent):</strong> fill and border both go to <code class="bg-base-100 px-1 rounded">accent-light</code> (accent + 20% white), navy text stays put at 5.7:1, plus a soft navy shadow.</p>
+        <p class="bg-cream-dark p-4 rounded-lg"><strong>Navy hover (.btn-primary):</strong> fill and border both go to <code class="bg-base-100 px-1 rounded">sky-ink</code> with the same shadow. Note: white on sky-ink measures ~4.0:1, just under the 4.5:1 AA floor for 15px text — darkening sky-ink to #1E7AA8 would clear it.</p>
+      </div>
+    </section>
+
+    <section class="mb-14">
+      <h2 class="heading-display text-2xl text-primary mb-6">Motion</h2>
+      <p class="max-w-3xl text-sm">One global timing: <code class="bg-base-200 px-1 rounded">0.33s ease-in-out</code>, set via Tailwind v4's <code class="bg-base-200 px-1 rounded">--default-transition-duration</code> / <code class="bg-base-200 px-1 rounded">--default-transition-timing-function</code> tokens in <code class="bg-base-200 px-1 rounded">global.css</code>. Every <code class="bg-base-200 px-1 rounded">transition-*</code> utility and every component class inherits it, so hovers and accordions feel the same everywhere. The one exception is press feedback (<code class="bg-base-200 px-1 rounded">--duration-press</code>, 120ms) — a slow <code class="bg-base-200 px-1 rounded">:active</code> nudge reads as lag. Only <code class="bg-base-200 px-1 rounded">transform</code>, <code class="bg-base-200 px-1 rounded">opacity</code>, colour, size and shadow are animated; never <code class="bg-base-200 px-1 rounded">transition-all</code>.</p>
+    </section>
+
+    <section class="mb-14">
+      <h2 class="heading-display text-2xl text-primary mb-6">Layout Tokens</h2>
+      <dl class="max-w-3xl text-sm space-y-3">
+        <div>
+          <dt class="font-bold text-secondary"><code class="bg-base-200 px-1 rounded">--header-h</code> — 5.75rem</dt>
+          <dd>Sticky header height. The mobile menu panel and every <code class="bg-base-200 px-1 rounded">scroll-mt</code> anchor offset by it, so changing the logo size means changing this one value.</dd>
+        </div>
+        <div>
+          <dt class="font-bold text-secondary"><code class="bg-base-200 px-1 rounded">--hero-pad-y</code> / <code class="bg-base-200 px-1 rounded">--hero-pad-y-lg</code> — 3.5rem / 5rem</dt>
+          <dd>Internal padding for <code class="bg-base-200 px-1 rounded">.hero-copy</code>. Hero grids carry no vertical padding of their own — the copy column supplies it and <code class="bg-base-200 px-1 rounded">.hero-media</code> stretches to the full row, so the photo always meets the sections above and below however long the copy grows.</dd>
+        </div>
+      </dl>
+    </section>
+
+    <section class="mb-14">
+      <h2 class="heading-display text-2xl text-primary mb-6">Accordion — .accordion</h2>
+      <p class="max-w-3xl text-sm mb-5">One treatment for every <code class="bg-base-200 px-1 rounded">&lt;details&gt;</code> on the site. The panel animates open on the global timing via <code class="bg-base-200 px-1 rounded">interpolate-size</code> + <code class="bg-base-200 px-1 rounded">::details-content</code>; the <code class="bg-base-200 px-1 rounded">.accordion-icon</code> rotates 45° to an ×. Older browsers snap open instead of animating.</p>
+      <div class="max-w-2xl">
+        <FaqList items={sampleFaqs} />
+      </div>
     </section>
 
     <section class="mb-14">
@@ -136,18 +168,28 @@ const sampleFaqs = [
     </section>
 
     <section class="mb-14">
-      <h2 class="heading-display text-2xl text-primary mb-6">FAQ Accordion</h2>
-      <div class="max-w-2xl">
-        <FaqList items={sampleFaqs} />
-      </div>
-    </section>
-
-    <section class="mb-14">
       <h2 class="heading-display text-2xl text-primary mb-6">Cards</h2>
+
+      <h3 class="font-bold text-secondary mb-3">Tile card — .card-tile</h3>
+      <p class="text-sm max-w-3xl mb-5">The site's primary card: square, white, hairline border. On hover/focus it scales to 1.04, the border goes brand orange, and a layered navy + orange shadow lifts it. Used for the homepage industry grid, the trade-page service cards, and the step/option cards. Render it as an <code class="bg-base-200 px-1 rounded">&lt;a&gt;</code> so the whole tile is the target — it already sets <code class="bg-base-200 px-1 rounded">display:flex; flex-direction:column</code>, so only padding and alignment utilities need adding.</p>
+      <div class="grid sm:grid-cols-3 gap-5 mb-10">
+        {['Construction', 'Plumbers', 'HVAC'].map((label) => (
+          <a href="#" class="card-tile group p-6">
+            <h4 class="heading-display text-lg text-secondary">{label}</h4>
+            <p class="mt-3 text-sm leading-relaxed flex-grow">Hover me — scale, orange border, layered shadow.</p>
+            <span class="mt-5 inline-flex items-center gap-1 font-semibold text-accent-ink">
+              Learn More
+              <svg class="h-4 w-4 transition-transform group-hover:translate-x-1" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/></svg>
+            </span>
+          </a>
+        ))}
+      </div>
+
+      <h3 class="font-bold text-secondary mb-3">Other card surfaces</h3>
       <div class="grid md:grid-cols-3 gap-6">
         <div class="card border border-base-300 shadow-none">
           <h3 class="heading-display text-lg text-primary">Card on white</h3>
-          <p class="mt-2 text-sm">Border style; link cards get hover:border-accent or hover:-translate-y-2.</p>
+          <p class="mt-2 text-sm">Rounded .card variant — used for panels, not for link tiles.</p>
         </div>
         <div class="bg-cream rounded-xl p-6">
           <div class="card bg-base-100">
