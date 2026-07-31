@@ -60,7 +60,7 @@ export const NAV = {
     { label: "Solar", href: "/accountants-for-solar-companies/" },
     { label: "Pricing", href: "/pricing/" },
     { label: "The Team", href: "/meet-the-team/" },
-    { label: "Shop", href: "/toolbox/" },
+    { label: "Toolbox", href: "/toolbox/" },
   ],
   more: [
     { label: "Payroll", href: "/construction-payroll/" },
@@ -70,5 +70,47 @@ export const NAV = {
     { label: "FAQs", href: "/frequently-asked-questions/" },
     { label: "Try Our Labor Calculator", href: "/labor-calculator/" },
     { label: "Blog", href: "/blog/" },
+  ],
+};
+
+// Mobile menu structure. The flat desktop list is 16 links — too many to scan on
+// a phone — so the trade, service and company pages collapse into groups and
+// only the two highest-intent links stay at the top level. Call + Contact are
+// pinned to the bottom of the panel (see Nav.astro).
+export const MOBILE_NAV = {
+  top: [
+    { label: "Pricing", href: "/pricing/" },
+    { label: "Toolbox", href: "/toolbox/" },
+  ],
+  groups: [
+    {
+      label: "Industries",
+      items: [
+        { label: "Construction", href: "/construction-accountants/" },
+        { label: "HVAC", href: "/hvac-accounting/" },
+        { label: "Electrical", href: "/accountants-for-electricians/" },
+        { label: "Plumbing", href: "/accountants-for-plumbers/" },
+        { label: "Solar", href: "/accountants-for-solar-companies/" },
+      ],
+    },
+    {
+      label: "Services",
+      items: [
+        { label: "Payroll", href: "/construction-payroll/" },
+        { label: "Tax", href: "/tax-services/" },
+        { label: "Labor Calculator", href: "/labor-calculator/" },
+        { label: "Profit Margin Calculator", href: "/profit-margin-calculator/" },
+      ],
+    },
+    {
+      label: "Company",
+      items: [
+        { label: "The Team", href: "/meet-the-team/" },
+        { label: "Why We're Different", href: "/why-we-are-different/" },
+        { label: "Careers", href: "/careers/" },
+        { label: "FAQs", href: "/frequently-asked-questions/" },
+        { label: "Blog", href: "/blog/" },
+      ],
+    },
   ],
 };

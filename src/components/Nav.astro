@@ -1,9 +1,7 @@
 ---
 import { Image } from 'astro:assets';
-import { SITE_DATA, NAV } from '../data/constants';
+import { SITE_DATA, NAV, MOBILE_NAV } from '../data/constants';
 import logo from '../assets/images/branding/Atlas-Accounting-logo.svg';
-
-const allLinks = [...NAV.main, ...NAV.more];
 
 // Current path, normalised to the trailing-slash form the NAV hrefs use, so the
 // active link can keep its hover treatment on. Blog post URLs (/blog/<slug>/)
@@ -68,18 +66,50 @@ const isActive = (href: string) => path === href || (href !== '/' && path.starts
   </div>
 </header>
 
-{/* Mobile menu panel */}
-<nav id="mobile-menu" class="hidden lg:hidden bg-base-100 border-b border-base-300 sticky top-[var(--header-h)] z-40 shadow-lg" aria-label="Mobile" data-mobile-panel>
-  <ul class="menu flex-col p-4 max-h-[70vh] overflow-y-auto">
-    {allLinks.map((item) => (
-      <li>
-        <a href={item.href} class:list={['py-3', isActive(item.href) && 'is-active']} aria-current={isActive(item.href) ? 'page' : undefined}>{item.label}</a>
-      </li>
+{/* Mobile menu panel.
+    Fixed below the header rather than sticky, so the CTA row can be pinned to
+    the bottom of the panel while only the link list scrolls. Groups collapse so
+    all 16 destinations fit on a phone without a long scroll. */}
+<nav
+  id="mobile-menu"
+  class="hidden lg:hidden fixed inset-x-0 top-[var(--header-h)] bottom-0 z-40 bg-base-100 border-t border-base-300 shadow-lg flex-col"
+  data-mobile-panel-anchor
+  aria-label="Mobile"
+  data-mobile-panel
+>
+  <div class="flex-1 overflow-y-auto overscroll-contain px-4 py-3">
+    <ul class="menu flex-col">
+      {MOBILE_NAV.top.map((item) => (
+        <li>
+          <a href={item.href} class:list={['py-3', isActive(item.href) && 'is-active']} aria-current={isActive(item.href) ? 'page' : undefined}>{item.label}</a>
+        </li>
+      ))}
+    </ul>
+
+    {MOBILE_NAV.groups.map((group) => (
+      <details class="accordion border-t border-base-200" open={group.items.some((i) => isActive(i.href))}>
+        <summary class="flex items-center justify-between gap-4 py-3.5 px-3 font-semibold text-secondary">
+          {group.label}
+          <svg class="accordion-icon h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+            <path stroke-linecap="round" d="M12 5v14M5 12h14" />
+          </svg>
+        </summary>
+        <ul class="menu flex-col pb-2">
+          {group.items.map((item) => (
+            <li>
+              <a href={item.href} class:list={['py-2.5 pl-6', isActive(item.href) && 'is-active']} aria-current={isActive(item.href) ? 'page' : undefined}>{item.label}</a>
+            </li>
+          ))}
+        </ul>
+      </details>
     ))}
-    {/* Mobile menu CTAs — Call + Schedule, per DRD convention */}
-    <li class="mt-2"><a href={SITE_DATA.company.phoneHref} class="btn btn-primary w-full">Call {SITE_DATA.company.phone}</a></li>
-    <li class="mt-2"><a href={SITE_DATA.links.bookACall} class="btn btn-accent w-full">Schedule a Meeting</a></li>
-  </ul>
+  </div>
+
+  {/* Pinned CTA row — Call + Contact stay reachable without scrolling back */}
+  <div class="shrink-0 border-t border-base-300 bg-base-100 p-4 pb-[max(1rem,env(safe-area-inset-bottom))] grid grid-cols-2 gap-3">
+    <a href={SITE_DATA.company.phoneHref} class="btn btn-primary w-full">Call</a>
+    <a href={SITE_DATA.links.bookACall} class="btn btn-accent w-full">Contact</a>
+  </div>
 </nav>
 
 <script>
@@ -114,4 +144,29 @@ const isActive = (href: string) => path === href || (href !== '/' && path.starts
 
   wireDisclosure('[data-more-toggle]', '[data-more-panel]');
   wireDisclosure('[data-mobile-toggle]', '[data-mobile-panel]');
+
+  // The mobile panel is fixed and covers the viewport below the header. Two
+  // things need handling on open, both keyed off the class change so we don't
+  // duplicate wireDisclosure's open/close logic:
+  //
+  // 1. Anchor the panel to the header's *measured* bottom. The announcement bar
+  //    above the header scrolls away while the header stays sticky, so the
+  //    header's bottom edge is --header-h only once the bar is gone; at the top
+  //    of the page it sits lower and a fixed offset would clip the first link.
+  // 2. Lock the page behind it, or scrolling past the panel's end scrolls the
+  //    page underneath.
+  const mobilePanel = document.querySelector<HTMLElement>('[data-mobile-panel]');
+  const header = document.querySelector<HTMLElement>('header');
+
+  if (mobilePanel && header) {
+    new MutationObserver(() => {
+      const open = !mobilePanel.classList.contains('hidden');
+      if (open) {
+        mobilePanel.style.top = `${Math.max(0, header.getBoundingClientRect().bottom)}px`;
+      } else {
+        mobilePanel.style.top = '';
+      }
+      document.body.style.overflow = open ? 'hidden' : '';
+    }).observe(mobilePanel, { attributes: true, attributeFilter: ['class'] });
+  }
 </script>

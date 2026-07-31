@@ -14,7 +14,12 @@ const calendlyUrl = `${SITE_DATA.links.calendly}?hide_gdpr_banner=1&primary_colo
   Performance: the Calendly widget pulls ~2.6 MB of booking JS/CSS plus Stripe.
   Instead of loading it with the page, the script is injected only when the
   embed scrolls within 600px of the viewport (IntersectionObserver).
-  Until then — and with JS disabled — the fallback link keeps booking possible.
+
+  Resilience: Calendly is a third party and can be blocked by privacy
+  extensions, corporate DNS, or an outage. If the script fails to load, or
+  loads but never renders its iframe within the timeout, the failure notice
+  below replaces the widget so a visitor is never left staring at a blank box
+  with no way to reach the firm.
 */}
 <div
   class={`calendly-inline-widget ${className}`}
@@ -33,19 +38,86 @@ const calendlyUrl = `${SITE_DATA.links.calendly}?hide_gdpr_banner=1&primary_colo
   </div>
 </div>
 
+{/* Failure notice — hidden until the widget is confirmed not to have rendered.
+    Lives outside the widget div so Calendly can't clobber it. */}
+<div class="hidden p-8 md:p-12 text-center" role="alert" data-calendly-error>
+  <p class="eyebrow mb-3">Scheduler unavailable</p>
+  <h3 class="heading-display text-2xl md:text-3xl text-primary">
+    Our booking calendar didn’t load
+  </h3>
+  <p class="mt-4 leading-relaxed max-w-md mx-auto">
+    An ad blocker or a network hiccup can stop it from appearing. You can still
+    reach us directly — we answer fast.
+  </p>
+  <div class="mt-8 flex flex-col sm:flex-row gap-3 justify-center">
+    <a href={SITE_DATA.company.phoneHref} class="btn btn-primary">
+      Call {SITE_DATA.company.phone}
+    </a>
+    <a href={SITE_DATA.links.bookACall} class="btn btn-accent">Contact Us</a>
+  </div>
+  <p class="mt-6 text-sm">
+    Or email <a href={`mailto:${SITE_DATA.company.email}`} class="link font-semibold text-accent-ink">{SITE_DATA.company.email}</a>
+    — or <a href={SITE_DATA.links.calendly} target="_blank" rel="noopener noreferrer" class="link font-semibold text-accent-ink">open the booking page directly</a>.
+  </p>
+</div>
+
 <script>
-  const embeds = document.querySelectorAll('[data-calendly-lazy]');
+  const embeds = document.querySelectorAll<HTMLElement>('[data-calendly-lazy]');
+
   if (embeds.length > 0) {
+    // How long to let the widget render before calling it a failure. Calendly
+    // typically paints in well under 2s; 8s is generous enough to avoid false
+    // positives on slow mobile connections.
+    const RENDER_TIMEOUT_MS = 8000;
+
+    /** Swap every embed for the failure notice. Idempotent. */
+    const showFailure = () => {
+      document.querySelectorAll<HTMLElement>('[data-calendly-error]').forEach((el) => {
+        el.classList.remove('hidden');
+      });
+      embeds.forEach((el) => {
+        el.style.display = 'none';
+      });
+    };
+
+    /** The widget is considered up once Calendly has appended its iframe. */
+    const hasRendered = () =>
+      Array.from(embeds).some((el) => el.querySelector('iframe'));
+
     let injected = false;
     const inject = () => {
       if (injected) return;
       injected = true;
+
       document.querySelectorAll('[data-calendly-fallback]').forEach((el) => el.remove());
+
       const s = document.createElement('script');
       s.src = 'https://assets.calendly.com/assets/external/widget.js';
       s.async = true;
+
+      // Blocked, offline, or 404 — the script never runs at all.
+      s.addEventListener('error', showFailure);
+
+      // Loaded, but it may still fail to paint (blocked iframe/XHR, bad event
+      // URL). Watch for the iframe and give up after the timeout.
+      s.addEventListener('load', () => {
+        if (hasRendered()) return;
+        const observer = new MutationObserver(() => {
+          if (hasRendered()) {
+            observer.disconnect();
+            clearTimeout(timer);
+          }
+        });
+        embeds.forEach((el) => observer.observe(el, { childList: true, subtree: true }));
+        const timer = setTimeout(() => {
+          observer.disconnect();
+          if (!hasRendered()) showFailure();
+        }, RENDER_TIMEOUT_MS);
+      });
+
       document.head.appendChild(s);
     };
+
     const io = new IntersectionObserver(
       (entries, observer) => {
         if (entries.some((e) => e.isIntersecting)) {

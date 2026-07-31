@@ -67,6 +67,13 @@ checklist — check items off and note decisions inline.
 - [ ] **Toolbox pre-order items** currently use a waitlist email link (old
   site used a Gravity Forms popup). OK, or wire to a form?
 
+## Waiting on Roman
+
+- [ ] **Zach German — team page.** Roman is sending name, role, bio and
+  headshot. Add to the roster in `src/pages/meet-the-team.astro` (and to
+  `/why-we-are-different/`, which carries its own copy of the team grid) once
+  the details land.
+
 ## Contact & business info
 
 - [ ] **Phone number (360) 900-0421** appeared only on the old
