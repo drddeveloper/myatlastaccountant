@@ -1,10 +1,46 @@
 # Cloudflare Pages Redirects
 # Format: /source /target status_code
+#
+# Full old-URL inventory, proposed targets for the pages still awaiting a
+# decision, and the cutover sequence live in CUTOVER-301-PLAN.md.
+# First match wins — order matters.
 
 # Live-site slugs that were consolidated or fixed in the rebuild
 /bookeeping-for-electricians/ /accountants-for-electricians/ 301
 /hvac-bookkeeping/ /hvac-accounting/ 301
 /hvac-payroll/ /construction-payroll/ 301
+/atlas-accounting-group-difference/ /why-we-are-different/ 301
+/conference/ /getting-started/ 301
+
+# Slug renamed pre-launch 2026-08-04: the page targets "construction tax
+# services" but /tax-services/ contained neither core term (preflight PF-20).
+# The old slug is unchanged from the WordPress site, so this covers both the
+# legacy URL and anything already linking to the rebuild.
+/tax-services/ /construction-tax-services/ 301
+
+# WordPress archives
+/post/category/post/ /blog/ 301
+/category/* /blog/ 301
+/author/* /blog/ 301
+
+# Yoast's sitemap URL is what Search Console has on file (underscore);
+# Astro emits the hyphenated one.
+/sitemap_index.xml /sitemap-index.xml 301
+
+# Legacy post slugs found ONLY in the Search Console export (2026-08-04) —
+# they are not in the WP sitemap, so the sitemap-based audit missed them. Both
+# still earn impressions, and the /post/* splat below would send them to a
+# /blog/<old-slug>/ that does not exist. These must sit ABOVE the splat.
+/post/what-is-your-target-hvac-business-profit-margin-2025-02-18/ /blog/target-hvac-business-profit-margin/ 301
+/post/what-is-your-target-hvac-business-profit-margin-2025-02-18 /blog/target-hvac-business-profit-margin/ 301
+/post/quickbooks-contractor-invoices/ /blog/contractor-invoices-types-quickbooks-simplifies-the-process/ 301
+/post/quickbooks-contractor-invoices /blog/contractor-invoices-types-quickbooks-simplifies-the-process/ 301
+
+# Advisory event sub-pages. GSC shows /advisory-events/{may,june,september,
+# november} indexed; only the parent was in the WP sitemap. Parent target is
+# still an open decision (CUTOVER-301-PLAN.md §3 row 7) — this catches the
+# children either way.
+/advisory-events/* /toolbox/ 301
 
 # Blog: all 51 posts were migrated off WordPress keeping their original
 # slugs, so /post/<slug>/ maps 1:1 onto /blog/<slug>/. The explicit rules
