@@ -78,7 +78,38 @@ Common additions by category:
 ## Troubleshooting
 
 **Build fails on Cloudflare but passes locally**
-Most often a Node version mismatch. Set `NODE_VERSION=22` under **Settings → Environment variables**.
+
+Two causes, in order of likelihood.
+
+1. **Node version.** The required version is pinned in `.nvmrc` — Cloudflare
+   reads it and installs that version. Astro 7.1.6 requires Node >= 22.12.0.
+   If you need to override it, set `NODE_VERSION` under
+   **Settings → Environment variables**.
+
+2. **`npm ci` lockfile mismatch on Linux.** Cloudflare runs `npm clean-install`,
+   which is far stricter than the `npm install` you run locally. npm resolves
+   *optional* dependencies for the CURRENT platform, so a lockfile generated on
+   macOS can omit Linux-only transitive packages — `sharp`'s wasm32 fallback
+   pulls `@emnapi/*`, and those went missing after an `npm audit fix` on macOS.
+   The build fails with `EUSAGE ... Missing: @emnapi/runtime from lock file`.
+
+   Reproduce it locally without deploying:
+
+   ```bash
+   npm ci --dry-run --os=linux --cpu=x64
+   ```
+
+   Fix by layering Linux resolution onto the lockfile, then confirm BOTH
+   platforms install cleanly:
+
+   ```bash
+   npm install --package-lock-only --os=linux --cpu=x64
+   npm ci --dry-run --os=linux --cpu=x64   # must pass
+   npm ci --dry-run                        # must pass
+   ```
+
+   Run that check after any dependency change. `npm audit fix` in particular
+   rewrites the lockfile and can drop the Linux entries again.
 
 **404 on routes after deploy**
 Confirm `trailingSlash: 'always'` in [`astro.config.mjs`](./astro.config.mjs) matches how links are written in the site. Cloudflare Pages serves `/about/index.html` for `/about/`.
