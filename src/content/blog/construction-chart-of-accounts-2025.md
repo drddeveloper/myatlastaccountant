@@ -80,7 +80,7 @@ To make it easy for you, we’ve made a template of the construction chart of ac
 
 > **Note: your chart of accounts should be unique to your company, and will vary depending on how you track your projects. To get help with your specific chart of accounts, you can reach out to our team anytime.  **
 
-[Click to Make a Copy Of The 2025 Construction Chart of Accounts](/blog/construction-chart-of-accounts-2025#)
+[Click to Make a Copy Of The 2025 Construction Chart of Accounts](/downloads/Atlas-Standard-Chart-of-Accounts.xlsx)
 
 ![](/wp-content/uploads/2025/06/66d1acf2b4161c9dce220925_6475a009ed4e2e778dd7aca6_Screenshot202023-05-3020at205.04.1720PM.png)
 
@@ -89,7 +89,7 @@ To make it easy for you, we’ve made a template of the construction chart of ac
 ## Do you need help organizing your construction bookkeeping?  
 We hope you’ve enjoyed our brief overview of the construction chart of accounts.
 
-> [You can download your own chart of accounts template here.](/blog/construction-chart-of-accounts-2025#chart)
+> [You can download your own chart of accounts template here.](/downloads/Atlas-Standard-Chart-of-Accounts.xlsx)
 
 However, we’ve only touched the tip of the iceberg when it comes to keeping healthy books for your construction business. 
 
@@ -97,7 +97,7 @@ If you have more questions, need confirmation, or just want someone to take book
 
 It’s what we’re here for! 
 
-[Simply use our form here to get started.](/getting-started)
+[Simply use our form here to get started.](/getting-started/)
 
 Until next time! 
 

@@ -101,11 +101,11 @@ At [Atlas Accounting Group](/), we do everything we can to keep your data and fi
 
 We’re sharing this now because we’ve seen a rise in fraud attempts lately, and we don’t want you to be next.
 
-If you’re a client of ours and you’re not sure how secure your processes are, or if something’s been feeling off lately, [**let’s talk**](/getting-started).
+If you’re a client of ours and you’re not sure how secure your processes are, or if something’s been feeling off lately, [**let’s talk**](/getting-started/).
 
 We’d be happy to walk through your invoice workflow or payment systems and help tighten things up.
 
-And if you ever receive a suspicious email that claims to be from us, [**give us a call**](/getting-started) directly. 
+And if you ever receive a suspicious email that claims to be from us, [**give us a call**](/getting-started/) directly. 
 
 We’d rather double-check than have you second-guess.
 

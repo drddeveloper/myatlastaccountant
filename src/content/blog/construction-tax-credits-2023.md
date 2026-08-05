@@ -21,7 +21,7 @@ In this blog, we’re going to dive into all of the new construction tax credits
 
 Who says taxes can’t be fun? Let’s dive in. 
 
-### What Are Construction Tax Credits?
+## What Are Construction Tax Credits?
 First things first, let’s chat about what construction tax credits are. 
 
 Construction tax credits are incentives provided by the government to encourage businesses and individuals to pursue sustainable construction methods. 
@@ -40,18 +40,18 @@ Residential Energy Efficient Property Credit
   * Alternative Fuel Vehicle Refueling Property Credit
   * 45L Tax Credits
 
-### ‍**New Construction Tax Credits in 2023 To Know About**
+## ‍**New Construction Tax Credits in 2023 To Know About**
 
 ![](/wp-content/uploads/2025/06/6462dceddcaed554ef4a9236_New-Construction-Tax-Credits-You-Havent-Heard-Of-Yet-2023-1024x768.jpg)
 
-### The Inflation Reduction Act (IRA)
+## The Inflation Reduction Act (IRA)
 Several tax credits that we’re going to talk about stem from the recently passed Inflation Reduction Act, or IRA. 
 
 The Inflation Reduction Act of 2022 was signed into law last August with the goal of reducing carbon emissions by 40% by 2030, while also promoting domestic energy production and manufacturing.
 
 Here are a few of the new and/or expanded tax credits under IRA: 
 
-#### ‍**179D Energy Efficient Commercial Buildings Deduction**
+### ‍**179D Energy Efficient Commercial Buildings Deduction**
 
 Thanks to the Inflation Reduction Act of 2022, commercial building tax deductions under Section 179D of the Internal Revenue Code have expanded.
 
@@ -69,7 +69,7 @@ Retrofits may also qualify for an alternative Section 179D deduction if placed i
 
 Finally, one of the best parts of the Act is that tax-exempt building owners, like nonprofits and tribal entities, can now allocate deductions to the architects, engineers, and building design contractors who play a crucial role in designing energy-efficient systems for their buildings.
 
-#### 45L Tax Credits
+### 45L Tax Credits
 Next, let’s talk about the 45L Tax Credit. 
 
 This is a federal tax credit that rewards multifamily developers, investors, and homebuilders for building energy-efficient homes and units. 
@@ -86,7 +86,7 @@ And if you’re planning on doing some substantial reconstruction or rehabilitat
 
 It’s important to note that the new 45L rules apply to qualified energy-efficient homes acquired after December 31, 2022, and before January 1, 2033, for use as a residence during the taxable year.
 
-### New Homeowner Credits for Energy Efficiency
+## New Homeowner Credits for Energy Efficiency
 The last two amended tax credits that we’re going to talk about are geared toward homeowners. 
 
 **TIP** : As a builder or contractor, you can take advantage of the credits by educating your customers about the tax credits, and encouraging them to build. 
@@ -105,7 +105,7 @@ The credit has been extended through 2034 and now includes battery storage techn
 
 It’s important to note that the credit percentage rate will gradually decrease to 22% for properties placed in service in 2024.
 
-### R &D Tax Credit
+## R &D Tax Credit
 ![](/wp-content/uploads/2025/06/6463031d6afc95b84aaa97a8_New-Construction-Tax-Credits-You-Havent-Heard-Of-Yet-2023-1024x683.jpg)
 
 The R&D tax credit is another tax credit you may not know exists. 
@@ -140,7 +140,7 @@ And lastly, the research must be conducted in the United States, accompanied by 
 
 As documentation is key, we recommend working with your **dedicated construction accountant**  to ensure that you are taking advantage of this lucrative tax credit. 
 
-### Employee Retention Credit
+## Employee Retention Credit
 The last tax credit that we’re going to discuss for construction businesses in the Employee Retention Credit. 
 
 As we all know, Covid-19 pandemic took a drastic toll on the well-being of both businesses and their employees. 
@@ -153,7 +153,7 @@ So, if you ran a construction business that was adversely affected during the pa
 
 If you think you might qualify, we strongly recommend getting in touch with a **qualified construction accountant today.**  
 
-### How Can You Receive The Tax Credits?
+## How Can You Receive The Tax Credits?
 The process in which you go about getting the tax credits mentioned today depend on the tax credits themselves. 
 
 Some tax credits, such as the Energy Efficient Home Credit, require specific eligibility requirements. 
@@ -164,7 +164,7 @@ Though these won’t be automatically implemented upon your business (because th
 
 However, if you fancy handing over the hardship of tax credit acquisition, you can partner up with an experienced accounting firm (hello?) that’d be more than happy to help you navigate the process and ensure that you receive all the credits that you are eligible for.
 
-### Ready To Get More Help?  
+## Ready To Get More Help?  
 Here at Atlas Accounting Group, we help construction businesses of all kinds improve their financial literacy and ultimately, grow more profits. 
 
 Unsure of your break-even numbers? Not sure about your operating goals? 
@@ -173,6 +173,6 @@ That’s what we’re here for. 
 
 We’re accountants who don’t just want to maintain your finances. We want to help grow them. 
 
-If you’d like to see how we can help improve your construction business, and save more money this year, you can [**book a complimentary call with us anytime**](/getting-started). 
+If you’d like to see how we can help improve your construction business, and save more money this year, you can [**book a complimentary call with us anytime**](/getting-started/). 
 
 Until next time!

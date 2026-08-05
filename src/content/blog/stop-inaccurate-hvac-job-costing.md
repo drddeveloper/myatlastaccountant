@@ -84,7 +84,7 @@ That’s why working with someone who gets your industry matters.
 
 At Atlas Accounting Group, we’re not just here to file your taxes. We help HVAC businesses like yours build real job costing systems. We track overhead, forecast price jumps, and help you figure out which jobs are paying off—and which ones are slowly sinking your business.
 
-If you’re tired of the guessing game, [**we’ll help you build a system**](/hvac-accounting) that actually works. One that doesn’t rely on sticky notes and crossed fingers.
+If you’re tired of the guessing game, [**we’ll help you build a system**](/hvac-accounting/) that actually works. One that doesn’t rely on sticky notes and crossed fingers.
 
 ‍
 
@@ -97,6 +97,6 @@ Putting a system in place that gives you real-time feedback on every job’s pro
 
 Need help getting it all dialed in?
 
-[**Book a free introductory call**](/getting-started) with one of our accountants using our calendar over here. We’re always here to help, or point you in the right direction of someone who can.
+[**Book a free introductory call**](/getting-started/) with one of our accountants using our calendar over here. We’re always here to help, or point you in the right direction of someone who can.
 
 Until next time!

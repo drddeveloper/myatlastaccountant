@@ -2,85 +2,84 @@
 import { Image } from 'astro:assets';
 import BaseLayout from '../layouts/BaseLayout.astro';
 import CalendlyCta from '../components/sections/CalendlyCta.astro';
-import { SITE_DATA } from '../data/constants';
 
 import imgKpiDash from '../assets/images/pages/toolbox/KPI-Dash.png';
 import imgProfAlloc from '../assets/images/pages/toolbox/Prof-Alloc-Proj.png';
 import imgCashFlow from '../assets/images/pages/toolbox/Cash-Flow-Forecast-Thumbnail.png';
 import imgLaborBurden from '../assets/images/pages/toolbox/Labor-Burden-Calculator-Thumbnail.png';
-import imgUnderConstruction from '../assets/images/pages/toolbox/Under-Construction-Thumbnail.png';
+import iconDocument from '../assets/images/pages/shared/document-with-calculator.svg';
 
-// Products link out to Kajabi checkout pages — there is no on-site cart.
-// Copy, prices, order, and images carried over verbatim from the live loop grid.
-const products = [
+// The Kajabi store is retired (client direction, 2026-08-04): no checkout, no
+// prices, no pre-order/waitlist cards. Everything here is a free download.
+//
+// Every tool is a real file in public/downloads/ that downloads on click.
+// Cards with an `img` use their thumbnail; the two raw data files have no
+// artwork, so they get a branded panel carrying the file-type badge instead.
+const tools = [
+  {
+    name: 'Standard Chart of Accounts',
+    blurb: 'A ready-made chart of accounts for contractors and trade businesses, laid out with account number, name, type, and detail type. Use it as the starting point when you set up — or clean up — your books.',
+    file: '/downloads/Atlas-Standard-Chart-of-Accounts.xlsx',
+    fileType: 'XLSX',
+  },
+  {
+    name: 'Sample P&L by Class or Project',
+    blurb: 'See what a job-level profit and loss statement should actually look like. This sample breaks revenue, direct costs, and change orders out by project so you can tell which jobs made money and which only looked like they did.',
+    file: '/downloads/Atlas-Sample-PL-by-Class-or-Project.csv',
+    fileType: 'CSV',
+  },
   {
     name: 'KPI Dashboard',
-    price: '$24.00',
     blurb: 'Built for busy business owners, this KPI dashboard workbook gives you a clear snapshot of your performance so you can spend less time on spreadsheets and more time growing your business.',
-    url: 'https://myatlasaccountant.mykajabi.com/atlas-accounting-group-expert-accountants-KPI-dashboard',
+    file: '/downloads/Atlas-KPI-Dashboard-for-Contractors.xlsx',
+    fileType: 'XLSX',
     img: imgKpiDash,
     alt: '',
   },
   {
     name: 'Profit Allocation Projector',
-    price: '$24.00',
     blurb: 'Stop guessing where your profit is going. This tool helps you plan and project how earnings will be used, whether for reinvestment, debt payoff, or owner draws, so every dollar has a job.',
-    // FLAG FOR CLIENT REVIEW: this Kajabi slug reads "kpi-dashboard-1-…", which
-    // looks like a duplicated KPI Dashboard checkout page rather than a checkout
-    // for the Profit Allocation Projector. URL carried over verbatim from the
-    // live site — confirm it lands on the correct product before launch.
-    url: 'https://myatlasaccountant.mykajabi.com/kpi-dashboard-1-9f4d329d-4cf4-449b-8844-1b8c1c1fa51d',
+    file: '/downloads/Atlas-Profit-Allocation-Projector.xlsx',
+    fileType: 'XLSX',
     img: imgProfAlloc,
     alt: '',
   },
   {
     name: 'Cash Flow Forecast',
-    price: '$24.00',
     blurb: 'Stay ahead of cash crunches with a clear month-by-month view of income, expenses, and ending balance. This tool helps you make confident financial decisions before the pressure hits.',
-    url: 'https://myatlasaccountant.mykajabi.com/cash-flow-forecast',
+    file: '/downloads/Atlas-Cash-Flow-Forecast-for-Contractors.xlsx',
+    fileType: 'XLSX',
     img: imgCashFlow,
     alt: '',
   },
   {
     name: 'Labor Burden Calculator',
-    price: '$24.00',
     blurb: 'Labor costs more than wages. This tool calculates the full cost per employee, including taxes and benefits, so you can price jobs right, manage overhead, and hire smarter.',
-    url: 'https://myatlasaccountant.mykajabi.com/labor-burden-calculator',
+    file: '/downloads/Atlas-Labor-Burden-Calculator.xlsx',
+    fileType: 'XLSX',
     img: imgLaborBurden,
     alt: '',
   },
 ];
 
-// Live pre-order cards open a "Join Waiting List" Gravity Forms popup; we
-// intentionally replace that with a waitlist mailto (no forms backend).
-const comingSoon = [
-  'Margin Makers Matrix',
-  'Loan Amortization Schedule',
-  'Overhead Calculator',
-  'Break Even Analysis',
-];
-
-const waitlistMailto = (product: string) =>
-  `mailto:${SITE_DATA.company.email}?subject=${encodeURIComponent(`Waitlist: ${product}`)}`;
 
 // Live cards are one whole-card link with a flat surface that lifts on hover.
 const cardClasses =
-  'flex flex-col p-2.5 bg-base-100 transition-shadow hover:shadow-[0_14px_40px_0_rgba(0,0,0,0.1)] focus-visible:outline-2 focus-visible:outline-accent focus-visible:outline-offset-2';
+  'flex flex-col p-2.5 bg-base-100 transition-shadow hover:shadow-[0_14px_40px_0_rgba(0,0,0,0.1)] focus-visible:outline-2 focus-visible:outline-primary focus-visible:outline-offset-2';
 ---
 
-{/* Title/meta carried over verbatim from the live page. The live meta
-    description is an auto-generated excerpt run-on ("Your Financial Toolbox
-    Simple, helpful tools…") — flagged for client review, kept for parity. */}
+{/* Meta rewritten 2026-08-04 — the live one was an auto-generated excerpt
+    run-on, and it described a paid store that no longer exists. */}
 <BaseLayout
   title="Toolbox"
-  description="Your Financial Toolbox Simple, helpful tools to help you build a financially stronger business. Loved and trusted by Contractors Nationwide"
+  description="Free spreadsheets and templates for contractors and trade businesses — a standard chart of accounts, a sample job-level P&L, a KPI dashboard, and more. No cost, no catch."
 >
 
   {/* ── Hero (live: white, centered; the live page has no h1 — promoted here for a11y) ── */}
   <section class="bg-base-100">
     <div class="container mx-auto px-4 pt-12 pb-16 md:pt-16 md:pb-24 text-center">
       <h1 class="heading-display text-4xl md:text-6xl text-secondary">Your Financial Toolbox</h1>
-      <p class="mt-5 text-lg max-w-2xl mx-auto">Simple, helpful tools to help you build a financially stronger business.</p>
+      <p class="mt-5 text-lg max-w-2xl mx-auto">Simple, helpful tools to help you build a financially stronger business — free to download and yours to keep.</p>
     </div>
   </section>
 
@@ -93,36 +92,34 @@ const cardClasses =
     </div>
   </section>
 
-  {/* ── Product grid (live: single loop grid, 4/3/2/1 columns, products then
-       pre-orders; each card is one outbound link) ── */}
+  {/* ── Tool grid — six free downloads, whole card is the link.
+       Was 4 columns when the store carried 8 paid products; 3 across now. ── */}
   <section class="bg-base-100">
     <div class="container mx-auto px-4 py-16 md:py-24">
-      <div class="grid gap-x-6 gap-y-8 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+      <div class="grid gap-x-6 gap-y-8 sm:grid-cols-2 lg:grid-cols-3 max-w-6xl mx-auto">
 
-        {products.map((p) => (
-          <a href={p.url} target="_blank" rel="noopener" class={cardClasses}>
-            <Image src={p.img} alt={p.alt} class="w-full aspect-3/2 object-cover" widths={[400, 800, 1200]} sizes="(min-width: 1280px) 22vw, (min-width: 1024px) 30vw, (min-width: 640px) 45vw, 100vw" />
+        {tools.map((t) => (
+          <a href={t.file} download class={cardClasses}>
+            {t.img ? (
+              <Image src={t.img} alt={t.alt} class="w-full aspect-3/2 object-cover" widths={[400, 800, 1200]} sizes="(min-width: 1024px) 30vw, (min-width: 640px) 45vw, 100vw" />
+            ) : (
+              /* No photo exists for the raw file downloads. A branded panel with
+                 the file-type badge keeps the grid rhythm and reads as a
+                 deliberate treatment rather than a missing image. */
+              <div class="w-full aspect-3/2 bg-cream-dark flex flex-col items-center justify-center gap-3">
+                <Image src={iconDocument} alt="" class="h-14 w-auto" width={56} height={56} aria-hidden="true" />
+                <span class="eyebrow text-primary">{t.fileType}</span>
+              </div>
+            )}
             <div class="mt-4 px-1.5 pb-1.5 flex flex-col flex-grow">
               {/* h2 keeps the outline h1 → h2 (live uses non-semantic divs);
-                  live product titles are bold but not uppercase */}
-              <h2 class="text-xl font-bold text-secondary normal-case">{p.name}</h2>
-              <p class="mt-3 text-sm leading-relaxed flex-grow">{p.blurb}</p>
-              <div class="mt-5 flex items-center justify-between gap-5">
-                <span class="text-lg font-bold text-accent-ink">{p.price}</span>
-                <span class="btn btn-accent">Add to Cart<span class="sr-only"> — {p.name} (opens checkout in a new tab)</span></span>
-              </div>
-            </div>
-          </a>
-        ))}
-
-        {comingSoon.map((name) => (
-          <a href={waitlistMailto(name)} class={cardClasses}>
-            <Image src={imgUnderConstruction} alt="" class="w-full aspect-3/2 object-cover" widths={[400, 800, 1200]} sizes="(min-width: 1280px) 22vw, (min-width: 1024px) 30vw, (min-width: 640px) 45vw, 100vw" />
-            <div class="mt-4 px-1.5 pb-1.5 flex flex-col flex-grow">
-              <h2 class="text-xl font-bold text-secondary normal-case">{name}</h2>
-              <p class="mt-3 text-sm leading-relaxed flex-grow">Coming soon! Join the waitlist to be notified when it's released.</p>
+                  live tool titles are bold but not uppercase */}
+              <h2 class="text-xl font-bold text-secondary normal-case">{t.name}</h2>
+              <p class="mt-3 text-sm leading-relaxed flex-grow">{t.blurb}</p>
               <div class="mt-5 flex items-center justify-end">
-                <span class="btn btn-accent">Pre-Order<span class="sr-only"> — join the {name} waitlist by email</span></span>
+                <span class="btn btn-accent">
+                  Download<span class="sr-only"> — {t.name} ({t.fileType} file)</span>
+                </span>
               </div>
             </div>
           </a>

@@ -18,7 +18,8 @@ const swatches = [
   { name: 'Accent Light', token: 'bg-accent-light', hex: colors.accentLight, note: 'Accent + 20% white — orange button hover fill + border' },
   { name: 'Accent Ink', token: 'text-accent-ink', hex: colors.accentInk, note: 'Orange TEXT on light surfaces (AA-safe)' },
   { name: 'Sky', token: 'text-sky', hex: colors.sky, note: 'Light blue — highlight words on navy only' },
-  { name: 'Sky Ink', token: 'text-sky-ink', hex: colors.skyInk, note: 'Blue highlight TEXT on light surfaces (AA-safe)' },
+  { name: 'Sky Ink', token: 'text-sky-ink', hex: colors.skyInk, note: 'Blue highlight TEXT on light surfaces + navy button hover fill (AA-safe)' },
+  { name: 'Input Border', token: 'border-input-border', hex: colors.inputBorder, note: 'Boundary for inputs & steppers — 3:1 per WCAG 1.4.11 (base-300 is decorative only)' },
   { name: 'Cream', token: 'bg-cream', hex: colors.cream, note: 'Warm off-white section surface' },
   { name: 'Cream Dark', token: 'bg-cream-dark', hex: colors.creamDark, note: 'Pale peach — chips, newsletter band' },
 ];
@@ -29,7 +30,8 @@ const sampleFaqs = [
 ];
 ---
 
-<BaseLayout title="Brand Guide" description="Living visual reference for the Atlas Accounting Group website.">
+<BaseLayout title="Brand Guide" description="Living visual reference for the Atlas Accounting Group website."
+  noindex>
   <div class="container mx-auto px-4 py-12">
     <p class="eyebrow mb-3">Internal Reference</p>
     <h1 class="heading-display text-4xl text-primary mb-4">Brand Guide: {SITE_DATA.company.name}</h1>
@@ -96,7 +98,7 @@ const sampleFaqs = [
       <p class="mt-4 text-sm">Square corners, uppercase, navy text on orange fills. Text link pattern: <a href="#" class="text-accent-ink font-semibold uppercase text-sm tracking-wide">Learn More →</a></p>
       <div class="mt-4 grid gap-3 max-w-3xl text-sm">
         <p class="bg-cream-dark p-4 rounded-lg"><strong>Orange hover (.btn-accent):</strong> fill and border both go to <code class="bg-base-100 px-1 rounded">accent-light</code> (accent + 20% white), navy text stays put at 5.7:1, plus a soft navy shadow.</p>
-        <p class="bg-cream-dark p-4 rounded-lg"><strong>Navy hover (.btn-primary):</strong> fill and border both go to <code class="bg-base-100 px-1 rounded">sky-ink</code> with the same shadow. Note: white on sky-ink measures ~4.0:1, just under the 4.5:1 AA floor for 15px text — darkening sky-ink to #1E7AA8 would clear it.</p>
+        <p class="bg-cream-dark p-4 rounded-lg"><strong>Navy hover (.btn-primary):</strong> fill and border both go to <code class="bg-base-100 px-1 rounded">sky-ink</code> with the same shadow. White on sky-ink measures 4.77:1 — clears the 4.5:1 AA floor for the 15px button label since sky-ink was darkened to #1E7AA8.</p>
       </div>
     </section>
 

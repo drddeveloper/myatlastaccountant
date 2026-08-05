@@ -71,4 +71,4 @@ The technical challenge with mapping we discussed above may only be one of the p
 
 As a business owner, you should be focused on operating and growing your business and not worrying about bookkeeping issues with your company’s software. Our team of experienced accountants can take away these frustrations and help with the software integration.
 
-If you have challenges integrating your ServiceTitan and QuickBooks software or want to ensure it was done correctly, [get in touch with us](/getting-started) to see how we can help!
+If you have challenges integrating your ServiceTitan and QuickBooks software or want to ensure it was done correctly, [get in touch with us](/getting-started/) to see how we can help!

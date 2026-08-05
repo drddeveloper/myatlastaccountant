@@ -22,7 +22,7 @@ Depreciation is the allocation of a fixed asset cost over its useful life. Since
 
 ‍
 
-#### Useful Lives
+### Useful Lives
 The useful life of an asset is the main basis for how depreciation is allocated. Regardless of your chosen method, the computation will always include the useful life. Determining useful life can be based on experience. If you have owned similar assets in the past, you can use the valuable lives of those assets. But if you want to be more definite, you can use the [**IRS’ prescribed useful lives**](https://www.irs.gov/pub/irs-pdf/p946.pdf) for different types of fixed assets as an alternative.
 
 ‍
@@ -40,7 +40,7 @@ The **Modified Accelerated Cost Recovery System (MACRS)**  is a depreciation m
 ## Depreciation Methods
 The first three depreciation methods below are the allowed depreciation for tax purposes. However, for general knowledge, we’ve included a depreciation method also used as an alternative to the declining balance methods.
 
-#### Straight-line Method
+### Straight-line Method
 The straight-line method is by far the easiest depreciation method. It is a uniform depreciation method throughout the fixed asset’s useful life. Under this method, you report the same depreciation expense every year until the end of the asset’s useful life.
 
 **The formula for this method is:**
@@ -57,9 +57,9 @@ The straight-line method is by far the easiest depreciation method. It is a unif
 
 > **Depreciation Expense**  = ($100,000 – $20,000) ÷ 20 years = **$4,000**
 
-### ‍
+‍
 
-#### Double-declining Balance Method
+### Double-declining Balance Method
 The double-declining balance (DDB) method is a depreciation method that reports higher depreciation in earlier years. To determine the DDB rate, we simply multiply the straight-line rate by 200%, as shown in the formula below:
 
 > **Straight-line Rate =  **1 ÷ Useful Life
@@ -74,7 +74,7 @@ The double-declining balance (DDB) method is a depreciation method that reports 
 
 ‍
 
-#### 150% Declining Balance Method
+### 150% Declining Balance Method
 
 Like the DDB, the 150% declining balance method follows the same process. Instead of multiplying the straight-line rate by 200%, we multiply it by 150%.
 
@@ -104,6 +104,6 @@ The **sum-of-the-years digits (SYD)**  method is also an accelerated method th
 ## Our Final Thoughts on Construction Depreciation
 Depreciation isn’t just a technical detail—it’s a powerful tool for reducing your taxable income and saving money in the long run. At [**Atlas Accounting Group**](/), we’re here to help your construction business make the most of depreciation tax deductions and plan effectively for the future.
 
-**‍** If you need extra support with depreciation or have questions about the process, our team is ready to assist. Head over to our [**Getting Started page**](/getting-started) and book a call to explore how we can help you maximize your savings.
+**‍** If you need extra support with depreciation or have questions about the process, our team is ready to assist. Head over to our [**Getting Started page**](/getting-started/) and book a call to explore how we can help you maximize your savings.
 
 **‍** Until next time!

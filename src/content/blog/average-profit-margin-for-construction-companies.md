@@ -43,7 +43,7 @@ Sometimes, you’ll find that profit margin is also called—
   * Return on sales, or
   * Operating margin
 
-‍How to Calculate Profit Margin
+## How to Calculate Profit Margin
 
 Profits can take many forms. There’s Net Profit. There’s also Gross Profit. Because of this, Profit margins can also include —
 
@@ -113,6 +113,6 @@ If your Net profit margin is low — or even decent, but you want to ramp it up 
 
 Here’s the truth. Your construction business will stand or fall on numbers. It’s that simple. 
 
-This means you should understand your numbers, including what each metric means. While you can try to do this by yourself, the eyes of [experienced construction accountants](/why-we-are-different) can also come in handy. 
+This means you should understand your numbers, including what each metric means. While you can try to do this by yourself, the eyes of [experienced construction accountants](/why-we-are-different/) can also come in handy. 
 
-At Atlas Accounting Group, we help contractor & specialty trade businesses navigate complex financials and [reach loftier financial goals](/getting-started#start).
+At Atlas Accounting Group, we help contractor & specialty trade businesses navigate complex financials and [reach loftier financial goals](/getting-started/#start).

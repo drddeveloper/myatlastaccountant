@@ -58,4 +58,4 @@ Our team also provides monthly financial statements, payroll support, and tax pl
 
 If you want to get more value out of QuickBooks in 2026, we would be happy to help you set up your system the right way or clean up what is already in place. 
 
-#### **[Reach out and book a call with us](/getting-started/)** today!
+### **[Reach out and book a call with us](/getting-started/)** today!

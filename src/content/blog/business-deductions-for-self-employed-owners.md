@@ -112,7 +112,7 @@ Deductions are only as good as the system behind them. When expenses are miscate
 Clean books create clarity. They allow deductions to flow naturally from your everyday activity and support accurate reporting at the end of the year.
 
 ## How Atlas Accounting Group Supports Clean, Deduction-Ready Books
-**[Atlas Accounting Group](/tax-services/)** works with construction companies, plumbers, electricians, and HVAC owners who want their financials to reflect reality.
+**[Atlas Accounting Group](/construction-tax-services/)** works with construction companies, plumbers, electricians, and HVAC owners who want their financials to reflect reality.
 
 We provide ongoing accounting built for trades businesses, job cost tracking that mirrors real workflows, and payroll and accounting systems that stay organized as the business grows. The result is financial reporting that is accurate, timely, and easy to understand.
 

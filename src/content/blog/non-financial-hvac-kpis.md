@@ -137,6 +137,6 @@ And if you need help figuring this stuff out, that’s exactly what we do with o
 
 Let’s chat and make sure your business is running as efficiently (and profitably) as possible.
 
-Simply use the calendar below to[**book your first introductory call**](/getting-started). 
+Simply use the calendar below to[**book your first introductory call**](/getting-started/). 
 
 We look forward to helping however we can. Until next time!

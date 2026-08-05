@@ -52,24 +52,24 @@ Let’s start with ServiceTitan first. 
 
 **Here’s how to do it:**
 
-#### 1\. Log In to ServiceTitan and QuickBooks
+### 1\. Log In to ServiceTitan and QuickBooks
   * Start by logging into both your ServiceTitan and QuickBooks accounts.
 
-#### ‍**2\. Set Up the Integration**
+### ‍**2\. Set Up the Integration**
 
   * In ServiceTitan, go to **Settings**, find **Integrations**, and select **QuickBooks  **(either QuickBooks Online or QuickBooks Desktop).
 
-#### ‍**3\. Authorize QuickBooks** ‍
+### ‍**3\. Authorize QuickBooks** ‍
 
   * For QuickBooks Online: You’ll need to log in to your QuickBooks Online account and give ServiceTitan permission to access your data.
   * For QuickBooks Desktop: You might need to download the QuickBooks Web Connector, which allows the two systems to communicate. Import the .XML file provided by ServiceTitan to complete the connection.
 
-#### **4\. Configure Your Sync** ‍
+### **4\. Configure Your Sync** ‍
 
   * Decide what information you want to sync between ServiceTitan and QuickBooks. This can include things like invoices, payments, job costs, and even customer information. Make sure everything is mapped correctly to avoid issues.
   * Once you’re set up, run a test sync to ensure everything works as expected.
 
-#### **5\. Review and Manage the Sync** ‍
+### **5\. Review and Manage the Sync** ‍
 
   * After the sync is set up, review the data in QuickBooks to ensure it matches what you have in ServiceTitan. From there, you’ll be able to see real-time updates in QuickBooks as jobs are completed and payments are processed.
 
@@ -84,19 +84,19 @@ Jobber is another great tool that helps you manage your scheduling, quoting, and
 
 **Here are the steps:  **
 
-#### **1\. Connect Jobber to QuickBooks** ‍
+### **1\. Connect Jobber to QuickBooks** ‍
 
   * In Jobber, go to the **Apps  **section and select **QuickBooks Online**. Click the **Connect  **button, and log in to your QuickBooks account.
 
-#### **2\. Authorize Access** ‍
+### **2\. Authorize Access** ‍
 
   * Authorize Jobber to access your QuickBooks data so it can start syncing customer information, invoices, and payments.
 
-#### **3\. Sync Your Data** ‍
+### **3\. Sync Your Data** ‍
 
   * The first time you sync, Jobber will pull in customer details, services, and payouts. You can map your Jobber services and expenses to specific accounts in QuickBooks to ensure everything flows correctly.
 
-#### **4\. Set Up Auto Syncs** ‍
+### **4\. Set Up Auto Syncs** ‍
 
   * You can set up Jobber to sync automatically with QuickBooks at regular intervals—this ensures that your invoices, expenses, and payments are always up to date in both systems without needing to manually enter anything twice.
 
@@ -150,6 +150,6 @@ Let us help you make the most of your tools so you can focus on what you do best
 
 If you’re ready to streamline your HVAC business and simplify your finances, book a call with us today. We’re here to help!
 
-Simply use the calendar below to [**book your first call**](/getting-started). 
+Simply use the calendar below to [**book your first call**](/getting-started/). 
 
 We look forward to chatting!

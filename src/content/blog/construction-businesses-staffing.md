@@ -148,4 +148,4 @@ And, like everything else necessary to ensure your business’ success, there’
 
 The right choice depends on your unique circumstances, business goals, and project needs, and you can also consider a combination of employees and contractors for the best outcome.
 
-But if you’re still unsure, you can [contact us](/getting-started). We have a proven track record of assisting businesses just like yours in making the best decision for them. Together, let’s construct greatness in the industry.
+But if you’re still unsure, you can [contact us](/getting-started/). We have a proven track record of assisting businesses just like yours in making the best decision for them. Together, let’s construct greatness in the industry.

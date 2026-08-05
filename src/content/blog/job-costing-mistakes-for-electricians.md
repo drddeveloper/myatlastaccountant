@@ -37,7 +37,7 @@ Labor burden includes payroll taxes, workers’ compensation, benefits, paid tim
 
 When these costs are excluded from job costing, jobs appear more profitable than they truly are. This often leads to underpricing and cash flow stress as the business grows.
 
-A better approach is to calculate a [**labor burden rate**](https://myatlasaccountant.mykajabi.com/labor-burden-calculator) and apply it consistently to job costs. Overhead can then be recovered using a simple method, such as a cost per labor hour. This brings job profitability closer to reality.
+A better approach is to calculate a [**labor burden rate**](/toolbox/) and apply it consistently to job costs. Overhead can then be recovered using a simple method, such as a cost per labor hour. This brings job profitability closer to reality.
 
 ## Mistake 3: Materials Are Purchased But Not Assigned To Jobs
 Electrical work involves frequent material purchases, often made quickly to keep jobs moving. Receipts get lost, purchases are coded generically, or bulk buys are assigned to the wrong job.

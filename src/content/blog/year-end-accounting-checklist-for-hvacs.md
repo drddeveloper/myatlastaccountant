@@ -23,7 +23,7 @@ Cash flow is one of the biggest pressure points in the HVAC industry. Before the
 
 If you have completed work that has not been invoiced, make sure those tickets are closed and sent out. Many HVAC businesses leave money on the table simply because invoicing gets pushed aside during busy months. This is also the time to record any expenses for labor or materials already used on jobs but not yet invoiced or paid. When those amounts are accounted for properly, your numbers tell a much more realistic story of how your business performed.
 
-Look out for our [**new Cash Flow Forecast tool**](https://myatlasaccountant.mykajabi.com/offers/KJT9L7m2/checkout) that’s coming your way. It includes a 12-Month Cash Flow Calendar that helps you track what’s coming in and going out each month, all in one place.
+Look out for our [**new Cash Flow Forecast tool**](/toolbox/) that’s coming your way. It includes a 12-Month Cash Flow Calendar that helps you track what’s coming in and going out each month, all in one place.
 
 ## 3\. Conduct A Full HVAC Inventory Count Before Year-End
 Inventory plays a huge role in your financial results. Parts and equipment move quickly across trucks, warehouses, and job sites, which means the book value of your inventory can drift away from reality if it is not reviewed regularly.
@@ -53,7 +53,7 @@ HVAC businesses rely heavily on vehicles, diagnostic tools, lifts, and installat
 If you purchased new equipment during the year, ask your accountant whether it makes sense to use Section 179 to deduct the full cost or depreciate it over time. The right decision depends on your tax situation and growth plans.
 
 ## 8\. Review HVAC Overhead Costs And Identify Savings Opportunities
-[Overhead costs](https://myatlasaccountant.mykajabi.com/offers/L7k7sgqx/checkout) can creep up quietly. Fuel, uniforms, insurance, software subscriptions, and marketing can grow month after month without anyone noticing. Review your year-to-date expenses and compare them to the prior year. Look for categories that jumped without a clear reason.
+[Overhead costs](/toolbox/) can creep up quietly. Fuel, uniforms, insurance, software subscriptions, and marketing can grow month after month without anyone noticing. Review your year-to-date expenses and compare them to the prior year. Look for categories that jumped without a clear reason.
 
 You do not need to make dramatic cuts. Even small adjustments help you run leaner and keep more of your revenue next year. The goal is to understand where your money went and make intentional choices going forward.
 
@@ -63,7 +63,7 @@ Gathering the right tax documents now makes tax season far less stressful. Colle
 This is also the moment to estimate your upcoming tax liability. HVAC businesses often see significant swings in income due to seasonality and major equipment purchases. Your accountant can help you decide whether to prepay expenses, defer certain revenue, or adjust retirement contributions. Planning ahead gives you confidence and prevents surprises in the first quarter.
 
 ## 10\. Build An HVAC KPI Dashboard For Next Year
-With your books cleaned up, create a simple [**KPI dashboard**](https://myatlasaccountant.mykajabi.com/offers/vA2oktX3/checkout) that includes metrics you plan to track next year.
+With your books cleaned up, create a simple [**KPI dashboard**](/toolbox/) that includes metrics you plan to track next year.
 
 **Most HVAC owners benefit from tracking these metrics:**
 

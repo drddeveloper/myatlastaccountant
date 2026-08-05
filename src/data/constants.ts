@@ -36,8 +36,9 @@ export const SITE_DATA = {
       accent: "#F4832B",    // orange — CTAs, highlights
       accentLight: "#F69C55", // accent + 20% white — orange button hover fill
       sky: "#79CAE9",       // light blue — secondary accent (dark surfaces only)
-      skyInk: "#2387B8",    // darkened sky for highlight text on light surfaces (WCAG)
+      skyInk: "#1E7AA8",    // darkened sky for highlight text on light surfaces + navy button hover fill (WCAG AA)
       accentInk: "#B4540A", // darkened orange for small text/links on light surfaces (WCAG)
+      inputBorder: "#8A8A8A", // control boundary for inputs/steppers — 3:1 min per WCAG 1.4.11
       cream: "#F7F5F4",     // warm off-white surface
       creamDark: "#FFEDDF", // pale peach surface
       themeColor: "#003954",
@@ -46,6 +47,11 @@ export const SITE_DATA = {
   },
   seo: {
     description: "Atlas Accounting Group is the #1 accounting firm for contractors and specialty trades — bookkeeping, payroll, and tax for construction, HVAC, electrical, plumbing, and solar businesses.",
+    // GA4 Measurement ID ("G-XXXXXXXXXX"). PENDING — not yet supplied by the team;
+    // this is NOT a decision to decline analytics. While empty, BaseLayout.astro
+    // renders no gtag script at all (see its `{SITE_DATA.seo.googleAnalyticsId && …}`
+    // guard), so the site ships with zero analytics. Set this before launch, then
+    // confirm real-time hits in checklist section B2. Tracked as A4-6.
     googleAnalyticsId: ""
   }
 };
@@ -64,7 +70,7 @@ export const NAV = {
   ],
   more: [
     { label: "Payroll", href: "/construction-payroll/" },
-    { label: "Tax", href: "/tax-services/" },
+    { label: "Tax", href: "/construction-tax-services/" },
     { label: "Why We're Different", href: "/why-we-are-different/" },
     { label: "Careers", href: "/careers/" },
     { label: "FAQs", href: "/frequently-asked-questions/" },
@@ -97,7 +103,7 @@ export const MOBILE_NAV = {
       label: "Services",
       items: [
         { label: "Payroll", href: "/construction-payroll/" },
-        { label: "Tax", href: "/tax-services/" },
+        { label: "Tax", href: "/construction-tax-services/" },
         { label: "Labor Calculator", href: "/labor-calculator/" },
         { label: "Profit Margin Calculator", href: "/profit-margin-calculator/" },
       ],

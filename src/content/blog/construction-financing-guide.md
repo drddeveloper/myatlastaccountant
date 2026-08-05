@@ -82,7 +82,7 @@ When your construction company has reached the point of expansion, you can give 
 
   * **Grants:**  Certain projects are viable for grants, a type of fund that can help you obtain free money from various sources such as government agencies, foundations, or corporations. 
 
-However, if, after answering the necessary questions and reading the information above you’re still unsure as to what the best financing option is for your construction business, then why not [get in touch with us](/getting-started#start)? 
+However, if, after answering the necessary questions and reading the information above you’re still unsure as to what the best financing option is for your construction business, then why not [get in touch with us](/getting-started/#start)? 
 
 ## Grants for construction companies
 

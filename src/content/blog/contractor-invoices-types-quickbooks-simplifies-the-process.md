@@ -130,4 +130,4 @@ It’s essential that your financials are in order; therefore, having a word wit
 
 That’s what we’re here for.
 
-[Fill in our short onboarding form](/getting-started#start), and we can get you well on your way to streamlining your invoicing!
+[Fill in our short onboarding form](/getting-started/#start), and we can get you well on your way to streamlining your invoicing!

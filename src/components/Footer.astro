@@ -14,7 +14,9 @@ const currentYear = new Date().getFullYear();
 
     <div class="text-center text-sm space-y-3">
       <p>© {currentYear} {SITE_DATA.company.name}, a <a href={SITE_DATA.links.parentCompany} target="_blank" rel="noopener noreferrer" class="text-accent link">Lewis Group CPAs</a> company. All rights reserved</p>
-      <p>
+      <p class="flex flex-wrap items-center justify-center gap-x-3 gap-y-1">
+        <a href={SITE_DATA.company.phoneHref} class="text-accent link-hover">{SITE_DATA.company.phone}</a>
+        <span class="text-white/40" aria-hidden="true">|</span>
         <a href={`mailto:${SITE_DATA.company.email}`} class="text-accent link-hover">{SITE_DATA.company.email}</a>
       </p>
       <p class="text-white/70">

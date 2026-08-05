@@ -34,10 +34,6 @@ Every month, we dive into a profit-focused theme and meet one-on-one to work wit
 
 This isn’t cookie-cutter advice—it’s tailored to your numbers, your team, and your goals.
 
-### [You can view all of the monthly workshops for 2025 here.](/advisory-events)
-
-‍
-
 ### 📓 Personal + Business Roadmaps
 One of the first things we do in the program is help you draw a straight line between your _business goals_  and your _personal life goals_.
 
@@ -54,7 +50,7 @@ You’ll also build a full roster of the professionals and team members that wil
 ‍
 
 ### 🧰 Tools That Actually Help
-You’ll get access to our [Toolbox](/toolbox) of resources—including plug-and-play Excel workbooks, KPI dashboards, and profit allocation tools. If you’ve ever wished someone would “just give you a spreadsheet that works”—we did.
+You’ll get access to our [Toolbox](/toolbox/) of resources—including plug-and-play Excel workbooks, KPI dashboards, and profit allocation tools. If you’ve ever wished someone would “just give you a spreadsheet that works”—we did.
 
 We’ll even run the numbers for you when needed.
 
@@ -129,9 +125,9 @@ Absolutely. If someone else helps run the business with you, they’re welcome t
 ‍
 
 ### What does it cost?
-We offer different options depending on how hands-on you want us to be. Some folks just want the roadmap and tools. Others want full monthly support.[](/getting-started)
+We offer different options depending on how hands-on you want us to be. Some folks just want the roadmap and tools. Others want full monthly support.[](/getting-started/)
 
-[**Reach out to schedule a call**](/getting-started)**,**  and we’ll walk you through your options—no pressure.
+[**Reach out to schedule a call**](/getting-started/)**,**  and we’ll walk you through your options—no pressure.
 
 ### What if I’m not sure this is right for me?
-That’s totally fair. The best next step is to [**schedule a free call with us**](/getting-started). We’ll talk through your business, where you’re at, and whether this kind of support would actually make a difference. If it’s not a good fit, we’ll tell you that too.
+That’s totally fair. The best next step is to [**schedule a free call with us**](/getting-started/). We’ll talk through your business, where you’re at, and whether this kind of support would actually make a difference. If it’s not a good fit, we’ll tell you that too.

@@ -29,7 +29,7 @@ Once both sides are laid out, you will likely spot a few weeks where cash gets t
 
 With this forecast, you can decide whether you need to tighten collections, adjust scheduling, delay discretionary spending, or lean briefly on a line of credit. The key is that you are making choices ahead of time, not under pressure.
 
-You can check out our [**cash flow forecast template for contractors**](https://myatlasaccountant.mykajabi.com/cash-flow-forecast), which lets you plug in your numbers immediately.
+You can check out our [**cash flow forecast template for contractors**](/toolbox/), which lets you plug in your numbers immediately.
 
 ## Know Your Break-Even Point During Slow Months
 During busy seasons, it is easy to focus on growth. During slow seasons, survival often depends on knowing your break-even number.

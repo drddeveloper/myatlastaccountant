@@ -52,7 +52,7 @@ A regular review of jobs in progress helps catch these issues early. It allows y
 ## A Simple Weekly Cash System HVAC Owners Can Actually Use
 Fixing cash flow does not require complex financial models; it requires consistency.
 
-Start with a monthly [**cash forecast**](https://myatlasaccountant.mykajabi.com/cash-flow-forecast). This is a rolling monthly view of expected cash in and cash out. It includes customer collections, payroll dates, vendor payments, equipment purchases, debt payments, and taxes. This one habit alone gives you visibility before problems become emergencies.
+Start with a monthly [**cash forecast**](/toolbox/). This is a rolling monthly view of expected cash in and cash out. It includes customer collections, payroll dates, vendor payments, equipment purchases, debt payments, and taxes. This one habit alone gives you visibility before problems become emergencies.
 
 Visit our **[toolbox](/toolbox/) **for a cash flow forecast and other templates built specially for HVAC trades.
 

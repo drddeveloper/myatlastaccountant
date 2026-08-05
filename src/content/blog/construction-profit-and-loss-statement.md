@@ -90,7 +90,7 @@ Their profit margin, which is deducted through the ratio of net income to revenu
 
 Creating and analyzing a construction P&L can be challenging and time-consuming, particularly if you’re new to the construction game and are unfamiliar with accounting principles and practices. But that’s why we’re here; to facilitate your business’s bloom.
 
-Atlas Accounting Group is a team of [experienced construction accountants](/construction-accountants) with over two decades of experience serving construction clients across different sectors. Our love language is numbers, and so we know how to interpret and communicate the most intricate numerical details in a way that makes sense for you.
+Atlas Accounting Group is a team of [experienced construction accountants](/construction-accountants/) with over two decades of experience serving construction clients across different sectors. Our love language is numbers, and so we know how to interpret and communicate the most intricate numerical details in a way that makes sense for you.
 
 If you’re looking for an expert to help prepare and review your construction P&L, among other financial documents associated with your business, you can book a complimentary call with one of our team members anytime. 
 

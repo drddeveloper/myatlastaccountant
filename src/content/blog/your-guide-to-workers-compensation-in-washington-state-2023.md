@@ -19,7 +19,7 @@ In this guide, we’re going to walk through everything you need to know about w
 
 Let’s dive in!
 
-> > _Psst.. Want us to take payroll of our hands completely? You can book a complimentary_ _[45-minute call with one of our accountants](/getting-started#start)_
+> > _Psst.. Want us to take payroll of our hands completely? You can book a complimentary_ _[45-minute call with one of our accountants](/getting-started/#start)_
 
 ## What is Workers’ Compensation?
 
@@ -117,7 +117,7 @@ There are four opportunities to enroll in the program each year. Depending on th
 ‍
 
 ## Where Can You Get Help With Your Workers’ Compensation?
-The best place to get help with workers’ compensation in Washington state is with your dedicated [construction accountant](/construction-accountants)or [payroll provider.](/construction-payroll) 
+The best place to get help with workers’ compensation in Washington state is with your dedicated [construction accountant](/construction-accountants/)or [payroll provider.](/construction-payroll/) 
 
 Here at Atlas Accounting Group, we use Gusto, which is a really helpful payroll software that can take a lot of hassle out of manager workers’ compensation for construction companies. 
 
@@ -139,6 +139,6 @@ Do you want more personalized help with your workers’ compensation or payroll 
 
 We offer a complimentary 45-minute call for every construction company to chat about your accounting & finance needs. 
 
-[**Simply use our easy form to get started.**  ](/getting-started#start)
+[**Simply use our easy form to get started.**  ](/getting-started/#start)
 
 Until next time!

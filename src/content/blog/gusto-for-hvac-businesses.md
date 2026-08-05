@@ -94,9 +94,9 @@ Imagine having everything in one place: you can instantly see who’s been paid,
 
 No more scrambling to gather numbers at tax time or worrying about missed payments. Instead, you’ll have accurate, up-to-date information at your fingertips, from employee wages to job costs, giving you the confidence to make smart financial decisions.
 
-If you need help with this, don’t worry. Here At **Atlas Accounting Group**, we [**specialize in helping HVAC companies**](/hvac-accounting) get their tech stack in order. 
+If you need help with this, don’t worry. Here At **Atlas Accounting Group**, we [**specialize in helping HVAC companies**](/hvac-accounting/) get their tech stack in order. 
 
-We’ll make sure Gusto is fully integrated with QuickBooks (or your preferred accounting software) so you can keep your finances in check with ease. _Simply use our calendar to  _[**_book a quick call._**](/getting-started)_ _
+We’ll make sure Gusto is fully integrated with QuickBooks (or your preferred accounting software) so you can keep your finances in check with ease. _Simply use our calendar to  _[**_book a quick call._**](/getting-started/)_ _
 
 ‍
 
@@ -128,6 +128,6 @@ At **Atlas Accounting**, we’re here to help HVAC businesses like yours take t
 
 If you need help setting up Gusto, want to integrate it with the rest of your software tools, or would just like us to manage it all for you – we’re here to help!
 
-Simply use the calendar below to [**book your first introductory call.  **](/getting-started)
+Simply use the calendar below to [**book your first introductory call.  **](/getting-started/)
 
 Until next time!

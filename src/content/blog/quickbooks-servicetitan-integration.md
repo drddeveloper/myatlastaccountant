@@ -53,7 +53,7 @@ As a rule of thumb, your income stream in ServiceTitan should always be clean; e
 
 You’re financially off when you leave your Accountable Receivables (AR) sitting there because it never hits revenue in your QuickBooks records.
 
-You can skip to the step-by-step for integrating QuickBooks Online & Service Titan at the bottom of this blog or get our expert help by [**filling in our form here**.](/getting-started) 
+You can skip to the step-by-step for integrating QuickBooks Online & Service Titan at the bottom of this blog or get our expert help by [**filling in our form here**.](/getting-started/) 
 
 ‍
 
@@ -134,4 +134,4 @@ To be on the safe side, budget for an experienced accountant to audit the financ
 
 If you need to get your messy financial system in order or integrate your QuickBooks with ServiceTitan successfully, we can help.
 
-[Fill in our short onboarding form](/getting-started#start), and let’s get you on the way to a more organized financial future!
+[Fill in our short onboarding form](/getting-started/#start), and let’s get you on the way to a more organized financial future!

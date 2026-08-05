@@ -59,6 +59,6 @@ After all, your financial numbers should be the foundation for all of the decisi
 
 If you want more help with your monthly bookkeeping, we’re always here to help.
 
-You can schedule a quick complimentary chat with one of our construction bookkeepers [here](/getting-started). 
+You can schedule a quick complimentary chat with one of our construction bookkeepers [here](/getting-started/). 
 
 Until next time!

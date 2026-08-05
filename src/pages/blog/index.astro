@@ -4,7 +4,7 @@ import { Image } from 'astro:assets';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import CalendlyCta from '../../components/sections/CalendlyCta.astro';
 import PageHero from '../../components/sections/PageHero.astro';
-import { SITE_DATA } from '../../data/constants';
+import NewsletterSignup from '../../components/sections/NewsletterSignup.astro';
 import lightLogo from '../../assets/images/branding/Atlas-Accounting-light-logo.svg';
 
 // Non-draft posts, newest first.
@@ -13,8 +13,6 @@ const posts = (await getCollection('blog', ({ data }) => !data.draft))
 
 const formatDate = (date: Date) =>
   date.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
-
-const newsletterHref = `mailto:${SITE_DATA.company.email}?subject=${encodeURIComponent('Newsletter signup')}&body=${encodeURIComponent('Please add me to the Atlas Accounting Group newsletter.')}`;
 ---
 
 <BaseLayout
@@ -36,7 +34,7 @@ const newsletterHref = `mailto:${SITE_DATA.company.email}?subject=${encodeURICom
           {posts.map((post) => (
             <a
               href={`/blog/${post.id}/`}
-              class="bg-base-100 border border-base-300 group flex flex-col overflow-hidden transition-transform hover:-translate-y-2 focus-visible:outline-2 focus-visible:outline-accent"
+              class="bg-base-100 border border-base-300 group flex flex-col overflow-hidden transition-transform hover:-translate-y-2 focus-visible:outline-2 focus-visible:outline-primary focus-visible:outline-offset-2"
             >
               {post.data.image ? (
                 <Image src={post.data.image} alt="" class="w-full aspect-video object-cover" widths={[400, 800]} sizes="(min-width: 1024px) 33vw, 100vw" />
@@ -70,18 +68,9 @@ const newsletterHref = `mailto:${SITE_DATA.company.email}?subject=${encodeURICom
     </div>
   </section>
 
-  {/* Newsletter band — mirrors the live "Want tips straight in your inbox?" section.
-      TODO (client): the live site uses a Gravity Form; wire this to the leadflow
-      system's form endpoint when available. Until then the CTA opens a prefilled email. */}
-  <section class="bg-cream-dark">
-    <div class="container mx-auto px-4 py-14 md:py-16 text-center">
-      <h2 class="heading-display text-2xl md:text-3xl text-primary">Want tips straight in your inbox?</h2>
-      <p class="mt-3 max-w-xl mx-auto">Get accounting tips for the trades, no spam, unsubscribe anytime.</p>
-      <div class="mt-6">
-        <a href={newsletterHref} class="btn btn-accent">Sign Me Up</a>
-      </div>
-    </div>
-  </section>
+  {/* Newsletter band — live copy, now wired to ActiveCampaign via
+      /api/subscribe (see functions/api/subscribe.js). */}
+  <NewsletterSignup />
 
   <CalendlyCta heading="Find out how we can help your trade business" />
 

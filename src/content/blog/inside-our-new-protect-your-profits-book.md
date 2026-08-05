@@ -9,9 +9,9 @@ At **[Atlas Accounting Group](/construction-accountants/)**, we’ve worked with
 
 That’s why we launched the **[_Protect Your Profits_ Book](/toolbox/)**, which is designed to help you stay on top of your finances and strengthen your business profitability through a 12-month advisory program that introduces bite-sized business concepts each month.
 
-As our co-founder, Mackenzie Gray, puts it:
+As the Atlas team puts it:
 
-> “My goal is to help you uncover anything in your business that might be costing you your hard-earned money. I want you to have confidence that your business is built like a profitable machine and that all of the pieces are in working order.”
+> “Our goal is to help you uncover anything in your business that might be costing you your hard-earned money. We want you to have confidence that your business is built like a profitable machine and that all of the pieces are in working order.”
 
 This isn’t about learning to be an accountant. It’s about giving you a clear, guided path to build a more profitable business. The best part is that you don’t have to tackle everything at once. Each month, we’ll focus on one key area of your business and give you the tools and insights to make meaningful progress.
 

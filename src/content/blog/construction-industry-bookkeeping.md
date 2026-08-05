@@ -41,7 +41,7 @@ This list can get long, but having a well-organized chart of accounts helps ensu
 
 To make things easier, we offer a construction chart of accounts template that you can download and use for your business. It’s designed to help you set up and manage your accounts efficiently.
 
-### [You can download your template here!](/blog/construction-chart-of-accounts-2025)
+### [You can download your template here!](/blog/construction-chart-of-accounts-2025/)
 
 ### 4\. Contract retainage
 
@@ -90,6 +90,6 @@ At Atlas Accounting Group, we specialize in construction bookkeeping. We’re he
 
 Book an introductory call with us, and let’s discuss how we can support your construction business with expert bookkeeping tailored to your needs.
 
-[Simply head over to our](/getting-started)
+[Simply head over to our](/getting-started/)
 
 Until next time!

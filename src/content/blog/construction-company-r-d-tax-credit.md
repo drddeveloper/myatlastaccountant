@@ -83,7 +83,7 @@ We found this [useful calculator to help](https://www.kbkg.com/research-tax-cre
 
 New businesses can also claim an R&D tax credit of up to $250,000 per year against their payroll taxes, as long as they make less than $5M in revenue and have been in business less than 5 years. 
 
-We recommend working with your [experienced construction accountant](/accounting-for-construction) to determine how much you can save overall in your business. 
+We recommend working with your [experienced construction accountant](/construction-accountants/) to determine how much you can save overall in your business. 
 
 ‍
 
@@ -113,4 +113,4 @@ Instead of using a crazy amount of time trying to figure out what to do, you can
 
 We’ve successfully done this for many clients and already have a working procedure.
 
-Ready to save in your construction business?[Let’s talk](/getting-started#start).
+Ready to save in your construction business?[Let’s talk](/getting-started/#start).

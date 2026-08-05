@@ -40,7 +40,7 @@ A monthly cash flow forecast brings that future into view. It shows expected cas
 
 A useful monthly forecast includes your starting cash balance, expected customer collections, payroll and payroll taxes, vendor payments, equipment purchases, debt obligations, tax payments, and owner draws. It does not need to be complex, but it does need to be complete.
 
-We provide a month-by-month [**cash flow forecast template** ](https://myatlasaccountant.mykajabi.com/cash-flow-forecast)designed specifically for HVAC and trade businesses. When used consistently, it becomes a planning tool rather than just a report.
+We provide a month-by-month [**cash flow forecast template** ](/toolbox/)designed specifically for HVAC and trade businesses. When used consistently, it becomes a planning tool rather than just a report.
 
 ## Base Your Cash Flow Forecast On Real Data
 A cash forecast is only as helpful as the assumptions behind it.

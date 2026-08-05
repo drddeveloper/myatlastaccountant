@@ -32,7 +32,7 @@ Your employees aren’t just here to fix things—they’re a crucial part of ke
 
 If they don’t know, we can’t expect them to improve.
 
-#### ✅**  Here’s a quick fix:** 
+### ✅**  Here’s a quick fix:** 
 
 Start every month by reviewing the top three ways your team can help protect profits and the top three ways they might be hurting them without realizing it.
 
@@ -45,7 +45,7 @@ Think about a football game with no scoreboard. Players run around, but no one k
 
 That’s what running a business without shared metrics looks like.
 
-#### ✅**Here’s what we recommend:  **
+### ✅**Here’s what we recommend:  **
 
 Set up a simple whiteboard in the shop or a dashboard in your CRM that tracks things like:
 
@@ -56,7 +56,7 @@ Set up a simple whiteboard in the shop or a dashboard in your CRM that tracks th
 
 When your team sees the numbers, they start paying attention—and that’s when things improve.
 
-_Psst… we wrote an entire guide on the non-financial metrics you should be tracking  _[**_here_**](/blog/non-financial-hvac-kpis) _._
+_Psst… we wrote an entire guide on the non-financial metrics you should be tracking  _[**_here_**](/blog/non-financial-hvac-kpis/) _._
 
 ‍
 
@@ -73,7 +73,7 @@ This is what happens when you don’t assign clear ownership of tasks.
 
 If the answer is “I don’t know,” then it’s time to assign responsibility—because if it’s everyone’s job, _it’s no one’s job._
 
-#### ✅**  Here’s the takeaway:**
+### ✅**  Here’s the takeaway:**
 
 Write it down. Make a list of key tasks, assign them to specific roles, and check in regularly to make sure they’re getting done.
 
@@ -90,7 +90,7 @@ But things change. Equipment changes, technology changes, even customer expectat
   * Your techs don’t know how to explain maintenance plans in a way that makes customers say yes—so they don’t even try.
   * Your office staff isn’t trained on tracking job costs, so they miss billing for things that should’ve been charged.
 
-#### ✅ This one is an easy fix:  
+### ✅ This one is an easy fix:  
 We recommend making training a regular thing. Even 15 minutes a week of training can make a huge difference over time.
 
 ‍
@@ -104,7 +104,7 @@ Techs might not pay attention to pricing because they don’t see the financial 
 
 And that leaves you stuck in the middle, constantly trying to explain things to both sides.
 
-#### ✅ The Fix?  
+### ✅ The Fix?  
 Bring operations and finance together at least once a month to go over numbers, job costs, and anything that’s getting out of control. When both sides understand how their work impacts the bottom line, you’ll see fewer mistakes, fewer surprises, and a lot more profit staying in your business.
 
 ‍
@@ -118,7 +118,7 @@ The key isn’t just forcing change—it’s getting buy-in. Your team needs to 
 
 If they don’t see the value, they’ll ignore it, cut corners, or flat-out refuse to use it.
 
-#### ✅ Try this instead:
+### ✅ Try this instead:
 Before rolling out any major change, take the time to explain why it’s happening. Show them how it makes their job easier, more efficient, or even more profitable for them (commission, bonuses, etc.). When they see the upside, they’ll be much more willing to adapt.
 
 ‍
@@ -145,7 +145,7 @@ Be on the lookout for it in 2025!
 
 In the meantime, we’re always here to help. 
 
-You can [**book an introductory call**](/getting-started) with our team by using the calendar below.
+You can [**book an introductory call**](/getting-started/) with our team by using the calendar below.
 
 Let’s talk about how you can start improving communication (and protecting your profits) in your home services business today. 
 

@@ -9,7 +9,7 @@ If you run a construction company or trades business, you already know that cash
 
 That’s where you need to know how to create a cash flow forecast for construction business. It’s a powerful, real-world planning tool that all business owners need to sustain a business. Cash flow forecasting helps you see when money will come in, when it will go out, and whether there’s a shortfall on the horizon. Once you understand your cash flow, you can make confident decisions about hiring, equipment purchases, and which projects to take on next.
 
-_P.S. If you want an easier way to map all of this out, Atlas is releasing a simple_[ _**Cash Flow Forecast tool**_](https://myatlasaccountant.mykajabi.com/offers/KJT9L7m2/checkout) _built just_ _for contractors. More details below._
+_P.S. If you want an easier way to map all of this out, Atlas is releasing a simple_[ _**Cash Flow Forecast tool**_](/toolbox/) _built just_ _for contractors. More details below._
 
 ## Why Cash Flow Forecasting Matters In Construction
 Cash flow challenges hit construction firms harder than most industries. You’re often paying for materials, equipment, and labor weeks before you get paid. Maybe your client holds back retainage until the project is done, or a progress payment gets delayed because an inspector hasn’t signed off. Those timing gaps can put serious pressure on your bank account.
@@ -38,7 +38,7 @@ Once you’ve mapped out your inflows and outflows, plug them into a simple tabl
 
 You don’t need fancy software to start, Excel or Google Sheets works just fine. The goal here is to get clarity. At a glance, you want to be able to see whether your balance is trending up or down. That way, if you spot a dip coming three months out, you have time to make adjustments before it becomes a problem.
 
-If building all of this from scratch feels overwhelming, we have something that can help. Our upcoming **[Cash Flow Forecast tool](https://myatlasaccountant.mykajabi.com/offers/KJT9L7m2/checkout) **is designed specifically for contractors who want a simple way to plan ahead. It gives you a month-by-month calendar of what’s coming in and going out, along with revenue projections, expense breakdowns, and an ending cash balance so you can see whether you’re heading toward a shortfall or staying in the clear.
+If building all of this from scratch feels overwhelming, we have something that can help. Our upcoming **[Cash Flow Forecast tool](/toolbox/) **is designed specifically for contractors who want a simple way to plan ahead. It gives you a month-by-month calendar of what’s coming in and going out, along with revenue projections, expense breakdowns, and an ending cash balance so you can see whether you’re heading toward a shortfall or staying in the clear.
 
 ## Step 5: Test Different Scenarios
 One of the best parts about having a forecast is the ability to run “what if” scenarios. What if a major client delays payment by 30 days? What if material costs rise 10 percent? What if you land two big jobs at once? You can plug in the numbers into your spreadsheet and see how each situation affects your cash inflows and outflows. 
@@ -59,7 +59,7 @@ The more you do this, the more accurate your forecast becomes. Over time, you’
   * Negotiate progress payments that match your cash outflows for materials and labor
 
 ## How Atlas Accounting Group Can Help
-Cash flow forecasting might sound intimidating, but it doesn’t have to be. It’s truly one of the most valuable tools for your business. If you want a simple way to put everything from this article into practice, our [**Cash Flow Forecast tool**](https://myatlasaccountant.mykajabi.com/offers/KJT9L7m2/checkout) can walk you through it month by month.
+Cash flow forecasting might sound intimidating, but it doesn’t have to be. It’s truly one of the most valuable tools for your business. If you want a simple way to put everything from this article into practice, our [**Cash Flow Forecast tool**](/toolbox/) can walk you through it month by month.
 
 At [**Atlas Accounting Group**](/construction-accountants/), we specialize in helping construction companies and trades businesses take control of their finances. We’ll help you build a cash flow forecast that’s specific to your business so you can keep your business stable year-round.
 

@@ -105,7 +105,7 @@ Here at [**Atlas Accounting Group**](/), we work with construction businesses e
 
 ‍
 
-If you’re ready to get your accounting dialed in, reach out to us over on our [**Contact Page here**](/getting-started). We’ll help you build a system that actually works.
+If you’re ready to get your accounting dialed in, reach out to us over on our [**Contact Page here**](/getting-started/). We’ll help you build a system that actually works.
 
 ‍
 

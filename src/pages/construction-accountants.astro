@@ -44,13 +44,14 @@ const trustLogos = [
 const serviceCards = [
   { icon: iconFileBox, alt: '', title: 'Monthly Bookkeeping', href: '/pricing/' },
   { icon: iconInvoice, alt: 'Invoice icon', title: 'Monthly Payroll', href: '/construction-payroll/' },
-  { icon: iconTax, alt: 'tax icon', title: 'Tax Preparation', href: '/tax-services/' },
+  { icon: iconTax, alt: 'tax icon', title: 'Tax Preparation', href: '/construction-tax-services/' },
 ];
 
 // Hero icon-list copy, verbatim from the live page (including its bolding)
 const heroClaims = [
   'Experts in <b>HVAC, Plumbing, Electrical &amp; Trade Businesses</b>',
-  '<b>Flat-Rate, Upfront Pricing</b> (see pricing page)',
+  // Live copy has "(see pricing page)" as plain text; linked here per client sign-off.
+  '<b>Flat-Rate, Upfront Pricing</b> (<a href="/pricing/" class="underline underline-offset-2 hover:text-accent-ink transition-colors">see pricing page</a>)',
   'CFO Advisory and Expert Tax Preparation',
   'Specialists in <b>QBO, ServiceTitan, Housecall Pro &amp; JobTread</b> integration',
   '1-2 Business Day Response Time From Your Expert Construction Accountant',

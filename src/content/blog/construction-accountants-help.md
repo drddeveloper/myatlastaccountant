@@ -22,7 +22,7 @@ Then again, contrary to what you may have in mind, the tax code is more than how
 
 The tax code comes with several provisions construction accountants can utilize to help reduce the company’s tax burden or improve cash flow. Some of these are designed as tax credits: amounts you can subtract, dollar for dollar, from the taxes you owe. 
 
-A fine example is t[he R&D tax credit for construction companies.](/blog/what-can-you-claim-with-the-r-d-tax-credit-for-construction-companies)
+A fine example is t[he R&D tax credit for construction companies.](/blog/construction-company-r-d-tax-credit/)
 
 Construction accountants who know the nooks and crannies of the tax code can help improve a company’s tax strategy. 
 
@@ -98,4 +98,4 @@ You know the peace of mind that comes with engaging industry experts, that smile
 
 Our goal is for you to have that same smile when you think about your financials. We’ll do the heavy lifting for you and work to put more money in your hands.
 
-And here’s the thing; you can [get started right away](/getting-started).
+And here’s the thing; you can [get started right away](/getting-started/).

@@ -96,4 +96,4 @@ To recap, the Washington Care Tax will affect your payroll in the following ways
 
 ## Need Help With the Washington Care Tax?
 
-If you need help with the Washington Care Tax — or any other payroll tax issue, our specialized and friendly payroll accountants will be happy to help. Just pick up your phone right now and [book a 45-minute **FREE**  consultation.](/getting-started#start)
+If you need help with the Washington Care Tax — or any other payroll tax issue, our specialized and friendly payroll accountants will be happy to help. Just pick up your phone right now and [book a 45-minute **FREE**  consultation.](/getting-started/#start)

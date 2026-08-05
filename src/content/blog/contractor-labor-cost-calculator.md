@@ -89,7 +89,7 @@ Once you know your real labor cost, the next step is applying to your business. 
 
 Most contractors did not start their business to analyze cost structures. But the contractors who build strong, stable businesses understand their numbers well enough to make confident decisions.
 
-At [**Atlas Accounting Group**](/construction-accountants/), we work with contractors who want that level of clarity. The [**Labor Burden Calculator**](https://myatlasaccountant.mykajabi.com/labor-burden-calculator) is one practical tool to help you get there. If you are unsure whether your current rates truly support your margins, start by running your numbers through the calculator.
+At [**Atlas Accounting Group**](/construction-accountants/), we work with contractors who want that level of clarity. The [**Labor Burden Calculator**](/toolbox/) is one practical tool to help you get there. If you are unsure whether your current rates truly support your margins, start by running your numbers through the calculator.
 
 And if you would like a deeper review of your pricing, labor structure, or growth plans, our team would be happy to help.
 

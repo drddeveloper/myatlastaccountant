@@ -9,12 +9,12 @@ Running a business comes with a hundred moving parts—and let’s be honest, it
 
 That’s why we built a KPI dashboard. It gives you a simple, real-time view of how your business is really doing—what’s going well, what needs attention, and where to focus next.
 
-In this article, we’re giving you a sneak peek at our [**KPI dashboard template**](https://myatlasaccountant.mykajabi.com/offers/vA2oktX3/checkout), designed to help businesses like yours track performance, make better decisions, and keep things moving in the right direction.
+In this article, we’re giving you a sneak peek at our [**KPI dashboard template**](/toolbox/), designed to help businesses like yours track performance, make better decisions, and keep things moving in the right direction.
 
 ‍
 
 ## What’s a KPI Dashboard, and Why Does It Matter?
-[Our KPI dashboard](https://myatlasaccountant.mykajabi.com/offers/vA2oktX3/checkout) at **Atlas Accounting Group**  is designed to make business tracking simple and effective. It’s divided into two main parts:
+[Our KPI dashboard](/toolbox/) at **Atlas Accounting Group**  is designed to make business tracking simple and effective. It’s divided into two main parts:
 
   * **KPI Drivers  **– **Company Overview:**  This section breaks down big goals into specific, actionable items.
   * **KPI Dashboard  **– **Company Objective:  **This tracks your progress over time so you can see what’s working.
@@ -42,7 +42,7 @@ Instead of vague objectives or hopeful guessing, you have a clear structure that
 
 The best part? It creates accountability and clarity without extra meetings or busywork.
 
-[![](/wp-content/uploads/2025/06/67f3862b71279646737e5888_AD_4nXd8tx3wXZ0Qh77SCNeHoSgRWOoq2YJjiPyYRxHzfDJFbpj3AedW4txEvwUxBg_9wvycjR1ioc8PYYrKQRI66nAADs_2_vW6h7s9il2TSzNQ29jB3w_LOWEVHtbPKPUPnjJibfdzOA.png)](https://myatlasaccountant.mykajabi.com/offers/vA2oktX3/checkout)
+[![](/wp-content/uploads/2025/06/67f3862b71279646737e5888_AD_4nXd8tx3wXZ0Qh77SCNeHoSgRWOoq2YJjiPyYRxHzfDJFbpj3AedW4txEvwUxBg_9wvycjR1ioc8PYYrKQRI66nAADs_2_vW6h7s9il2TSzNQ29jB3w_LOWEVHtbPKPUPnjJibfdzOA.png)](/toolbox/)
 
 ### KPI Dashboard – Tracking Performance Over Time
 Once your goals are set, you need a way to measure progress. That’s the job of the KPI dashboard. It helps you:
@@ -56,10 +56,10 @@ It’s designed to help you understand how you’re doing month over month, quar
 
 Instead of just looking backward, the dashboard helps you identify patterns and predict where things are headed. It’s not just about tracking—it’s about using the data to make smarter decisions moving forward.
 
-[![](/wp-content/uploads/2025/06/67f3862b42f8a91f4f7557d3_AD_4nXeVAN0-emiwuiFQesYN7jWLE1t5VYf5lqMSTZHBvmOWKwJmSOyGzuzXZCE_svNiqlHdjx6-VWB7TNsA6A2BQ-syKDhTGTBKm7jBlJQdGp6j_67QuoOYP12noS6huO1wC3IN8TXZVQ-1024x745.png)](https://myatlasaccountant.mykajabi.com/offers/vA2oktX3/checkout)
+[![](/wp-content/uploads/2025/06/67f3862b42f8a91f4f7557d3_AD_4nXeVAN0-emiwuiFQesYN7jWLE1t5VYf5lqMSTZHBvmOWKwJmSOyGzuzXZCE_svNiqlHdjx6-VWB7TNsA6A2BQ-syKDhTGTBKm7jBlJQdGp6j_67QuoOYP12noS6huO1wC3IN8TXZVQ-1024x745.png)](/toolbox/)
 
 ## Why Your Business Needs a KPI Dashboard
-You know that feeling when you’re not totally sure how your business is doing—but you’re too busy to stop and figure it out? You might have a general sense that things are fine, or not fine, but you don’t have anything concrete to point to. That’s where a [KPI dashboard](https://myatlasaccountant.mykajabi.com/offers/vA2oktX3/checkout) comes in.
+You know that feeling when you’re not totally sure how your business is doing—but you’re too busy to stop and figure it out? You might have a general sense that things are fine, or not fine, but you don’t have anything concrete to point to. That’s where a [KPI dashboard](/toolbox/) comes in.
 
 It gives you one place to see the stuff that actually matters—like how much you made, how profitable those jobs really were, how your team is performing, and whether you’re on track with your goals. 
 
@@ -67,10 +67,10 @@ No more digging through five different spreadsheets or trying to remember what l
 
 It’s not fancy or overcomplicated—it just gives you the clarity to make decisions without second-guessing everything. And when something’s off, you catch it early instead of finding out when it’s too late to fix.
 
-[![](/wp-content/uploads/2025/06/67f3862b8a4a1158301d1b31_AD_4nXewJuyNXv9EtTipPbFi7nlMdpRmYT9VM0EOSFxiFWwjYEISYZgq0lhaWt5U5hTw5iqDhzf-jc7Po5F2qgx1GXtzY12lktFFul2a91sztAJocEhkKgoUFdsTzUEC4HQk9S-MUfVEA.png)](https://myatlasaccountant.mykajabi.com/offers/vA2oktX3/checkout)
+[![](/wp-content/uploads/2025/06/67f3862b8a4a1158301d1b31_AD_4nXewJuyNXv9EtTipPbFi7nlMdpRmYT9VM0EOSFxiFWwjYEISYZgq0lhaWt5U5hTw5iqDhzf-jc7Po5F2qgx1GXtzY12lktFFul2a91sztAJocEhkKgoUFdsTzUEC4HQk9S-MUfVEA.png)](/toolbox/)
 
 ## Get Our KPI Dashboard—Or Let Us Handle It for You
-If you want stronger results in the next few months, now’s the time to start tracking your performance. We’ve made it easy to jump in. You can grab the[**KPI Dashboard from our shop**](/toolbox) and follow the step-by-step instructions to get your numbers in place. 
+If you want stronger results in the next few months, now’s the time to start tracking your performance. We’ve made it easy to jump in. You can grab the[**KPI Dashboard from our shop**](/toolbox/) and follow the step-by-step instructions to get your numbers in place. 
 
 Or, if you’d rather hand it off, we’ll take care of everything for you.
 
@@ -80,4 +80,4 @@ With our advisory services and monthly KPI dashboard review, you’ll always kno
 
 Ready to take control of your business finances?
 
-[‍**Book a Discovery Call with us today**](/getting-started). We’d love to help you grow.
+[‍**Book a Discovery Call with us today**](/getting-started/). We’d love to help you grow.

@@ -65,7 +65,7 @@ The key is confirming that demand is sustained, not just seasonal or temporary.
 ## Step 4: Stress Test Cash Flow So Hiring Does Not Create Panic
 Even profitable HVAC companies can struggle with cash flow after a hire. Payroll and payroll taxes are fixed and frequent, while customer payments are not.
 
-A simple **[cash flow view](https://myatlasaccountant.mykajabi.com/cash-flow-forecast)** can make a big difference. Map payroll dates, payroll tax deposits, expected collections, and slower periods. This reveals timing gaps before they become emergencies.
+A simple **[cash flow view](/toolbox/)** can make a big difference. Map payroll dates, payroll tax deposits, expected collections, and slower periods. This reveals timing gaps before they become emergencies.
 
 We suggest two safeguards to help reduce stress. The first is maintaining a minimum cash buffer, often one to two payroll cycles. The second is setting up financing options before you need them, when your numbers are strong.
 

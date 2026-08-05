@@ -82,6 +82,6 @@ Just like a hard hat keeps you safe on the job, having a tax expert can protect 
 
 Handling taxes on your own might save money upfront but can lead to costly errors. With our help, you can avoid these pitfalls and maximize your savings.
 
-Here at Atlas Accounting Group, we specialize in working with construction business owners like you. To get started and see how we can help, head over to our [**Getting Started page**](/getting-started) and book a quick introductory call.
+Here at Atlas Accounting Group, we specialize in working with construction business owners like you. To get started and see how we can help, head over to our [**Getting Started page**](/getting-started/) and book a quick introductory call.
 
 Until next time!

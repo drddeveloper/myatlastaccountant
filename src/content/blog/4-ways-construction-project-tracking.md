@@ -55,11 +55,11 @@ We know, “KPI” sounds like something a corporate guy says in a meeting, but 
 
 You don’t need to track ten things right away. Just pick one or two that actually affect your bottom line and keep an eye on them across every job.
 
-And if you’re sick of trying to cobble this together from a dozen spreadsheets, we’ve got a tool for that. Our [**KPI Dashboard for Contractors**](https://myatlasaccountant.mykajabi.com/offers/vA2oktX3/checkout) pulls everything into one place so you can see what’s working, what’s slipping, and where your business is really headed. 
+And if you’re sick of trying to cobble this together from a dozen spreadsheets, we’ve got a tool for that. Our [**KPI Dashboard for Contractors**](/toolbox/) pulls everything into one place so you can see what’s working, what’s slipping, and where your business is really headed. 
 
 It includes templates, a full sample dashboard, and a system for tying big-picture business goals to what’s happening on the job site. Nothing fancy, just useful.
 
-##### **[** 📊 **Grab the dashboard here]**[](https://myatlasaccountant.mykajabi.com/offers/vA2oktX3/checkout)
+### **[** 📊 **Grab the dashboard here]**[](/toolbox/)
 
 ‍
 
@@ -70,6 +70,6 @@ Keep it simple, stay consistent, and over time, you’ll be able to spot problem
 
 And when you’re ready to get serious about tracking what actually moves the needle?
 
-[We’ve got the dashboard to help you do it.](https://myatlasaccountant.mykajabi.com/offers/vA2oktX3/checkout)
+[We’ve got the dashboard to help you do it.](/toolbox/)
 
 Until next time.

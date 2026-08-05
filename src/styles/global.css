@@ -10,14 +10,22 @@
   --color-accent: #F4832B;     /* orange — CTAs, highlights */
   --color-accent-light: #F69C55; /* accent + 20% white — orange button hover fill */
   --color-sky: #79CAE9;        /* light blue — secondary accent (dark surfaces only) */
-  --color-sky-ink: #2387B8;    /* darkened sky for highlight TEXT on light surfaces (WCAG) */
+  /* Darkened sky for highlight TEXT on light surfaces, and for the navy button's
+     hover fill. Was #2387B8, which put white-on-hover at 4.02:1 — under the 4.5:1
+     AA floor for the 15px button label. #1E7AA8 measures 4.77:1 white-on-fill and
+     4.77:1 as text on white / 4.39:1 on cream. */
+  --color-sky-ink: #1E7AA8;
   --color-accent-ink: #B4540A; /* darkened orange for small TEXT/links on light surfaces (WCAG) */
   --color-cream: #F7F5F4;      /* warm off-white surface */
   --color-cream-dark: #FFEDDF; /* pale peach surface */
   --color-neutral: #003954;
   --color-base-100: #ffffff;
   --color-base-200: #F7F5F4;
-  --color-base-300: #CDCDCD;
+  --color-base-300: #CDCDCD;   /* decorative hairline borders (cards, tiles) — NOT for control boundaries */
+  /* Boundary colour for interactive controls (inputs, steppers). WCAG 1.4.11
+     wants 3:1 against the adjacent surface; base-300 only manages 1.59:1 on
+     white. 3.45:1 on white, 3.18:1 on cream. */
+  --color-input-border: #8A8A8A;
   --color-base-content: #454545;
 
   --font-heading: "Sofia Pro", ui-sans-serif, system-ui, sans-serif;
@@ -174,15 +182,9 @@
     transform: translateY(1px);
   }
 
-  .btn:focus-visible {
-    outline: 2px solid var(--color-primary);
-    outline-offset: 2px;
-  }
-
   /* Navy button hover shifts to sky-ink (fill AND border) with a lifted shadow.
-     NOTE: white on sky-ink measures ~4.0:1 — just under the 4.5:1 AA minimum for
-     15px text. Darkening --color-sky-ink to #1E7AA8 would clear it if we decide
-     accessibility outranks the exact brand blue here. */
+     White on sky-ink is 4.77:1 since the token was darkened to #1E7AA8 — see the
+     note on --color-sky-ink. */
   .btn-primary {
     background-color: var(--color-primary);
     border-color: var(--color-primary);
@@ -235,6 +237,19 @@
     background-color: var(--color-base-200);
   }
 
+  /* Focus ring — declared AFTER the variants so it isn't overwritten by their
+     hover shadows when a button is hovered and keyboard-focused at once.
+     A plain navy outline disappears on the navy CTA bands (1:1 against
+     bg-primary), so the ring is navy PLUS a white halo filling the offset gap:
+     on light surfaces the navy line carries it (12.3:1 on white), on navy
+     sections the white halo does (12.3:1). Both clear the 3:1 that WCAG 1.4.11
+     asks of a focus indicator. */
+  .btn:focus-visible {
+    outline: 2px solid var(--color-primary);
+    outline-offset: 3px;
+    box-shadow: 0 0 0 3px #fff;
+  }
+
   /* ── Form inputs ── */
 
   /* Field label above an .input */
@@ -254,17 +269,19 @@
     font-size: 1rem;
     color: var(--color-secondary);
     background-color: var(--color-base-100);
-    border: 1px solid var(--color-base-300);
+    border: 1px solid var(--color-input-border);
     border-radius: 0.5rem;
     transition: border-color var(--default-transition-duration) var(--default-transition-timing-function);
   }
   .input:hover {
-    border-color: color-mix(in srgb, var(--color-base-300) 60%, var(--color-primary));
+    border-color: color-mix(in srgb, var(--color-input-border) 60%, var(--color-primary));
   }
+  /* Navy ring, not orange: orange on white is 2.58:1 and on cream 2.38:1, both
+     under the 3:1 WCAG 1.4.11 asks of a focus indicator. Navy is 12.3:1 / 11.3:1. */
   .input:focus-visible {
-    outline: 2px solid var(--color-accent);
+    outline: 2px solid var(--color-primary);
     outline-offset: 1px;
-    border-color: var(--color-accent);
+    border-color: var(--color-primary);
   }
 
   /* +/− stepper buttons flanking a number input */
@@ -280,7 +297,7 @@
     line-height: 1;
     color: var(--color-primary);
     background-color: var(--color-cream);
-    border: 1px solid var(--color-base-300);
+    border: 1px solid var(--color-input-border);
     border-radius: 0.5rem;
     cursor: pointer;
     transition:
@@ -293,7 +310,7 @@
     border-color: var(--color-accent);
   }
   .stepper-btn:focus-visible {
-    outline: 2px solid var(--color-accent);
+    outline: 2px solid var(--color-primary);
     outline-offset: 1px;
   }
   .stepper-btn:active {
@@ -372,6 +389,13 @@
   .menu li a.is-active,
   .menu li button.is-active {
     background-color: var(--color-base-200);
+  }
+  /* base-200 is 1.03:1 against white — a background swap alone is not a visible
+     focus indicator, so keyboard focus gets an explicit ring. */
+  .menu li a:focus-visible,
+  .menu li button:focus-visible {
+    outline: 2px solid var(--color-primary);
+    outline-offset: -2px;
   }
   .menu li a.is-active,
   .menu li button.is-active {
@@ -476,7 +500,7 @@
     display: none;
   }
   .accordion > summary:focus-visible {
-    outline: 2px solid var(--color-accent);
+    outline: 2px solid var(--color-primary);
     outline-offset: 2px;
   }
   /* The +/− icon rotates to an × on open */
@@ -546,7 +570,7 @@
       0 6px 12px -4px color-mix(in srgb, var(--color-accent) 30%, transparent);
   }
   .card-tile:focus-visible {
-    outline: 2px solid var(--color-accent);
+    outline: 2px solid var(--color-primary);
     outline-offset: 2px;
   }
   @media (prefers-reduced-motion: reduce) {
@@ -589,9 +613,11 @@
     transform: translateY(-200%);
     transition: transform 150ms ease-in-out;
   }
+  /* Near-black ring rather than orange: the outline sits outside the navy pill,
+     against the white page, where orange is only 2.58:1. */
   .skip-link:focus-visible {
     transform: translateY(0);
-    outline: 2px solid var(--color-accent);
+    outline: 2px solid var(--color-secondary);
     outline-offset: 2px;
   }
 
