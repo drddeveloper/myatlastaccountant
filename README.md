@@ -15,12 +15,12 @@ This is the official Deep River Digital starter template for Astro projects. It 
 
 2.  **Configure Data**:
     - Open `src/data/constants.ts`
-    - Update `SITE_DATA` with the client's Name, Component, Phone, Email, and Socials.
+    - Update `SITE_DATA` with the client's Name, Address, Phone, Email, and Socials.
     - **CRITICAL**: Update `branding.colors` to match their brand identity.
 
 3.  **Theme Setup**:
-    - The `tailwind.config.mjs` pulls colors directly from `constants.ts`.
-    - No manual Tailwind config editing is required for basic color changes.
+    - There is no `tailwind.config.mjs` — Tailwind v4 is configured in CSS.
+    - Design tokens (colors, fonts) live in the `@theme` block in `src/styles/global.css`. Update them there **and** keep the matching values in `constants.ts` in sync (the brand guide page reads from `constants.ts`).
 
 4.  **Content**:
     - Build pages in `src/pages/`.

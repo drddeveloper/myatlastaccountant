@@ -8,14 +8,21 @@ interface Props {
 	title: string;
     description?: string;
     bareLayout?: boolean;
+    /** Keep the page out of search results. Must agree with the page's entry in
+        src/data/seo-map.mjs, which also drives the sitemap filter — preflight
+        PF-4 fails if the two disagree. */
+    noindex?: boolean;
 }
 
-const { title, description = SITE_DATA.seo.description, bareLayout = false } = Astro.props;
+const { title, description = SITE_DATA.seo.description, bareLayout = false, noindex = false } = Astro.props;
 
 // AccountingService schema — phone/address omitted (remote-first practice, email contact only)
 const jsonLD: Record<string, unknown> = {
   "@context": "https://schema.org",
   "@type": "AccountingService",
+  // Stable node identifier so other schema graphs (and Google) can reference
+  // this business entity by @id rather than duplicating it.
+  "@id": SITE_DATA.links.url + "/#organization",
   "name": SITE_DATA.company.name,
   "image": SITE_DATA.links.url + "/og-image.jpg",
   "email": SITE_DATA.company.email,
@@ -64,6 +71,8 @@ if (SITE_DATA.company.address.street) jsonLD.address = {
 		<link rel="icon" type="image/x-icon" href="/favicon.ico" sizes="16x16 32x32 48x48 64x64" />
 		<link rel="icon" type="image/png" href="/favicon-192.png" sizes="192x192" />
 		<link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+		<link rel="manifest" href="/site.webmanifest" />
+		{noindex && <meta name="robots" content="noindex, follow" />}
 		<meta name="generator" content={Astro.generator} />
         <link rel="preload" href="/fonts/Sofia-Pro-Regular-Az.woff" as="font" type="font/woff" crossorigin />
         <link rel="preload" href="/fonts/Sofia-Pro-Semi-Bold-Az.woff" as="font" type="font/woff" crossorigin />

@@ -1,0 +1,14 @@
+# Section B2 — Live Validation (Search, Social, AI) 📡
+
+Phase B — requires the deployed URL and a browser. Read [PRE-LAUNCH-CHECKLIST.md](../../PRE-LAUNCH-CHECKLIST.md) execution rules first. Enumerate all item IDs; write your ledger to `reports/pre-launch/B2.md`. Check `reports/pre-launch/deferred.md` for items waiting on this section.
+
+| ID | Action | Check | How to Verify | If Failed |
+|----|--------|-------|---------------|-----------|
+| B2-1 | 👁️ VERIFY ONLY | **Social preview cards** | Run the live homepage (and one key inner page) through the [Facebook Sharing Debugger](https://developers.facebook.com/tools/debug/) or [LinkedIn Post Inspector](https://www.linkedin.com/post-inspector/). Preview renders with correct title, description, and the og-image. | Failures usually trace to the og-image asset (was it delivered? A1-4/PF-10) or OG tags (preflight PF-9). Use the debugger's "Scrape Again" after any fix — both tools cache aggressively. |
+| B2-2 | 👁️ VERIFY ONLY | **Rich results validation** | Paste the live homepage URL (and one inner page with schema) into the [Google Rich Results Test](https://search.google.com/test/rich-results). 0 errors; note warnings. | Errors in schema added during A3-3 → reopen that fix. Report validator output verbatim in the ledger. |
+| B2-3 | 👁️ VERIFY ONLY | **Agent-readiness scan** | Run the live URL through [isitagentready.com](https://isitagentready.com/). Discoverability and Content Accessibility categories must pass; note the rest (Protocol Discovery and Commerce are aspirational for marketing sites). | Failing signals usually trace to robots.txt, sitemap, `_headers`, or llms.txt — all covered in Phase A; reopen the relevant item. |
+| B2-4 | 👁️ VERIFY ONLY | **GA4 receives traffic** | Visit the live site, then check the GA4 **Realtime** report — the visit registers. (Requires GA access; A4-6 verified the tag is configured.) | No hit with a correctly configured tag → usually a domain mismatch in the GA4 data stream, or an ad blocker on the test browser. Report which. ⏸ BLOCKED if GA account access isn't available. |
+| B2-5 | 👁️ VERIFY ONLY | **Search Console ready** | A Search Console property exists for the production domain; the sitemap URL has been submitted and shows "Success". | ⏸ BLOCKED — requires Google account access; report what's missing. |
+| B2-6 | 👁️ VERIFY ONLY | **NAP vs. Google Business Profile** | Search the business on Google; compare the GBP listing's Name, Address, and Phone against the live site (A3-7 confirmed the site is internally consistent, so compare against any page). Must match exactly — punctuation, abbreviations, suite numbers. | Report each discrepancy and which side should change. GBP edits are a human/client action. |
+
+> **🛑 CHECKPOINT:** Write the ledger, run the verification pass per the runbook before starting B3.

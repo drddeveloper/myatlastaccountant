@@ -70,11 +70,12 @@ Cloudflare Pages reads headers from [`public/_headers`](./public/_headers). Othe
   |--------|-------------------|
   | `X-Frame-Options` | `SAMEORIGIN` |
   | `X-Content-Type-Options` | `nosniff` |
-  | `X-XSS-Protection` | `1; mode=block` |
   | `Referrer-Policy` | `strict-origin-when-cross-origin` |
   | `Strict-Transport-Security` | `max-age=31536000; includeSubDomains; preload` |
   | `Permissions-Policy` | Disable unused browser features (camera, microphone, geolocation, etc.) |
   | `Content-Security-Policy` | See below |
+
+  > Do **not** add `X-XSS-Protection` — it is deprecated, the XSS auditor was removed from Chrome and Edge, and the header can introduce vulnerabilities in older browsers. `scripts/preflight.mjs` flags it if present.
 
 - [ ] Content Security Policy is configured. Start restrictive and loosen only as needed. Baseline for a static site with no third-party scripts:
 

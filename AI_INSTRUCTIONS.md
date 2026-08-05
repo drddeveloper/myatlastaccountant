@@ -64,10 +64,10 @@ If a user asks you to "Initialize" or "Start a new project", you strictly follow
 5.  **Test Deploy**: Push to `main` to trigger a build, or trigger a deploy manually from the Cloudflare Pages dashboard.
 
 ## ✅ Pre-Deploy Verification
-Before declaring the project "Ready", you MUST run through the **[pre-launch-checklist.md](./PRE-LAUNCH-CHECKLIST.md)**.
-1.  Verify Sitemap generation.
-2.  Validate Schema tags.
-3.  Check Open Graph images.
+Before declaring the project "Ready", you MUST run the pre-launch process in **[PRE-LAUNCH-CHECKLIST.md](./PRE-LAUNCH-CHECKLIST.md)** (the runbook — sections live in `checklists/pre-launch/`).
+1.  Run `npm run preflight` — the deterministic check suite (placeholders, meta, links, schema, headers, sitemap/noindex). It must exit with 0 errors.
+2.  Work through checklist sections A1–A4 (repo-only), then B1–B3 after deploy, one section per fresh context, with evidence-backed ledgers per the runbook.
+3.  The SEO map (`src/data/seo-map.mjs`) is the source of truth for keyword targets — verify against it, never invent targets at launch time.
 
 ## ⚠️ Critical Dont's
 -   **Do NOT** use `<img>` tags. Use `<Image />`.
