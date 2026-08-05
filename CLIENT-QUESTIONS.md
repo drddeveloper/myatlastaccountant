@@ -8,7 +8,16 @@ checklist — check items off and note decisions inline.
 - [x] **Content editing / CMS.** DECIDED 2026-08-04 — no self-editing of job
   postings or blog posts at this point. All updates go through us. Revisit
   later if the volume of job postings makes it worth it.
-- [ ] **Careers — form endpoint. BLOCKING.** The application form is built
+- [x] **Careers — form endpoint.** RESOLVED 2026-08-05 — Basin
+  (`https://usebasin.com/f/7e241f8689e4`). It accepts multipart/form-data, so
+  the resume posts natively with no JS and no CORS, and Basin redirects to
+  /thank-you/. CSP `form-action` is now locked to `'self' https://usebasin.com`.
+  **One fix needed in the Basin dashboard:** the redirect targets the apex
+  (`myatlasaccountant.com/thank-you/`) but the site canonicalises to www, so
+  applicants take an extra hop — change it to
+  `https://www.myatlasaccountant.com/thank-you/`. Not yet test-submitted; that
+  is checklist item B3-1.
+- [ ] **Careers — original blocking note, kept for context.** The application form is built
   (name, email, phone, location, role, resume upload, privacy consent) with
   full client-side validation including the 50 MB cap. It has nowhere to POST:
   set `SITE_DATA.forms.careers` once we have an endpoint that accepts

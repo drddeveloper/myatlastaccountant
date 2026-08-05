@@ -23,11 +23,18 @@ export const SITE_DATA = {
     privacyPolicy: "",
   },
   forms: {
-    // Careers application endpoint (accepts multipart/form-data incl. the resume).
-    // Empty until the LeadFlow form endpoint is locked — see CLIENT-QUESTIONS.md.
-    // While empty, the form validates client-side and falls back to a prefilled
-    // email so applicants are never left with a dead submit button.
-    careers: "",
+    // Careers application endpoint. Basin accepts multipart/form-data, so the
+    // resume upload posts natively — no JS, no CORS. Basin is configured to
+    // redirect to /thank-you/ after a successful submission.
+    //
+    // NOTE: the redirect in Basin currently targets the APEX
+    // (myatlasaccountant.com/thank-you/). The site canonicalises to www, so
+    // that costs applicants an extra redirect hop; switch it to
+    // https://www.myatlasaccountant.com/thank-you/ in the Basin dashboard.
+    //
+    // If this is ever emptied, the form falls back to a prefilled email so
+    // applicants are never left with a dead submit button.
+    careers: "https://usebasin.com/f/7e241f8689e4",
   },
   branding: {
     colors: {

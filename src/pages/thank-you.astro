@@ -1,16 +1,42 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
+import { SITE_DATA } from '../data/constants';
+
+/*
+ * Generic confirmation page. Every form on the site lands here, so the copy
+ * stays deliberately form-agnostic — the careers form posts to Basin, which
+ * redirects here, and the newsletter Pages Function 303s here when JavaScript
+ * is off. noindex: it is a conversion endpoint, never a landing page.
+ */
 ---
 
-<BaseLayout title="Thank You" description="Thank you for contacting us. We will get back to you shortly."
-  noindex>
-  <div class="hero min-h-[60vh] bg-cream">
-    <div class="hero-content text-center">
-      <div class="max-w-md">
-        <h1 class="heading-display text-5xl text-primary">Thank You!</h1>
-        <p class="py-6">We have received your message and will be in touch shortly.</p>
-        <a href="/" class="btn btn-accent">Return Home</a>
+<BaseLayout
+  title="Thank You"
+  description="Thank you for contacting Atlas Accounting Group. We aim to respond within one business day."
+  noindex
+>
+  <section class="bg-cream">
+    <div class="container mx-auto px-4 py-24 md:py-32">
+      <div class="max-w-xl mx-auto text-center">
+        <h1 class="heading-display text-4xl md:text-5xl text-primary">Thank You!</h1>
+
+        <p class="mt-6 text-lg leading-relaxed">
+          Thank you for contacting My Atlas Accountant. We try to respond within one business day.
+        </p>
+
+        <p class="mt-4 leading-relaxed">
+          If this is an emergency, please call us at{' '}
+          <a
+            href={SITE_DATA.company.phoneHref}
+            class="font-semibold text-accent-ink underline underline-offset-2 hover:text-accent focus-visible:outline-2 focus-visible:outline-primary focus-visible:outline-offset-2 transition-colors"
+          >{SITE_DATA.company.phone}</a>.
+        </p>
+
+        <div class="mt-10 flex flex-wrap items-center justify-center gap-4">
+          <a href="/" class="btn btn-accent">Return Home</a>
+          <a href="/blog/" class="btn btn-outline">Read the Blog</a>
+        </div>
       </div>
     </div>
-  </div>
+  </section>
 </BaseLayout>
