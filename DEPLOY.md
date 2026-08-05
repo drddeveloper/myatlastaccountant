@@ -93,23 +93,32 @@ Two causes, in order of likelihood.
    pulls `@emnapi/*`, and those went missing after an `npm audit fix` on macOS.
    The build fails with `EUSAGE ... Missing: @emnapi/runtime from lock file`.
 
-   Reproduce it locally without deploying:
+   **Use Cloudflare's npm, not yours.** The build log prints the exact pair,
+   e.g. `Detected the following tools from environment: nodejs@22.12.0,
+   npm@10.9.2`. npm 10 and npm 11 hoist optional dependencies differently, so a
+   lockfile that npm 11 calls valid can still fail under npm 10. Testing with
+   the wrong npm produces a false pass.
+
+   Reproduce locally without deploying — substitute the npm version from the log:
 
    ```bash
-   npm ci --dry-run --os=linux --cpu=x64
+   npx -y npm@10.9.2 ci --dry-run --os=linux --cpu=x64
    ```
 
-   Fix by layering Linux resolution onto the lockfile, then confirm BOTH
-   platforms install cleanly:
+   Fix by regenerating the lockfile with that same npm and platform, then
+   confirm all four combinations pass:
 
    ```bash
-   npm install --package-lock-only --os=linux --cpu=x64
-   npm ci --dry-run --os=linux --cpu=x64   # must pass
-   npm ci --dry-run                        # must pass
+   npx -y npm@10.9.2 install --package-lock-only --os=linux --cpu=x64
+
+   npx -y npm@10.9.2 ci --dry-run --os=linux --cpu=x64   # CI
+   npx -y npm@10.9.2 ci --dry-run                        # CI npm, local platform
+   npm ci --dry-run --os=linux --cpu=x64                 # local npm, CI platform
+   npm ci --dry-run                                      # local
    ```
 
-   Run that check after any dependency change. `npm audit fix` in particular
-   rewrites the lockfile and can drop the Linux entries again.
+   Run that after any dependency change. `npm audit fix` in particular rewrites
+   the lockfile and can drop the Linux entries again.
 
 **404 on routes after deploy**
 Confirm `trailingSlash: 'always'` in [`astro.config.mjs`](./astro.config.mjs) matches how links are written in the site. Cloudflare Pages serves `/about/index.html` for `/about/`.
