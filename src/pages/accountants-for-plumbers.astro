@@ -1,6 +1,7 @@
 ---
 import { Image } from 'astro:assets';
 import BaseLayout from '../layouts/BaseLayout.astro';
+import ServiceSchema from '../components/ServiceSchema.astro';
 import CalendlyCta from '../components/sections/CalendlyCta.astro';
 
 
@@ -54,6 +55,15 @@ const capabilities = [
   description="Do you want an accountant who understands the plumbing industry? We're accountants for plumbers who actually grow your business. We provide comprehensive bookkeeping, financial strategy, cash flow forecasting, technology advice and more so that you get the expert financial advice you need..."
 >
 
+  {/* Per-page Service schema (A3-3). Description is the page's own meta
+      description, so the two cannot drift. */}
+  <ServiceSchema
+    name="Accounting for Plumbers"
+    description="Do you want an accountant who understands the plumbing industry? We're accountants for plumbers who actually grow your business. We provide comprehensive bookkeeping, financial strategy, cash flow forecasting, technology advice and more so that you get the expert financial advice you need..."
+    serviceType="Accounting"
+    audience="Plumbing contractors"
+  />
+
   {/* ── Hero (live: white bg, text 57% / image 42%) ── */}
   <section class="bg-base-100">
     <div class="container mx-auto px-4 grid gap-x-10 lg:grid-cols-[4fr_3fr] items-stretch">
@@ -71,7 +81,7 @@ const capabilities = [
         </div>
       </div>
       <div class="hero-media">
-        <Image src={heroImg} alt="Accountants for plumbers" widths={[480, 768, 900]} sizes="(min-width: 1024px) 40vw, 100vw" loading="eager" fetchpriority="high" />
+        <Image src={heroImg} alt="Plumber kneeling to work on the pipework under a kitchen sink" widths={[480, 768, 900]} sizes="(min-width: 1024px) 40vw, 100vw" loading="eager" fetchpriority="high" />
       </div>
     </div>
   </section>
@@ -133,7 +143,7 @@ const capabilities = [
     {/* ── Grow (live: white, image left / text right).
          Live heading says "grow your construction business" — copy-paste error, localized to plumbing. ── */}
     <div class="container mx-auto px-4 pb-16 md:pb-24 grid gap-12 lg:grid-cols-2 lg:items-center">
-      <Image src={growImg} alt="#1 accountants for plumbers" class="w-full h-auto order-last lg:order-first" widths={[480, 768, 900]} sizes="(min-width: 1024px) 45vw, 100vw" />
+      <Image src={growImg} alt="Plumber connecting the hoses behind a washing machine" class="w-full h-auto order-last lg:order-first" widths={[480, 768, 900]} sizes="(min-width: 1024px) 45vw, 100vw" />
       <div>
         <h2 class="heading-display text-3xl md:text-5xl text-secondary">
           Find Opportunities to <span class="text-sky-ink">grow your plumbing business</span>
@@ -193,7 +203,7 @@ const capabilities = [
   <section class="bg-cream">
     <div class="container mx-auto px-4 py-16 md:py-24 grid gap-12 lg:grid-cols-[9fr_11fr] lg:items-center">
       <div class="relative">
-        <Image src={testimonialImg} alt="Ryann Blake Testimonial" class="w-full h-auto" widths={[420, 525]} sizes="(min-width: 1024px) 40vw, 100vw" />
+        <Image src={testimonialImg} alt="Ryann Blake, owner of Chimney Techniques" class="w-full h-auto" widths={[420, 525]} sizes="(min-width: 1024px) 40vw, 100vw" />
         {/* Live overlays the name bottom-left in white; gradient added so the text passes contrast */}
         <div class="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/70 to-transparent pt-16 pb-6 px-8">
           <p class="heading-display text-2xl md:text-3xl text-white">Ryann Blake</p>

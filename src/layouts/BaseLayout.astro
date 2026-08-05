@@ -46,6 +46,22 @@ const jsonLD: Record<string, unknown> = {
       "closes": "17:00"
     }
 };
+// WebSite node (checklist A3-3 / AI-readiness Tier 0 minimum set). Gives the
+// site itself a stable @id that other graphs can hang off, and names the
+// publisher by reference rather than duplicating the business node above.
+// No `potentialAction`/SearchAction — the site has no internal search, and
+// declaring one that does not exist is worse than declaring nothing.
+const websiteLD = {
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  "@id": SITE_DATA.links.url + "/#website",
+  "url": SITE_DATA.links.url,
+  "name": SITE_DATA.company.name,
+  "description": SITE_DATA.seo.description,
+  "publisher": { "@id": SITE_DATA.links.url + "/#organization" },
+  "inLanguage": "en-US"
+};
+
 if (SITE_DATA.company.phone) jsonLD.telephone = SITE_DATA.company.phone;
 if (SITE_DATA.company.address.street) jsonLD.address = {
   "@type": "PostalAddress",
@@ -99,6 +115,7 @@ if (SITE_DATA.company.address.street) jsonLD.address = {
 
         {/* JSON-LD Schema */}
         <script type="application/ld+json" set:html={JSON.stringify(jsonLD)} />
+        <script type="application/ld+json" set:html={JSON.stringify(websiteLD)} />
 
         {/* Google Analytics - Conditional */}
         {SITE_DATA.seo.googleAnalyticsId && (

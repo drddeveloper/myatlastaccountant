@@ -552,6 +552,13 @@ const reportLines = [
 fs.writeFileSync(path.join(REPORT_DIR, 'preflight-report.md'), reportLines.join('\n'));
 
 const bool = (v) => (v === null ? '—' : v ? '✅' : '❌');
+// PATCH (seo-matrix): every built <title> ends in " | Atlas Accounting Group",
+// and several titles contain their own pipes. Unescaped, each one opened a new
+// markdown cell, so every row of the matrix was shifted and the ✅/❌ columns
+// lined up under the wrong headings — the artifact A2 is meant to be judged
+// from was unreadable. Escape pipes in every cell. Report rendering only; no
+// check is affected. (preflight-report.md already did this on line ~549.)
+const cell = (s) => String(s).replace(/\|/g, '\\|');
 const matrixLines = [
   `# SEO Alignment Matrix`,
   ``,
@@ -562,7 +569,7 @@ const matrixLines = [
   `| Route | Keyword | Intent | Title (built) | H1 (built) | Description (built) | kw→title | kw→slug | kw→h1 | kw→desc | kw→opening |`,
   `|-------|---------|--------|---------------|------------|---------------------|----------|---------|-------|---------|------------|`,
   ...matrixRows.map((r) =>
-    `| ${r.route}${r.noindex ? ' (noindex)' : ''} | ${r.keyword} | ${r.intent} | ${r.title} | ${r.h1} | ${r.description.slice(0, 80)}${r.description.length > 80 ? '…' : ''} | ${bool(r.kwInTitle)} | ${bool(r.kwInSlug)} | ${bool(r.kwInH1)} | ${bool(r.kwInDescription)} | ${bool(r.kwInOpening)} |`
+    `| ${cell(r.route)}${r.noindex ? ' (noindex)' : ''} | ${cell(r.keyword)} | ${cell(r.intent)} | ${cell(r.title)} | ${cell(r.h1)} | ${cell(r.description.slice(0, 80))}${r.description.length > 80 ? '…' : ''} | ${bool(r.kwInTitle)} | ${bool(r.kwInSlug)} | ${bool(r.kwInH1)} | ${bool(r.kwInDescription)} | ${bool(r.kwInOpening)} |`
       .replace(/\n/g, ' ')
   ),
   ``,

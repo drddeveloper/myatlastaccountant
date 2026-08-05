@@ -76,11 +76,11 @@ We understand that some people learn better by using visuals, so we’ve created
 
 [**You can access the template here.**](https://docs.google.com/spreadsheets/d/1I0tz_p5ZRywnHFnfNtChhAIM8-8FnjchoS5lZh1cFXs/copy)
 
-‍
-
 As you can see, the spreadsheet above shows the construction company’s P&L for the month of January 2023. The company made a total of $36,750 in their first month of operations despite having a revenue of $166,089. This is because other costs had to be factored into their expenses.
 
 Their profit margin, which is deducted through the ratio of net income to revenue, is 22%. This demonstrates that this business is working well, and is comfortably securing 20% profits per month of operation.
+
+Want a second example to compare against? Our [sample P&L by class or project](/downloads/Atlas-Sample-PL-by-Class-or-Project.csv) is a separate worked example — a different company, its own numbers — showing how the same statement looks when it is scoped to one project rather than the whole month. It sits alongside the rest of our free tools in the [financial toolbox](/toolbox/).
 
 ‍
 

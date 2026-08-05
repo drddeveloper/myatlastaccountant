@@ -1,0 +1,45 @@
+---
+/**
+ * Service JSON-LD for a single service/trade page (checklist A3-3).
+ *
+ * Deliberately minimal. It emits only facts the page actually states:
+ * name, what the service is, who provides it, and where it lives. It does NOT
+ * emit `offers`/`price` (pricing is per-quote on /pricing/, not per service),
+ * and it does NOT emit `areaServed` — the practice is remote-first with no
+ * published service area, and inventing one would contradict the deliberate
+ * absence of a postal address on the AccountingService node.
+ *
+ * `provider` references the site-wide business node BaseLayout emits at
+ * <site>/#organization rather than duplicating it, so the two can never drift.
+ */
+import { SITE_DATA } from '../data/constants';
+
+interface Props {
+  /** Human name of the service, e.g. "Construction Accounting" */
+  name: string;
+  /** One-sentence description. Defaults to the page's meta description. */
+  description: string;
+  /** schema.org serviceType — the category of work, e.g. "Accounting" */
+  serviceType: string;
+  /** Trade audience this page speaks to, e.g. "HVAC contractors". Optional. */
+  audience?: string;
+}
+
+const { name, description, serviceType, audience } = Astro.props;
+
+const url = new URL(Astro.url.pathname, Astro.site).href;
+
+const jsonLD: Record<string, unknown> = {
+  '@context': 'https://schema.org',
+  '@type': 'Service',
+  '@id': url + '#service',
+  name,
+  description,
+  serviceType,
+  url,
+  provider: { '@id': SITE_DATA.links.url + '/#organization' },
+};
+if (audience) jsonLD.audience = { '@type': 'BusinessAudience', name: audience };
+---
+
+<script type="application/ld+json" set:html={JSON.stringify(jsonLD)} is:inline />

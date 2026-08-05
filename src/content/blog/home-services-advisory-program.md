@@ -125,7 +125,7 @@ Absolutely. If someone else helps run the business with you, they’re welcome t
 ‍
 
 ### What does it cost?
-We offer different options depending on how hands-on you want us to be. Some folks just want the roadmap and tools. Others want full monthly support.[](/getting-started/)
+We offer different options depending on how hands-on you want us to be. Some folks just want the roadmap and tools. Others want full monthly support.
 
 [**Reach out to schedule a call**](/getting-started/)**,**  and we’ll walk you through your options—no pressure.
 

@@ -59,7 +59,7 @@ And if you’re sick of trying to cobble this together from a dozen spreadsheets
 
 It includes templates, a full sample dashboard, and a system for tying big-picture business goals to what’s happening on the job site. Nothing fancy, just useful.
 
-### **[** 📊 **Grab the dashboard here]**[](/toolbox/)
+### [📊 **Grab the dashboard here**](/toolbox/)
 
 ‍
 

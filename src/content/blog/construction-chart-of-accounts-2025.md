@@ -101,4 +101,4 @@ It’s what we’re here for! 
 
 Until next time! 
 
-Download Free Template
+[Download the free construction chart of accounts template](/downloads/Atlas-Standard-Chart-of-Accounts.xlsx)

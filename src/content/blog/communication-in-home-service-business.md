@@ -1,11 +1,11 @@
 ---
 title: "How Communication Can Make or Break Your Home Service Business"
-description: "f you’ve ever had a job go sideways because “someone didn’t get the message,” you already know how important communication in home services business is. Maybe a tech showed up to a job without the right parts.  Maybe a customer thought they were getting a service you don’t even offer.  Or maybe your team is…"
+description: "If you’ve ever had a job go sideways because “someone didn’t get the message,” you already know how important communication in home services business is. Maybe a tech showed up to a job without the right parts.  Maybe a customer thought they were getting a service you don’t even offer.  Or maybe your team is…"
 pubDate: 2025-03-17
 image: "../../assets/images/blog/communication-in-home-service-business.jpg"
 ---
 
-f you’ve ever had a job go sideways because “someone didn’t get the message,” you already know how important communication in home services business is.
+If you’ve ever had a job go sideways because “someone didn’t get the message,” you already know how important communication in home services business is.
 
 Maybe a tech showed up to a job without the right parts. 
 

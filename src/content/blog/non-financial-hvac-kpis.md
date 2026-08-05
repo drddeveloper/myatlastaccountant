@@ -1,11 +1,11 @@
 ---
 title: "7 Non-Financial HVAC KPIs That You Aren’t Tracking (But Should Be)"
-description: "f you’re like most of the HVAC business owners we know, you probably check your revenue and expenses regularly.  Maybe you even track profit margins.  But what about the other stuff—the non-financial numbers that tell you if your business is actually running well? These kinds of KPIs (Key Performance Indicators) might not show up on…"
+description: "If you’re like most of the HVAC business owners we know, you probably check your revenue and expenses regularly.  Maybe you even track profit margins.  But what about the other stuff—the non-financial numbers that tell you if your business is actually running well? These kinds of KPIs (Key Performance Indicators) might not show up on…"
 pubDate: 2025-03-18
 image: "../../assets/images/blog/non-financial-hvac-kpis.jpg"
 ---
 
-f you’re like most of the HVAC business owners we know, you probably check your revenue and expenses regularly. 
+If you’re like most of the HVAC business owners we know, you probably check your revenue and expenses regularly. 
 
 Maybe you even track profit margins. 
 

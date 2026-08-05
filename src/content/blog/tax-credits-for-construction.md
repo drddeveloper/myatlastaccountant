@@ -1,11 +1,11 @@
 ---
 title: "Our Favorite Tax Credits for Construction Businesses in 2024"
-description: "n the construction world, having sharp financial skills is just as important as having the right tools. Every year, construction businesses face new challenges and opportunities due to changes in the economy, technology, and regulations. Finding ways to cut costs and boost efficiency is crucial for staying competitive and growing your business. Tax credits are…"
+description: "In the construction world, having sharp financial skills is just as important as having the right tools. Every year, construction businesses face new challenges and opportunities due to changes in the economy, technology, and regulations. Finding ways to cut costs and boost efficiency is crucial for staying competitive and growing your business. Tax credits are…"
 pubDate: 2024-08-12
 image: "../../assets/images/blog/tax-credits-for-construction.png"
 ---
 
-n the construction world, having sharp financial skills is just as important as having the right tools.
+In the construction world, having sharp financial skills is just as important as having the right tools.
 
 Every year, construction businesses face new challenges and opportunities due to changes in the economy, technology, and regulations. Finding ways to cut costs and boost efficiency is crucial for staying competitive and growing your business.
 

@@ -22,7 +22,10 @@ const isActive = (href: string) => path === href || (href !== '/' && path.starts
   <div class="navbar container mx-auto">
   <div class="navbar-start">
     <a href="/" class="flex items-center gap-2 px-2 py-2" aria-label={`${SITE_DATA.company.name} — Home`}>
-      <Image src={logo} alt={`${SITE_DATA.company.name} logo`} class="h-15 w-auto" height={120} />
+      {/* eager: this sits at the top of the viewport on every page. Astro's
+          <Image> defaults to loading="lazy", which deferred the header logo
+          behind the rest of the page on every navigation. */}
+      <Image src={logo} alt={`${SITE_DATA.company.name} logo`} class="h-15 w-auto" height={120} loading="eager" />
     </a>
   </div>
 

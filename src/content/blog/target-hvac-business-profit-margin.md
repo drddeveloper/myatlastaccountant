@@ -1,6 +1,6 @@
 ---
 title: "What Are Your Target HVAC Profit Margins?"
-description: "You’ve spent years learning your craft, taken the leap to go out on your own, and now it’s time to turn your operation into an HVAC business that actually makes money. In the early days, it’s all about finding clients, setting up tools, and keeping things moving. Revenue is the big focus—profit margins? Not so…"
+description: "What are healthy HVAC profit margins? See target gross and net margins by service type, why yours slip, and the levers that move them."
 pubDate: 2025-02-18
 image: "../../assets/images/blog/target-hvac-business-profit-margin.jpg"
 ---

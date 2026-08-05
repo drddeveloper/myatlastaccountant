@@ -1,6 +1,7 @@
 ---
 import { Image } from 'astro:assets';
 import BaseLayout from '../layouts/BaseLayout.astro';
+import ServiceSchema from '../components/ServiceSchema.astro';
 import CalendlyCta from '../components/sections/CalendlyCta.astro';
 
 // Assets shared with the homepage — imported from home/, not duplicated
@@ -24,8 +25,8 @@ import iconData from '../assets/images/pages/hvac/Data.svg';
 // Live /hvac-bookkeeping/ and /hvac-payroll/ have no routes here yet → nearest existing routes.
 const serviceCards = [
   { icon: iconFileBox, alt: '', title: 'Monthly Bookkeeping', href: '/pricing/' },
-  { icon: iconInvoice, alt: 'Invoice icon', title: 'Bi-Weekly Payroll', href: '/construction-payroll/' },
-  { icon: iconData, alt: 'Data icon', title: 'Bookkeeping for Tax Filing', href: '/construction-tax-services/' },
+  { icon: iconInvoice, alt: '', title: 'Bi-Weekly Payroll', href: '/construction-payroll/' },
+  { icon: iconData, alt: '', title: 'Bookkeeping for Tax Filing', href: '/construction-tax-services/' },
 ];
 
 // Client journey icon boxes — live: six white rows in a narrow centered column.
@@ -40,7 +41,7 @@ const journeySteps = [
 ];
 
 const techLogos = [
-  { src: logoServiceTitan, alt: 'Service Titan' },
+  { src: logoServiceTitan, alt: 'ServiceTitan' },
   { src: logoHousecall, alt: 'Housecall Pro' },
   { src: logoGusto, alt: 'Gusto' },
   { src: logoJobber, alt: 'Jobber' },
@@ -54,6 +55,15 @@ const checkIcon = `<path d="M173.898 439.404l-166.4-166.4c-9.997-9.997-9.997-26.
   title="HVAC Accounting Made Easy | Bookkeeping | Tax | Payroll"
   description="Are you looking for a better HVAC accounting team? We're here! Get bookkeeping, cash flow forecasting, tax strategy, and more with the top-ranked accounting for HVAC company, Atlas Accounting Group."
 >
+
+  {/* Per-page Service schema (A3-3). Description is the page's own meta
+      description, so the two cannot drift. */}
+  <ServiceSchema
+    name="HVAC Accounting"
+    description="Are you looking for a better HVAC accounting team? We're here! Get bookkeeping, cash flow forecasting, tax strategy, and more with the top-ranked accounting for HVAC company, Atlas Accounting Group."
+    serviceType="Accounting"
+    audience="HVAC contractors"
+  />
 
   {/* ── Hero (live: white bg, text 57% / image 43%) ── */}
   <section class="bg-base-100">
@@ -72,7 +82,7 @@ const checkIcon = `<path d="M173.898 439.404l-166.4-166.4c-9.997-9.997-9.997-26.
         </div>
       </div>
       <div class="hero-media">
-        <Image src={heroImg} alt="HVAC Accounting" widths={[480, 728]} sizes="(min-width: 1024px) 40vw, 100vw" loading="eager" fetchpriority="high" />
+        <Image src={heroImg} alt="HVAC technician smiling as he connects a length of flexible ductwork" widths={[480, 728]} sizes="(min-width: 1024px) 40vw, 100vw" loading="eager" fetchpriority="high" />
       </div>
     </div>
   </section>
@@ -133,7 +143,7 @@ const checkIcon = `<path d="M173.898 439.404l-166.4-166.4c-9.997-9.997-9.997-26.
           The story of your HVAC business is not just payroll and taxes. At Atlas Accounting Group, we provide you the real-time data you need to make smarter business decisions. With our HVAC accounting services, you&rsquo;ll receive timely reports each month that will alert you to any cash flow concerns or off-budget spending. The full financial picture of your business will become that much clearer.
         </p>
       </div>
-      <Image src={wholePictureImg} alt="#1 Accountants for Contractors" class="w-full h-auto" widths={[560, 900, 1200]} sizes="(min-width: 1024px) 45vw, 100vw" />
+      <Image src={wholePictureImg} alt="Contractor doing paperwork on a laptop in the cab of his truck" class="w-full h-auto" widths={[560, 900, 1200]} sizes="(min-width: 1024px) 45vw, 100vw" />
     </div>
   </section>
 
@@ -203,7 +213,7 @@ const checkIcon = `<path d="M173.898 439.404l-166.4-166.4c-9.997-9.997-9.997-26.
   <section class="bg-cream">
     <div class="container mx-auto px-4 py-16 md:py-24 grid gap-12 lg:grid-cols-[9fr_11fr] lg:items-center">
       <div class="relative">
-        <Image src={testimonialImg} alt="Ryann Blake Testimonial" class="w-full h-auto" widths={[420, 525]} sizes="(min-width: 1024px) 40vw, 100vw" />
+        <Image src={testimonialImg} alt="Ryann Blake, owner of Chimney Techniques" class="w-full h-auto" widths={[420, 525]} sizes="(min-width: 1024px) 40vw, 100vw" />
         {/* Live overlays the name bottom-left in white; gradient added so the text passes contrast */}
         <div class="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/70 to-transparent pt-16 pb-6 px-8">
           <p class="heading-display text-2xl md:text-3xl text-white">Ryann Blake</p>

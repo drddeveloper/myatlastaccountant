@@ -41,6 +41,14 @@ export const SITE_DATA = {
       inputBorder: "#8A8A8A", // control boundary for inputs/steppers — 3:1 min per WCAG 1.4.11
       cream: "#F7F5F4",     // warm off-white surface
       creamDark: "#FFEDDF", // pale peach surface
+      // Neutral scale. These were in global.css's @theme but had no entry here
+      // and no brand-guide swatch, so five of the site's colours were invisible
+      // on the page that is meant to be the visual source of truth (A3-4).
+      base100: "#FFFFFF",   // page surface
+      base200: "#F7F5F4",   // subtle fill (same value as cream — inline code, chips)
+      base300: "#CDCDCD",   // decorative hairline borders ONLY — 1.59:1 on white,
+                            // never use as a control boundary (that is inputBorder)
+      baseContent: "#454545", // default body text — 9.59:1 on white (8.82:1 on cream)
       themeColor: "#003954",
     },
     fonts: { heading: "'Sofia Pro', sans-serif", body: "'Sofia Pro', sans-serif" }

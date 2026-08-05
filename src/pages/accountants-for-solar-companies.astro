@@ -1,6 +1,7 @@
 ---
 import { Image } from 'astro:assets';
 import BaseLayout from '../layouts/BaseLayout.astro';
+import ServiceSchema from '../components/ServiceSchema.astro';
 import CalendlyCta from '../components/sections/CalendlyCta.astro';
 
 
@@ -51,8 +52,17 @@ const capabilities = [
     title/description below are kept instead (per the rebuild fix list). */}
 <BaseLayout
   title="Accountants for Solar Companies | Bookkeeping | Payroll | Tax"
-  description="Atlas Accounting Group specializes in solar company finances — clean bookkeeping, smart job costing, payroll, and cash flow planning built around your install calendar, so you can grow the business instead of chasing the books."
+  description="Atlas Accounting Group is the accountant for solar companies — clean books, job costing, payroll, and cash flow built around your install calendar. Book a call."
 >
+
+  {/* Per-page Service schema (A3-3). Description is the page's own meta
+      description, so the two cannot drift. */}
+  <ServiceSchema
+    name="Accounting for Solar Companies"
+    description="Atlas Accounting Group is the accountant for solar companies — clean books, job costing, payroll, and cash flow built around your install calendar. Book a call."
+    serviceType="Accounting"
+    audience="Solar installation companies"
+  />
 
   {/* ── Hero (live: white bg, text 57% / image 42%) ── */}
   <section class="bg-base-100">
@@ -71,7 +81,7 @@ const capabilities = [
         </div>
       </div>
       <div class="hero-media">
-        <Image src={heroImg} alt="Accounting for solar companies" widths={[480, 768, 1200]} sizes="(min-width: 1024px) 40vw, 100vw" loading="eager" fetchpriority="high" />
+        <Image src={heroImg} alt="Two installers carrying a solar panel across a tiled roof" widths={[480, 768, 1200]} sizes="(min-width: 1024px) 40vw, 100vw" loading="eager" fetchpriority="high" />
       </div>
     </div>
   </section>
@@ -140,12 +150,12 @@ const capabilities = [
           Are you stressed about cash flow… not knowing how much money will be coming into and out of the business, and when? Do you feel like you’re always running around putting out fires because you don’t have a comprehensive and strategic plan in place? At Atlas Accounting Group, we help you systemize your solar business through automated technology, real-time data, and improved internal workflows so you always have a grip on the full picture of your business.
         </p>
       </div>
-      <Image src={systemizeImg} alt="accounting for construction team" class="w-full h-auto" widths={[480, 700]} sizes="(min-width: 1024px) 45vw, 100vw" />
+      <Image src={systemizeImg} alt="Xero, Gusto, ServiceTitan, QuickBooks and Jobber logos over a construction site" class="w-full h-auto" widths={[480, 700]} sizes="(min-width: 1024px) 45vw, 100vw" />
     </div>
 
     {/* ── Grow (live: white, image left / text right) ── */}
     <div class="container mx-auto px-4 pb-16 md:pb-24 grid gap-12 lg:grid-cols-2 lg:items-center">
-      <Image src={growImg} alt="Accountants for solar" class="w-full h-auto order-last lg:order-first" widths={[480, 768, 1050]} sizes="(min-width: 1024px) 45vw, 100vw" />
+      <Image src={growImg} alt="Two solar installers in hard hats setting a panel onto a roof frame" class="w-full h-auto order-last lg:order-first" widths={[480, 768, 1050]} sizes="(min-width: 1024px) 45vw, 100vw" />
       <div>
         <h2 class="heading-display text-3xl md:text-5xl text-secondary">
           Find Opportunities to <span class="text-sky-ink">grow your solar business</span>
@@ -206,7 +216,7 @@ const capabilities = [
   <section class="bg-cream">
     <div class="container mx-auto px-4 py-16 md:py-24 grid gap-12 lg:grid-cols-[9fr_11fr] lg:items-center">
       <div class="relative">
-        <Image src={testimonialImg} alt="Ryann Blake Testimonial" class="w-full h-auto" widths={[420, 525]} sizes="(min-width: 1024px) 40vw, 100vw" />
+        <Image src={testimonialImg} alt="Ryann Blake, owner of Chimney Techniques" class="w-full h-auto" widths={[420, 525]} sizes="(min-width: 1024px) 40vw, 100vw" />
         {/* Live overlays the name bottom-left in white; gradient added so the text passes contrast */}
         <div class="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/70 to-transparent pt-16 pb-6 px-8">
           <p class="heading-display text-2xl md:text-3xl text-white">Ryann Blake</p>

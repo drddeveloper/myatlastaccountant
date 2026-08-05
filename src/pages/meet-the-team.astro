@@ -1,6 +1,7 @@
 ---
 import { Image } from 'astro:assets';
 import BaseLayout from '../layouts/BaseLayout.astro';
+import { SITE_DATA } from '../data/constants';
 import CtaBand from '../components/sections/CtaBand.astro';
 
 import chrisImg from '../assets/images/pages/team/Chris-Lewis-CPA-SEO.jpg';
@@ -36,7 +37,7 @@ const team = [
     name: 'Nicole Orlando',
     title: 'Senior Accountant',
     photo: nicoleImg,
-    alt: 'Nicole Orlando',
+    alt: 'Nicole Orlando headshot',
     bio: [
       // Live copy ends without a period — added per typo-fix policy.
       'Nicole is a Senior Accountant at Atlas Accounting Group with 23 years of experience in the field, including 17 years in corporate accounting and 6 years working with small businesses. Her expertise spans bookkeeping, financial reporting and analysis, and reconciliations, providing clients with accurate and insightful financial management. A natural auditor with a keen eye for detail, Nicole thrives on uncovering the finer points that ensure excellence in her work. Outside of the office, Nicole is an avid traveler and outdoor enthusiast who has explored 49 states, with Alaska next on her list. She enjoys camping, road trips, and hunting for unique finds while antiquing, combining her love of adventure with a passion for the past.',
@@ -46,7 +47,7 @@ const team = [
     name: 'Liz Collazo',
     title: 'Payroll Specialist',
     photo: lizImg,
-    alt: 'Liz Collazo',
+    alt: 'Liz Collazo headshot',
     bio: [
       'Liz is our Payroll Specialist at Atlas Accounting Group, ensuring client employees are paid accurately and on time while maintaining compliance with state tax regulations. She manages wage calculations, 401(k) reporting, and employee updates, providing seamless payroll services for our clients. With 25 years of accounting experience, Liz also previously served as a director in a mental health facility for 7 years. Outside of work, Liz loves spending time at the beach, enjoying date nights and meals with her husband, and relaxing to her favorite music.',
     ],
@@ -55,7 +56,7 @@ const team = [
     name: 'Zach German',
     title: 'Onboarding Specialist',
     photo: zachImg,
-    alt: 'Zach German',
+    alt: 'Zach German headshot',
     bio: [
       'Zach German brings a decade of accounting experience to Atlas Accounting Group. Throughout his career, he has developed a well-rounded background in tax preparation, bookkeeping, payroll, and sales and excise tax compliance, giving him a strong understanding of the financial processes that help businesses operate efficiently. As our Onboarding Specialist, Zach is dedicated to making every new client experience as smooth and organized as possible. He works closely with clients to guide them through the onboarding process, gather the information needed to establish accurate financial systems, and ensure they feel confident as they transition to working with our team. His attention to detail, patience, and commitment to providing exceptional service help lay the foundation for long-term client success.',
       'Zach has been happily married to his wife for more than 11 years and together they are the proud parents of their two daughters whom they adopted. When he’s not working, you’ll likely find Zach collecting and reading old books. He also loves reptiles and jokes that he’d love to have a house full of lizards, if only his wife would agree!',
@@ -65,18 +66,43 @@ const team = [
     name: 'Madison Maxwell',
     title: 'Client Success & Marketing Coordinator',
     photo: madisonImg,
-    alt: 'Madison Maxwell',
+    alt: 'Madison Maxwell headshot',
     bio: [
       'Madison is the Client Success and Marketing Coordinator at Atlas Accounting Group, dedicated to fostering strong relationships with clients and ensuring they get the most out of the accounting systems we’ve tailored for them. She also creates valuable resources to support both current and prospective clients. With 10 years of experience in customer service, project management, client success, and marketing for non-profits and small businesses, Madison brings a wealth of expertise and a personal touch to her role. When she’s not working, Madison loves traveling to new destinations, whether across the country or overseas, and is currently living in NYC immersing herself in the vibrant food scene and lively atmosphere.',
     ],
   },
 ];
+
+// Person nodes for the named practitioners (checklist A3-3; the AI-readiness
+// Tier 0 minimum set calls for Person on pages with named staff). Every field
+// is lifted from the array above — no invented job titles, emails, or profile
+// URLs, and no `sameAs` because none of the team have public profiles linked
+// from this site. `worksFor` references the site-wide business node.
+const teamJsonLD = {
+  '@context': 'https://schema.org',
+  '@type': 'ItemList',
+  '@id': SITE_DATA.links.url + '/meet-the-team/#team',
+  name: 'The Atlas Accounting Group team',
+  itemListElement: team.map((member, i) => ({
+    '@type': 'ListItem',
+    position: i + 1,
+    item: {
+      '@type': 'Person',
+      name: member.name,
+      jobTitle: member.title,
+      worksFor: { '@id': SITE_DATA.links.url + '/#organization' },
+      image: new URL(member.photo.src, SITE_DATA.links.url).href,
+    },
+  })),
+};
 ---
 
 <BaseLayout
   title="Meet the Team"
   description="Meet your dedicated team of expert accountants specializing in helping contractors and specialty trades businesses like yours grow and thrive"
 >
+
+  <script type="application/ld+json" set:html={JSON.stringify(teamJsonLD)} is:inline />
 
   {/* ── Hero — white, centered (live section 12b0035) ── */}
   <section class="bg-base-100">

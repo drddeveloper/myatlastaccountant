@@ -1,6 +1,7 @@
 ---
 import { Image } from 'astro:assets';
 import BaseLayout from '../layouts/BaseLayout.astro';
+import ServiceSchema from '../components/ServiceSchema.astro';
 import CalendlyCta from '../components/sections/CalendlyCta.astro';
 
 import iconPartner from '../assets/images/pages/tax/6570643_annual_cost_fee_legal_money_icon-1.svg';
@@ -40,17 +41,26 @@ const processSteps = [
 
 <BaseLayout
   title="Strategic Tax Services for Construction"
-  description="Alleviate your tax burden by working with specialized construction accountants who provide expert tax services for construction businesses like yours…"
+  description="Construction tax services from accountants who know the trades. Cut your tax bill with year-round planning, not April guesswork. Book a free discovery call."
 >
+
+  {/* Per-page Service schema (A3-3). Description is the page's own meta
+      description, so the two cannot drift. */}
+  <ServiceSchema
+    name="Construction Tax Services"
+    description="Construction tax services from accountants who know the trades. Cut your tax bill with year-round planning, not April guesswork. Book a free discovery call."
+    serviceType="Tax preparation and planning"
+    audience="Construction and specialty trade businesses"
+  />
 
   {/* ── Hero — white, centered (live 26434aa1; its heading is an <h2> — ours is a proper h1) ── */}
   <section class="bg-base-100">
     <div class="container mx-auto px-4 pt-12 pb-16 md:pt-16 md:pb-24 text-center">
       <h1 class="heading-display text-4xl md:text-5xl xl:text-6xl text-secondary max-w-4xl mx-auto">
-        Ditch The Tax Stress With <span class="text-sky-ink">Atlas Accounting Group</span>
+        Construction Tax Services Without <span class="text-sky-ink">The Tax Stress</span>
       </h1>
       <p class="mt-6 text-lg leading-relaxed max-w-3xl mx-auto">
-        Tax season is a breeze when you keep your bookkeeping, advisory, and payroll services all under one roof. By making sure your books are up-to-date all year long, we will make sure there are no nasty surprises at tax time.
+        Tax season is a breeze when your bookkeeping, advisory, and payroll sit under one roof with your construction tax services. By making sure your books are up-to-date all year long, we will make sure there are no nasty surprises at tax time.
       </p>
       <div class="mt-8">
         <a href="#calendly" class="btn btn-accent">Book Your Discovery Call</a>
@@ -139,7 +149,7 @@ const processSteps = [
           If you’ve been working with a 1990s, generic tax accountant, chances are that your tax advice and strategy has been outdated as well. Our expert tax partnership ensures that you receive the latest, industry-specific grants, deductions, and credits down to the last cent each year.
         </p>
       </div>
-      <Image src={lowTaxesImg} alt="Tax services for construction company" class="w-full h-auto" widths={[560, 768, 900]} sizes="(min-width: 1024px) 45vw, 100vw" />
+      <Image src={lowTaxesImg} alt="Contractor in a hi-vis vest checking figures on a laptop on site" class="w-full h-auto" widths={[560, 768, 900]} sizes="(min-width: 1024px) 45vw, 100vw" />
     </div>
   </section>
 

@@ -1,6 +1,6 @@
 ---
 title: "QuickBooks + ServiceTitan Integration: Why & How to Do It"
-description: "If you just decided to start your construction business, congratulations! It’s a bold and gigantic step. You get to work on your terms and choose the gigs you work on. However, if you’re like many construction businesses, you’ve got the duties figured out, but the workflows and software part of the business is still a…"
+description: "A ServiceTitan QuickBooks integration done right: what syncs, what breaks, and how to connect the two so your job costing and your books finally agree."
 pubDate: 2023-05-24
 image: "../../assets/images/blog/quickbooks-servicetitan-integration.png"
 ---

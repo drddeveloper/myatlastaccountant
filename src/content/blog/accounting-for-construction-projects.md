@@ -1,11 +1,11 @@
 ---
 title: "The RIGHT Way to Manage Accounting for Construction Projects"
-description: "f you’re running a construction business, you’ve probably got a million things to juggle—crews to manage, materials to order, jobs to bid on.  And somewhere in the middle of all that, the accounting has to get done. But if you’re like a lot of our clients, the financial side can feel confusing (or just straight-up…"
+description: "If you’re running a construction business, you’ve probably got a million things to juggle—crews to manage, materials to order, jobs to bid on.  And somewhere in the middle of all that, the accounting has to get done. But if you’re like a lot of our clients, the financial side can feel confusing (or just straight-up…"
 pubDate: 2025-03-31
 image: "../../assets/images/blog/accounting-for-construction-projects.jpg"
 ---
 
-f you’re running a construction business, you’ve probably got a million things to juggle—crews to manage, materials to order, jobs to bid on. 
+If you’re running a construction business, you’ve probably got a million things to juggle—crews to manage, materials to order, jobs to bid on. 
 
 And somewhere in the middle of all that, the accounting has to get done.
 

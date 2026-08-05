@@ -1,6 +1,7 @@
 ---
 import { Image } from 'astro:assets';
 import BaseLayout from '../layouts/BaseLayout.astro';
+import ServiceSchema from '../components/ServiceSchema.astro';
 import CalendlyCta from '../components/sections/CalendlyCta.astro';
 import FaqList from '../components/sections/FaqList.astro';
 
@@ -95,6 +96,15 @@ const faqs = [
   description="Pay your team easier with Atlas Accounting Group's payroll services for construction companies. Whether you want to DIY or let us handle it all, we'll put together your construction payroll from A-Z to ensure accurate payroll taxes and on-time deposits."
 >
 
+  {/* Per-page Service schema (A3-3). Description is the page's own meta
+      description, so the two cannot drift. */}
+  <ServiceSchema
+    name="Construction Payroll Services"
+    description="Pay your team easier with Atlas Accounting Group's payroll services for construction companies. Whether you want to DIY or let us handle it all, we'll put together your construction payroll from A-Z to ensure accurate payroll taxes and on-time deposits."
+    serviceType="Payroll service"
+    audience="Construction and specialty trade employers"
+  />
+
   {/* ── Hero — white, text left / photo right (live 25886deb) ── */}
   <section class="bg-base-100">
     <div class="container mx-auto px-4 grid gap-x-10 lg:grid-cols-2 items-stretch">
@@ -102,7 +112,7 @@ const faqs = [
           can run flush to the sections above and below */}
       <div class="hero-copy">
         <h1 class="heading-display text-4xl md:text-5xl xl:text-6xl text-secondary">
-          All-in-one payroll services for <span class="text-sky-ink">the trades</span>
+          All-in-one construction payroll for <span class="text-sky-ink">the trades</span>
         </h1>
         <p class="mt-6 text-lg leading-relaxed max-w-xl">
           Payroll doesn’t have to be your least favorite part of business. With Atlas Accounting Group, we make it easy to onboard, manage, and pay your employees and contractors with a few simple approvals each month.
@@ -114,7 +124,7 @@ const faqs = [
       <div class="hero-media">
         <Image
           src={heroImg}
-          alt="Payroll services for construction"
+          alt="Tradesperson in work coveralls standing in a pipe supply warehouse"
           widths={[480, 768, 800]}
           sizes="(min-width: 1024px) 45vw, 100vw"
           loading="eager"
