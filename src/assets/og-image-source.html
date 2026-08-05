@@ -1,0 +1,93 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<style>
+  @font-face { font-family:"Sofia Pro"; font-weight:400; src:url("./Sofia-Pro-Regular-Az.woff") format("woff"); }
+  @font-face { font-family:"Sofia Pro"; font-weight:600; src:url("./Sofia-Pro-Semi-Bold-Az.woff") format("woff"); }
+  @font-face { font-family:"Sofia Pro"; font-weight:700; src:url("./Sofia-Pro-Bold-Az.woff") format("woff"); }
+
+  :root{
+    --navy:#003954; --accent:#F4832B; --sky:#79CAE9; --cream:#F7F5F4;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html,body{width:1200px;height:630px;overflow:hidden}
+  body{
+    font-family:"Sofia Pro",sans-serif;
+    background:var(--navy);
+    position:relative;
+    display:flex; flex-direction:column; justify-content:center;
+    padding:0 82px;
+  }
+
+  /* Depth: a warm off-navy glow bottom-right so the flat fill reads as lit,
+     plus a faint blueprint grid — trades, not generic SaaS. */
+  .grid{
+    position:absolute; inset:0;
+    background-image:
+      linear-gradient(to right, rgba(121,202,233,.07) 1px, transparent 1px),
+      linear-gradient(to bottom, rgba(121,202,233,.07) 1px, transparent 1px);
+    background-size:56px 56px;
+  }
+  .glow{
+    position:absolute; width:900px; height:900px; right:-320px; bottom:-460px;
+    background:radial-gradient(circle, rgba(244,131,43,.28) 0%, rgba(244,131,43,0) 62%);
+  }
+  .glow-2{
+    position:absolute; width:700px; height:700px; left:-300px; top:-380px;
+    background:radial-gradient(circle, rgba(121,202,233,.18) 0%, rgba(121,202,233,0) 65%);
+  }
+
+  .inner{position:relative; z-index:2}
+
+  .rule{width:96px; height:6px; background:var(--accent); margin-bottom:34px}
+
+  h1{
+    font-weight:700; text-transform:uppercase;
+    font-size:74px; line-height:1.04; letter-spacing:-.015em;
+    color:#fff; max-width:940px;
+  }
+  h1 .hi{color:var(--sky)}
+
+  p.sub{
+    margin-top:26px; font-size:27px; line-height:1.45; font-weight:400;
+    color:rgba(255,255,255,.80); max-width:790px;
+  }
+
+  .foot{
+    position:absolute; z-index:2; left:82px; right:82px; bottom:54px;
+    display:flex; align-items:center; justify-content:space-between;
+    border-top:1px solid rgba(255,255,255,.18); padding-top:26px;
+  }
+  .brand{display:flex; align-items:center; gap:18px}
+  .brand img{height:52px; width:auto; display:block}
+  .brand span{
+    font-size:23px; font-weight:600; letter-spacing:.16em;
+    text-transform:uppercase; color:#fff;
+  }
+  .domain{
+    font-size:21px; font-weight:600; letter-spacing:.05em;
+    color:var(--accent);
+  }
+</style>
+</head>
+<body>
+  <div class="grid"></div>
+  <div class="glow-2"></div>
+  <div class="glow"></div>
+
+  <div class="inner">
+    <div class="rule"></div>
+    <h1>Accountants for<br><span class="hi">contractors</span> &amp; specialty trades</h1>
+    <p class="sub">Bookkeeping, payroll and tax — plus what the numbers actually mean, so you can run and grow the business.</p>
+  </div>
+
+  <div class="foot">
+    <div class="brand">
+      <img src="./logo.svg" alt="">
+      <span>Atlas Accounting Group</span>
+    </div>
+    <div class="domain">myatlasaccountant.com</div>
+  </div>
+</body>
+</html>

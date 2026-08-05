@@ -103,6 +103,11 @@ pending review.
   clicks) and searchers explicitly want "excel", "pdf", "template", "sample" —
   the exact file now sitting on /toolbox/. Same for the construction P&L post
   and the new Sample P&L. See SEO-KEYWORD-MAP-DRAFT.md §1.
+- [x] **Sample P&L arithmetic error.** FIXED 2026-08-05 — `800 Other Expenses
+  $335.00` never rolled into the subtotal, Net Other Income, or Net Income, so
+  Net Income equalled Net Operating Income. Now: Total 800 = $335.00, Net Other
+  Income = -$335.00, Net Income = $100,687.00 (was $101,022.00). Nothing on the
+  site cited the old figure.
 - [ ] **Filename typo in the source asset.** The supplied CSV was
   `SAMPLE_Golidlocks_P&L by Class or Project.csv` — the sheet content itself
   says "Goldilocks." The public download is named
