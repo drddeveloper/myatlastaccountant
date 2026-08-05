@@ -3,6 +3,7 @@ title: "Construction Company Claims with the R&D Tax Credit"
 description: "Imagine accessing a “secret cash stash” to help expand your construction company’s operations.  Like investing in that drilling machine you’ve been eyeing, onboarding new employees to increase productivity, or purchasing new materials for your business? That would be a dream come true, huh? Well, there might actually be a way to achieve this without a secret stash,…"
 pubDate: 2023-06-22
 image: "../../assets/images/blog/construction-company-r-d-tax-credit.jpeg"
+imageAlt: "Two electricians inspect work inside a building."
 ---
 
 Imagine accessing a _“ secret cash stash”_ to help expand your construction company’s operations. 

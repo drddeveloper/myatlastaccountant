@@ -81,7 +81,7 @@ const breadcrumbLD = {
       {post.data.image && (
         <Image
           src={post.data.image}
-          alt=""
+          alt={post.data.imageAlt ?? ''}
           class="w-full max-w-3xl mx-auto aspect-video object-cover mb-12"
           widths={[768, 1200]}
           sizes="(min-width: 768px) 48rem, 100vw"

@@ -3,6 +3,7 @@ title: "New Construction Tax Credits You Haven’t Heard Of Yet (2023)"
 description: "Today, we’re tackling one of the most common questions we get as construction accountants:  “How much money can you save me from the government this year?” And we love this question.  After all, it’s our job to help you make and keep, as much money as possible in your business.  It’s always a good idea to…"
 pubDate: 2023-05-05
 image: "../../assets/images/blog/construction-tax-credits-2023.jpg"
+imageAlt: "A construction worker reviews documents on a laptop on a job site."
 ---
 
 Today, we’re tackling one of the most common questions we get as construction accountants: 

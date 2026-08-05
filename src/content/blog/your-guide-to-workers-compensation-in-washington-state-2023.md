@@ -3,6 +3,7 @@ title: "Your Guide to Workers’ Compensation in Washington State 2023"
 description: "Death, taxes, and workers’ compensation premiums.  Ok, Benjamin Franklin didn’t say that. But we are. If you own a business in the construction industry in Washington state, you are obligated to pay workers’ compensation for your employees – there’s no getting around it.  And you shouldn’t want to.  Workers’ compensation protects you and your business…"
 pubDate: 2023-04-25
 image: "../../assets/images/blog/your-guide-to-workers-compensation-in-washington-state-2023.jpg"
+imageAlt: "A construction worker helps an injured coworker."
 ---
 
 Death, taxes, and workers’ compensation premiums. 

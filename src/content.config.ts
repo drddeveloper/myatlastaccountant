@@ -17,6 +17,11 @@ const blog = defineCollection({
       // depend on the old WordPress media library surviving the domain cutover.
       // Path is relative to the markdown file; Astro optimises it at build time.
       image: image().optional(),
+      // Alt text for the featured image. Used on the POST page, where the image
+      // stands alone and needs describing. The blog index deliberately renders
+      // the same image with alt="" — there the card's own link text is the post
+      // title, so describing the thumbnail would just duplicate it.
+      imageAlt: z.string().optional(),
       draft: z.boolean().default(false),
     }),
 });
