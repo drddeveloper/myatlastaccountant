@@ -60,7 +60,11 @@ const breadcrumbLD = {
 };
 ---
 
-<BaseLayout title={post.data.title} description={post.data.description}>
+{/* brandSuffix={false}: post titles are long enough that the 25-char
+    " | Atlas Accounting Group" suffix pushes the keyword past Google's ~60-char
+    display limit. Brand stays declared via og:site_name and the WebSite node in
+    BaseLayout. The blog INDEX keeps its suffix — only individual posts drop it. */}
+<BaseLayout title={post.data.title} description={post.data.description} brandSuffix={false}>
 
   <script type="application/ld+json" set:html={JSON.stringify(blogPostingLD)} is:inline />
   <script type="application/ld+json" set:html={JSON.stringify(breadcrumbLD)} is:inline />

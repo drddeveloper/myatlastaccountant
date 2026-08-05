@@ -61,6 +61,10 @@ pending review.
   Google cuts off — so it was shortened instead.
 - [x] Toolbox meta rewritten; it also described a paid store that no longer
   exists.
+- [x] **Brand suffix in titles.** DECIDED 2026-08-05 — dropped on blog posts,
+  kept on the homepage, service and utility pages. `og:site_name` added and the
+  `WebSite` schema node already existed, so Google can still render the site
+  name in results. Over-length titles 62 → 26.
 - [ ] **Not changed, flagging:** the Careers page `<title>` is "Career"
   (singular) while the URL and nav both say "Careers". One-word fix, left
   alone because it wasn't on the approved list.

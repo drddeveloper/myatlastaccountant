@@ -9,6 +9,7 @@
  *   PF-13  bare `alt` attribute (valid HTML5 empty alt) was read as missing
  *   PF-16  editorial tel:/mailto: in blog copy was read as a stale site contact
  *   PF-16  mailto: with ?subject=/&body= compared the query string too
+ *   PF-6   required a " | Business" suffix the blog deliberately drops
  *   PF-17  LocalBusiness subtypes (AccountingService, …) were rejected
  *   PF-17  a deliberately unpublished address was a hard error
  *
@@ -217,7 +218,16 @@ if (!SITE || SITE.includes('example.com')) {
     if (!p.title) { problems.push(`${p.route}: missing <title>`); continue; }
     if (seen.has(p.title)) problems.push(`${p.route}: duplicate title of ${seen.get(p.title)} ("${p.title}")`);
     seen.set(p.title, p.route);
-    if (!p.title.includes(' | ')) problems.push(`${p.route}: title not in "Page | Business" format ("${p.title}")`);
+    // PATCH (PF-6): the starter assumes every title ends in " | Business".
+    // This site deliberately drops the brand suffix on blog posts (client
+    // decision 2026-08-05) because it pushed the keyword past Google's ~60-char
+    // display limit on 52 pages; brand is declared via og:site_name and the
+    // WebSite node instead. The check still applies everywhere it should — the
+    // suffix remains mandatory on the homepage, service and utility pages.
+    const isBlogPost = p.route.startsWith('/blog/') && p.route !== '/blog/';
+    if (!isBlogPost && !p.title.includes(' | ')) {
+      problems.push(`${p.route}: title not in "Page | Business" format ("${p.title}")`);
+    }
     if (p.title.length > 60) add('PF-6', 'WARN', 'Title length', `${p.route}: ${p.title.length} chars ("${p.title}") — aim ≤ 60`);
   }
   if (problems.length) add('PF-6', 'ERROR', 'Title tags', problems.join('; '));

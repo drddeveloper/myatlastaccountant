@@ -12,9 +12,30 @@ interface Props {
         src/data/seo-map.mjs, which also drives the sitemap filter — preflight
         PF-4 fails if the two disagree. */
     noindex?: boolean;
+    /** Append " | Atlas Accounting Group" to the <title>.
+     *
+     *  Default true. Set false where the 25-char suffix costs more than it
+     *  earns — blog posts, whose titles are long enough that the suffix pushes
+     *  the keyword past Google's ~60-char display limit. 52 of the 62
+     *  over-length titles on this site are blog posts; dropping the suffix
+     *  there brings 36 of them back under.
+     *
+     *  Brand visibility does not depend on this. Brand queries ("atlas
+     *  accounting group", 152 clicks/yr) land on the homepage, which keeps its
+     *  suffix, and the og:site_name + WebSite schema below are what Google
+     *  actually uses to render the site name in results. */
+    brandSuffix?: boolean;
 }
 
-const { title, description = SITE_DATA.seo.description, bareLayout = false, noindex = false } = Astro.props;
+const {
+  title,
+  description = SITE_DATA.seo.description,
+  bareLayout = false,
+  noindex = false,
+  brandSuffix = true,
+} = Astro.props;
+
+const pageTitle = brandSuffix ? `${title} | ${SITE_DATA.company.name}` : title;
 
 // AccountingService schema — phone/address omitted (remote-first practice, email contact only)
 const jsonLD: Record<string, unknown> = {
@@ -94,13 +115,14 @@ if (SITE_DATA.company.address.street) jsonLD.address = {
         <link rel="preload" href="/fonts/Sofia-Pro-Semi-Bold-Az.woff" as="font" type="font/woff" crossorigin />
         <link rel="preload" href="/fonts/Sofia-Pro-Bold-Az.woff" as="font" type="font/woff" crossorigin />
         <meta name="theme-color" content={SITE_DATA.branding.colors.themeColor} />
-		<title>{title} | {SITE_DATA.company.name}</title>
+		<title>{pageTitle}</title>
 
         {/* Canonical URL */}
         <link rel="canonical" href={new URL(Astro.url.pathname, Astro.site)} />
 
         {/* Open Graph / Facebook */}
         <meta property="og:type" content="website" />
+        <meta property="og:site_name" content={SITE_DATA.company.name} />
         <meta property="og:url" content={Astro.url} />
         <meta property="og:title" content={title} />
         <meta property="og:description" content={description} />
