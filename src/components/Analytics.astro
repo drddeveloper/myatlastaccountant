@@ -43,20 +43,73 @@ const drdEnabled = Boolean(drd.key && drd.endpoint && drd.script && drd.hosts?.l
 ) : (
   <>
     {gtmId && (
-      /* Standard GTM loader. Kept verbatim rather than deferred behind an
-         IntersectionObserver the way the old Calendly embed was: GTM has to run
-         early or it misses the pageview it exists to record. */
+      /* GTM, deferred until after LCP (client direction, 2026-08-13).
+         PageSpeed measured LCP 8.2s on mobile with 2,060ms of it "element
+         render delay" — the hero image finished downloading in 90ms and then
+         waited on the main thread while the container's three scripts (524 KiB,
+         241 KiB of it unused) parsed and executed.
+         The container now loads on whichever comes FIRST:
+           - the load event, then the first idle callback  (the normal path)
+           - any user interaction, including scroll         (the early path)
+           - a long hard cap                                (safety net only)
+
+         TWO REAL COSTS, both inherent to deferring rather than bugs:
+         1. A visitor who bounces without scrolling, before load, is never
+            recorded at all.
+         2. Google Ads call tracking lives in this container and rewrites the
+            phone number on the page. Deferred, it now swaps LATER — a visitor
+            who taps "Call" immediately gets the real number, so that call goes
+            unattributed. That matters here: the floating CTA leads with a phone
+            button. If call attribution turns out to be worth more than the LCP
+            gain, this is the change to reconsider first. */
       <script is:inline define:vars={{ gtmId }}>
-        (function (w, d, s, l, i) {
-          w[l] = w[l] || [];
-          w[l].push({ 'gtm.start': new Date().getTime(), event: 'gtm.js' });
-          var f = d.getElementsByTagName(s)[0],
-            j = d.createElement(s),
-            dl = l != 'dataLayer' ? '&l=' + l : '';
-          j.async = true;
-          j.src = 'https://www.googletagmanager.com/gtm.js?id=' + i + dl;
-          f.parentNode.insertBefore(j, f);
-        })(window, document, 'script', 'dataLayer', gtmId);
+        // dataLayer has to exist from the very first byte even though the
+        // container does not: anything on the page may push to it meanwhile,
+        // and those pushes must queue rather than throw.
+        window.dataLayer = window.dataLayer || [];
+
+        (function () {
+          // Safety net ONLY — for a page whose load event never fires. It is
+          // deliberately long: PageSpeed's slow-4G profile measured LCP at
+          // 8.2s, so a short cap would fire before LCP on exactly the
+          // connection this change exists to help, and undo it. The real early
+          // trigger is interaction, and `scroll` catches almost everyone who
+          // engages at all.
+          var HARD_CAP_MS = 10000;
+          var EVENTS = ['pointerdown', 'keydown', 'touchstart', 'scroll'];
+          var started = false;
+          var capTimer;
+
+          function start() {
+            if (started) return;
+            started = true;
+            clearTimeout(capTimer);
+            EVENTS.forEach(function (e) {
+              window.removeEventListener(e, start, true);
+            });
+            // gtm.start is stamped here, not at page load, so GTM's own timing
+            // reports measure the container rather than the document.
+            window.dataLayer.push({ 'gtm.start': new Date().getTime(), event: 'gtm.js' });
+            var first = document.getElementsByTagName('script')[0];
+            var tag = document.createElement('script');
+            tag.async = true;
+            tag.src = 'https://www.googletagmanager.com/gtm.js?id=' + gtmId;
+            first.parentNode.insertBefore(tag, first);
+          }
+
+          function whenIdle() {
+            if (window.requestIdleCallback) window.requestIdleCallback(start, { timeout: 1000 });
+            else setTimeout(start, 200);
+          }
+
+          EVENTS.forEach(function (e) {
+            window.addEventListener(e, start, { capture: true, once: true, passive: true });
+          });
+          capTimer = setTimeout(start, HARD_CAP_MS);
+
+          if (document.readyState === 'complete') whenIdle();
+          else window.addEventListener('load', whenIdle, { once: true });
+        })();
       </script>
     )}
 
