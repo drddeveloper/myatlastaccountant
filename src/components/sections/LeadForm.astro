@@ -1,0 +1,166 @@
+---
+import { SITE_DATA } from '../../data/constants';
+
+/**
+ * The site's lead capture form — replaced the Calendly embed sitewide
+ * (client direction, 2026-08-12). Posts natively to Basin; no JS required to
+ * submit, so it still works if the script fails.
+ *
+ * Validation mirrors the careers form: native validation is off (novalidate)
+ * so failures render as one consistent branded message instead of the
+ * browser's default bubble.
+ */
+interface Props {
+  /** Extra classes on the <form> element */
+  class?: string;
+}
+
+const { class: className = '' } = Astro.props;
+
+const endpoint = SITE_DATA.forms.leads;
+const fallbackEmail = SITE_DATA.company.email;
+
+// Kept in one place so the <select> and the mailto fallback can't drift.
+const BOOKKEEPING_SYSTEMS = [
+  'QuickBooks Online',
+  'QuickBooks Desktop',
+  'Xero',
+  'Spreadsheets / none yet',
+  'Other',
+];
+---
+
+<form
+  class={`bg-base-100 p-6 md:p-10 text-left ${className}`}
+  action={endpoint || undefined}
+  method="post"
+  novalidate
+  data-lead-form
+  data-endpoint={endpoint}
+  data-fallback-email={fallbackEmail}
+>
+  <div class="grid gap-5 sm:grid-cols-2">
+    <div>
+      <label for="lf-first-name" class="form-label">First Name <span class="text-accent-ink" aria-hidden="true">*</span></label>
+      <input id="lf-first-name" name="firstName" type="text" class="input" autocomplete="given-name" placeholder="First Name" required />
+    </div>
+    <div>
+      <label for="lf-last-name" class="form-label">Last Name <span class="text-accent-ink" aria-hidden="true">*</span></label>
+      <input id="lf-last-name" name="lastName" type="text" class="input" autocomplete="family-name" placeholder="Last Name" required />
+    </div>
+    <div class="sm:col-span-2">
+      <label for="lf-company" class="form-label">Company Name <span class="text-accent-ink" aria-hidden="true">*</span></label>
+      <input id="lf-company" name="companyName" type="text" class="input" autocomplete="organization" placeholder="Company Name" required />
+    </div>
+    <div>
+      <label for="lf-email" class="form-label">Email <span class="text-accent-ink" aria-hidden="true">*</span></label>
+      <input id="lf-email" name="email" type="email" class="input" autocomplete="email" placeholder="you@company.com" required />
+    </div>
+    <div>
+      <label for="lf-phone" class="form-label">Phone <span class="text-accent-ink" aria-hidden="true">*</span></label>
+      <input id="lf-phone" name="phone" type="tel" class="input" autocomplete="tel" placeholder="(360) 900-0421" required />
+    </div>
+    <div class="sm:col-span-2">
+      <label for="lf-system" class="form-label">What bookkeeping system do you use? <span class="text-accent-ink" aria-hidden="true">*</span></label>
+      <select id="lf-system" name="bookkeepingSystem" class="input" required>
+        <option value="" selected disabled>Select your system</option>
+        {BOOKKEEPING_SYSTEMS.map((system) => <option value={system}>{system}</option>)}
+      </select>
+    </div>
+  </div>
+
+  {/* Honeypot. Bots fill every field they find; humans never see this one.
+      Hidden from assistive tech and skipped by the tab order, so it costs a
+      real visitor nothing. */}
+  <div class="hidden" aria-hidden="true">
+    <label for="lf-website">Website</label>
+    <input id="lf-website" name="_gotcha" type="text" tabindex="-1" autocomplete="off" />
+  </div>
+
+  {/* Populated by the script below when a field fails validation */}
+  <p class="mt-5 text-accent-ink font-semibold hidden" role="alert" data-form-error></p>
+
+  <div class="mt-7">
+    <button type="submit" class="btn btn-accent w-full sm:w-auto">Schedule Free Assessment</button>
+  </div>
+
+  {/* Astro strips the whitespace between a line break and an element or
+      expression, so "Call\n<a>" renders as "Call(360)…". The spaces around the
+      link and the hyphen have to be explicit `{' '}` or they disappear. */}
+  <p class="mt-5 text-sm">
+    Prefer to talk now? Call{' '}
+    <a href={SITE_DATA.company.phoneHref} class="link font-semibold text-accent-ink">{SITE_DATA.company.phone}</a>
+    {' '}- {SITE_DATA.company.hours}.
+  </p>
+</form>
+
+<script>
+  // Client-side validation. Native validation is off (novalidate) so every
+  // failure shows in one branded message rather than a browser bubble.
+  document.querySelectorAll<HTMLFormElement>('[data-lead-form]').forEach((form) => {
+    const errorBox = form.querySelector<HTMLElement>('[data-form-error]')!;
+    const endpoint = form.dataset.endpoint ?? '';
+    const fallbackEmail = form.dataset.fallbackEmail ?? '';
+
+    const field = (name: string) =>
+      form.elements.namedItem(name) as HTMLInputElement | HTMLSelectElement | null;
+
+    const fail = (message: string, focus?: HTMLElement | null) => {
+      errorBox.textContent = message;
+      errorBox.classList.remove('hidden');
+      focus?.focus();
+      return false;
+    };
+
+    const validate = () => {
+      errorBox.classList.add('hidden');
+      for (const [name, label] of [
+        ['firstName', 'your first name'],
+        ['lastName', 'your last name'],
+        ['companyName', 'your company name'],
+        ['email', 'your email address'],
+        ['phone', 'your phone number'],
+        ['bookkeepingSystem', 'the bookkeeping system you use'],
+      ] as const) {
+        const el = field(name);
+        if (!el?.value.trim()) return fail(`Please enter ${label}.`, el);
+      }
+
+      const email = field('email') as HTMLInputElement;
+      if (!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email.value.trim())) {
+        return fail('Please enter a valid email address.', email);
+      }
+
+      // Loose on formatting, strict on substance: 10 digits is a US number.
+      const phone = field('phone') as HTMLInputElement;
+      if (phone.value.replace(/\D/g, '').length < 10) {
+        return fail('Please enter a phone number including area code.', phone);
+      }
+
+      return true;
+    };
+
+    form.addEventListener('submit', (e) => {
+      if (!validate()) {
+        e.preventDefault();
+        return;
+      }
+      // No endpoint configured yet: hand off to the visitor's mail client so a
+      // lead is never lost to a dead submit button.
+      if (!endpoint) {
+        e.preventDefault();
+        const get = (n: string) => (field(n)?.value ?? '').trim();
+        const body = [
+          `Name: ${get('firstName')} ${get('lastName')}`,
+          `Company: ${get('companyName')}`,
+          `Email: ${get('email')}`,
+          `Phone: ${get('phone')}`,
+          `Bookkeeping system: ${get('bookkeepingSystem')}`,
+        ].join('\n');
+        const subject = `Free assessment request - ${get('companyName')}`;
+        window.location.href =
+          `mailto:${fallbackEmail}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+      }
+    });
+  });
+</script>

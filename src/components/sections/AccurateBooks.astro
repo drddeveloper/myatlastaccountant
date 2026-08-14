@@ -1,0 +1,81 @@
+---
+import { Image } from 'astro:assets';
+
+import iconMagnet from '../../assets/images/pages/shared/money-magnet.svg';
+import iconTakeMoney from '../../assets/images/pages/shared/take-more-money.svg';
+import iconTaxCalc from '../../assets/images/pages/shared/tax-calculation.svg';
+
+/**
+ * "Keep your books up-to-date & accurate" — cream canvas, three bordered white
+ * cards. Copy and icons are from the live /bookkeeper-for-construction/ page.
+ *
+ * The industry word was struck out of the heading and the intro in the client's
+ * mockup ("Keep your ~~construction~~ books"), so both read generically here.
+ * It was NOT struck from the second card, which is the one sentence that reads
+ * better naming the trade — hence the `trade` prop. Passing it also stops the
+ * five trade pages carrying a byte-identical block of copy.
+ */
+interface Props {
+  /**
+   * Trade noun used in card 2 only, e.g. "construction", "HVAC", "plumbing".
+   * Omit for the generic "If your business is like most…".
+   */
+  trade?: string;
+}
+
+const { trade } = Astro.props;
+
+const cards = [
+  {
+    icon: iconMagnet,
+    title: 'Avoid costly mistakes',
+    body: 'Are you leaving revenue on the table? Double-paying a vendor? Or worse, running out of cash flow in pivotal moments? We triple-check for mistakes, and ensure you always have the money you need to run a successful business.',
+  },
+  {
+    icon: iconTakeMoney,
+    title: 'Take home more money',
+    body: `If your ${trade ? `${trade} ` : ''}business is like most, it&rsquo;s probably leaking hundreds, if not thousands of dollars each month unnecessarily. We help you become more profitable simply by cleaning up your habitual spending.`,
+  },
+  {
+    icon: iconTaxCalc,
+    title: 'Prepare for tax time',
+    // Live copy says "our tax partners will be able to spot any tax savings".
+    // That contradicts the 2026-08-12 tax-page rewrite, which repositioned
+    // filing as a service Atlas delivers through Lewis Group CPAs rather than
+    // something referred out. "Our tax team" is true under the new positioning.
+    body: 'You deserve to keep as much of your hard earned dollars as possible and it&rsquo;s our job to make that happen. With up-to-date and accurate financials, our tax team will be able to spot any tax savings easily and quickly.',
+  },
+];
+---
+
+<section class="bg-cream">
+  <div class="container mx-auto px-4 py-16 md:py-24">
+    <div class="max-w-3xl mx-auto text-center">
+      {/* The explicit {' '} is load-bearing. The span is `block`, so the space
+          is invisible on screen — but Astro strips the whitespace before an
+          element, and without it the text extractors (astro-llms-md, and any
+          screen reader reading the accessible name as one string) see
+          "Keep your booksUp-to-date". Same defect A3-5 found on the home H1. */}
+      <h2 class="heading-display text-3xl md:text-5xl text-secondary">
+        Keep your books{' '}
+        <span class="block text-sky-ink">Up-to-date &amp; accurate</span>
+      </h2>
+      <p class="mt-5 text-lg leading-relaxed">
+        As a business owner, you can&rsquo;t afford to have messy or incorrect books.
+      </p>
+    </div>
+
+    {/* One column on a phone — each card runs to ~40 words, which is unreadable
+        two-up at that width. Three across from md. */}
+    <div class="mt-12 grid gap-6 md:grid-cols-3 max-w-6xl mx-auto">
+      {cards.map((card) => (
+        <div class="bg-base-100 border border-base-300 p-8">
+          {/* Decorative: the h3 under each icon already carries the meaning */}
+          <Image src={card.icon} alt="" class="h-[72px] w-auto" width={72} height={72} aria-hidden="true" />
+          <h3 class="text-xl font-bold text-secondary mt-6">{card.title}</h3>
+          <p class="mt-4 text-sm leading-relaxed" set:html={card.body} />
+        </div>
+      ))}
+    </div>
+  </div>
+</section>

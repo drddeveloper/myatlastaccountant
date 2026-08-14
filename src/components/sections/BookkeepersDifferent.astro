@@ -1,0 +1,36 @@
+---
+/**
+ * "We're different than the bookkeepers you're used to" — full-width orange
+ * band, centered heading + one paragraph.
+ *
+ * Copy is verbatim from the live /bookkeeper-for-construction/ page. Nothing in
+ * it is industry-specific, so the same band is used on every trade page.
+ *
+ * CONTRAST DEPARTURE FROM THE MOCKUP: the mockup (and the live page) set this
+ * text in white on orange, which measures 2.6:1 and fails WCAG AA. Navy on
+ * orange measures 4.9:1 and passes. Every other orange band in this rebuild
+ * already made the same swap — see the "navy text kept for WCAG contrast" notes
+ * on the assessment and technology bands, and the contrast rules on
+ * /brand-guide/. Kept consistent with those rather than with the mockup.
+ */
+interface Props {
+  /** Override the default heading if a page needs different wording. */
+  heading?: string;
+}
+
+const {
+  heading = 'We&rsquo;re DIFFERENT than the Bookkeepers you&rsquo;re used to',
+} = Astro.props;
+---
+
+<section class="bg-accent">
+  <div class="container mx-auto px-4 py-16 md:py-24 text-center">
+    <h2 class="heading-display text-3xl md:text-5xl text-primary max-w-4xl mx-auto" set:html={heading} />
+    <p class="mt-6 text-lg leading-relaxed text-primary max-w-4xl mx-auto">
+      The story of your business is more than just payroll and financial reports. You need real-time
+      data to make decisions. You need to understand your cash flow and forecasts to pivot when you
+      need to, or keep doing what works. At Atlas Accounting Group, we do monthly financial work that
+      tangibly improves your business day-in and day-out.
+    </p>
+  </div>
+</section>

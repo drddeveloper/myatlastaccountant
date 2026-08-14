@@ -2,7 +2,9 @@
 import { Image } from 'astro:assets';
 import BaseLayout from '../layouts/BaseLayout.astro';
 import ServiceSchema from '../components/ServiceSchema.astro';
-import CalendlyCta from '../components/sections/CalendlyCta.astro';
+import LeadFormCta from '../components/sections/LeadFormCta.astro';
+import BookkeepersDifferent from '../components/sections/BookkeepersDifferent.astro';
+import AccurateBooks from '../components/sections/AccurateBooks.astro';
 
 // Hero image is the same asset the homepage uses — imported from home/, not duplicated
 import heroImg from '../assets/images/home/1-Accountants-for-Contractors.webp';
@@ -67,16 +69,15 @@ const assessmentQuestions = [
 // Orange check-in-circle icon lifted from the live page's icon lists
 const checkCircle = `<circle cx="21" cy="21" r="21" fill="var(--color-accent)" fill-opacity="0.23"></circle><path d="M30.1484 18.6287L20.4559 28.3212C19.699 29.0781 18.4723 29.0781 17.7145 28.3212L11.8992 22.5059C11.1296 21.7617 11.1078 20.535 11.852 19.7645C12.5961 18.9949 13.8228 18.9731 14.5933 19.7173C14.6097 19.7327 14.6251 19.7491 14.6406 19.7645L19.0857 24.2096L27.407 15.8882C28.1767 15.145 29.4042 15.1659 30.1484 15.9355C30.8735 16.6869 30.8735 17.8773 30.1484 18.6287Z" fill="var(--color-accent)"></path>`;
 
-// "Push you farther" image-boxes — live row of 3 + centered row of 2.
+// "Push you farther" image-boxes. Was a row of 3 + a centered row of 2 (as on
+// live); now one two-column grid, matching the 2×2 service cards above.
 // Icons are decorative: the <h3> under each one already carries the meaning,
 // so alt is empty + aria-hidden (same convention as the plumbing/electrical/
 // solar pages, which reuse this exact icon set).
-const pushRow1 = [
+const pushBoxes = [
   { icon: iconCpu, alt: '', title: ['Bring your technology', 'up to speed'] },
   { icon: iconFinancial, alt: '', title: ['Manage & forecast', 'cash flow'] },
   { icon: iconDocCalc, alt: '', title: ['Increase profitability through', 'smarter accounting'] },
-];
-const pushRow2 = [
   { icon: iconTax, alt: '', title: ['Find thousands of dollars', 'in tax breaks'] },
   { icon: iconWorkflow, alt: '', title: ['Build Accounting', 'Operations workflow'] },
 ];
@@ -97,18 +98,21 @@ const pushRow2 = [
   />
 
   {/* ── Hero (live: white bg, text 57% / image 43%) ── */}
-  <section class="bg-base-100">
+  <section class="bg-base-100 hero-media-first">
     <div class="container mx-auto px-4 grid gap-x-10 lg:grid-cols-[4fr_3fr] items-stretch">
       {/* .hero-copy owns the vertical padding (--hero-pad-y) so .hero-media
           can run flush to the sections above and below */}
-      <div class="hero-copy">
+      {/* Flex column so the CTA can jump ahead of the trust list on mobile
+          (order-1 vs order-2) and drop back below it from lg up. DOM order is
+          left in the desktop reading order — heading, intro, claims, CTA. */}
+      <div class="hero-copy flex flex-col">
         <h1 class="heading-display text-4xl md:text-5xl xl:text-6xl text-secondary">
           Best-in-Class <span class="text-sky-ink">Construction Accountants</span> for Growing Businesses
         </h1>
         <p class="mt-6 text-lg leading-relaxed max-w-xl">
           Specialized support for contractors who want clarity, control, and confidence in their numbers.
         </p>
-        <ul class="mt-8 space-y-4" role="list">
+        <ul class="mt-8 space-y-4 order-2 lg:order-1" role="list">
           {heroClaims.map((claim) => (
             <li class="flex items-center gap-3 text-lg">
               <svg class="h-9 w-9 shrink-0" viewBox="0 0 42 42" fill="none" aria-hidden="true" set:html={checkCircle} />
@@ -116,8 +120,8 @@ const pushRow2 = [
             </li>
           ))}
         </ul>
-        <div class="mt-8">
-          <a href="#calendly" class="btn btn-accent">Book A Discovery Call</a>
+        <div class="mt-8 order-1 lg:order-2">
+          <a href="#schedule" class="btn btn-accent">Book A Discovery Call</a>
         </div>
       </div>
       <div class="hero-media">
@@ -161,7 +165,7 @@ const pushRow2 = [
           With the right team of construction accountants on your side, you should be able to define and surpass your loftiest financial goals.
         </p>
       </div>
-      <div class="mt-12 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
+      <div class="mt-12 grid gap-5 grid-cols-2 lg:grid-cols-4">
         {/* Card 1 — orange, not linked on the live page */}
         <div class="bg-accent px-6 py-12 flex flex-col items-center text-center">
           <Image src={icon360Financial} alt="" class="h-[70px] w-auto" width={70} height={70} aria-hidden="true" />
@@ -172,9 +176,9 @@ const pushRow2 = [
           <a href={card.href} class="card-tile group px-6 py-12 items-center text-center">
             <Image src={card.icon} alt={card.alt} class="h-[70px] w-auto" width={70} height={70} aria-hidden={card.alt === '' ? 'true' : undefined} />
             <h3 class="text-2xl font-bold text-secondary mt-6">{card.title}</h3>
-            <span class="mt-auto pt-6 inline-flex items-center gap-2 font-semibold text-lg text-accent-ink group-hover:text-accent transition-colors">
+            <span class="mt-auto pt-6 inline-flex items-center gap-2 font-semibold text-base md:text-lg whitespace-nowrap text-accent-ink group-hover:text-accent transition-colors">
               Learn More
-              <svg class="h-4 w-4" viewBox="0 0 320 512" fill="currentColor" aria-hidden="true"><path d="M285.476 272.971L91.132 467.314c-9.373 9.373-24.569 9.373-33.941 0l-22.667-22.667c-9.357-9.357-9.375-24.522-.04-33.901L188.505 256 34.484 101.255c-9.335-9.379-9.317-24.544.04-33.901l22.667-22.667c9.373-9.373 24.569-9.373 33.941 0L285.475 239.03c9.373 9.372 9.373 24.568.001 33.941z"/></svg>
+              <svg class="h-4 w-4 shrink-0" viewBox="0 0 320 512" fill="currentColor" aria-hidden="true"><path d="M285.476 272.971L91.132 467.314c-9.373 9.373-24.569 9.373-33.941 0l-22.667-22.667c-9.357-9.357-9.375-24.522-.04-33.901L188.505 256 34.484 101.255c-9.335-9.379-9.317-24.544.04-33.901l22.667-22.667c9.373-9.373 24.569-9.373 33.941 0L285.475 239.03c9.373 9.372 9.373 24.568.001 33.941z"/></svg>
               <span class="sr-only"> — {card.title}</span>
             </span>
           </a>
@@ -213,6 +217,10 @@ const pushRow2 = [
     </div>
   </section>
 
+  <BookkeepersDifferent />
+
+  <AccurateBooks trade="construction" />
+
   {/* ── On-the-spot assessment (live: orange band; navy text kept for WCAG contrast) ── */}
   <section class="bg-accent">
     <div class="container mx-auto px-4 py-16 md:py-24 text-center">
@@ -228,8 +236,9 @@ const pushRow2 = [
         ))}
       </div>
       <div class="mt-10">
-        {/* Live button opens a Typeform quiz — routed to /getting-started/ per rebuild fix list */}
-        <a href="/getting-started/" class="btn btn-primary">Start Assessment</a>
+        {/* Live button opens a Typeform quiz. The quiz was never migrated, so
+            this scrolls to the lead form at the foot of the page instead. */}
+        <a href="#schedule" class="btn btn-primary">Schedule Free Assessment</a>
       </div>
     </div>
   </section>
@@ -240,19 +249,26 @@ const pushRow2 = [
       <h2 class="heading-display text-3xl md:text-5xl text-secondary text-center max-w-4xl mx-auto">
         Work with Construction accountants <span class="text-sky-ink">who push you farther</span>
       </h2>
-      <div class="mt-14 grid gap-10 md:grid-cols-3 max-w-5xl mx-auto">
-        {pushRow1.map((box) => (
-          <div class="text-center">
-            <Image src={box.icon} alt={box.alt} class="h-[85px] w-auto mx-auto" width={85} height={85} aria-hidden={box.alt === '' ? 'true' : undefined} />
-            <h3 class="heading-display text-xl text-secondary mt-6">{box.title[0]}<br />{box.title[1]}</h3>
-          </div>
-        ))}
-      </div>
-      <div class="mt-10 grid gap-10 sm:grid-cols-2 max-w-3xl mx-auto">
-        {pushRow2.map((box) => (
-          <div class="text-center">
-            <Image src={box.icon} alt={box.alt} class="h-[85px] w-auto mx-auto" width={85} height={85} aria-hidden={box.alt === '' ? 'true' : undefined} />
-            <h3 class="heading-display text-xl text-secondary mt-6">{box.title[0]}<br />{box.title[1]}</h3>
+      {/* Mobile: one box per row, icon left with the title beside it, both
+          left-aligned and vertically centred. Stacked-and-centred was hard to
+          scan on a phone — the two-line titles read as disconnected fragments.
+          sm and up: two columns with the icon back above the title. Five boxes
+          means the last is an odd one out, so it spans both columns and centres
+          itself rather than leaving a hole in the grid; its max-w matches one
+          column exactly (half the track, less half the 1.5rem gap). */}
+      <div class="mt-14 grid gap-x-6 gap-y-8 sm:gap-y-10 sm:grid-cols-2 max-w-3xl mx-auto">
+        {pushBoxes.map((box, i) => (
+          <div class:list={[
+            'flex items-center gap-5 text-left sm:flex-col sm:gap-0 sm:text-center',
+            i === pushBoxes.length - 1 && pushBoxes.length % 2 === 1 && 'sm:col-span-2 sm:max-w-[calc(50%-0.75rem)] sm:mx-auto',
+          ]}>
+            <Image src={box.icon} alt={box.alt} class="h-16 w-auto shrink-0 sm:h-[85px] sm:mx-auto" width={85} height={85} aria-hidden={box.alt === '' ? 'true' : undefined} />
+            {/* The title's two halves are spans, not a hard <br />: inline on a
+                phone so the line runs on naturally, block from sm up to keep the
+                original two-line break. */}
+            <h3 class="heading-display text-xl text-secondary sm:mt-6">
+              <span class="sm:block">{box.title[0]}</span>{' '}<span class="sm:block">{box.title[1]}</span>
+            </h3>
           </div>
         ))}
       </div>
@@ -299,6 +315,6 @@ const pushRow2 = [
     </div>
   </section>
 
-  <CalendlyCta heading="Find out how we can help your construction business" />
+  <LeadFormCta heading="Find out how we can help your construction business" />
 
 </BaseLayout>

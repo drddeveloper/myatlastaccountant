@@ -1,0 +1,74 @@
+---
+import { ANALYTICS } from '../data/constants';
+
+/**
+ * Every third-party tag on the site, in one place.
+ *
+ * Two slots only — the GTM container (which owns all Google/Meta/Clarity tags)
+ * and the DRD first-party tracker. See the ANALYTICS block in constants.ts for
+ * why it is split that way and what still needs configuring in the GTM UI.
+ *
+ * Both are guarded on a non-empty id, so blanking either one in constants.ts
+ * removes it from the build entirely rather than emitting a broken tag.
+ *
+ * `slot="body"` renders the GTM <noscript> iframe, which has to sit immediately
+ * after <body>. BaseLayout renders this component twice: once in <head> for the
+ * scripts, once at the top of <body> with body="true" for the noscript.
+ */
+interface Props {
+  /** Render the <body> half (the GTM noscript iframe) instead of the <head> half. */
+  body?: boolean;
+}
+
+const { body = false } = Astro.props;
+
+const { gtmId, drd } = ANALYTICS;
+const drdEnabled = Boolean(drd.key && drd.endpoint && drd.script);
+---
+
+{body ? (
+  gtmId && (
+    /* No-JS fallback. Must be the first thing inside <body> per Google's snippet. */
+    <noscript>
+      <iframe
+        src={`https://www.googletagmanager.com/ns.html?id=${gtmId}`}
+        height="0"
+        width="0"
+        style="display:none;visibility:hidden"
+        title="Google Tag Manager"
+        aria-hidden="true"
+      ></iframe>
+    </noscript>
+  )
+) : (
+  <>
+    {gtmId && (
+      /* Standard GTM loader. Kept verbatim rather than deferred behind an
+         IntersectionObserver the way the old Calendly embed was: GTM has to run
+         early or it misses the pageview it exists to record. */
+      <script is:inline define:vars={{ gtmId }}>
+        (function (w, d, s, l, i) {
+          w[l] = w[l] || [];
+          w[l].push({ 'gtm.start': new Date().getTime(), event: 'gtm.js' });
+          var f = d.getElementsByTagName(s)[0],
+            j = d.createElement(s),
+            dl = l != 'dataLayer' ? '&l=' + l : '';
+          j.async = true;
+          j.src = 'https://www.googletagmanager.com/gtm.js?id=' + i + dl;
+          f.parentNode.insertBefore(j, f);
+        })(window, document, 'script', 'dataLayer', gtmId);
+      </script>
+    )}
+
+    {drdEnabled && (
+      <>
+        {/* Config object must exist before drd-track.js evaluates, hence a
+            separate inline script ahead of the async load. */}
+        <script is:inline define:vars={{ endpoint: drd.endpoint, key: drd.key }}>
+          window.drdTrack = { endpoint: endpoint, key: key, debug: false };
+        </script>
+        <script is:inline async src={drd.script}></script>
+      </>
+    )}
+  </>
+)}

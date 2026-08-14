@@ -229,6 +229,19 @@
     color: var(--color-base-100);
   }
 
+  /* Outline button for dark surfaces (the floating assessment panel). Needed
+     because .btn-outline draws itself in base-content grey, which lands at
+     1.6:1 on navy and fails WCAG 1.4.11 for a control boundary. */
+  .btn-outline-light {
+    background-color: transparent;
+    color: #fff;
+    border-color: #fff;
+  }
+  .btn-outline-light:hover {
+    background-color: #fff;
+    color: var(--color-primary);
+  }
+
   .btn-ghost {
     background-color: transparent;
     color: var(--color-base-content);
@@ -450,6 +463,33 @@
   @media (min-width: 1024px) {
     .hero-copy {
       padding-block: var(--hero-pad-y-lg);
+    }
+  }
+
+  /* Industry-page hero, mobile. The photo leads and runs edge to edge, with the
+     heading, intro and CTA packed underneath, so all four clear the fold on a
+     phone. Desktop is untouched — copy left, photo right.
+     The photo escapes the container with the standard full-bleed trick (100vw
+     plus a negative inline margin of half the difference). overflow-x: clip on
+     the section contains it: below 1024px on a desktop browser 100vw counts the
+     scrollbar, which would otherwise add a horizontal scrollbar of its own. */
+
+  .hero-media-first {
+    overflow-x: clip;
+  }
+  @media (max-width: 1023px) {
+    .hero-media-first .hero-media {
+      order: -1;
+      width: 100vw;
+      margin-inline: calc(50% - 50vw);
+    }
+    .hero-media-first .hero-media > img {
+      /* Capped. At its natural aspect ratio the photo eats most of a small
+         phone's viewport and pushes the CTA below the fold. */
+      height: clamp(9rem, 26vh, 15rem);
+    }
+    .hero-media-first .hero-copy {
+      padding-block: 1.75rem 2.5rem;
     }
   }
 

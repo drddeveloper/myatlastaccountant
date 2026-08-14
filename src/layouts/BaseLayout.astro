@@ -1,6 +1,8 @@
 ---
 import Nav from '../components/Nav.astro';
 import Footer from '../components/Footer.astro';
+import FloatingAssessmentCta from '../components/FloatingAssessmentCta.astro';
+import Analytics from '../components/Analytics.astro';
 import { SITE_DATA } from '../data/constants';
 import '../styles/global.css';
 
@@ -25,6 +27,12 @@ interface Props {
      *  suffix, and the og:site_name + WebSite schema below are what Google
      *  actually uses to render the site name in results. */
     brandSuffix?: boolean;
+    /** Show the desktop floating "Schedule Free Assessment" panel.
+     *
+     *  Default true. Set false on pages where its Contact button has nothing to
+     *  scroll to (404) or where it would sit on top of the very form it points
+     *  at (/getting-started/, /thank-you/). */
+    floatingCta?: boolean;
 }
 
 const {
@@ -33,6 +41,7 @@ const {
   bareLayout = false,
   noindex = false,
   brandSuffix = true,
+  floatingCta = true,
 } = Astro.props;
 
 const pageTitle = brandSuffix ? `${title} | ${SITE_DATA.company.name}` : title;
@@ -139,25 +148,18 @@ if (SITE_DATA.company.address.street) jsonLD.address = {
         <script type="application/ld+json" set:html={JSON.stringify(jsonLD)} />
         <script type="application/ld+json" set:html={JSON.stringify(websiteLD)} />
 
-        {/* Google Analytics - Conditional */}
-        {SITE_DATA.seo.googleAnalyticsId && (
-            <>
-                <script async src={`https://www.googletagmanager.com/gtag/js?id=${SITE_DATA.seo.googleAnalyticsId}`}></script>
-                <script define:vars={{ gaId: SITE_DATA.seo.googleAnalyticsId }}>
-                    window.dataLayer = window.dataLayer || [];
-                    function gtag(){dataLayer.push(arguments);}
-                    gtag('js', new Date());
-                    gtag('config', gaId);
-                </script>
-            </>
-        )}
+        {/* Third-party tags — GTM container + DRD tracker. See Analytics.astro. */}
+        <Analytics />
 	</head>
 	<body class={`min-h-screen flex flex-col${bareLayout ? '' : ' font-body'}`}>
+        {/* GTM's no-JS iframe; Google requires it first inside <body> */}
+        <Analytics body />
 		{!bareLayout && <a href="#main" class="skip-link">Skip to content</a>}
 		{!bareLayout && <Nav />}
         <main id="main" class="flex-grow">
 		    <slot />
         </main>
         {!bareLayout && <Footer />}
+        {!bareLayout && floatingCta && <FloatingAssessmentCta />}
 	</body>
 </html>

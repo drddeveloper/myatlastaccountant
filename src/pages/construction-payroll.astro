@@ -2,7 +2,7 @@
 import { Image } from 'astro:assets';
 import BaseLayout from '../layouts/BaseLayout.astro';
 import ServiceSchema from '../components/ServiceSchema.astro';
-import CalendlyCta from '../components/sections/CalendlyCta.astro';
+import LeadFormCta from '../components/sections/LeadFormCta.astro';
 import FaqList from '../components/sections/FaqList.astro';
 
 import heroImg from '../assets/images/pages/payroll/Payroll-Services-for-Construction-p-800.webp';
@@ -118,7 +118,7 @@ const faqs = [
           Payroll doesn’t have to be your least favorite part of business. With Atlas Accounting Group, we make it easy to onboard, manage, and pay your employees and contractors with a few simple approvals each month.
         </p>
         <div class="mt-8">
-          <a href="#calendly" class="btn btn-accent">Get Started Now</a>
+          <a href="#schedule" class="btn btn-accent">Get Started Now</a>
         </div>
       </div>
       <div class="hero-media">
@@ -247,13 +247,13 @@ const faqs = [
             Want to get rid of the stress of payroll once and for all? We’ll set it all up for you and ensure payroll runs smoothly each month.
           </p>
           <div class="mt-6">
-            <a href="#calendly" class="btn btn-accent">Get Started</a>
+            <a href="#schedule" class="btn btn-accent">Get Started</a>
           </div>
         </div>
       </div>
     </div>
   </section>
 
-  <CalendlyCta heading="Find out how we can help your construction business" />
+  <LeadFormCta heading="Find out how we can help your construction business" />
 
 </BaseLayout>

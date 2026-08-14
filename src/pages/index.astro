@@ -1,8 +1,7 @@
 ---
 import { Image } from 'astro:assets';
 import BaseLayout from '../layouts/BaseLayout.astro';
-import CalendlyCta from '../components/sections/CalendlyCta.astro';
-import LaborCalcPopup from '../components/LaborCalcPopup.astro';
+import LeadFormCta from '../components/sections/LeadFormCta.astro';
 import { SITE_DATA } from '../data/constants';
 
 import heroImg from '../assets/images/home/1-Accountants-for-Contractors.webp';
@@ -108,15 +107,18 @@ const MARQUEE_COPIES = 6;
           If you're in the construction industry, we can help. From HVAC to plumbing, we help all specialty trade business owners modernize their processes and grow their financial position.
         </p>
       </div>
-      <div class="mt-12 grid gap-5 sm:grid-cols-2 lg:grid-cols-5">
+      {/* Two-up from the smallest screen (was a single stacked column below
+          640px, which made five tall cards a long scroll on a phone). Five
+          trades can't sit in a 2×2, so the full row returns at lg. */}
+      <div class="mt-12 grid gap-5 grid-cols-2 lg:grid-cols-5">
         {industries.map((ind) => (
           <a href={ind.href} class="card-tile group p-6">
             <Image src={ind.icon} alt="" class="h-14 w-14" width={60} height={60} aria-hidden="true" />
             <h3 class="heading-display text-lg text-secondary mt-5">{ind.label}</h3>
             <p class="mt-3 text-sm leading-relaxed flex-grow">{ind.blurb}</p>
-            <span class="mt-5 inline-flex items-center gap-1 font-semibold text-accent-ink">
+            <span class="mt-5 inline-flex items-center gap-1 font-semibold whitespace-nowrap text-accent-ink">
               Learn More<span class="sr-only"> — accounting for {ind.label.toLowerCase()}</span>
-              <svg class="h-4 w-4 transition-transform group-hover:translate-x-1" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/></svg>
+              <svg class="h-4 w-4 shrink-0 transition-transform group-hover:translate-x-1" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/></svg>
             </span>
           </a>
         ))}
@@ -219,8 +221,6 @@ const MARQUEE_COPIES = 6;
     </div>
   </section>
 
-  <CalendlyCta heading="Find out how we can help your trade business" />
-
-  <LaborCalcPopup />
+  <LeadFormCta heading="Find out how we can help your trade business" />
 
 </BaseLayout>

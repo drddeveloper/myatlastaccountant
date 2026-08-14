@@ -1,32 +1,36 @@
 ---
 import { Image } from 'astro:assets';
 import BaseLayout from '../layouts/BaseLayout.astro';
-import CalendlyCta from '../components/sections/CalendlyCta.astro';
+import LeadFormCta from '../components/sections/LeadFormCta.astro';
 
 import imgKpiDash from '../assets/images/pages/toolbox/KPI-Dash.png';
 import imgProfAlloc from '../assets/images/pages/toolbox/Prof-Alloc-Proj.png';
 import imgCashFlow from '../assets/images/pages/toolbox/Cash-Flow-Forecast-Thumbnail.png';
 import imgLaborBurden from '../assets/images/pages/toolbox/Labor-Burden-Calculator-Thumbnail.png';
-import iconDocument from '../assets/images/pages/shared/document-with-calculator.svg';
+import imgChartOfAccounts from '../assets/images/pages/toolbox/Chart-of-Accounts-Thumbnail.png';
+import imgProfitAndLoss from '../assets/images/pages/toolbox/Profit-and-Loss-Thumbnail.png';
 
 // The Kajabi store is retired (client direction, 2026-08-04): no checkout, no
 // prices, no pre-order/waitlist cards. Everything here is a free download.
 //
-// Every tool is a real file in public/downloads/ that downloads on click.
-// Cards with an `img` use their thumbnail; the two raw data files have no
-// artwork, so they get a branded panel carrying the file-type badge instead.
+// Every tool is a real file in public/downloads/ that downloads on click, and
+// every one now ships with its own thumbnail.
 const tools = [
   {
     name: 'Standard Chart of Accounts',
     blurb: 'A ready-made chart of accounts for contractors and trade businesses, laid out with account number, name, type, and detail type. Use it as the starting point when you set up — or clean up — your books.',
     file: '/downloads/Atlas-Standard-Chart-of-Accounts.xlsx',
     fileType: 'XLSX',
+    img: imgChartOfAccounts,
+    alt: 'Spreadsheet of a contractor chart of accounts, listing account numbers, names, and types from checking through other current assets.',
   },
   {
     name: 'Sample P&L by Class or Project',
     blurb: 'See what a job-level profit and loss statement should actually look like. This sample breaks revenue, direct costs, and change orders out by project so you can tell which jobs made money and which only looked like they did.',
     file: '/downloads/Atlas-Sample-PL-by-Class-or-Project.csv',
     fileType: 'CSV',
+    img: imgProfitAndLoss,
+    alt: 'Sample job-level profit and loss statement showing revenue, accounts receivable, and direct costs broken out line by line with notes.',
   },
   {
     name: 'KPI Dashboard',
@@ -100,17 +104,7 @@ const cardClasses =
 
         {tools.map((t) => (
           <a href={t.file} download class={cardClasses}>
-            {t.img ? (
-              <Image src={t.img} alt={t.alt} class="w-full aspect-3/2 object-cover" widths={[400, 800, 1200]} sizes="(min-width: 1024px) 30vw, (min-width: 640px) 45vw, 100vw" />
-            ) : (
-              /* No photo exists for the raw file downloads. A branded panel with
-                 the file-type badge keeps the grid rhythm and reads as a
-                 deliberate treatment rather than a missing image. */
-              <div class="w-full aspect-3/2 bg-cream-dark flex flex-col items-center justify-center gap-3">
-                <Image src={iconDocument} alt="" class="h-14 w-auto" width={56} height={56} aria-hidden="true" />
-                <span class="eyebrow text-primary">{t.fileType}</span>
-              </div>
-            )}
+            <Image src={t.img} alt={t.alt} class="w-full aspect-3/2 object-cover" widths={[400, 800, 1200]} sizes="(min-width: 1024px) 30vw, (min-width: 640px) 45vw, 100vw" />
             <div class="mt-4 px-1.5 pb-1.5 flex flex-col flex-grow">
               {/* h2 keeps the outline h1 → h2 (live uses non-semantic divs);
                   live tool titles are bold but not uppercase */}
@@ -129,6 +123,6 @@ const cardClasses =
     </div>
   </section>
 
-  <CalendlyCta heading="Find out how we can help your trade business" />
+  <LeadFormCta heading="Find out how we can help your trade business" />
 
 </BaseLayout>

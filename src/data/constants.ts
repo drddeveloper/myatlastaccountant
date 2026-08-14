@@ -35,6 +35,18 @@ export const SITE_DATA = {
     // If this is ever emptied, the form falls back to a prefilled email so
     // applicants are never left with a dead submit button.
     careers: "https://usebasin.com/f/7e241f8689e4",
+    // Lead / "Schedule Free Assessment" endpoint. This replaced the Calendly
+    // embed sitewide (client direction, 2026-08-12), so it is now the site's
+    // only conversion path — it needs a real endpoint before launch.
+    //
+    // TODO: create a second Basin form and paste its URL here. Configure the
+    // Basin redirect to https://www.myatlasaccountant.com/thank-you/ (the www
+    // host — the site canonicalises to www, and pointing it at the apex costs
+    // every lead an extra redirect hop).
+    //
+    // While this is empty the form still validates, then falls back to a
+    // prefilled email to company.email so no lead is ever dropped on the floor.
+    leads: "",
   },
   branding: {
     colors: {
@@ -62,13 +74,62 @@ export const SITE_DATA = {
   },
   seo: {
     description: "Atlas Accounting Group is the #1 accounting firm for contractors and specialty trades — bookkeeping, payroll, and tax for construction, HVAC, electrical, plumbing, and solar businesses.",
-    // GA4 Measurement ID ("G-XXXXXXXXXX"). PENDING — not yet supplied by the team;
-    // this is NOT a decision to decline analytics. While empty, BaseLayout.astro
-    // renders no gtag script at all (see its `{SITE_DATA.seo.googleAnalyticsId && …}`
-    // guard), so the site ships with zero analytics. Set this before launch, then
-    // confirm real-time hits in checklist section B2. Tracked as A4-6.
-    googleAnalyticsId: ""
+    // Analytics moved to SITE_DATA.analytics (2026-08-12). Google tags are no
+    // longer configured page-side at all — they are fired by the GTM container.
   }
+};
+
+/**
+ * Analytics. Ported from the live WordPress site 2026-08-12.
+ *
+ * The WP site loads SEVEN tags: two GA4 properties, two GTM containers,
+ * Clarity, Hotjar, and the DRD tracker — and each GA4 property is configured
+ * BOTH page-side and again inside a GTM container, so both were very likely
+ * counting every pageview twice. That is not reproduced here.
+ *
+ * The rebuild loads exactly two things:
+ *   1. One GTM container, which owns every Google/Meta/Clarity tag.
+ *   2. The DRD first-party tracker (see below).
+ *
+ * Nothing else is hardcoded, so nothing can double-fire with a container tag,
+ * and tag changes no longer need a deploy.
+ */
+export const ANALYTICS = {
+  /**
+   * The single GTM container. GTM-P33FRLD2 was chosen over GTM-MQFMTT8K because
+   * it already carries the richer tag set: GA4 G-696ZEHHK32, Google Ads
+   * AW-16860441463, and a Meta Pixel (705778782363299).
+   *
+   * WHAT STILL HAS TO BE DONE IN THE GTM UI (this container does not fire them
+   * yet, and nothing in this repo can add them):
+   *   - GA4 config tag for G-FXS0D8YFKQ  — the second property, previously
+   *     fired by Site Kit + GTM-MQFMTT8K. Client wants both properties kept,
+   *     one page_view each.
+   *   - Microsoft Clarity tag, project qtb32zg360 — was hand-placed in the WP
+   *     theme, so it is NOT in either container.
+   * Verify all of it in GTM Preview against a deploy before cutover.
+   *
+   * Deliberately dropped: Hotjar (site 3474959) — duplicated Clarity's job, and
+   * GTM-MQFMTT8K, whose only tag (G-FXS0D8YFKQ) moves into the container above.
+   */
+  gtmId: "GTM-P33FRLD2",
+
+  /**
+   * Deep River Digital first-party tracker. Kept page-side rather than moved
+   * into GTM: it needs `window.drdTrack` set before the script evaluates, and
+   * as first-party infrastructure it should not depend on a third-party tag
+   * manager loading. Move it into GTM if you'd rather manage it there — blank
+   * `key` here at the same time so it can't load twice.
+   *
+   * `key` is a publishable client-side key (it ships in page source on the live
+   * site), not a secret. It is scoped `_live_`; swap it for a staging key on
+   * preview deploys if one exists.
+   */
+  drd: {
+    endpoint: "https://track.deepriverdigital.com/ingest",
+    script: "https://track.deepriverdigital.com/drd-track.js",
+    key: "pk_atlas_accounting_live_23c046f8e4137417925ffc66",
+  },
 };
 
 // Site navigation — matches the live site's flat header menu + "More" dropdown.

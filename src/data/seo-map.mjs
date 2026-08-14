@@ -218,10 +218,10 @@ export const SEO_MAP = [
     primaryKeyword: 'construction tax services',
     intent: 'transactional',
     title: 'Strategic Tax Services for Construction',
-    description: 'Construction tax services from accountants who know the trades. Cut your tax bill with year-round planning, not April guesswork. Book a free discovery call.',
+    description: 'Construction tax services from accountants who know the trades. We file your return through our CPA firm, Lewis Group CPAs - year-round planning, not April panic.',
     h1: 'Construction Tax Services Without The Tax Stress',
     noindex: false,
-    notes: 'RESOLVED: the slug rename to /construction-tax-services/ has already happened, so the old "OPEN" slug note no longer applies. A2-2 2026-08-04: H1, hero opening paragraph and description rewritten — none of the three used "construction tax services"; the old description was also a truncated import ending in an ellipsis. 0 GSC impressions, so no ranking was at risk.',
+    notes: 'RESOLVED: the slug rename to /construction-tax-services/ has already happened, so the old "OPEN" slug note no longer applies. A2-2 2026-08-04: H1, hero opening paragraph and description rewritten — none of the three used "construction tax services"; the old description was also a truncated import ending in an ellipsis. 0 GSC impressions, so no ranking was at risk. 2026-08-12 (client direction): body copy and description repositioned from "we partner with tax specialists" to "we file your return, through Lewis Group CPAs" — prospects were reading the old framing as a referral rather than a service. Keyword unchanged; H1 and title untouched.',
   },
   {
     route: '/thank-you/',

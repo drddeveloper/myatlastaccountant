@@ -2,7 +2,7 @@
 import { Image } from 'astro:assets';
 import BaseLayout from '../layouts/BaseLayout.astro';
 import ServiceSchema from '../components/ServiceSchema.astro';
-import CalendlyCta from '../components/sections/CalendlyCta.astro';
+import LeadFormCta from '../components/sections/LeadFormCta.astro';
 
 import iconPartner from '../assets/images/pages/tax/6570643_annual_cost_fee_legal_money_icon-1.svg';
 import iconSupport from '../assets/images/pages/tax/6570641_annual_calculate_cost_data_payment_icon-1.svg';
@@ -14,11 +14,15 @@ import longTermImg from '../assets/images/pages/tax/Contractor-Taxes.webp';
 import lowTaxesImg from '../assets/images/pages/tax/Contractor-Tax-Services.webp';
 import testimonialImg from '../assets/images/pages/tax/Ryann-Blake-Testimonial.jpg';
 
-const partnership = [
+// Copy repositioned 2026-08-12 (client direction): the page previously read as
+// "we partner with people who file taxes", which had clients assuming filing
+// was something they still had to go and buy elsewhere. Filing IS one of our
+// services — delivered through Lewis Group CPAs — and the copy now says so.
+const filingPoints = [
   {
     icon: iconPartner,
-    title: 'Partner with tax experts',
-    body: "Whether you choose our sister company, Lewis Group CPAs, as your CPA firm or bring your own, we work strategically with them to make sure you're keeping more of what you earn. It's about smart planning, not shortcuts.",
+    title: 'We file your return',
+    body: "Tax filing is one of our services, not a referral out the door. Your return is prepared, signed, and filed by our CPA firm, Lewis Group CPAs, the same people who already know your books. Happy with a CPA you've used for years? We'll work alongside them instead. Either way it's smart planning, not shortcuts.",
   },
   {
     icon: iconSupport,
@@ -34,21 +38,21 @@ const partnership = [
 
 const processSteps = [
   { icon: iconDeductions, title: 'We Finalize Accurate Deductions & Reports' },
-  { icon: iconFile, title: 'Tax Experts file & Submit Your Taxes' },
+  { icon: iconFile, title: 'Lewis Group CPAs File & Submit Your Return' },
   { icon: iconMaximize, title: 'Together, We Maximize Your Business Potential' },
 ];
 ---
 
 <BaseLayout
   title="Strategic Tax Services for Construction"
-  description="Construction tax services from accountants who know the trades. Cut your tax bill with year-round planning, not April guesswork. Book a free discovery call."
+  description="Construction tax services from accountants who know the trades. We file your return through our CPA firm, Lewis Group CPAs - year-round planning, not April panic."
 >
 
   {/* Per-page Service schema (A3-3). Description is the page's own meta
       description, so the two cannot drift. */}
   <ServiceSchema
     name="Construction Tax Services"
-    description="Construction tax services from accountants who know the trades. Cut your tax bill with year-round planning, not April guesswork. Book a free discovery call."
+    description="Construction tax services from accountants who know the trades. We file your return through our CPA firm, Lewis Group CPAs - year-round planning, not April panic."
     serviceType="Tax preparation and planning"
     audience="Construction and specialty trade businesses"
   />
@@ -60,27 +64,27 @@ const processSteps = [
         Construction Tax Services Without <span class="text-sky-ink">The Tax Stress</span>
       </h1>
       <p class="mt-6 text-lg leading-relaxed max-w-3xl mx-auto">
-        Tax season is a breeze when your bookkeeping, advisory, and payroll sit under one roof with your construction tax services. By making sure your books are up-to-date all year long, we will make sure there are no nasty surprises at tax time.
+        We file your business taxes, through our CPA firm, Lewis Group CPAs, alongside the bookkeeping, payroll, and advisory we already run for you. One roof, one team, and books that are current all year, so there are no nasty surprises in April.
       </p>
       <div class="mt-8">
-        <a href="#calendly" class="btn btn-accent">Book Your Discovery Call</a>
+        <a href="#schedule" class="btn btn-accent">Book Your Discovery Call</a>
       </div>
     </div>
   </section>
 
-  {/* ── Seamless with your tax accountant — cream, three centered tiles (live 3327a32) ── */}
+  {/* ── Tax filing is one of our services — cream, three centered tiles (live 3327a32) ── */}
   <section class="bg-cream">
     <div class="container mx-auto px-4 py-16 md:py-24">
       <div class="max-w-3xl mx-auto text-center">
         <h2 class="heading-display text-3xl md:text-4xl text-secondary">
-          We Work Seamlessly With Your Tax Accountant
+          Yes - We File Your Taxes
         </h2>
         <p class="mt-5 text-lg leading-relaxed">
-          We partner with industry-specific tax specialists who provide full tax compliance services, including federal and state income tax returns, sales tax, payroll tax, property tax, and excise tax.
+          Tax filing is a service you get from us, delivered through our CPA firm, Lewis Group CPAs. That covers full tax compliance: federal and state income tax returns, sales tax, payroll tax, property tax, and excise tax. You don&rsquo;t need to go and find a separate tax preparer.
         </p>
       </div>
       <div class="mt-14 grid gap-x-8 gap-y-12 md:grid-cols-3">
-        {partnership.map((col) => (
+        {filingPoints.map((col) => (
           <div class="text-center">
             <Image src={col.icon} alt="" class="h-20 w-auto mx-auto" width={99} height={84} aria-hidden="true" />
             <h3 class="heading-display text-xl text-secondary mt-5">{col.title}</h3>
@@ -106,11 +110,11 @@ const processSteps = [
     </div>
   </section>
 
-  {/* ── How our tax partnership works — cream, three heading-only tiles (live 8ce617f) ── */}
+  {/* ── How your tax filing works — cream, three heading-only tiles (live 8ce617f) ── */}
   <section class="bg-cream">
     <div class="container mx-auto px-4 py-16 md:py-24">
       <h2 class="heading-display text-3xl md:text-4xl text-secondary text-center max-w-3xl mx-auto">
-        How Our Tax Partnership Works
+        How Your Tax Filing Works
       </h2>
       <div class="mt-14 grid gap-x-8 gap-y-12 md:grid-cols-3">
         {processSteps.map((step) => (
@@ -146,7 +150,7 @@ const processSteps = [
           Focus on How to keep taxes as low <span class="text-sky-ink">as legally possible</span>
         </h2>
         <p class="mt-6 leading-relaxed">
-          If you’ve been working with a 1990s, generic tax accountant, chances are that your tax advice and strategy has been outdated as well. Our expert tax partnership ensures that you receive the latest, industry-specific grants, deductions, and credits down to the last cent each year.
+          If you’ve been working with a 1990s, generic tax accountant, chances are that your tax advice and strategy has been outdated as well. Because we keep your books and file your return, nothing gets lost in the handoff, so you receive the latest, industry-specific grants, deductions, and credits down to the last cent each year.
         </p>
       </div>
       <Image src={lowTaxesImg} alt="Contractor in a hi-vis vest checking figures on a laptop on site" class="w-full h-auto" widths={[560, 768, 900]} sizes="(min-width: 1024px) 45vw, 100vw" />
@@ -179,6 +183,6 @@ const processSteps = [
     </div>
   </section>
 
-  <CalendlyCta heading="Find out how we can help your trade business" />
+  <LeadFormCta heading="Find out how we can help your trade business" />
 
 </BaseLayout>

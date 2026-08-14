@@ -2,7 +2,9 @@
 import { Image } from 'astro:assets';
 import BaseLayout from '../layouts/BaseLayout.astro';
 import ServiceSchema from '../components/ServiceSchema.astro';
-import CalendlyCta from '../components/sections/CalendlyCta.astro';
+import LeadFormCta from '../components/sections/LeadFormCta.astro';
+import BookkeepersDifferent from '../components/sections/BookkeepersDifferent.astro';
+import AccurateBooks from '../components/sections/AccurateBooks.astro';
 
 // Assets shared with the homepage — imported from home/, not duplicated.
 // (Live section 4 uses the exact same upload as the home "systemize" image.)
@@ -61,7 +63,7 @@ const capabilities = [
   />
 
   {/* ── Hero (live: white bg, text 57% / image 42%) ── */}
-  <section class="bg-base-100">
+  <section class="bg-base-100 hero-media-first">
     <div class="container mx-auto px-4 grid gap-x-10 lg:grid-cols-[4fr_3fr] items-stretch">
       {/* .hero-copy owns the vertical padding (--hero-pad-y) so .hero-media
           can run flush to the sections above and below */}
@@ -73,7 +75,7 @@ const capabilities = [
           From bookkeeping to payroll, we help elevate every aspect of your electrical business to help you make smarter business decisions.
         </p>
         <div class="mt-8">
-          <a href="#calendly" class="btn btn-accent">Get Started Now</a>
+          <a href="#schedule" class="btn btn-accent">Get Started Now</a>
         </div>
       </div>
       <div class="hero-media">
@@ -105,7 +107,7 @@ const capabilities = [
           With the right dedicated electrician accountants in your corner, you and your team can work smarter, not harder, in order to take home more money each month.
         </p>
       </div>
-      <div class="mt-12 grid gap-0.5 sm:grid-cols-2 lg:grid-cols-4">
+      <div class="mt-12 grid gap-0.5 grid-cols-2 lg:grid-cols-4">
         {/* Card 1 — orange, not linked on the live page. Navy title (live white fails contrast on orange). */}
         <div class="bg-accent px-6 py-12 flex flex-col items-center text-center">
           <Image src={icon360Financial} alt="" class="h-[70px] w-auto" width={70} height={70} aria-hidden="true" />
@@ -116,9 +118,9 @@ const capabilities = [
           <a href={card.href} class="card-tile group px-6 py-12 items-center text-center">
             <Image src={card.icon} alt="" class="h-[70px] w-auto" width={70} height={70} aria-hidden="true" />
             <h3 class="text-2xl font-bold text-secondary mt-6">{card.title}</h3>
-            <span class="mt-auto pt-6 inline-flex items-center gap-2 font-semibold text-lg text-accent-ink group-hover:text-accent transition-colors">
+            <span class="mt-auto pt-6 inline-flex items-center gap-2 font-semibold text-base md:text-lg whitespace-nowrap text-accent-ink group-hover:text-accent transition-colors">
               Learn More
-              <svg class="h-4 w-4" viewBox="0 0 320 512" fill="currentColor" aria-hidden="true"><path d="M285.476 272.971L91.132 467.314c-9.373 9.373-24.569 9.373-33.941 0l-22.667-22.667c-9.357-9.357-9.375-24.522-.04-33.901L188.505 256 34.484 101.255c-9.335-9.379-9.317-24.544.04-33.901l22.667-22.667c9.373-9.373 24.569-9.373 33.941 0L285.475 239.03c9.373 9.372 9.373 24.568.001 33.941z"/></svg>
+              <svg class="h-4 w-4 shrink-0" viewBox="0 0 320 512" fill="currentColor" aria-hidden="true"><path d="M285.476 272.971L91.132 467.314c-9.373 9.373-24.569 9.373-33.941 0l-22.667-22.667c-9.357-9.357-9.375-24.522-.04-33.901L188.505 256 34.484 101.255c-9.335-9.379-9.317-24.544.04-33.901l22.667-22.667c9.373-9.373 24.569-9.373 33.941 0L285.475 239.03c9.373 9.372 9.373 24.568.001 33.941z"/></svg>
               <span class="sr-only"> — {card.title}</span>
             </span>
           </a>
@@ -155,6 +157,10 @@ const capabilities = [
     </div>
   </section>
 
+  <BookkeepersDifferent />
+
+  <AccurateBooks trade="electrical" />
+
   {/* ── Could your business grow with an accountant? (live: navy band, six white checklist pills) ── */}
   <section class="bg-primary">
     <div class="container mx-auto px-4 py-16 md:py-24">
@@ -176,7 +182,7 @@ const capabilities = [
         ))}
       </ul>
       <div class="mt-12 text-center">
-        <a href="#calendly" class="btn btn-accent">Book Your Discovery Call</a>
+        <a href="#schedule" class="btn btn-accent">Book Your Discovery Call</a>
       </div>
     </div>
   </section>
@@ -187,11 +193,21 @@ const capabilities = [
       <h2 class="heading-display text-3xl md:text-5xl text-secondary text-center max-w-4xl mx-auto">
         What Can Atlas Accounting Group Do For Your <span class="text-sky-ink">electrician business?</span>
       </h2>
-      <div class="mt-14 flex flex-wrap justify-center gap-x-10 gap-y-12">
-        {capabilities.map((cap) => (
-          <div class="w-full text-center sm:w-[calc(50%-1.25rem)] lg:w-[calc(33.333%-1.75rem)]">
-            <Image src={cap.icon} alt="" class="h-20 w-auto mx-auto" width={85} height={85} aria-hidden="true" />
-            <h3 class="heading-display text-lg md:text-xl text-secondary mt-6">{cap.title}</h3>
+      {/* Mobile: one box per row, icon left with the title beside it, both
+          left-aligned and vertically centred — stacked-and-centred was hard to
+          scan on a phone. sm and up: two columns with the icon back above the
+          title, matching the 2×2 service cards. An odd final box spans both
+          columns and centres itself rather than leaving a hole in the grid; its
+          max-w matches one column exactly (half the track, less half the 1.5rem
+          gap). */}
+      <div class="mt-14 grid gap-x-6 gap-y-8 sm:gap-y-12 sm:grid-cols-2 max-w-3xl mx-auto">
+        {capabilities.map((cap, i) => (
+          <div class:list={[
+            'flex items-center gap-5 text-left sm:flex-col sm:gap-0 sm:text-center',
+            i === capabilities.length - 1 && capabilities.length % 2 === 1 && 'sm:col-span-2 sm:max-w-[calc(50%-0.75rem)] sm:mx-auto',
+          ]}>
+            <Image src={cap.icon} alt="" class="h-16 w-auto shrink-0 sm:h-20 sm:mx-auto" width={85} height={85} aria-hidden="true" />
+            <h3 class="heading-display text-lg md:text-xl text-secondary sm:mt-6">{cap.title}</h3>
           </div>
         ))}
       </div>
@@ -223,6 +239,6 @@ const capabilities = [
     </div>
   </section>
 
-  <CalendlyCta heading="Find out how we can help your electrical business" />
+  <LeadFormCta heading="Find out how we can help your electrical business" />
 
 </BaseLayout>

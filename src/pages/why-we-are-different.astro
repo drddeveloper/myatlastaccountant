@@ -1,7 +1,7 @@
 ---
 import { Image } from 'astro:assets';
 import BaseLayout from '../layouts/BaseLayout.astro';
-import CalendlyCta from '../components/sections/CalendlyCta.astro';
+import LeadFormCta from '../components/sections/LeadFormCta.astro';
 
 /*
  * Pixel-parity rewrite of https://www.myatlasaccountant.com/why-we-are-different/
@@ -96,7 +96,7 @@ const steps = [
           You know that smile you get when a project finishes on-time and on-budget? Our goal is for you to have that same smile when you think about your financials.
         </p>
         <div class="mt-8">
-          <a href="#calendly" class="btn btn-accent">Get In Touch</a>
+          <a href="#schedule" class="btn btn-accent">Get In Touch</a>
         </div>
       </div>
     </div>
@@ -237,6 +237,6 @@ const steps = [
     </div>
   </section>
 
-  <CalendlyCta heading="Find out how we can help your trade business" />
+  <LeadFormCta heading="Find out how we can help your trade business" />
 
 </BaseLayout>

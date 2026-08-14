@@ -49,6 +49,6 @@ By the end of the year, you’ll have a business that’s not just surviving but
 ## Take Control of Your Profits This Year
 The Protect Your Profits Book is your step-by-step guide to running a more profitable business. It walks you through every topic, one month at a time, so you can build momentum and see measurable results.
 
-You can work through it on your own or, if you ever want a deeper dive into your numbers, **[our team is here to support you if you’re looking for accounting services](/#calendly)** and CFO advisory.
+You can work through it on your own or, if you ever want a deeper dive into your numbers, **[our team is here to support you if you’re looking for accounting services](/#schedule)** and CFO advisory.
 
 [**Order your copy of the Protect Your Profits Book today**](/toolbox/) and make this the year your business runs like a well-oiled profit machine.

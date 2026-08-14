@@ -1,7 +1,7 @@
 ---
 import { Image } from 'astro:assets';
 import BaseLayout from '../layouts/BaseLayout.astro';
-import CalendlyEmbed from '../components/CalendlyEmbed.astro';
+import LeadForm from '../components/sections/LeadForm.astro';
 
 import heroImg from '../assets/images/pages/getting-started/Accountant-for-Contractors.webp';
 import iconLaptop from '../assets/images/pages/getting-started/person-with-laptop-icon.svg';
@@ -9,8 +9,8 @@ import iconBookCall from '../assets/images/pages/getting-started/book-a-call-ico
 import iconRocket from '../assets/images/pages/getting-started/rocket-icon.svg';
 
 // This is the site's primary conversion page — the sitewide "Book a Call" CTA
-// points here, and (matching the live site) the shared footer Calendly band is
-// omitted because the page embeds its own scheduler.
+// points here, and the shared footer LeadFormCta band is omitted because the
+// page carries its own copy of the same form.
 const steps = [
   {
     icon: iconLaptop,
@@ -33,6 +33,7 @@ const steps = [
 <BaseLayout
   title="Book a Call with Construction Accountants"
   description="At Atlas Accounting group, we help grow your construction business. Book a complimentary 45-minute call with one of our construction accountants and get help with any financial concerns you have."
+  floatingCta={false}
 >
 
   {/* ── Hero — white, text left / photo right (mirrors live section 2ba9169e) ── */}
@@ -48,7 +49,7 @@ const steps = [
           We’re excited to meet you! Let’s discuss a few things to make sure it’s the best fit for both of us first.
         </p>
         <div class="mt-8 flex flex-wrap gap-4">
-          <a href="#calendly" class="btn btn-accent">Schedule Discovery Call</a>
+          <a href="#schedule" class="btn btn-accent">Schedule Discovery Call</a>
           <a href="tel:3609000421" class="btn btn-primary">Call (360) 900-0421</a>
         </div>
       </div>
@@ -65,15 +66,17 @@ const steps = [
     </div>
   </section>
 
-  {/* ── Calendly — pale-peach panel on the cream canvas (live 16ba9b2 → 84d0cd9) ── */}
-  <section id="calendly" class="bg-cream scroll-mt-24">
+  {/* ── Lead form — pale-peach panel on the cream canvas. Kept the live page's
+       panel treatment (16ba9b2 → 84d0cd9); the Calendly embed inside it was
+       replaced by the form sitewide, 2026-08-12. ── */}
+  <section id="schedule" class="bg-cream scroll-mt-[var(--header-h)]">
     <div class="container mx-auto px-4 py-16 md:py-24">
       <div class="bg-cream-dark px-5 py-8 md:p-10">
         <h2 class="heading-display text-3xl md:text-4xl text-secondary text-center max-w-3xl mx-auto">
-          <span class="text-sky-ink">Choose a time</span> to chat to get started:
+          <span class="text-sky-ink">Tell us about your business</span> to get started:
         </h2>
-        <div class="mt-8 max-w-3xl mx-auto bg-base-100 shadow-xl">
-          <CalendlyEmbed />
+        <div class="mt-8 max-w-3xl mx-auto shadow-xl">
+          <LeadForm />
         </div>
       </div>
     </div>

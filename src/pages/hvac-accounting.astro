@@ -2,7 +2,9 @@
 import { Image } from 'astro:assets';
 import BaseLayout from '../layouts/BaseLayout.astro';
 import ServiceSchema from '../components/ServiceSchema.astro';
-import CalendlyCta from '../components/sections/CalendlyCta.astro';
+import LeadFormCta from '../components/sections/LeadFormCta.astro';
+import BookkeepersDifferent from '../components/sections/BookkeepersDifferent.astro';
+import AccurateBooks from '../components/sections/AccurateBooks.astro';
 
 // Assets shared with the homepage — imported from home/, not duplicated
 import wholePictureImg from '../assets/images/home/1-Accountants-for-Contractors.webp';
@@ -66,7 +68,7 @@ const checkIcon = `<path d="M173.898 439.404l-166.4-166.4c-9.997-9.997-9.997-26.
   />
 
   {/* ── Hero (live: white bg, text 57% / image 43%) ── */}
-  <section class="bg-base-100">
+  <section class="bg-base-100 hero-media-first">
     <div class="container mx-auto px-4 grid gap-x-10 lg:grid-cols-[4fr_3fr] items-stretch">
       {/* .hero-copy owns the vertical padding (--hero-pad-y) so .hero-media
           can run flush to the sections above and below */}
@@ -78,7 +80,7 @@ const checkIcon = `<path d="M173.898 439.404l-166.4-166.4c-9.997-9.997-9.997-26.
           Are you losing money on jobs? Paying contractors too much? With our expert HVAC bookkeeping services, you&rsquo;ll gain a full, accurate picture of how your business is doing each month.
         </p>
         <div class="mt-8">
-          <a href="#calendly" class="btn btn-accent">Book Your Discovery Call</a>
+          <a href="#schedule" class="btn btn-accent">Book Your Discovery Call</a>
         </div>
       </div>
       <div class="hero-media">
@@ -110,7 +112,7 @@ const checkIcon = `<path d="M173.898 439.404l-166.4-166.4c-9.997-9.997-9.997-26.
           From strategic planning to monthly payroll runs, we put the processes and automations in place to make your HVAC business run smoothly and efficiently.
         </p>
       </div>
-      <div class="mt-12 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
+      <div class="mt-12 grid gap-5 grid-cols-2 lg:grid-cols-4">
         {/* Card 1 — orange, not linked on the live page */}
         <div class="bg-accent px-6 py-12 flex flex-col items-center text-center">
           <Image src={icon360Financial} alt="" class="h-[70px] w-auto" width={70} height={70} aria-hidden="true" />
@@ -121,9 +123,9 @@ const checkIcon = `<path d="M173.898 439.404l-166.4-166.4c-9.997-9.997-9.997-26.
           <a href={card.href} class="card-tile group px-6 py-12 items-center text-center">
             <Image src={card.icon} alt={card.alt} class="h-[70px] w-auto" width={70} height={70} aria-hidden={card.alt === '' ? 'true' : undefined} />
             <h3 class="text-2xl font-bold text-secondary mt-6">{card.title}</h3>
-            <span class="mt-auto pt-6 inline-flex items-center gap-2 font-semibold text-lg text-accent-ink group-hover:text-accent transition-colors">
+            <span class="mt-auto pt-6 inline-flex items-center gap-2 font-semibold text-base md:text-lg whitespace-nowrap text-accent-ink group-hover:text-accent transition-colors">
               Learn More
-              <svg class="h-4 w-4" viewBox="0 0 320 512" fill="currentColor" aria-hidden="true"><path d="M285.476 272.971L91.132 467.314c-9.373 9.373-24.569 9.373-33.941 0l-22.667-22.667c-9.357-9.357-9.375-24.522-.04-33.901L188.505 256 34.484 101.255c-9.335-9.379-9.317-24.544.04-33.901l22.667-22.667c9.373-9.373 24.569-9.373 33.941 0L285.475 239.03c9.373 9.372 9.373 24.568.001 33.941z"/></svg>
+              <svg class="h-4 w-4 shrink-0" viewBox="0 0 320 512" fill="currentColor" aria-hidden="true"><path d="M285.476 272.971L91.132 467.314c-9.373 9.373-24.569 9.373-33.941 0l-22.667-22.667c-9.357-9.357-9.375-24.522-.04-33.901L188.505 256 34.484 101.255c-9.335-9.379-9.317-24.544.04-33.901l22.667-22.667c9.373-9.373 24.569-9.373 33.941 0L285.475 239.03c9.373 9.372 9.373 24.568.001 33.941z"/></svg>
               <span class="sr-only"> — {card.title}</span>
             </span>
           </a>
@@ -146,6 +148,10 @@ const checkIcon = `<path d="M173.898 439.404l-166.4-166.4c-9.997-9.997-9.997-26.
       <Image src={wholePictureImg} alt="Contractor doing paperwork on a laptop in the cab of his truck" class="w-full h-auto" widths={[560, 900, 1200]} sizes="(min-width: 1024px) 45vw, 100vw" />
     </div>
   </section>
+
+  <BookkeepersDifferent />
+
+  <AccurateBooks trade="HVAC" />
 
   {/* ── Clean out the cobwebs (live: white, image left / text right) ── */}
   <section class="bg-base-100">
@@ -234,6 +240,6 @@ const checkIcon = `<path d="M173.898 439.404l-166.4-166.4c-9.997-9.997-9.997-26.
     </div>
   </section>
 
-  <CalendlyCta heading="Build your HVAC company into something more" />
+  <LeadFormCta heading="Build your HVAC company into something more" />
 
 </BaseLayout>
