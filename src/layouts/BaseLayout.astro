@@ -120,6 +120,14 @@ if (SITE_DATA.company.address.street) jsonLD.address = {
 		<link rel="manifest" href="/site.webmanifest" />
 		{noindex && <meta name="robots" content="noindex, follow" />}
 		<meta name="generator" content={Astro.generator} />
+        {/* GTM is the first third-party the page reaches for, and it fans out
+            to gtag/js from the same origin. Opening the connection during head
+            parse takes the DNS + TLS handshake off the critical path — PageSpeed
+            2026-08-13 reported no preconnected origins at all. Only this one:
+            the guidance is at most four, and every other third-party (Ads,
+            doubleclick, Clarity) is reached later, from inside the container. */}
+        <link rel="preconnect" href="https://www.googletagmanager.com" crossorigin />
+
         <link rel="preload" href="/fonts/Sofia-Pro-Regular-Az.woff" as="font" type="font/woff" crossorigin />
         <link rel="preload" href="/fonts/Sofia-Pro-Semi-Bold-Az.woff" as="font" type="font/woff" crossorigin />
         <link rel="preload" href="/fonts/Sofia-Pro-Bold-Az.woff" as="font" type="font/woff" crossorigin />

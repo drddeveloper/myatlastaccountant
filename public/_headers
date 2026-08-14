@@ -56,6 +56,18 @@
 # navigator.sendBeacon, which does NOT appear in resource timing, so the
 # google-analytics.com entries are kept on documentation rather than observation.
 #
+# 2026-08-13 — connect-src was too narrow and PageSpeed on the pages.dev deploy
+# caught five blocked collection calls that resource timing had missed. Google
+# Ads and GA4 do not collect on the hosts that serve their scripts:
+#   www.google.com/ccm/collect, /rmkt/collect  — Ads conversion + remarketing
+#   www.googleadservices.com/pagead/conversion/…/wcm  — call-tracking conversion
+#   stats.g.doubleclick.net/g/collect                 — GA4 Signals
+# All five are now allowed. This was NOT cosmetic: every Google Ads conversion
+# on the site was being dropped by the browser while GTM reported success —
+# exactly the silent-failure mode warned about at the top of this file.
+# *.google.com is deliberately broad: Ads collects on regional ccTLDs for some
+# visitors, and enumerating them is impractical.
+#
 # Calendly origins were removed when the scheduler was archived. If you ever
 # restore src/components/_archive/CalendlyCta.astro you must also add back:
 #   script-src/style-src/img-src https://assets.calendly.com
@@ -71,4 +83,4 @@
   Referrer-Policy: strict-origin-when-cross-origin
   Strict-Transport-Security: max-age=31536000; includeSubDomains; preload
   Permissions-Policy: accelerometer=(), camera=(), geolocation=(), gyroscope=(), magnetometer=(), microphone=(), payment=(), usb=(), autoplay=(self), fullscreen=(self), picture-in-picture=(self)
-  Content-Security-Policy: upgrade-insecure-requests; default-src 'self'; script-src 'self' 'unsafe-inline' https://www.googletagmanager.com https://www.googleadservices.com https://www.gstatic.com https://googleads.g.doubleclick.net https://connect.facebook.net https://www.clarity.ms https://*.clarity.ms https://track.deepriverdigital.com; style-src 'self' 'unsafe-inline'; font-src 'self' data:; img-src 'self' data: https://www.googletagmanager.com https://www.google-analytics.com https://*.google-analytics.com https://www.google.com https://www.gstatic.com https://googleads.g.doubleclick.net https://ad.doubleclick.net https://www.facebook.com https://*.facebook.com https://*.clarity.ms; connect-src 'self' https://www.google-analytics.com https://*.google-analytics.com https://analytics.google.com https://*.analytics.google.com https://*.googletagmanager.com https://ad.doubleclick.net https://googleads.g.doubleclick.net https://*.clarity.ms https://c.bing.com https://connect.facebook.net https://track.deepriverdigital.com; frame-src 'self' https://www.googletagmanager.com https://td.doubleclick.net https://ad.doubleclick.net; object-src 'none'; base-uri 'self'; frame-ancestors 'self'; form-action 'self' https://usebasin.com;
+  Content-Security-Policy: upgrade-insecure-requests; default-src 'self'; script-src 'self' 'unsafe-inline' https://www.googletagmanager.com https://www.googleadservices.com https://www.gstatic.com https://googleads.g.doubleclick.net https://connect.facebook.net https://www.clarity.ms https://*.clarity.ms https://track.deepriverdigital.com; style-src 'self' 'unsafe-inline'; font-src 'self' data:; img-src 'self' data: https://www.googletagmanager.com https://www.google-analytics.com https://*.google-analytics.com https://www.google.com https://www.gstatic.com https://googleads.g.doubleclick.net https://ad.doubleclick.net https://www.facebook.com https://*.facebook.com https://*.clarity.ms; connect-src 'self' https://www.google-analytics.com https://*.google-analytics.com https://analytics.google.com https://*.analytics.google.com https://*.googletagmanager.com https://www.google.com https://*.google.com https://www.googleadservices.com https://ad.doubleclick.net https://googleads.g.doubleclick.net https://stats.g.doubleclick.net https://*.g.doubleclick.net https://*.clarity.ms https://c.bing.com https://connect.facebook.net https://track.deepriverdigital.com; frame-src 'self' https://www.googletagmanager.com https://td.doubleclick.net https://ad.doubleclick.net; object-src 'none'; base-uri 'self'; frame-ancestors 'self'; form-action 'self' https://usebasin.com;

@@ -23,7 +23,7 @@ interface Props {
 const { body = false } = Astro.props;
 
 const { gtmId, drd } = ANALYTICS;
-const drdEnabled = Boolean(drd.key && drd.endpoint && drd.script);
+const drdEnabled = Boolean(drd.key && drd.endpoint && drd.script && drd.hosts?.length);
 ---
 
 {body ? (
@@ -61,14 +61,25 @@ const drdEnabled = Boolean(drd.key && drd.endpoint && drd.script);
     )}
 
     {drdEnabled && (
-      <>
-        {/* Config object must exist before drd-track.js evaluates, hence a
-            separate inline script ahead of the async load. */}
-        <script is:inline define:vars={{ endpoint: drd.endpoint, key: drd.key }}>
+      /* Injected from script rather than rendered as a static <script src>,
+         because whether it should load at all depends on the runtime hostname
+         — the same build is served from both the preview and production hosts,
+         and the tracker's CORS allow-list only covers the latter. See
+         ANALYTICS.drd.hosts in constants.ts.
+         The config object has to exist before drd-track.js evaluates, so it is
+         set first and the tag appended after. */
+      <script
+        is:inline
+        define:vars={{ endpoint: drd.endpoint, key: drd.key, src: drd.script, hosts: drd.hosts }}
+      >
+        if (hosts.indexOf(window.location.hostname) !== -1) {
           window.drdTrack = { endpoint: endpoint, key: key, debug: false };
-        </script>
-        <script is:inline async src={drd.script}></script>
-      </>
+          var drdTag = document.createElement('script');
+          drdTag.async = true;
+          drdTag.src = src;
+          document.head.appendChild(drdTag);
+        }
+      </script>
     )}
   </>
 )}

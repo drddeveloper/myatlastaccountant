@@ -36,17 +36,20 @@ export const SITE_DATA = {
     // applicants are never left with a dead submit button.
     careers: "https://usebasin.com/f/7e241f8689e4",
     // Lead / "Schedule Free Assessment" endpoint. This replaced the Calendly
-    // embed sitewide (client direction, 2026-08-12), so it is now the site's
-    // only conversion path — it needs a real endpoint before launch.
+    // embed sitewide (client direction, 2026-08-12), so it is the site's only
+    // conversion path — nothing else captures an enquiry.
     //
-    // TODO: create a second Basin form and paste its URL here. Configure the
-    // Basin redirect to https://www.myatlasaccountant.com/thank-you/ (the www
-    // host — the site canonicalises to www, and pointing it at the apex costs
-    // every lead an extra redirect hop).
+    // Supplied by the client 2026-08-13. The mailto fallback in LeadForm.astro
+    // is now dormant: it only fires if this string is emptied again.
     //
-    // While this is empty the form still validates, then falls back to a
-    // prefilled email to company.email so no lead is ever dropped on the floor.
-    leads: "",
+    // STILL TO CONFIRM IN THE BASIN DASHBOARD (cannot be set from this repo):
+    //   1. Redirect after submit → https://www.myatlasaccountant.com/thank-you/
+    //      Use the www host. The site canonicalises to www, so pointing it at
+    //      the apex costs every lead an extra redirect hop. The careers form
+    //      has exactly this defect today (see the note above it).
+    //   2. Notification recipients — otherwise submissions sit in Basin unseen.
+    // Verify with a real submission on the preview deploy (checklist B3).
+    leads: "https://usebasin.com/f/30f99ad0845a",
   },
   branding: {
     colors: {
@@ -129,6 +132,25 @@ export const ANALYTICS = {
     endpoint: "https://track.deepriverdigital.com/ingest",
     script: "https://track.deepriverdigital.com/drd-track.js",
     key: "pk_atlas_accounting_live_23c046f8e4137417925ffc66",
+
+    /**
+     * Hostnames the tracker is allowed to run on. It is NOT loaded anywhere
+     * else, because it cannot work anywhere else: track.deepriverdigital.com
+     * only sends Access-Control-Allow-Origin for origins on its own allow-list,
+     * so /config and /discover fail CORS on every other host and log two
+     * console errors per page load. PageSpeed counts those against Best
+     * Practices — that is what this list fixes (2026-08-13).
+     *
+     * Verified 2026-08-13 by sending each Origin to /config: the apex and www
+     * are both allowed and reflected back; myatlastaccountant.pages.dev is not
+     * and falls back to the apex value, which is what the browser rejects.
+     *
+     * So the tracker works on the production domain either way. If you want it
+     * live on preview deploys too, add the pages.dev host to the allow-list on
+     * the DRD server FIRST, then add it here — doing it here alone just
+     * reinstates the CORS errors.
+     */
+    hosts: ["myatlasaccountant.com", "www.myatlasaccountant.com"],
   },
 };
 

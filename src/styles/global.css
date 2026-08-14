@@ -466,26 +466,41 @@
     }
   }
 
-  /* Industry-page hero, mobile. The photo leads and runs edge to edge, with the
-     heading, intro and CTA packed underneath, so all four clear the fold on a
-     phone. Desktop is untouched — copy left, photo right.
+  /* Mobile hero photo, edge to edge. Two separate opt-ins:
+       .hero-media-bleed — full-bleed only, photo stays where it is in the
+                           source order (homepage).
+       .hero-media-first — full-bleed AND the photo leads, with the copy
+                           tightened so heading, intro and CTA clear the fold
+                           (the five industry pages).
+     Desktop is untouched in both cases — copy left, photo right.
+
      The photo escapes the container with the standard full-bleed trick (100vw
      plus a negative inline margin of half the difference). overflow-x: clip on
      the section contains it: below 1024px on a desktop browser 100vw counts the
-     scrollbar, which would otherwise add a horizontal scrollbar of its own. */
+     scrollbar, which would otherwise add a horizontal scrollbar of its own.
 
+     Note for anyone changing an <Image sizes> on one of these heroes: below
+     1024px the photo really is 100vw, NOT the container width, so `100vw` is
+     the correct descriptor. Heroes without one of these classes sit inside the
+     container's px-4 and want `calc(100vw - 2rem)` instead. */
+
+  .hero-media-bleed,
   .hero-media-first {
     overflow-x: clip;
   }
   @media (max-width: 1023px) {
+    .hero-media-bleed .hero-media,
     .hero-media-first .hero-media {
-      order: -1;
       width: 100vw;
       margin-inline: calc(50% - 50vw);
     }
+    .hero-media-first .hero-media {
+      order: -1;
+    }
     .hero-media-first .hero-media > img {
       /* Capped. At its natural aspect ratio the photo eats most of a small
-         phone's viewport and pushes the CTA below the fold. */
+         phone's viewport and pushes the CTA below the fold. Only applies where
+         the photo leads — a photo below the copy can take its natural height. */
       height: clamp(9rem, 26vh, 15rem);
     }
     .hero-media-first .hero-copy {
