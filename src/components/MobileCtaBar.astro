@@ -1,0 +1,108 @@
+---
+import { SITE_DATA } from '../data/constants';
+
+/**
+ * Mobile-only sticky CTA bar: Call + Schedule Call, pinned to the bottom of the
+ * viewport once the visitor starts scrolling.
+ *
+ * Replaced FloatingAssessmentCta (client direction, 2026-08-15), which was
+ * desktop-only and is now archived. This is the mobile counterpart the site
+ * never had — desktop keeps the header's "Book a Call" button.
+ *
+ * Hidden at the top of the page so it never competes with the hero CTA, which
+ * is already above the fold on every industry page.
+ *
+ * z-30 is deliberate and load-bearing: the header is z-50 and the mobile menu
+ * panel is z-40 and opaque down to bottom-0, so an open menu covers this bar
+ * without needing any JS to coordinate the two.
+ */
+---
+
+<div
+  class="mobile-cta lg:hidden fixed inset-x-0 bottom-0 z-30 border-t border-base-300 bg-base-100 shadow-[0_-8px_24px_-12px_rgba(0,0,0,0.35)]"
+  data-mobile-cta
+>
+  {/* pb uses the safe-area inset so the bar clears the iPhone home indicator */}
+  <div class="grid grid-cols-2 gap-2 px-3 pt-3 pb-[max(0.75rem,env(safe-area-inset-bottom))]">
+    {/* text-xs + tight tracking: the full phone number does not fit two-up at
+        the site's default .btn size on a 320px screen. */}
+    <a
+      href={SITE_DATA.company.phoneHref}
+      class="btn btn-primary w-full px-2 text-xs tracking-normal whitespace-nowrap"
+    >
+      Call {SITE_DATA.company.phone}
+    </a>
+    <a
+      href="#schedule"
+      class="btn btn-accent w-full px-2 text-xs tracking-normal whitespace-nowrap"
+    >
+      Schedule Call
+    </a>
+  </div>
+</div>
+
+<style>
+  .mobile-cta {
+    transform: translateY(100%);
+    visibility: hidden;
+    transition:
+      transform 0.28s ease-out,
+      visibility 0s linear 0.28s;
+  }
+  .mobile-cta[data-visible] {
+    transform: translateY(0);
+    visibility: visible;
+    transition:
+      transform 0.28s ease-out,
+      visibility 0s;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .mobile-cta {
+      transition: visibility 0s linear 0.01s;
+      transform: translateY(0);
+    }
+    .mobile-cta[data-visible] {
+      transition: none;
+    }
+  }
+</style>
+
+{/* Global: the bar floats over the page, so the footer needs room underneath
+    or its last line sits permanently behind it. Scoped to the same breakpoint
+    the bar appears at, and only shipped on pages that render this component. */}
+<style is:global>
+  @media (max-width: 1023px) {
+    footer {
+      padding-bottom: 4.75rem;
+    }
+  }
+</style>
+
+<script>
+  const bar = document.querySelector<HTMLElement>('[data-mobile-cta]');
+
+  if (bar) {
+    // Far enough down that the bar never overlaps a hero CTA, close enough that
+    // it is there by the time the first section has been read.
+    const SHOW_AFTER_PX = 280;
+    let ticking = false;
+
+    const sync = () => {
+      ticking = false;
+      bar.toggleAttribute('data-visible', window.scrollY > SHOW_AFTER_PX);
+    };
+
+    // rAF-throttled: this runs on every scroll frame on a phone, so it must not
+    // touch layout more than once per frame.
+    const onScroll = () => {
+      if (ticking) return;
+      ticking = true;
+      requestAnimationFrame(sync);
+    };
+
+    window.addEventListener('scroll', onScroll, { passive: true });
+    // Restored scroll position on back-navigation means the page can already be
+    // scrolled before the first scroll event ever fires.
+    sync();
+  }
+</script>

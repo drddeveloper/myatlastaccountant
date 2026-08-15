@@ -1,7 +1,7 @@
 ---
 import Nav from '../components/Nav.astro';
 import Footer from '../components/Footer.astro';
-import FloatingAssessmentCta from '../components/FloatingAssessmentCta.astro';
+import MobileCtaBar from '../components/MobileCtaBar.astro';
 import Analytics from '../components/Analytics.astro';
 import { SITE_DATA } from '../data/constants';
 import '../styles/global.css';
@@ -27,12 +27,12 @@ interface Props {
      *  suffix, and the og:site_name + WebSite schema below are what Google
      *  actually uses to render the site name in results. */
     brandSuffix?: boolean;
-    /** Show the desktop floating "Schedule Free Assessment" panel.
+    /** Show the mobile sticky Call / Schedule Call bar.
      *
-     *  Default true. Set false on pages where its Contact button has nothing to
-     *  scroll to (404) or where it would sit on top of the very form it points
-     *  at (/getting-started/, /thank-you/). */
-    floatingCta?: boolean;
+     *  Default true. Set false only where its Schedule button has no #schedule
+     *  anchor to reach (404) or where a CTA is redundant because the visitor
+     *  has already converted (/thank-you/). */
+    mobileCta?: boolean;
 }
 
 const {
@@ -41,7 +41,7 @@ const {
   bareLayout = false,
   noindex = false,
   brandSuffix = true,
-  floatingCta = true,
+  mobileCta = true,
 } = Astro.props;
 
 const pageTitle = brandSuffix ? `${title} | ${SITE_DATA.company.name}` : title;
@@ -167,6 +167,6 @@ if (SITE_DATA.company.address.street) jsonLD.address = {
 		    <slot />
         </main>
         {!bareLayout && <Footer />}
-        {!bareLayout && floatingCta && <FloatingAssessmentCta />}
+        {!bareLayout && mobileCta && <MobileCtaBar />}
 	</body>
 </html>

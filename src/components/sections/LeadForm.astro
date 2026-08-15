@@ -67,6 +67,18 @@ const BOOKKEEPING_SYSTEMS = [
         {BOOKKEEPING_SYSTEMS.map((system) => <option value={system}>{system}</option>)}
       </select>
     </div>
+    {/* Optional — deliberately no asterisk, and it is skipped by the validator
+        below. Left last so it never blocks the required fields. */}
+    <div class="sm:col-span-2">
+      <label for="lf-notes" class="form-label">Is there anything else you want to share?</label>
+      <textarea
+        id="lf-notes"
+        name="notes"
+        rows="4"
+        class="input resize-y"
+        placeholder="Optional — anything that would help us prepare"
+      ></textarea>
+    </div>
   </div>
 
   {/* Honeypot. Bots fill every field they find; humans never see this one.
@@ -103,7 +115,11 @@ const BOOKKEEPING_SYSTEMS = [
     const fallbackEmail = form.dataset.fallbackEmail ?? '';
 
     const field = (name: string) =>
-      form.elements.namedItem(name) as HTMLInputElement | HTMLSelectElement | null;
+      form.elements.namedItem(name) as
+        | HTMLInputElement
+        | HTMLSelectElement
+        | HTMLTextAreaElement
+        | null;
 
     const fail = (message: string, focus?: HTMLElement | null) => {
       errorBox.textContent = message;
@@ -150,12 +166,15 @@ const BOOKKEEPING_SYSTEMS = [
       if (!endpoint) {
         e.preventDefault();
         const get = (n: string) => (field(n)?.value ?? '').trim();
+        const notes = get('notes');
         const body = [
           `Name: ${get('firstName')} ${get('lastName')}`,
           `Company: ${get('companyName')}`,
           `Email: ${get('email')}`,
           `Phone: ${get('phone')}`,
           `Bookkeeping system: ${get('bookkeepingSystem')}`,
+          // Optional field — omitted entirely rather than sent as an empty label
+          ...(notes ? ['', 'Anything else:', notes] : []),
         ].join('\n');
         const subject = `Free assessment request - ${get('companyName')}`;
         window.location.href =

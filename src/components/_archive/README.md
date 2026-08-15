@@ -19,6 +19,20 @@ files back and reverting the imports. Two things to fix if you do:
 - `SITE_DATA.links.calendly` is still populated in `constants.ts`, so the embed
   will work as soon as it is imported again.
 
+## FloatingAssessmentCta.astro
+
+Retired 2026-08-15 (client direction). The desktop-only "Schedule Free
+Assessment" slide-out panel was switched off sitewide and replaced by
+`src/components/MobileCtaBar.astro` — a mobile sticky Call / Schedule Call bar.
+Desktop now has no floating CTA at all; the header's "Book a Call" button is the
+persistent desktop CTA.
+
+If you restore it, note that the BaseLayout prop was renamed `floatingCta` →
+`mobileCta` and now controls the mobile bar, so the two need separate props to
+coexist. `.btn-outline-light` was added to `global.css` for this component and
+is deliberately kept — it is documented on `/brand-guide/` as the dark-surface
+outline button.
+
 ## LaborCalcPopup.astro
 
 Retired 2026-08-12 (client direction). The homepage slide-in promoting the
