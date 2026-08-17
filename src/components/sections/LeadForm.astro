@@ -179,7 +179,49 @@ const BOOKKEEPING_SYSTEMS = [
         const subject = `Free assessment request - ${get('companyName')}`;
         window.location.href =
           `mailto:${fallbackEmail}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+        return;
       }
+
+      // Submit over fetch so WE own the redirect.
+      //
+      // Basin's own "Custom Redirect" is a dashboard setting on paid plans
+      // only; left blank it just shows Basin's default success page, which is
+      // what visitors were getting (reported 2026-08-17 — submissions were
+      // logging fine, nobody reached /thank-you/). Doing it here keeps the
+      // destination in version control and works on any plan tier.
+      //
+      // The native action="" is left on the form as the no-JS path, and as the
+      // catch below: anything at all goes wrong and we hand the browser the
+      // ordinary POST rather than lose a lead. That lands on Basin's page,
+      // which is worse UX but still captures the enquiry.
+      e.preventDefault();
+      if (form.dataset.submitting === 'true') return;
+      form.dataset.submitting = 'true';
+
+      const button = form.querySelector<HTMLButtonElement>('button[type="submit"]')!;
+      const buttonLabel = button.textContent;
+      button.disabled = true;
+      button.textContent = 'Sending…';
+
+      fetch(endpoint, {
+        method: 'POST',
+        // Accept + urlencoded are both CORS-safelisted, so this stays a simple
+        // request. Verified 2026-08-17 that Basin answers the preflight with
+        // access-control-allow-origin: * regardless.
+        headers: { Accept: 'application/json' },
+        body: new URLSearchParams(new FormData(form) as unknown as Record<string, string>),
+      })
+        .then((res) => {
+          if (!res.ok) throw new Error(`Basin responded ${res.status}`);
+          window.location.assign('/thank-you/');
+        })
+        .catch(() => {
+          form.dataset.submitting = 'false';
+          button.disabled = false;
+          button.textContent = buttonLabel;
+          // Native POST — does not re-fire this handler, so no loop.
+          form.submit();
+        });
     });
   });
 </script>

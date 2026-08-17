@@ -42,13 +42,16 @@ export const SITE_DATA = {
     // Supplied by the client 2026-08-13. The mailto fallback in LeadForm.astro
     // is now dormant: it only fires if this string is emptied again.
     //
+    // The redirect to /thank-you/ is NOT a Basin setting — do not go looking
+    // for it in the dashboard. Basin's own "Custom Redirect" is paid-plan only,
+    // and left blank it shows Basin's default success page, which is exactly
+    // what visitors hit on launch day (2026-08-17: submissions logged fine,
+    // nobody reached /thank-you/). LeadForm.astro now POSTs over fetch and does
+    // the redirect itself, so the destination lives in this repo instead.
+    //
     // STILL TO CONFIRM IN THE BASIN DASHBOARD (cannot be set from this repo):
-    //   1. Redirect after submit → https://www.myatlasaccountant.com/thank-you/
-    //      Use the www host. The site canonicalises to www, so pointing it at
-    //      the apex costs every lead an extra redirect hop. The careers form
-    //      has exactly this defect today (see the note above it).
-    //   2. Notification recipients — otherwise submissions sit in Basin unseen.
-    // Verify with a real submission on the preview deploy (checklist B3).
+    //   Notification recipients — otherwise submissions sit in Basin unseen.
+    // Verify with one real submission on production (checklist B3).
     leads: "https://usebasin.com/f/30f99ad0845a",
   },
   branding: {
