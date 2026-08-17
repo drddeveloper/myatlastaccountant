@@ -210,9 +210,21 @@ const BOOKKEEPING_SYSTEMS = [
         // access-control-allow-origin: * regardless.
         headers: { Accept: 'application/json' },
         body: new URLSearchParams(new FormData(form) as unknown as Record<string, string>),
+        // Do NOT follow Basin's own redirect. Basin answers a successful POST
+        // with a 302 to whatever its dashboard "Custom Redirect" holds, and
+        // that value is outside this repo. On launch day it was pointing at the
+        // APEX host, so fetch tried to follow it cross-origin, connect-src
+        // ('self' is www) blocked it, and the whole submission looked broken —
+        // the same misconfiguration the careers form has (see constants.ts).
+        // Stopping at the redirect makes Basin's setting irrelevant: the POST
+        // is delivered, and the destination below is ours.
+        redirect: 'manual',
       })
         .then((res) => {
-          if (!res.ok) throw new Error(`Basin responded ${res.status}`);
+          // With redirect:'manual' a 3xx arrives as an opaque redirect —
+          // status 0, ok false — which is still a delivered submission.
+          const delivered = res.ok || res.type === 'opaqueredirect' || res.status === 0;
+          if (!delivered) throw new Error(`Basin responded ${res.status}`);
           window.location.assign('/thank-you/');
         })
         .catch(() => {
