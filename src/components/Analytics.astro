@@ -126,11 +126,46 @@ const drdEnabled = Boolean(drd.key && drd.endpoint && drd.script && drd.hosts?.l
         define:vars={{ endpoint: drd.endpoint, key: drd.key, src: drd.script, hosts: drd.hosts }}
       >
         if (hosts.indexOf(window.location.hostname) !== -1) {
+          // Config object must exist before drd-track.js evaluates.
           window.drdTrack = { endpoint: endpoint, key: key, debug: false };
-          var drdTag = document.createElement('script');
-          drdTag.async = true;
-          drdTag.src = src;
-          document.head.appendChild(drdTag);
+
+          // Deferred on the same triggers as GTM (2026-08-17). PageSpeed listed
+          // track.deepriverdigital.com as a preconnect candidate worth 160ms of
+          // LCP, which is another way of saying it was loading inside the
+          // critical path. Same trade as GTM: see the note above it.
+          var drdStarted = false;
+          var drdCap;
+          var DRD_EVENTS = ['pointerdown', 'keydown', 'touchstart', 'scroll'];
+
+          var startDrd = function () {
+            if (drdStarted) return;
+            drdStarted = true;
+            clearTimeout(drdCap);
+            DRD_EVENTS.forEach(function (e) {
+              window.removeEventListener(e, startDrd, true);
+            });
+            var drdTag = document.createElement('script');
+            drdTag.async = true;
+            drdTag.src = src;
+            document.head.appendChild(drdTag);
+          };
+
+          DRD_EVENTS.forEach(function (e) {
+            window.addEventListener(e, startDrd, { capture: true, once: true, passive: true });
+          });
+          drdCap = setTimeout(startDrd, 10000);
+
+          if (document.readyState === 'complete') {
+            window.requestIdleCallback
+              ? window.requestIdleCallback(startDrd, { timeout: 1000 })
+              : setTimeout(startDrd, 200);
+          } else {
+            window.addEventListener('load', function () {
+              window.requestIdleCallback
+                ? window.requestIdleCallback(startDrd, { timeout: 1000 })
+                : setTimeout(startDrd, 200);
+            }, { once: true });
+          }
         }
       </script>
     )}

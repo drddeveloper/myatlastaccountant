@@ -127,9 +127,17 @@ if (SITE_DATA.company.address.street) jsonLD.address = {
             DNS early is the part that still pays off once it does. */}
         <link rel="dns-prefetch" href="https://www.googletagmanager.com" />
 
-        <link rel="preload" href="/fonts/Sofia-Pro-Regular-Az.woff" as="font" type="font/woff" crossorigin />
-        <link rel="preload" href="/fonts/Sofia-Pro-Semi-Bold-Az.woff" as="font" type="font/woff" crossorigin />
-        <link rel="preload" href="/fonts/Sofia-Pro-Bold-Az.woff" as="font" type="font/woff" crossorigin />
+        {/* TWO weights, not three, and woff2 not woff.
+            Above the fold every page uses only 400 (body, nav, intro) and 700
+            (heading-display, .btn-accent) — 600 first appears in .eyebrow and
+            .btn further down, and loads normally via @font-face with
+            font-display: swap.
+            This was the LCP bottleneck: three .woff preloads were 197 KiB at
+            highest priority, competing with a 38 KiB hero image on slow 4G.
+            Two woff2 preloads are ~98 KiB, half the critical-path font weight.
+            Keep this list minimal — a preload here outranks the LCP image. */}
+        <link rel="preload" href="/fonts/Sofia-Pro-Regular-Az.woff2" as="font" type="font/woff2" crossorigin />
+        <link rel="preload" href="/fonts/Sofia-Pro-Bold-Az.woff2" as="font" type="font/woff2" crossorigin />
         <meta name="theme-color" content={SITE_DATA.branding.colors.themeColor} />
 		<title>{pageTitle}</title>
 

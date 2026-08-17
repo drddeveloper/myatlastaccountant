@@ -58,48 +58,64 @@
 /* ─── Fonts ─────────────────────────────────────────────────────────────────── */
 /* Sofia Pro — client-licensed webfonts carried over from the original site,    */
 /* self-hosted from /public/fonts.                                              */
+/*                                                                              */
+/* woff2 added 2026-08-17 and listed FIRST so every current browser takes it;    */
+/* the original .woff stays as the fallback leg, so nothing breaks and no extra  */
+/* byte is downloaded (a browser fetches one leg only). Same font data, just     */
+/* re-compressed — no subsetting, no glyph changes to the licensed originals.    */
+/*                                                                              */
+/* Why it mattered: the three preloaded weights were 197 KiB of .woff at highest */
+/* priority, more than 5x the 38 KiB hero image they were competing with, which  */
+/* is what was holding LCP at ~8s on Lighthouse's slow-4G profile. woff2 takes   */
+/* ~26% off, and BaseLayout now preloads two weights instead of three.           */
 
 @font-face {
   font-family: "Sofia Pro";
   font-style: normal;
   font-weight: 400;
   font-display: swap;
-  src: url("/fonts/Sofia-Pro-Regular-Az.woff") format("woff");
+  src: url("/fonts/Sofia-Pro-Regular-Az.woff2") format("woff2"),
+       url("/fonts/Sofia-Pro-Regular-Az.woff") format("woff");
 }
 @font-face {
   font-family: "Sofia Pro";
   font-style: italic;
   font-weight: 400;
   font-display: swap;
-  src: url("/fonts/Sofia-Pro-Regular-Italic-Az.woff") format("woff");
+  src: url("/fonts/Sofia-Pro-Regular-Italic-Az.woff2") format("woff2"),
+       url("/fonts/Sofia-Pro-Regular-Italic-Az.woff") format("woff");
 }
 @font-face {
   font-family: "Sofia Pro";
   font-style: normal;
   font-weight: 500;
   font-display: swap;
-  src: url("/fonts/Sofia-Pro-Medium-Az.woff") format("woff");
+  src: url("/fonts/Sofia-Pro-Medium-Az.woff2") format("woff2"),
+       url("/fonts/Sofia-Pro-Medium-Az.woff") format("woff");
 }
 @font-face {
   font-family: "Sofia Pro";
   font-style: normal;
   font-weight: 600;
   font-display: swap;
-  src: url("/fonts/Sofia-Pro-Semi-Bold-Az.woff") format("woff");
+  src: url("/fonts/Sofia-Pro-Semi-Bold-Az.woff2") format("woff2"),
+       url("/fonts/Sofia-Pro-Semi-Bold-Az.woff") format("woff");
 }
 @font-face {
   font-family: "Sofia Pro";
   font-style: normal;
   font-weight: 700;
   font-display: swap;
-  src: url("/fonts/Sofia-Pro-Bold-Az.woff") format("woff");
+  src: url("/fonts/Sofia-Pro-Bold-Az.woff2") format("woff2"),
+       url("/fonts/Sofia-Pro-Bold-Az.woff") format("woff");
 }
 @font-face {
   font-family: "Sofia Pro";
   font-style: italic;
   font-weight: 700;
   font-display: swap;
-  src: url("/fonts/Sofia-Pro-Bold-Italic-Az.woff") format("woff");
+  src: url("/fonts/Sofia-Pro-Bold-Italic-Az.woff2") format("woff2"),
+       url("/fonts/Sofia-Pro-Bold-Italic-Az.woff") format("woff");
 }
 
 /* ─── Base Styles ───────────────────────────────────────────────────────────── */
