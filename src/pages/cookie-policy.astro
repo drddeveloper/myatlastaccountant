@@ -6,11 +6,11 @@ import { LEGAL } from '../data/constants';
 
 /* Shell only — see privacy-policy.astro and the LEGAL block in constants.ts.
  *
- * A "Change your cookie choices" card sat above the policy until 2026-09-01,
- * opening the consent manager. It went out with the CMP (see the usercentrics
- * block in constants.ts). If the banner returns, this page is the right place
- * to put that control back — it is where a visitor lands when they want to act
- * on what is being set on their device. */
+ * The one addition is the consent-manager card. This page is where a visitor
+ * lands when they want to know what is being set on their device, so it is the
+ * page that most needs a way to act on it — and for a visitor outside the
+ * banner's regions, this and the footer link are the ONLY way. Hidden until a
+ * consent API exists; handler delegated from CookieConsent.astro. */
 ---
 
 <BaseLayout
@@ -26,6 +26,16 @@ import { LEGAL } from '../data/constants';
   <section class="bg-base-100">
     <div class="container mx-auto px-4 py-12 md:py-16">
       <div class="max-w-3xl">
+        <div class="mb-10 bg-cream border-l-4 border-accent p-6 usercentrics-psl" data-privacy-settings-panel hidden>
+          <h2 class="heading-display text-xl text-primary">Change your cookie choices</h2>
+          <p class="mt-2 text-sm">
+            Open the consent manager to review each category and update what you allow.
+          </p>
+          <button type="button" class="btn btn-accent mt-4" data-privacy-settings hidden>
+            Privacy Settings
+          </button>
+        </div>
+
         <PolicyEmbed embedId={LEGAL.termageddon.cookies} label="Cookie Policy" />
 
         <p class="mt-12 pt-8 border-t border-base-300 text-sm">

@@ -198,27 +198,58 @@ export const LEGAL = {
     cookies: "YW1aQ2FIUTNhbGhCYzNOUlNsRTlQUT09",
   },
   usercentrics: {
-    /**
-     * DISABLED 2026-09-01 (client direction). Blanking this removes the consent
-     * manager from the build entirely — no banner, no blocking, no request to
-     * either usercentrics.eu host. CookieConsent.astro renders nothing.
-     *
-     * To turn it back on, restore the id below. Nothing else needs changing:
-     * the CSP origins are still in public/_headers, and the footer + cookie
-     * policy controls come back with it (see CookieConsent.astro).
-     *
-     *   settingsId: "St1tcXPP44pggW"
-     *
-     * Why it went off: the banner ran opt-in for every visitor worldwide, which
-     * US law does not require, and the switch to notice/opt-out for US traffic
-     * (`ccpa.isActive` in the Usercentrics configuration) could not be found in
-     * Termageddon's interface. The blocking banner was costing analytics and
-     * Ads conversion data in the meantime. Sort the framework out with
-     * Termageddon support first, then re-enable.
-     */
-    settingsId: "",
+    settingsId: "St1tcXPP44pggW",
     /** Termageddon-supplied translation overrides for the Usercentrics UI. */
     translations: "https://termageddon.ams3.cdn.digitaloceanspaces.com/translations/",
+
+    /**
+     * Where the consent banner is SHOWN. Everywhere else it is suppressed and
+     * consent is auto-granted, so tags run with no banner.
+     *
+     * READ THAT AGAIN, because it is the whole trade and it is not obvious from
+     * the config: a visitor outside this list is not asked. Usercentrics is
+     * told, on their behalf, that they accepted everything. That is the vendor
+     * mechanism for "no banner in this region" — there is no third mode where
+     * the banner is absent and tags are still blocked, because blocked tags
+     * with no way to unblock them is just a tracking outage.
+     *
+     * Consequence worth being deliberate about: the consent record for those
+     * visitors says they opted in. They did not. `pslHide: false` below is what
+     * keeps that defensible — the footer control stays reachable, so consent is
+     * granted by default but is genuinely withdrawable.
+     *
+     * Keys are ISO country codes; `true` means the whole country, an array
+     * means only those region/state codes. `EU: true` expands to the EU member
+     * states plus Norway, Iceland and Liechtenstein.
+     *
+     * US is California-only on Termageddon's recommendation, and it is a
+     * defensible starting point: California is where the session-recording and
+     * pixel wiretapping claims actually originate. Widening it is adding
+     * two-letter codes to the array — Colorado, Connecticut and the other
+     * opt-out states are the obvious candidates if the client wants to be
+     * cautious.
+     */
+    showLocations: {
+      US: ["CA"],
+      CA: true,
+      GB: true,
+      EU: true,
+    },
+
+    /**
+     * Whether the footer's "Privacy Settings" control is hidden outside the
+     * regions above.
+     *
+     * FALSE, deliberately — Termageddon's script ships this as true.
+     *
+     * With it true, a visitor outside the listed regions gets no banner, has
+     * consent granted on their behalf, AND has no control anywhere on the site
+     * to undo it. No notice and no choice. With it false they still get no
+     * banner, but "Privacy Settings" stays in the footer and one click opens
+     * the full panel. That is the difference between suppressing the tool and
+     * suppressing the interruption, and it costs nothing.
+     */
+    pslHide: false,
   },
 };
 

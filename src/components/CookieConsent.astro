@@ -4,12 +4,10 @@ import { LEGAL } from '../data/constants';
 /**
  * Usercentrics CMP (supplied with the Termageddon licence).
  *
- * ⚠️ CURRENTLY DISABLED. `LEGAL.usercentrics.settingsId` is blank, so this
- * component renders nothing at all and neither usercentrics.eu host is
- * contacted. Restore the id in constants.ts to bring it back — that comment
- * explains why it went off and what to settle first. Everything below is the
- * working implementation, kept intact rather than deleted because the CSP
- * finding in it took a while to arrive at and is not in any vendor doc.
+ * Re-enabled 2026-09-01 with Termageddon's geolocation layer, which is what
+ * makes the banner regional: it shows only in LEGAL.usercentrics.showLocations
+ * and is suppressed everywhere else. Blank the settingsId to remove the whole
+ * thing from the build again.
  *
  * Two files, in a fixed order, plus one API call between them:
  *
@@ -68,8 +66,45 @@ import { LEGAL } from '../data/constants';
  * usable at all, so this component owns them: they ship `hidden` and are
  * revealed only once a consent API is actually present. An ad blocker that
  * eats Usercentrics leaves no dead button behind.
+ *
+ * ---------------------------------------------------------------------------
+ * THE GEOLOCATION LAYER (from Termageddon, 2026-09-01, adapted)
+ *
+ * Usercentrics resolves the visitor's country and region from their IP and
+ * caches it in sessionStorage under `uc_user_country`. This reads that, and:
+ *
+ *   in a listed region  -> leave the banner alone, let it ask
+ *   anywhere else       -> hide the banner AND call acceptAllConsents()
+ *
+ * The auto-accept is not incidental, it is the mechanism. uc-block holds every
+ * tag until consent exists, so suppressing the banner without granting consent
+ * would suppress the tracking too. See the note on showLocations in
+ * constants.ts for what that means for the consent record.
+ *
+ * THREE DIVERGENCES FROM THE SCRIPT AS SUPPLIED, all deliberate:
+ *
+ *  1. bundle.js, not the loader.js their snippet loads. Non-negotiable here —
+ *     see the CSP note above. Their version would never initialise on this
+ *     site, and because their geo code waits on UC_UI it would then never run
+ *     either, leaving no banner anywhere including the EU.
+ *
+ *  2. uc-block.bundle.js is kept. Their snippet drops it. Without it nothing
+ *     is blocked pre-consent, so an EU visitor would see the banner while GTM
+ *     had already fired behind it — the banner becomes decoration exactly
+ *     where it legally is not allowed to be.
+ *
+ *  3. pslHide defaults false rather than true. See constants.ts.
+ *
+ * Their polling loop is kept as-is and the reasoning in their comment is
+ * correct: on a cold load the IP lookup can still be in flight when
+ * UC_UI_INITIALIZED fires, so a single read finds nothing and the banner only
+ * appears on the second page view. Poll, do not check once.
+ *
+ * ?enable-usercentrics on any URL forces the banner up regardless of location.
+ * That is the only way to see the EU experience from a US connection, so it is
+ * how you test this.
  */
-const { settingsId, translations } = LEGAL.usercentrics;
+const { settingsId, translations, showLocations, pslHide } = LEGAL.usercentrics;
 ---
 
 {settingsId && (
@@ -111,6 +146,123 @@ const { settingsId, translations } = LEGAL.usercentrics;
         }
 
         document.head.appendChild(block);
+      })();
+    </script>
+
+    <script is:inline define:vars={{ showLocations, pslHide }}>
+      (function () {
+        // EU member states plus the three EEA countries that GDPR reaches.
+        // Hardcoded rather than derived: the list changes about once a decade
+        // and a wrong entry here is a compliance question, not a bug.
+        var EEA = ['AT','BE','BG','HR','CY','CZ','DK','EE','FI','FR','DE','GR',
+                   'HU','IE','IT','LV','LT','LU','MT','NL','PL','PT','RO','SK',
+                   'SI','ES','SE','NO','IS','LI'];
+        // Both selectors: v2 renders into #usercentrics-root, v3 into
+        // aside#usercentrics-cmp-ui. Whichever this settings id resolves to,
+        // one of them is on the page.
+        var WIDGETS = 'div#usercentrics-root, aside#usercentrics-cmp-ui';
+        var PSL = '[data-privacy-settings], [data-privacy-settings-panel], .usercentrics-psl';
+
+        function inListedRegion(country, region) {
+          var eu = showLocations.EU;
+          if (eu === true && EEA.indexOf(country) !== -1) return true;
+          if (Array.isArray(eu) && eu.indexOf(country) !== -1) return true;
+
+          var rule = showLocations[country];
+          if (rule === true) return true;
+          if (Array.isArray(rule)) return rule.indexOf(region) !== -1;
+          return false;
+        }
+
+        function styleAll(selector, styles) {
+          document.querySelectorAll(selector).forEach(function (el) {
+            Object.keys(styles).forEach(function (prop) {
+              if (styles[prop] === null) el.style.removeProperty(prop);
+              // setProperty with !important, because the widget sets its own
+              // inline styles and would otherwise win.
+              else el.style.setProperty(prop, styles[prop], 'important');
+            });
+          });
+        }
+
+        function showBanner() {
+          if (pslHide) styleAll(PSL, { display: null });
+          styleAll(WIDGETS, {
+            display: null, visibility: null, opacity: null, 'pointer-events': null,
+          });
+          // isConsentRequired() covers accept AND deny, so a visitor who
+          // already answered is not asked again on every page.
+          var ui = window.UC_UI;
+          if (ui && ui.showFirstLayer && ui.isConsentRequired && ui.isConsentRequired()) {
+            try {
+              ui.showFirstLayer();
+            } catch (e) {
+              styleAll(WIDGETS, { display: null });
+            }
+          }
+        }
+
+        function suppressBanner() {
+          if (pslHide) styleAll(PSL, { display: 'none' });
+          styleAll(WIDGETS, {
+            display: 'none', visibility: 'hidden', opacity: '0', 'pointer-events': 'none',
+          });
+
+          // The auto-accept. Guarded on areAllConsentsAccepted so this does not
+          // overwrite a real choice the visitor made earlier — someone who
+          // opted out via the footer control must stay opted out on the next
+          // page, not be silently re-consented on every navigation.
+          var ui = window.UC_UI;
+          if (ui && ui.areAllConsentsAccepted && ui.acceptAllConsents) {
+            try {
+              if (!ui.areAllConsentsAccepted()) {
+                ui.acceptAllConsents().then(function () {
+                  if (ui.closeCMP) ui.closeCMP();
+                }).catch(function () {});
+              }
+            } catch (e) {}
+          }
+        }
+
+        function run() {
+          if (!window.UC_UI) return;
+
+          // Escape hatch: ?enable-usercentrics forces the banner up from any
+          // location. The only way to check the EU path from a US connection.
+          try {
+            if (new URLSearchParams(window.location.search).has('enable-usercentrics')) {
+              showBanner();
+              return;
+            }
+          } catch (e) {}
+
+          // Poll rather than read once. On a cold load the IP lookup can still
+          // be in flight when UC_UI_INITIALIZED fires, and a single read that
+          // finds nothing produces the classic symptom: no banner on the first
+          // visit, banner on the refresh.
+          var attempts = 0;
+          (function poll() {
+            var loc = null;
+            try {
+              var raw = sessionStorage.getItem('uc_user_country');
+              if (raw) loc = JSON.parse(raw);
+            } catch (e) {}
+
+            if (loc && loc.countryCode && loc.regionCode) {
+              if (inListedRegion(loc.countryCode, loc.regionCode)) showBanner();
+              else suppressBanner();
+              return;
+            }
+            if (++attempts < 20) setTimeout(poll, 150);
+            // Give up after 3s and do NOTHING, which leaves the banner in its
+            // default state: shown. Failing towards asking is the safe
+            // direction — the alternative is silently consenting on behalf of
+            // someone whose location we could not establish.
+          })();
+        }
+
+        if (window.UC_UI) run();
+        else window.addEventListener('UC_UI_INITIALIZED', run);
       })();
     </script>
 

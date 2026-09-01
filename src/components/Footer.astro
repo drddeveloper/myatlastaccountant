@@ -29,11 +29,33 @@ const currentYear = new Date().getFullYear();
         <a href={SITE_DATA.links.termsOfService} class="link-hover hover:text-accent transition-colors">Terms of Service</a>
         <span class="text-white/40" aria-hidden="true">|</span>
         <a href={SITE_DATA.links.cookiePolicy} class="link-hover hover:text-accent transition-colors">Cookie Policy</a>
-        {/* A "Privacy Settings" control sat here until 2026-09-01, opening the
-            consent manager's second layer. It went out with the CMP — see the
-            usercentrics block in constants.ts. Re-add it here (and the card on
-            /cookie-policy/) if the banner comes back; the markup is in that
-            commit. */}
+        {/* Opens the consent manager's second layer. The separator lives inside
+            the wrapper so the row collapses to a clean "… | Cookie Policy |
+            Brand Guide" rather than leaving a doubled pipe behind.
+
+            Both the wrapper and the button ship hidden and are revealed by
+            CookieConsent.astro only once a consent API exists — a blocked or
+            failed CMP leaves no control that swallows clicks.
+
+            usercentrics-psl is the vendor's own class for a privacy settings
+            link. It does nothing while pslHide is false, but it means any
+            future Termageddon snippet that targets .usercentrics-psl finds
+            this control instead of silently missing it.
+
+            display:contents so the wrapper is not a flex item and does not
+            break the row's wrapping; `hidden` still wins because Tailwind's
+            preflight marks [hidden] display:none !important. */}
+        <span class="contents" data-privacy-settings-panel hidden>
+          <span class="text-white/40" aria-hidden="true">|</span>
+          {/* Styled as a link, not a .btn — a button fill would shout over the
+              rest of this row. */}
+          <button
+            type="button"
+            data-privacy-settings
+            hidden
+            class="usercentrics-psl link-hover hover:text-accent focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent transition-colors cursor-pointer"
+          >Privacy Settings</button>
+        </span>
         <span class="text-white/40" aria-hidden="true">|</span>
         <a href="/brand-guide/" class="link-hover hover:text-accent transition-colors">Brand Guide</a>
       </p>
