@@ -202,8 +202,26 @@ const { settingsId, translations, showLocations, pslHide } = LEGAL.usercentrics;
           }
         }
 
+        // #usercentrics-root is not just the banner — it is the container the
+        // CMP renders EVERYTHING into, the settings panel included. So the
+        // forced hiding below has to be temporary, not permanent, or
+        // showSecondLayer() later renders the panel into a display:none box
+        // and the Privacy Settings link appears to do nothing at all.
+        //
+        // Termageddon's script leaves it hidden forever and gets away with it
+        // only because its pslHide default also hides the link, so nobody can
+        // click it. With the link visible — which is the entire point of
+        // pslHide:false — the root has to be given back.
+        function unhideWidgets() {
+          styleAll(WIDGETS, {
+            display: null, visibility: null, opacity: null, 'pointer-events': null,
+          });
+        }
+
         function suppressBanner() {
           if (pslHide) styleAll(PSL, { display: 'none' });
+          // Hidden first, to stop the first layer flashing up in the moment
+          // before the auto-accept below resolves.
           styleAll(WIDGETS, {
             display: 'none', visibility: 'hidden', opacity: '0', 'pointer-events': 'none',
           });
@@ -213,16 +231,34 @@ const { settingsId, translations, showLocations, pslHide } = LEGAL.usercentrics;
           // opted out via the footer control must stay opted out on the next
           // page, not be silently re-consented on every navigation.
           var ui = window.UC_UI;
-          if (ui && ui.areAllConsentsAccepted && ui.acceptAllConsents) {
-            try {
-              if (!ui.areAllConsentsAccepted()) {
-                ui.acceptAllConsents().then(function () {
-                  if (ui.closeCMP) ui.closeCMP();
-                }).catch(function () {});
-              }
-            } catch (e) {}
+          if (!ui || !ui.areAllConsentsAccepted || !ui.acceptAllConsents) return;
+          try {
+            if (ui.areAllConsentsAccepted()) {
+              // Nothing to grant, so nothing can render unbidden — hand the
+              // container straight back.
+              unhideWidgets();
+              return;
+            }
+            ui.acceptAllConsents().then(function () {
+              if (ui.closeCMP) ui.closeCMP();
+              // Consent is settled now, so the first layer will not reappear
+              // on its own and the container is safe to restore.
+              unhideWidgets();
+            }).catch(unhideWidgets);
+          } catch (e) {
+            unhideWidgets();
           }
         }
+
+        // Belt to the above's braces: whatever state the geo pass left things
+        // in, a click on a Privacy Settings control must be able to render.
+        // Runs before CookieConsent's own delegated handler calls
+        // showSecondLayer() because this listener is registered first.
+        document.addEventListener('click', function (event) {
+          var t = event.target;
+          if (!t || typeof t.closest !== 'function') return;
+          if (t.closest('[data-privacy-settings]')) unhideWidgets();
+        }, true);
 
         function run() {
           if (!window.UC_UI) return;
