@@ -1,0 +1,49 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PageHero from '../components/sections/PageHero.astro';
+import PolicyEmbed from '../components/PolicyEmbed.astro';
+import { LEGAL } from '../data/constants';
+
+/* Shell only — see privacy-policy.astro and the LEGAL block in constants.ts.
+ *
+ * The one addition is the consent-manager button. This page is where a visitor
+ * lands when they want to know what is being set on their device, so it is the
+ * page that most needs a way to act on that. `data-privacy-settings` is the
+ * hook; the handler is delegated from CookieConsent.astro. */
+---
+
+<BaseLayout
+  title="Cookie Policy"
+  description="What cookies and similar technologies this site sets, what each category is used for, how long they last, and how you can change your consent at any time."
+>
+  <PageHero
+    eyebrow="Legal"
+    title="Cookie Policy"
+    subtitle="What we set on your device, why, and how to change your mind."
+  />
+
+  <section class="bg-base-100">
+    <div class="container mx-auto px-4 py-12 md:py-16">
+      <div class="max-w-3xl">
+        <div class="mb-10 bg-cream border-l-4 border-accent p-6" data-privacy-settings-panel hidden>
+          <h2 class="heading-display text-xl text-primary">Change your cookie choices</h2>
+          <p class="mt-2 text-sm">
+            Open the consent manager to review each category and update what you allow.
+          </p>
+          <button type="button" class="btn btn-accent mt-4" data-privacy-settings hidden>
+            Privacy Settings
+          </button>
+        </div>
+
+        <PolicyEmbed embedId={LEGAL.termageddon.cookies} label="Cookie Policy" />
+
+        <p class="mt-12 pt-8 border-t border-base-300 text-sm">
+          See also our{' '}
+          <a href="/privacy-policy/" class="link font-semibold text-accent-ink">Privacy Policy</a>{' '}
+          and{' '}
+          <a href="/terms-of-service/" class="link font-semibold text-accent-ink">Terms of Service</a>.
+        </p>
+      </div>
+    </div>
+  </section>
+</BaseLayout>

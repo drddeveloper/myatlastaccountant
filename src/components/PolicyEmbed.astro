@@ -1,0 +1,146 @@
+---
+/**
+ * Termageddon policy embed.
+ *
+ * Renders the empty container the vendor script fills. See the LEGAL block in
+ * constants.ts for what that costs us in crawlability.
+ *
+ * HOW THE VENDOR SCRIPT BEHAVES (read before changing anything here — this was
+ * taken from the actual script body, not the docs):
+ *
+ *  - It registers on `window.load` and does nothing before that. It must
+ *    therefore be a real <script src> in the markup. Injecting it later, from
+ *    another script, is the one thing that breaks it outright: if it arrives
+ *    after `load` has already fired its listener never runs and the div stays
+ *    on the "Please wait" text forever. `defer` is safe (deferred scripts
+ *    execute before DOMContentLoaded, so long before `load`); `async` is not
+ *    reliably safe, so it is deliberately not used.
+ *
+ *  - It matches the div to the script by parsing every <script src> on the page
+ *    for `policies.termageddon.com/api/embed/` and taking the id out of the
+ *    filename. TWO embeds on one page is an error state it handles by hiding
+ *    the second and painting a red warning over the page — so one policy per
+ *    route, always.
+ *
+ *  - The content is fetched from embed.termageddon.com (NOT the policies. host
+ *    that serves the script) and assigned with innerHTML. That payload carries
+ *    its own <style> block — an id-scoped CSS reset — so the policy is immune
+ *    to our stylesheet and vice versa. It sets no font-family, which is why the
+ *    policy still renders in Sofia Pro.
+ *
+ *  Both origins are in the CSP: `policies.` under script-src, `embed.` under
+ *  connect-src. Neither is optional.
+ *
+ * The visible fallback link is the no-JS path and the vendor-outage path. It
+ * carries rel="nofollow noopener" — nofollow because the vendor's copy of the
+ * policy is a duplicate we do not want to endorse, noopener because preflight
+ * PF-15 makes it an error on any target="_blank" link.
+ */
+interface Props {
+  /** Termageddon embed key. Doubles as the div id and the script filename. */
+  embedId: string;
+  /** Policy name, for the fallback link's accessible name. */
+  label: string;
+}
+
+const { embedId, label } = Astro.props;
+---
+
+<div
+  id={embedId}
+  class="policy_embed_div"
+  aria-live="polite"
+  aria-busy="true"
+>
+  <p>
+    Please wait while the policy is loaded. If it does not load, please{' '}
+    <a
+      rel="nofollow noopener"
+      aria-label={`View the ${label} on Termageddon`}
+      href={`https://policies.termageddon.com/api/policy/${embedId}`}
+      target="_blank"
+      class="link font-semibold text-accent-ink"
+    >click here to view the policy</a>.
+  </p>
+</div>
+
+<script is:inline defer src={`https://policies.termageddon.com/api/embed/${embedId}.js`}></script>
+
+<style is:global>
+  /* The injected payload resets its own typography to browser defaults, which
+     leaves it visually adrift from the rest of the site. These rules are the
+     minimum needed to pull it back onto the brand's type scale and colour
+     tokens — everything else is left to the vendor's stylesheet.
+
+     is:global because the content does not exist at build time, so Astro's
+     scoped-style attributes can never be applied to it. */
+  .policy_embed_div {
+    color: var(--color-base-content);
+    line-height: 1.75;
+  }
+  .policy_embed_div h2,
+  .policy_embed_div h3,
+  .policy_embed_div h4 {
+    color: var(--color-primary);
+    font-weight: 700;
+    line-height: 1.2;
+  }
+  .policy_embed_div h2 {
+    font-size: 1.875rem;
+    margin-block: 2rem 1rem;
+  }
+  .policy_embed_div h3 {
+    font-size: 1.375rem;
+    margin-block: 1.75rem 0.75rem;
+  }
+  .policy_embed_div h4 {
+    font-size: 1.0625rem;
+    margin-block: 1.25rem 0.5rem;
+  }
+  /* First heading in the document sits directly under our own H1 — the extra
+     top margin would read as a gap, not a section break. */
+  .policy_embed_div h2:first-of-type {
+    margin-top: 0;
+  }
+  .policy_embed_div p,
+  .policy_embed_div li {
+    margin-block: 0 1rem;
+  }
+  .policy_embed_div ul {
+    list-style: disc;
+    padding-left: 1.5rem;
+  }
+  .policy_embed_div ol {
+    list-style: decimal;
+    padding-left: 1.5rem;
+  }
+  .policy_embed_div a {
+    color: var(--color-accent-ink);
+    text-decoration: underline;
+    text-underline-offset: 2px;
+  }
+  .policy_embed_div a:hover {
+    color: var(--color-primary);
+  }
+  .policy_embed_div a:focus-visible {
+    outline: 2px solid var(--color-primary);
+    outline-offset: 2px;
+  }
+  .policy_embed_div table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-block: 1rem;
+  }
+  .policy_embed_div th,
+  .policy_embed_div td {
+    border: 1px solid var(--color-base-300);
+    padding: 0.5rem 0.75rem;
+    text-align: left;
+    vertical-align: top;
+  }
+  /* Vendor tables are wide enough to force a horizontal page scroll on a
+     phone. Scroll them inside their own box instead. */
+  .policy_embed_div {
+    overflow-x: auto;
+  }
+</style>

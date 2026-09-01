@@ -1,0 +1,34 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PageHero from '../components/sections/PageHero.astro';
+import PolicyEmbed from '../components/PolicyEmbed.astro';
+import { LEGAL } from '../data/constants';
+
+/* Shell only — see privacy-policy.astro and the LEGAL block in constants.ts. */
+---
+
+<BaseLayout
+  title="Terms of Service"
+  description="The terms you agree to when you use the Atlas Accounting Group website: acceptable use, intellectual property, disclaimers, and limits of our liability."
+>
+  <PageHero
+    eyebrow="Legal"
+    title="Terms of Service"
+    subtitle="The terms that govern your use of this website."
+  />
+
+  <section class="bg-base-100">
+    <div class="container mx-auto px-4 py-12 md:py-16">
+      <div class="max-w-3xl">
+        <PolicyEmbed embedId={LEGAL.termageddon.terms} label="Terms of Service" />
+
+        <p class="mt-12 pt-8 border-t border-base-300 text-sm">
+          See also our{' '}
+          <a href="/privacy-policy/" class="link font-semibold text-accent-ink">Privacy Policy</a>{' '}
+          and{' '}
+          <a href="/cookie-policy/" class="link font-semibold text-accent-ink">Cookie Policy</a>.
+        </p>
+      </div>
+    </div>
+  </section>
+</BaseLayout>

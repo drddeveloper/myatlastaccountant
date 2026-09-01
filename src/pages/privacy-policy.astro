@@ -1,0 +1,43 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PageHero from '../components/sections/PageHero.astro';
+import PolicyEmbed from '../components/PolicyEmbed.astro';
+import { LEGAL } from '../data/constants';
+
+/*
+ * The policy text itself is fetched at runtime from Termageddon — see
+ * PolicyEmbed.astro and the LEGAL block in constants.ts. This file only owns
+ * the shell: the H1, the intro, and the links out to the sibling policies.
+ *
+ * Indexable on purpose. A discoverable privacy policy is a trust signal Google
+ * looks for on a money-and-your-life site (an accounting practice is squarely
+ * one), and it is the destination the careers form's consent checkbox points
+ * at. The caveat is in constants.ts: only this shell is in the HTML.
+ */
+---
+
+<BaseLayout
+  title="Privacy Policy"
+  description="How Atlas Accounting Group collects, uses, shares and protects the personal information you give us, and the choices and rights you have over that data."
+>
+  <PageHero
+    eyebrow="Legal"
+    title="Privacy Policy"
+    subtitle="How we collect, use and protect the information you share with us - and the choices you have over it."
+  />
+
+  <section class="bg-base-100">
+    <div class="container mx-auto px-4 py-12 md:py-16">
+      <div class="max-w-3xl">
+        <PolicyEmbed embedId={LEGAL.termageddon.privacy} label="Privacy Policy" />
+
+        <p class="mt-12 pt-8 border-t border-base-300 text-sm">
+          See also our{' '}
+          <a href="/terms-of-service/" class="link font-semibold text-accent-ink">Terms of Service</a>{' '}
+          and{' '}
+          <a href="/cookie-policy/" class="link font-semibold text-accent-ink">Cookie Policy</a>.
+        </p>
+      </div>
+    </div>
+  </section>
+</BaseLayout>

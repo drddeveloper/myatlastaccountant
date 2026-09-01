@@ -15,12 +15,25 @@ import { SITE_DATA } from '../data/constants';
  * z-30 is deliberate and load-bearing: the header is z-50 and the mobile menu
  * panel is z-40 and opaque down to bottom-0, so an open menu covers this bar
  * without needing any JS to coordinate the two.
+ *
+ * The Schedule button targets #schedule, the anchor on LeadFormCta — which is
+ * NOT on every page. /careers/, /frequently-asked-questions/, /meet-the-team/,
+ * the three legal pages and every blog post close with a CtaBand instead, so
+ * on all of those the button was a no-op: tapping it did nothing at all, on
+ * the majority of the site's routes. The script below repoints it at
+ * links.bookACall when the anchor is absent. Resolved at runtime rather than
+ * as a prop because BaseLayout renders this component for every page and
+ * cannot know what a page's slot contains.
  */
 ---
 
+{/* data-schedule-fallback is passed through the DOM rather than imported by
+    the script below: it keeps constants.ts the single source of truth without
+    pulling the whole SITE_DATA object into the client bundle. */}
 <div
   class="mobile-cta lg:hidden fixed inset-x-0 bottom-0 z-30 border-t border-base-300 bg-base-100 shadow-[0_-8px_24px_-12px_rgba(0,0,0,0.35)]"
   data-mobile-cta
+  data-schedule-fallback={SITE_DATA.links.bookACall}
 >
   {/* pb uses the safe-area inset so the bar clears the iPhone home indicator */}
   <div class="grid grid-cols-2 gap-2 px-3 pt-3 pb-[max(0.75rem,env(safe-area-inset-bottom))]">
@@ -69,11 +82,18 @@ import { SITE_DATA } from '../data/constants';
 
 {/* Global: the bar floats over the page, so the footer needs room underneath
     or its last line sits permanently behind it. Scoped to the same breakpoint
-    the bar appears at, and only shipped on pages that render this component. */}
+    the bar appears at, and only shipped on pages that render this component.
+
+    --mobile-cta-h is measured from the live bar by the script below, NOT
+    hardcoded. The bar is not a fixed height: its bottom padding grows by
+    env(safe-area-inset-bottom) on a notched phone, and the two buttons wrap to
+    a second row once the text or the user's font size gets large enough. A
+    literal value silently loses that margin exactly on the devices where the
+    footer links matter most. The 4.75rem fallback is the no-JS floor. */}
 <style is:global>
   @media (max-width: 1023px) {
     footer {
-      padding-bottom: 4.75rem;
+      padding-bottom: calc(var(--mobile-cta-h, 4.75rem) + 1.5rem);
     }
   }
 </style>
@@ -82,6 +102,15 @@ import { SITE_DATA } from '../data/constants';
   const bar = document.querySelector<HTMLElement>('[data-mobile-cta]');
 
   if (bar) {
+    // Dead-anchor fallback — see the note in the component frontmatter. Done
+    // first, before any of the scroll work, so the href is already correct by
+    // the time the bar can be revealed and tapped.
+    const scheduleLink = bar.querySelector<HTMLAnchorElement>('a[href="#schedule"]');
+    const fallback = bar.dataset.scheduleFallback;
+    if (scheduleLink && fallback && !document.getElementById('schedule')) {
+      scheduleLink.href = fallback;
+    }
+
     // Far enough down that the bar never overlaps a hero CTA, close enough that
     // it is there by the time the first section has been read.
     const SHOW_AFTER_PX = 280;
@@ -104,5 +133,24 @@ import { SITE_DATA } from '../data/constants';
     // Restored scroll position on back-navigation means the page can already be
     // scrolled before the first scroll event ever fires.
     sync();
+
+    // Publish the bar's real height so the footer can reserve exactly that much
+    // room. Measured rather than assumed — see the note on the global style
+    // above. ResizeObserver rather than a one-shot read because the height
+    // changes after first paint: the safe-area inset resolves once Safari
+    // settles its toolbars, and the buttons re-wrap on rotation.
+    const publishHeight = () => {
+      document.documentElement.style.setProperty(
+        '--mobile-cta-h',
+        `${Math.round(bar.getBoundingClientRect().height)}px`,
+      );
+    };
+
+    if ('ResizeObserver' in window) {
+      new ResizeObserver(publishHeight).observe(bar);
+    } else {
+      publishHeight();
+      window.addEventListener('resize', publishHeight, { passive: true });
+    }
   }
 </script>

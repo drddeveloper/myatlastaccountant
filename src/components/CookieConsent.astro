@@ -1,0 +1,199 @@
+---
+import { LEGAL } from '../data/constants';
+
+/**
+ * Usercentrics CMP (supplied with the Termageddon licence).
+ *
+ * Two files, in a fixed order, plus one API call between them:
+ *
+ *   1. uc-block.bundle.js  — Usercentrics' "Smart Data Protector". It patches
+ *      the DOM so third-party scripts belonging to a service the visitor has
+ *      not consented to never execute. It is the enforcement half of the CMP;
+ *      the banner without it is decoration.
+ *   2. uc.setCustomTranslations(...) — Termageddon's wording for the banner.
+ *      Must run before the UI initialises or the default strings render first.
+ *   3. bundle.js — the banner UI itself, keyed by data-settings-id.
+ *
+ * bundle.js, NOT the loader.js that Termageddon's copy-paste snippet ships.
+ * DO NOT SWAP IT BACK. This site sends a Content-Security-Policy, and the two
+ * entry points are not interchangeable under one:
+ *
+ *   loader.js hands off to index.module.js, which feature-detects native
+ *   dynamic import with `new Function("u","return import(u)")`. CSP without
+ *   'unsafe-eval' makes that throw, so the bundle silently falls back to a
+ *   blob-URL import polyfill — and initialises that polyfill with a hardcoded
+ *   base of "/dir". Every chunk it then wants resolves against OUR origin:
+ *   the browser requests https://<site>/DefaultData-<hash>.js, gets a 404, and
+ *   the CMP dies with "Failed to import: ./DefaultData-…". No banner, no
+ *   consent, and the Privacy Settings controls below stay hidden forever.
+ *
+ *   bundle.js is the vendor's own answer to this. Their loader carries the
+ *   string "If you're not using Content Security Policy, please use loader.js
+ *   instead of bundle.js" — i.e. under a CSP, bundle.js is the supported
+ *   implementation. It loads its chunks as ordinary scripts from
+ *   app.usercentrics.eu, needs no eval and no blob: source.
+ *
+ * Verified by serving a real build through `wrangler pages dev`, which applies
+ * public/_headers. `astro preview` and `npx serve` do not send the CSP, so
+ * loader.js appears to work perfectly there — this failure is invisible to
+ * every local check except that one.
+ *
+ * WHY THIS IS INJECTED FROM SCRIPT RATHER THAN WRITTEN AS THREE TAGS.
+ * The vendor's copy-paste snippet makes uc-block a plain parser-blocking
+ * <script src> in <head>. That is a render-blocking third-party request on the
+ * critical path, which is exactly what this site spent its LCP budget removing
+ * from GTM and the DRD tracker (see Analytics.astro). Dynamically-inserted
+ * scripts are async by default, so this version blocks nothing — and chaining
+ * on the first script's load event preserves the 1-2-3 ordering that the
+ * snippet was getting from parser order.
+ *
+ * KNOWN GAP, and it is a real one, not a theoretical one. GTM is deferred until
+ * the load event / first idle callback / first interaction. uc-block is
+ * requested from <head> and so wins that race in every ordinary page load, but
+ * a visitor who interacts during head parse on a slow connection could start
+ * GTM first, and any tag that fires in that window is unblocked. Closing it
+ * properly means gating Analytics.astro's start() on uc-block having executed,
+ * which trades a silent consent gap for a silent analytics gap if Usercentrics
+ * ever fails to load. Left open deliberately — revisit if the Usercentrics
+ * configuration is switched to opt-in (GDPR) rather than notice/opt-out (US).
+ *
+ * The CMP is also what decides whether the "Privacy Settings" controls are
+ * usable at all, so this component owns them: they ship `hidden` and are
+ * revealed only once a consent API is actually present. An ad blocker that
+ * eats Usercentrics leaves no dead button behind.
+ */
+const { settingsId, translations } = LEGAL.usercentrics;
+---
+
+{settingsId && (
+  <>
+    {/* preconnect, not dns-prefetch: unlike GTM these are requested immediately
+        and the banner is user-visible, so the round trip is on the critical
+        path for the thing the visitor is asked to act on. */}
+    <link rel="preconnect" href="https://privacy-proxy.usercentrics.eu" />
+    <link rel="preconnect" href="https://app.usercentrics.eu" />
+
+    <script is:inline define:vars={{ settingsId, translations }}>
+      (function () {
+        var block = document.createElement('script');
+        block.src = 'https://privacy-proxy.usercentrics.eu/latest/uc-block.bundle.js';
+
+        block.onload = function () {
+          // Guarded: the bundle has changed shape before, and a missing
+          // translations call is cosmetic, while a thrown error here would
+          // stop the loader below from ever being appended.
+          if (window.uc && typeof window.uc.setCustomTranslations === 'function') {
+            window.uc.setCustomTranslations(translations);
+          }
+          appendLoader();
+        };
+        // Blocked by an extension, offline, vendor down — load the banner
+        // anyway. A CMP that shows the choice without enforcing it is still
+        // better than no choice at all.
+        block.onerror = appendLoader;
+
+        function appendLoader() {
+          if (document.getElementById('usercentrics-cmp')) return;
+          var loader = document.createElement('script');
+          // The id is the vendor's own duplicate-script guard, not decoration.
+          loader.id = 'usercentrics-cmp';
+          loader.async = true;
+          loader.src = 'https://app.usercentrics.eu/browser-ui/latest/bundle.js';
+          loader.setAttribute('data-settings-id', settingsId);
+          document.head.appendChild(loader);
+        }
+
+        document.head.appendChild(block);
+      })();
+    </script>
+
+    <script is:inline>
+      (function () {
+        // Both API surfaces are checked because the loader URL is version-
+        // agnostic: Usercentrics v2 exposes window.UC_UI, v3 exposes
+        // window.__ucCmp. Whichever the dashboard is configured for, one of
+        // these is what appears.
+        function cmp() {
+          var v2 = window.UC_UI;
+          if (v2 && typeof v2.showSecondLayer === 'function') return v2;
+          var v3 = window.__ucCmp;
+          if (v3 && typeof v3.showSecondLayer === 'function') return v3;
+          return null;
+        }
+
+        // Two hooks: [data-privacy-settings] is the clickable trigger,
+        // [data-privacy-settings-panel] is any wrapper that exists only to
+        // introduce one (the card on /cookie-policy/). Both ship hidden so a
+        // missing CMP leaves no orphaned UI.
+        function reveal() {
+          if (!cmp()) return false;
+          document
+            .querySelectorAll('[data-privacy-settings], [data-privacy-settings-panel]')
+            .forEach(function (el) {
+              el.hidden = false;
+            });
+          return true;
+        }
+
+        // Kill the floating fingerprint badge the CMP parks in the corner of
+        // every page once the banner is dismissed. The footer's "Privacy
+        // Settings" link is the only re-entry point this site wants.
+        //
+        // It cannot be hidden with a stylesheet: Usercentrics renders its whole
+        // UI inside an open shadow root on #usercentrics-root, and page CSS
+        // does not cross that boundary. So the rule is injected INTO the shadow
+        // root instead. It is scoped to the badge alone — the banner and the
+        // settings modal live in the same tree and must keep working.
+        //
+        // The real fix is the Usercentrics dashboard, which has a setting for
+        // this. Do that too, and this stays as the belt: it costs one <style>
+        // element and it means the badge cannot come back on a config change
+        // nobody on this side is watching.
+        var BADGE_CSS = '[data-testid="uc-privacy-button"]{display:none!important}';
+
+        function hideBadge() {
+          var root = document.getElementById('usercentrics-root');
+          var shadow = root && root.shadowRoot;
+          if (!shadow) return false;
+          if (shadow.getElementById('uc-badge-off')) return true;
+          var style = document.createElement('style');
+          style.id = 'uc-badge-off';
+          style.textContent = BADGE_CSS;
+          shadow.appendChild(style);
+          return true;
+        }
+
+        // v2 fires this on window when the UI is ready. Belt: the poll below
+        // covers v3, and covers the event having already fired.
+        window.addEventListener('UC_UI_INITIALIZED', function () {
+          reveal();
+          hideBadge();
+        });
+
+        if (!reveal() || !hideBadge()) {
+          var waited = 0;
+          var poll = setInterval(function () {
+            waited += 400;
+            // 20s: the banner is third-party and the visitor may be on a slow
+            // connection. After that it is not coming, and the controls stay
+            // hidden rather than becoming buttons that do nothing.
+            var done = reveal() && hideBadge();
+            if (done || waited >= 20000) clearInterval(poll);
+          }, 400);
+        }
+
+        // Delegated, so any number of triggers work from one listener and
+        // triggers rendered after this script still function.
+        document.addEventListener('click', function (event) {
+          var target = event.target;
+          if (!target || typeof target.closest !== 'function') return;
+          if (!target.closest('[data-privacy-settings]')) return;
+          var api = cmp();
+          if (!api) return;
+          event.preventDefault();
+          api.showSecondLayer();
+        });
+      })();
+    </script>
+  </>
+)}

@@ -16,11 +16,17 @@ export const SITE_DATA = {
     parentCompany: "https://lewisgroupcpas.com",
     googleBusiness: "#",
     socials: { facebook: "#", instagram: "https://www.instagram.com/atlasaccountinggroup/", x: "#", youtube: "#", linkedin: "#" },
-    // Privacy Policy. The live WP page is still the unmodified WordPress
-    // template (it literally contains "Suggested text:" placeholders), so it was
-    // NOT migrated. Set this once the client supplies real policy copy — the
-    // careers form consent line renders as plain text while it's empty.
-    privacyPolicy: "",
+    // Legal pages. These render Termageddon-hosted policies (see LEGAL below),
+    // so the copy is maintained in the Termageddon dashboard, not in this repo.
+    //
+    // The live WP privacy page was never migrated — it was still the unmodified
+    // WordPress template, placeholders and all. These replace it (2026-08-31).
+    //
+    // privacyPolicy doubles as a feature flag: the careers form consent line
+    // renders as plain text while it is empty.
+    privacyPolicy: "/privacy-policy/",
+    termsOfService: "/terms-of-service/",
+    cookiePolicy: "/cookie-policy/",
   },
   forms: {
     // Careers application endpoint. Basin accepts multipart/form-data, so the
@@ -154,6 +160,47 @@ export const ANALYTICS = {
      * reinstates the CORS errors.
      */
     hosts: ["myatlasaccountant.com", "www.myatlasaccountant.com"],
+  },
+};
+
+/**
+ * Legal / privacy stack. Two vendors, one dependency between them.
+ *
+ * 1. TERMAGEDDON hosts the three policy documents. Each page renders an empty
+ *    <div id="<embedId>"> plus a per-policy loader script; the script fires on
+ *    window.load, XHRs the policy HTML from embed.termageddon.com, and drops it
+ *    into the div. Nothing is prerendered.
+ *
+ *    CONSEQUENCE FOR SEO, know this before you rely on these pages ranking: the
+ *    policy text does NOT exist in the built HTML. Only the page shell — H1,
+ *    intro, and the "view the policy" fallback link — is in dist/. Google
+ *    renders JavaScript so it can see the text on a second pass, but no
+ *    non-rendering crawler (and no AI crawler that skips JS) ever will. That is
+ *    the trade for policies that stay legally current without a deploy.
+ *
+ *    The embed ids are opaque, per-policy, and public — they appear in the
+ *    embed code Termageddon hands out. They are not secrets.
+ *
+ * 2. USERCENTRICS is the CMP, bundled with the Termageddon licence, which is
+ *    why its custom translations are pulled from a Termageddon CDN bucket.
+ *    `settingsId` selects the configuration (banner copy, categories, legal
+ *    basis, geo rules) — all of which live in the Usercentrics dashboard, not
+ *    here. If the banner behaves unexpectedly, that dashboard is the place to
+ *    look; this file only decides whether it loads at all.
+ *
+ *    Blank `settingsId` to remove the CMP from the build entirely. The footer's
+ *    "Privacy Settings" control degrades to a link to the cookie policy.
+ */
+export const LEGAL = {
+  termageddon: {
+    privacy: "ZWxKVU9Hb3pOMWhtVWtGcU1FRTlQUT09",
+    terms: "TWtaM1JWZ3lVR0pNY3l0RlNWRTlQUT09",
+    cookies: "YW1aQ2FIUTNhbGhCYzNOUlNsRTlQUT09",
+  },
+  usercentrics: {
+    settingsId: "St1tcXPP44pggW",
+    /** Termageddon-supplied translation overrides for the Usercentrics UI. */
+    translations: "https://termageddon.ams3.cdn.digitaloceanspaces.com/translations/",
   },
 };
 

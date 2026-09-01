@@ -46,6 +46,27 @@
 #                             and was blocked on day one (2026-08-17). Turning
 #                             Web Analytics off in the Cloudflare dashboard is
 #                             the alternative to allowing it here.
+#   policies.termageddon.com — Termageddon policy EMBED LOADER (script only).
+#                             One per legal page. See PolicyEmbed.astro.
+#   embed.termageddon.com   — where that loader actually FETCHES the policy
+#                             text from (connect). Different host from the one
+#                             that serves the script; miss it and every legal
+#                             page sits on "Please wait while the policy is
+#                             loaded" forever.
+#   *.usercentrics.eu       — the consent manager (see CookieConsent.astro).
+#                             Wildcarded rather than enumerated because the CMP
+#                             spreads itself over at least four subdomains and
+#                             the set is dashboard-configurable:
+#                               privacy-proxy.  uc-block.bundle.js (script) and
+#                                               its own fetches
+#                               app.            loader.js + banner UI (script,
+#                                               img)
+#                               api.            settings + consent log (connect)
+#                               uct.service.    consent tracking pixel (img)
+#   termageddon.ams3.cdn.digitaloceanspaces.com
+#                         — Termageddon's translation overrides for the
+#                           Usercentrics banner (connect). DigitalOcean Spaces,
+#                           not a Termageddon-branded host; that is expected.
 #   myatlasaccountant.com   — the APEX, in form-action only. Chrome checks
 #                             form-action against redirects, not just the
 #                             initial target, and Basin 302s a successful POST
@@ -61,6 +82,19 @@
 #                             Without the connect-src entry that fetch is
 #                             blocked and every submission silently falls back
 #                             to the native POST.
+#
+# NEITHER blob: NOR 'unsafe-eval' is needed for the consent manager, and the
+# reason is worth writing down because the obvious debugging path leads
+# straight to adding both.
+#
+# Usercentrics ships two entry points. Termageddon's copy-paste snippet uses
+# loader.js, which loads an ES-module bundle that probes for native dynamic
+# import with `new Function(...)`. Under this CSP that throws, so it falls back
+# to a blob-URL import polyfill based at "/dir" — meaning it asks THIS origin
+# for its chunks (GET /DefaultData-<hash>.js → 404) and the CMP never starts.
+# Allowing blob: does not fix it; it only lets the broken path get one step
+# further. The fix is bundle.js, the vendor's documented entry point for sites
+# that send a CSP. See CookieConsent.astro.
 #
 # 'unsafe-inline' is required twice over: Astro emits every page script as an
 # inline <script type="module">, and GTM's loader plus any Custom HTML tag are
@@ -94,6 +128,14 @@
 #   script-src/style-src/img-src https://assets.calendly.com
 #   frame-src https://calendly.com https://*.calendly.com
 #
+# 2026-08-31 — Termageddon policies + the Usercentrics CMP were added. Their
+# seven origins were enumerated the way this file says to: a real build served
+# locally, then performance.getEntriesByType('resource') read on a legal page
+# with the banner up. Two of them are not guessable from the vendors' snippets
+# — embed.termageddon.com (the snippet only names policies.) and the
+# DigitalOcean Spaces bucket — so re-run that observation rather than trusting
+# the copy-paste code if either vendor changes their embed.
+#
 # GTM Preview mode needs https://tagmanager.google.com and Google's font/style
 # origins, which are deliberately NOT allowed here. Debug against a preview
 # deploy expecting Preview to be partially blocked, or verify via the vendor
@@ -104,4 +146,4 @@
   Referrer-Policy: strict-origin-when-cross-origin
   Strict-Transport-Security: max-age=31536000; includeSubDomains; preload
   Permissions-Policy: accelerometer=(), camera=(), geolocation=(), gyroscope=(), magnetometer=(), microphone=(), payment=(), usb=(), autoplay=(self), fullscreen=(self), picture-in-picture=(self)
-  Content-Security-Policy: upgrade-insecure-requests; default-src 'self'; script-src 'self' 'unsafe-inline' https://www.googletagmanager.com https://www.googleadservices.com https://www.gstatic.com https://googleads.g.doubleclick.net https://connect.facebook.net https://www.clarity.ms https://*.clarity.ms https://track.deepriverdigital.com https://static.cloudflareinsights.com; style-src 'self' 'unsafe-inline'; font-src 'self' data:; img-src 'self' data: https://www.googletagmanager.com https://www.googleadservices.com https://www.google-analytics.com https://*.google-analytics.com https://www.google.com https://www.gstatic.com https://googleads.g.doubleclick.net https://ad.doubleclick.net https://www.facebook.com https://*.facebook.com https://*.clarity.ms; connect-src 'self' https://www.google-analytics.com https://*.google-analytics.com https://analytics.google.com https://*.analytics.google.com https://*.googletagmanager.com https://www.google.com https://*.google.com https://www.googleadservices.com https://ad.doubleclick.net https://googleads.g.doubleclick.net https://stats.g.doubleclick.net https://*.g.doubleclick.net https://*.clarity.ms https://c.bing.com https://connect.facebook.net https://track.deepriverdigital.com https://cloudflareinsights.com https://*.cloudflareinsights.com https://usebasin.com; frame-src 'self' https://www.googletagmanager.com https://td.doubleclick.net https://ad.doubleclick.net; object-src 'none'; base-uri 'self'; frame-ancestors 'self'; form-action 'self' https://usebasin.com https://myatlasaccountant.com;
+  Content-Security-Policy: upgrade-insecure-requests; default-src 'self'; script-src 'self' 'unsafe-inline' https://policies.termageddon.com https://*.usercentrics.eu https://www.googletagmanager.com https://www.googleadservices.com https://www.gstatic.com https://googleads.g.doubleclick.net https://connect.facebook.net https://www.clarity.ms https://*.clarity.ms https://track.deepriverdigital.com https://static.cloudflareinsights.com; style-src 'self' 'unsafe-inline'; font-src 'self' data:; img-src 'self' data: https://*.usercentrics.eu https://www.googletagmanager.com https://www.googleadservices.com https://www.google-analytics.com https://*.google-analytics.com https://www.google.com https://www.gstatic.com https://googleads.g.doubleclick.net https://ad.doubleclick.net https://www.facebook.com https://*.facebook.com https://*.clarity.ms; connect-src 'self' https://embed.termageddon.com https://policies.termageddon.com https://*.usercentrics.eu https://termageddon.ams3.cdn.digitaloceanspaces.com https://www.google-analytics.com https://*.google-analytics.com https://analytics.google.com https://*.analytics.google.com https://*.googletagmanager.com https://www.google.com https://*.google.com https://www.googleadservices.com https://ad.doubleclick.net https://googleads.g.doubleclick.net https://stats.g.doubleclick.net https://*.g.doubleclick.net https://*.clarity.ms https://c.bing.com https://connect.facebook.net https://track.deepriverdigital.com https://cloudflareinsights.com https://*.cloudflareinsights.com https://usebasin.com; frame-src 'self' https://www.googletagmanager.com https://td.doubleclick.net https://ad.doubleclick.net; object-src 'none'; base-uri 'self'; frame-ancestors 'self'; form-action 'self' https://usebasin.com https://myatlasaccountant.com;
