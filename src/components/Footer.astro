@@ -29,28 +29,11 @@ const currentYear = new Date().getFullYear();
         <a href={SITE_DATA.links.termsOfService} class="link-hover hover:text-accent transition-colors">Terms of Service</a>
         <span class="text-white/40" aria-hidden="true">|</span>
         <a href={SITE_DATA.links.cookiePolicy} class="link-hover hover:text-accent transition-colors">Cookie Policy</a>
-        {/* Opens the Usercentrics second layer. The separator is inside the
-            wrapper so the row collapses to a clean "… | Cookie Policy | Brand
-            Guide" rather than leaving a doubled pipe behind.
-
-            Both the wrapper and the button ship hidden and are revealed by
-            CookieConsent.astro only once a consent API actually exists — a
-            blocked or failed CMP leaves no control that swallows clicks.
-
-            display:contents so the wrapper does not become a flex item and
-            break the row's wrapping; `hidden` still wins over it because
-            Tailwind's preflight marks [hidden] display:none !important. */}
-        <span class="contents" data-privacy-settings-panel hidden>
-          <span class="text-white/40" aria-hidden="true">|</span>
-          {/* Styled as a link, not a .btn — a button fill would shout over the
-              rest of this row. */}
-          <button
-            type="button"
-            data-privacy-settings
-            hidden
-            class="link-hover hover:text-accent focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent transition-colors cursor-pointer"
-          >Privacy Settings</button>
-        </span>
+        {/* A "Privacy Settings" control sat here until 2026-09-01, opening the
+            consent manager's second layer. It went out with the CMP — see the
+            usercentrics block in constants.ts. Re-add it here (and the card on
+            /cookie-policy/) if the banner comes back; the markup is in that
+            commit. */}
         <span class="text-white/40" aria-hidden="true">|</span>
         <a href="/brand-guide/" class="link-hover hover:text-accent transition-colors">Brand Guide</a>
       </p>

@@ -4,6 +4,13 @@ import { LEGAL } from '../data/constants';
 /**
  * Usercentrics CMP (supplied with the Termageddon licence).
  *
+ * ⚠️ CURRENTLY DISABLED. `LEGAL.usercentrics.settingsId` is blank, so this
+ * component renders nothing at all and neither usercentrics.eu host is
+ * contacted. Restore the id in constants.ts to bring it back — that comment
+ * explains why it went off and what to settle first. Everything below is the
+ * working implementation, kept intact rather than deleted because the CSP
+ * finding in it took a while to arrive at and is not in any vendor doc.
+ *
  * Two files, in a fixed order, plus one API call between them:
  *
  *   1. uc-block.bundle.js  — Usercentrics' "Smart Data Protector". It patches

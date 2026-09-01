@@ -83,6 +83,14 @@
 #                             blocked and every submission silently falls back
 #                             to the native POST.
 #
+# THE CONSENT MANAGER IS CURRENTLY DISABLED (2026-09-01, see the usercentrics
+# block in constants.ts), so the *.usercentrics.eu origins below are dormant.
+# They are deliberately LEFT IN PLACE: re-enabling the CMP is a one-line change
+# in constants.ts, and stripping these would turn that into a two-file change
+# whose second half is easy to forget — with a silent, banner-never-appears
+# failure as the payoff. The termageddon.com origins are NOT dormant; the three
+# legal pages still use them.
+#
 # NEITHER blob: NOR 'unsafe-eval' is needed for the consent manager, and the
 # reason is worth writing down because the obvious debugging path leads
 # straight to adding both.

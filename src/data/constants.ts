@@ -198,7 +198,25 @@ export const LEGAL = {
     cookies: "YW1aQ2FIUTNhbGhCYzNOUlNsRTlQUT09",
   },
   usercentrics: {
-    settingsId: "St1tcXPP44pggW",
+    /**
+     * DISABLED 2026-09-01 (client direction). Blanking this removes the consent
+     * manager from the build entirely — no banner, no blocking, no request to
+     * either usercentrics.eu host. CookieConsent.astro renders nothing.
+     *
+     * To turn it back on, restore the id below. Nothing else needs changing:
+     * the CSP origins are still in public/_headers, and the footer + cookie
+     * policy controls come back with it (see CookieConsent.astro).
+     *
+     *   settingsId: "St1tcXPP44pggW"
+     *
+     * Why it went off: the banner ran opt-in for every visitor worldwide, which
+     * US law does not require, and the switch to notice/opt-out for US traffic
+     * (`ccpa.isActive` in the Usercentrics configuration) could not be found in
+     * Termageddon's interface. The blocking banner was costing analytics and
+     * Ads conversion data in the meantime. Sort the framework out with
+     * Termageddon support first, then re-enable.
+     */
+    settingsId: "",
     /** Termageddon-supplied translation overrides for the Usercentrics UI. */
     translations: "https://termageddon.ams3.cdn.digitaloceanspaces.com/translations/",
   },
