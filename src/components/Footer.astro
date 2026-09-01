@@ -1,7 +1,7 @@
 ---
 import { Image } from 'astro:assets';
 import { SITE_DATA } from '../data/constants';
-import lightLogo from '../assets/images/branding/Atlas-Accounting-light-logo.svg';
+import lightLogo from '../assets/images/branding/Atlas-Accounting-light-logo.png';
 
 const currentYear = new Date().getFullYear();
 ---
@@ -9,7 +9,7 @@ const currentYear = new Date().getFullYear();
 <footer class="bg-primary text-white">
   <div class="container mx-auto px-4 py-12 flex flex-col md:flex-row items-center justify-between gap-8">
     <a href="/" aria-label={`${SITE_DATA.company.name} — Home`}>
-      <Image src={lightLogo} alt={`${SITE_DATA.company.name} logo`} class="h-14 w-auto" height={112} />
+      <Image src={lightLogo} alt={`${SITE_DATA.company.name} logo`} class="h-14 w-auto" height={112} widths={[50, 101, 151]} sizes="50px" />
     </a>
 
     <div class="text-center text-sm space-y-3">

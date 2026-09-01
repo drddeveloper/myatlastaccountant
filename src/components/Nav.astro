@@ -1,7 +1,7 @@
 ---
 import { Image } from 'astro:assets';
 import { SITE_DATA, NAV, MOBILE_NAV } from '../data/constants';
-import logo from '../assets/images/branding/Atlas-Accounting-logo.svg';
+import logo from '../assets/images/branding/Atlas-Accounting-logo.png';
 
 // Current path, normalised to the trailing-slash form the NAV hrefs use, so the
 // active link can keep its hover treatment on. Blog post URLs (/blog/<slug>/)
@@ -25,7 +25,7 @@ const isActive = (href: string) => path === href || (href !== '/' && path.starts
       {/* eager: this sits at the top of the viewport on every page. Astro's
           <Image> defaults to loading="lazy", which deferred the header logo
           behind the rest of the page on every navigation. */}
-      <Image src={logo} alt={`${SITE_DATA.company.name} logo`} class="h-15 w-auto" height={120} loading="eager" />
+      <Image src={logo} alt={`${SITE_DATA.company.name} logo`} class="h-15 w-auto" height={120} widths={[54, 108, 162]} sizes="54px" loading="eager" fetchpriority="high" />
     </a>
   </div>
 
