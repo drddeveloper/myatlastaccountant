@@ -47,20 +47,31 @@ import { LEGAL } from '../data/constants';
  * The vendor's copy-paste snippet makes uc-block a plain parser-blocking
  * <script src> in <head>. That is a render-blocking third-party request on the
  * critical path, which is exactly what this site spent its LCP budget removing
- * from GTM and the DRD tracker (see Analytics.astro). Dynamically-inserted
- * scripts are async by default, so this version blocks nothing — and chaining
- * on the first script's load event preserves the 1-2-3 ordering that the
- * snippet was getting from parser order.
+ * from GTM and the DRD tracker (see Analytics.astro). Injecting it instead
+ * blocks nothing, and chaining on the first script's load event preserves the
+ * 1-2-3 ordering the snippet was getting from parser order.
  *
- * KNOWN GAP, and it is a real one, not a theoretical one. GTM is deferred until
- * the load event / first idle callback / first interaction. uc-block is
- * requested from <head> and so wins that race in every ordinary page load, but
- * a visitor who interacts during head parse on a slow connection could start
- * GTM first, and any tag that fires in that window is unblocked. Closing it
- * properly means gating Analytics.astro's start() on uc-block having executed,
- * which trades a silent consent gap for a silent analytics gap if Usercentrics
- * ever fails to load. Left open deliberately — revisit if the Usercentrics
- * configuration is switched to opt-in (GDPR) rather than notice/opt-out (US).
+ * DEFERRED TO THE LOAD EVENT (2026-09-01). Lighthouse on production measured
+ * this stack at 237 KiB — 110 KiB of it never executed — plus 108ms of forced
+ * reflow inside uc-block alone, and most of the page's 220ms TBT. The LCP
+ * element had already finished downloading by then: LCP of 5.6s was main-thread
+ * contention, not bytes. So the whole stack now waits for load → first idle,
+ * any interaction, or an 8s cap, exactly like GTM and the DRD tracker.
+ *
+ * THAT CREATED AN ORDERING PROBLEM, AND window.__ucGate IS THE ANSWER.
+ * uc-block must execute before GTM or the container is unblocked by
+ * definition. While uc-block was requested during head parse it always won
+ * that race on its own. Now both are on the load event, so the ordering is
+ * made explicit: the gate is declared synchronously here during head parse —
+ * which is why BaseLayout renders CookieConsent BEFORE Analytics, and why that
+ * order must not be swapped — and Analytics.astro's start() queues its
+ * container injection on it instead of firing immediately.
+ *
+ * The gate settles when uc-block loads, when it fails, or on a 12s cap. That
+ * cap is the deliberate trade the old comment here refused to make: a blocked
+ * or dead Usercentrics now costs a few seconds of analytics rather than
+ * stranding it forever. In exchange, the consent gap that used to exist for a
+ * visitor who interacted during head parse is closed.
  *
  * The CMP is also what decides whether the "Privacy Settings" controls are
  * usable at all, so this component owns them: they ship `hidden` and are
@@ -109,30 +120,61 @@ const { settingsId, translations, showLocations, pslHide } = LEGAL.usercentrics;
 
 {settingsId && (
   <>
-    {/* preconnect, not dns-prefetch: unlike GTM these are requested immediately
-        and the banner is user-visible, so the round trip is on the critical
-        path for the thing the visitor is asked to act on. */}
-    <link rel="preconnect" href="https://privacy-proxy.usercentrics.eu" />
-    <link rel="preconnect" href="https://app.usercentrics.eu" />
+    {/* dns-prefetch, NOT preconnect — changed when the stack was deferred.
+        A preconnect opened during head parse now holds a connection idle right
+        through the critical phase for something that will not be requested
+        until the load event, and may well be dropped as stale before it is.
+        Same reasoning the repo already applied to GTM. */}
+    <link rel="dns-prefetch" href="https://privacy-proxy.usercentrics.eu" />
+    <link rel="dns-prefetch" href="https://app.usercentrics.eu" />
 
     <script is:inline define:vars={{ settingsId, translations }}>
       (function () {
-        var block = document.createElement('script');
-        block.src = 'https://privacy-proxy.usercentrics.eu/latest/uc-block.bundle.js';
+        // THE GATE, declared synchronously during head parse — before
+        // Analytics.astro's inline script runs, which is why CookieConsent is
+        // rendered first in BaseLayout. Analytics waits on this rather than
+        // assuming it beat the blocker.
+        var gate = (window.__ucGate = { settled: false, callbacks: [] });
+        function settle() {
+          if (gate.settled) return;
+          gate.settled = true;
+          clearTimeout(gateCap);
+          gate.callbacks.splice(0).forEach(function (fn) {
+            try { fn(); } catch (e) {}
+          });
+        }
+        // Backstop: an extension or an outage must not strand analytics
+        // permanently. 12s is deliberately longer than the deferral itself, so
+        // it only ever fires on genuine failure, never on a slow-but-working
+        // load.
+        var gateCap = setTimeout(settle, 12000);
 
-        block.onload = function () {
-          // Guarded: the bundle has changed shape before, and a missing
-          // translations call is cosmetic, while a thrown error here would
-          // stop the loader below from ever being appended.
-          if (window.uc && typeof window.uc.setCustomTranslations === 'function') {
-            window.uc.setCustomTranslations(translations);
-          }
-          appendLoader();
-        };
-        // Blocked by an extension, offline, vendor down — load the banner
-        // anyway. A CMP that shows the choice without enforcing it is still
-        // better than no choice at all.
-        block.onerror = appendLoader;
+        function loadCmp() {
+          var block = document.createElement('script');
+          block.src = 'https://privacy-proxy.usercentrics.eu/latest/uc-block.bundle.js';
+
+          block.onload = function () {
+            // Guarded: the bundle has changed shape before, and a missing
+            // translations call is cosmetic, while a thrown error here would
+            // stop the loader below from ever being appended.
+            if (window.uc && typeof window.uc.setCustomTranslations === 'function') {
+              window.uc.setCustomTranslations(translations);
+            }
+            // Blocker is live — GTM may go.
+            settle();
+            appendLoader();
+          };
+          // Blocked by an extension, offline, vendor down — load the banner
+          // anyway. A CMP that shows the choice without enforcing it is still
+          // better than no choice at all. Release the gate too: there is now
+          // nothing left to wait for.
+          block.onerror = function () {
+            settle();
+            appendLoader();
+          };
+
+          document.head.appendChild(block);
+        }
 
         function appendLoader() {
           if (document.getElementById('usercentrics-cmp')) return;
@@ -145,7 +187,33 @@ const { settingsId, translations, showLocations, pslHide } = LEGAL.usercentrics;
           document.head.appendChild(loader);
         }
 
-        document.head.appendChild(block);
+        // Deferred on the same triggers as GTM and the DRD tracker: load then
+        // first idle, any interaction, or a hard cap. Lighthouse measured this
+        // stack at 237 KiB with 108ms of forced reflow, on a page whose LCP
+        // element had already finished downloading — it was main-thread
+        // contention, not bytes, and none of it needs to happen before paint.
+        var started = false;
+        var EVENTS = ['pointerdown', 'keydown', 'touchstart', 'scroll'];
+        function start() {
+          if (started) return;
+          started = true;
+          clearTimeout(cap);
+          EVENTS.forEach(function (e) {
+            window.removeEventListener(e, start, true);
+          });
+          loadCmp();
+        }
+        EVENTS.forEach(function (e) {
+          window.addEventListener(e, start, { capture: true, once: true, passive: true });
+        });
+        var cap = setTimeout(start, 8000);
+
+        function whenIdle() {
+          if (window.requestIdleCallback) window.requestIdleCallback(start, { timeout: 1000 });
+          else setTimeout(start, 200);
+        }
+        if (document.readyState === 'complete') whenIdle();
+        else window.addEventListener('load', whenIdle, { once: true });
       })();
     </script>
 

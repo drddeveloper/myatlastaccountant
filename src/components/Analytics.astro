@@ -80,13 +80,7 @@ const drdEnabled = Boolean(drd.key && drd.endpoint && drd.script && drd.hosts?.l
           var started = false;
           var capTimer;
 
-          function start() {
-            if (started) return;
-            started = true;
-            clearTimeout(capTimer);
-            EVENTS.forEach(function (e) {
-              window.removeEventListener(e, start, true);
-            });
+          function launch() {
             // gtm.start is stamped here, not at page load, so GTM's own timing
             // reports measure the container rather than the document.
             window.dataLayer.push({ 'gtm.start': new Date().getTime(), event: 'gtm.js' });
@@ -95,6 +89,36 @@ const drdEnabled = Boolean(drd.key && drd.endpoint && drd.script && drd.hosts?.l
             tag.async = true;
             tag.src = 'https://www.googletagmanager.com/gtm.js?id=' + gtmId;
             first.parentNode.insertBefore(tag, first);
+          }
+
+          function start() {
+            if (started) return;
+            started = true;
+            clearTimeout(capTimer);
+            EVENTS.forEach(function (e) {
+              window.removeEventListener(e, start, true);
+            });
+
+            // THE CONSENT GATE. window.__ucGate is declared by
+            // CookieConsent.astro, which renders immediately above this in
+            // <head>, and settles once the Usercentrics blocker has executed
+            // (or definitively failed). Until then GTM must not fire: the
+            // blocker is what holds unconsented tags, and a container that
+            // starts ahead of it is unblocked by definition.
+            //
+            // This gate exists because BOTH are now deferred to the load event.
+            // While the blocker was requested during head parse it always won
+            // the race on its own; once it moved off the critical path that
+            // stopped being true, so the ordering is made explicit rather than
+            // left to chance.
+            //
+            // No gate object means no CMP in this build (settingsId blank), so
+            // there is nothing to wait for. The gate settles itself on a hard
+            // cap too, so an ad blocker that eats Usercentrics costs the site
+            // a few seconds of analytics, not all of it.
+            var gate = window.__ucGate;
+            if (gate && !gate.settled) gate.callbacks.push(launch);
+            else launch();
           }
 
           function whenIdle() {

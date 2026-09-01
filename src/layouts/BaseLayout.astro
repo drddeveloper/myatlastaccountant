@@ -167,8 +167,11 @@ if (SITE_DATA.company.address.street) jsonLD.address = {
         <script type="application/ld+json" set:html={JSON.stringify(jsonLD)} />
         <script type="application/ld+json" set:html={JSON.stringify(websiteLD)} />
 
-        {/* Consent manager FIRST. Its blocking bundle has to be requested
-            before anything it is meant to gate — see CookieConsent.astro. */}
+        {/* Consent manager FIRST, and this order is load-bearing — do not
+            swap it. CookieConsent declares window.__ucGate synchronously, and
+            Analytics.astro's inline script reads that gate to decide whether
+            to hold GTM back. Rendered the other way round, Analytics sees no
+            gate and fires the container ahead of the blocker. */}
         <CookieConsent />
 
         {/* Third-party tags — GTM container + DRD tracker. See Analytics.astro. */}
