@@ -5,6 +5,12 @@
 # decision, and the cutover sequence live in CUTOVER-301-PLAN.md.
 # First match wins — order matters.
 
+# Google Search Console HTML verification.
+# Cloudflare Pages strips .html and 308-redirects /file.html to /file. Google
+# fetches the exact .html URL, so serve it there with a 200 rewrite instead of
+# relying on Google to follow the redirect.
+/google2d76b91912750073.html /google2d76b91912750073 200
+
 # Live-site slugs that were consolidated or fixed in the rebuild
 /bookeeping-for-electricians/ /accountants-for-electricians/ 301
 /hvac-bookkeeping/ /hvac-accounting/ 301
