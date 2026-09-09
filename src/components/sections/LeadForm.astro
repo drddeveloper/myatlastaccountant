@@ -96,12 +96,28 @@ const BOOKKEEPING_SYSTEMS = [
     <button type="submit" class="btn btn-accent w-full sm:w-auto">Schedule Free Assessment</button>
   </div>
 
-  {/* Astro strips the whitespace between a line break and an element or
+  {/* The number is a tel: link on phones only. Above md a desktop or tablet
+      visitor clicking it gets a "no app to handle this" dialog or a FaceTime
+      prompt, which reads as a broken site, so the same digits render as plain
+      text there. Two elements rather than one, because CSS cannot strip an
+      href: `pointer-events: none` would leave the link focusable and still
+      firable with Enter. `hidden` is display:none, so whichever copy is off
+      is out of the accessibility tree too and nothing is announced twice.
+      data-llms-ignore keeps the duplicate digits out of the generated .md,
+      which sees the raw HTML and has no idea one copy is hidden by CSS.
+
+      The desktop copy also drops text-accent-ink and inherits the paragraph
+      colour. Accent + semibold still reads as a link even without the
+      underline, and the whole point is that nobody reaches for it; semibold
+      alone keeps the number scannable as plain emphasis.
+
+      Astro strips the whitespace between a line break and an element or
       expression, so "Call\n<a>" renders as "Call(360)…". The spaces around the
-      link and the hyphen have to be explicit `{' '}` or they disappear. */}
+      number and the hyphen have to be explicit `{' '}` or they disappear. */}
   <p class="mt-5 text-sm">
     Prefer to talk now? Call{' '}
-    <a href={SITE_DATA.company.phoneHref} class="link font-semibold text-accent-ink">{SITE_DATA.company.phone}</a>
+    <a href={SITE_DATA.company.phoneHref} class="link font-semibold text-accent-ink md:hidden">{SITE_DATA.company.phone}</a>
+    <span class="hidden font-semibold md:inline" data-llms-ignore>{SITE_DATA.company.phone}</span>
     {' '}- {SITE_DATA.company.hours}.
   </p>
 </form>
