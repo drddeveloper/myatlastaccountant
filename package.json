@@ -16,5 +16,9 @@
     "astro": "7.1.6",
     "astro-llms-md": "2.2.2",
     "tailwindcss": "^4.3.2"
+  },
+  "engines": {
+    "node": ">=22.12",
+    "npm": ">=10.9 <11"
   }
 }
